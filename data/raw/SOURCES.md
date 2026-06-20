@@ -31,7 +31,9 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
 - **File:** `Most-Recent-Cohorts-Field-of-Study.csv` (≈153 MB, 227,980 rows, 178 cols) → `scorecard_fos/`
 - **Key columns:** `UNITID, INSTNM, CONTROL, CIPCODE` (4-digit, zero-padded), `CREDLEV`
   (3 = Bachelor's used; 5 = Master's, 6 = Doctoral), `EARN_MDN_4YR` / `EARN_MDN_1YR`
-  (median earnings 4 / 1 yr post-completion; `'PS'` = privacy-suppressed → NaN).
+  (median earnings 4 / 1 yr post-completion; `'PS'` = privacy-suppressed → NaN),
+  `EARN_COUNT_WNE_4YR` (earnings-cohort size; used in the diagnostic to calibrate the
+  sampling-noise null model — `notes/DIAGNOSTIC_RESULT.md`).
 
 ## 3. Employer reputation, PhD — NSF NCSES SDR / SED
 

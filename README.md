@@ -25,7 +25,8 @@ This project is gated. **Nothing downstream is built until Tier 0 passes.**
 | 3 | Repo scaffold (this README, env, crosswalks) | ✅ |
 | 4 | **Tier 0 go/no-go** (`notebooks/tier0_go_no_go.ipynb`) | ✅ — verdict **NO-GO** (narrow) |
 | 4.5 | **Tier 0.5 mechanism diagnosis** (`notebooks/tier0_5_diagnose.ipynb`) | ✅ — verdict **REFRAME** |
-| 5 | Full AR pipeline (`src/ar_pipeline/`) | ⛔ **not started** — mechanism not yet established |
+| 4.6 | **Diagnostic: signal vs artifact** (`scripts/run_diagnostic.py`) | ✅ — verdict **REAL SIGNAL** (filter required) |
+| 5 | Full AR pipeline (`src/ar_pipeline/`) | ⛔ **not started** — ER-level redesign first |
 
 **Tier 0 outcome (see [`notes/TIER0_RESULT.md`](notes/TIER0_RESULT.md)):** conditions 1
 (variation) and 3 (CS is the 2nd-lowest-gap field of 20) **PASS**; condition 2 (gap falls
@@ -40,6 +41,15 @@ significant one) and **earnings dispersion** (−0.41) place both CS (low gap) a
 institution-level **rank** gap. The descriptive gap map is real; the H2 *mechanism* is not
 supported. Re-specify the gap (robust to earnings informativeness) or reframe around the
 pipeline mechanism **before** the Step-5 pipeline.
+
+**Diagnostic — signal vs artifact (see [`notes/DIAGNOSTIC_RESULT.md`](notes/DIAGNOSTIC_RESULT.md)) — REAL SIGNAL.**
+A null-model / bootstrap / residualization / restriction battery (real data only) shows the
+gap is **not** a global low-SNR artifact: 65% of fields exceed the perfect-agreement+noise
+null, the artifact channel explains only ~20% of gap variance, and high-gap **biology** is
+genuine (tight CI). **But** a low-earnings-signal cluster (**chemistry, earth sciences,
+low-CV engineering**) is noise-dominated → the gap needs a per-field reliability filter, and
+the chemistry counterexample dissolves. Next: measure **ER at the level where each field's
+talent lands** (PhD-level ER for PhD-pipeline fields), not a new pipeline yet.
 
 The **Tier 0 gate** (proposal §7) uses only already-public, already-computed data
 (Wapman Zenodo SpringRank + College Scorecard earnings + SDR public tables) and must

@@ -1,0 +1,2 @@
+nullmodel_corr_spearman,nullmodel_corr_pearson,frac_covered,frac_above_band,mean_observed_gap,mean_synth_gap,boot_se_median,ci_separated_hi_lo,resid_sd,cs_resid_z,resid_model_r2
+0.6496240601503759,0.48628423572595136,0.15,0.65,0.4756177389479075,0.37052028198229375,0.07469440158706075,False,0.12110856173504442,-0.668522792226292,0.20404159149915913
