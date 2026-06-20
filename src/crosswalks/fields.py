@@ -101,6 +101,77 @@ TIER0_FIELDS: list[dict] = [
 # Quick reference: the headline field whose low gap is hypothesis H4.
 HEADLINE_FIELD = "computer_science"
 
+# ---------------------------------------------------------------------------
+# Field -> SED "historical broad field" crosswalk.
+# The SED 2021 sector table (NSF 23-300, Table 2-6) reports the academia/
+# industry/government split only at ~5 S&E broad fields + non-S&E. This maps each
+# Tier-0 field onto its SED broad field so we can attach a (coarse) industry-share
+# integration proxy. Replaced by a finer SDR table if one is available.
+# ---------------------------------------------------------------------------
+SED_BROAD_BY_KEY: dict[str, str] = {
+    "computer_science": "Mathematics and computer sciences",
+    "mathematics": "Mathematics and computer sciences",
+    "statistics": "Mathematics and computer sciences",
+    "electrical_engineering": "Engineering",
+    "mechanical_engineering": "Engineering",
+    "civil_engineering": "Engineering",
+    "chemical_engineering": "Engineering",
+    "materials_science": "Engineering",
+    "physics": "Physical sciences and earth sciences",
+    "chemistry": "Physical sciences and earth sciences",
+    "earth_sciences": "Physical sciences and earth sciences",
+    "biology": "Life sciences",
+    "economics": "Psychology and social sciences",
+    "political_science": "Psychology and social sciences",
+    "sociology": "Psychology and social sciences",
+    "anthropology": "Psychology and social sciences",
+    "psychology": "Psychology and social sciences",
+    "english": "Humanities and arts",
+    "history": "Humanities and arts",
+    "philosophy": "Humanities and arts",
+}
+
+
+def sed_broad_for(key: str) -> Optional[str]:
+    """SED broad-field label for a Tier-0 field key (for the industry-share proxy)."""
+    return SED_BROAD_BY_KEY.get(key)
+
+
+# ---------------------------------------------------------------------------
+# Field -> SDR fine-field crosswalk (the PREFERRED integration proxy).
+# SDR 2021 Table 12-3 (NSF 23-319) gives Educational / Business-or-industry /
+# Government employment COUNTS by ~98 fine fields of doctorate. industry_share =
+# Business-or-industry / All employed. Covers SEH only -> the 3 humanities fields
+# have no SDR row and fall back to SED_BROAD_BY_KEY ("Humanities and arts").
+# Labels below verified present in nsf23319-tab012-003.xlsx with non-trivial cells.
+# ---------------------------------------------------------------------------
+SDR_FINE_BY_KEY: dict[str, str] = {
+    "computer_science": "Computer science",
+    "mathematics": "Mathematics",
+    "statistics": "Statistics",
+    "electrical_engineering": "Electrical, electronics, and communications engineering",
+    "mechanical_engineering": "Mechanical engineering",
+    "civil_engineering": "Civil engineering",
+    "chemical_engineering": "Chemical engineering",
+    "materials_science": "Metallurgical and materials engineering",
+    "physics": "Physics",
+    "chemistry": "Chemistry, except biochemistry",
+    "earth_sciences": "Geological and earth sciences, geosciences",
+    "biology": "Biological and biomedical sciences, general",
+    "economics": "Economics",
+    "political_science": "Political science and government",
+    "sociology": "Sociology, demography, and population studies",
+    "anthropology": "Anthropology",
+    "psychology": "Psychology, general",
+    # english / history / philosophy: not in SDR (SEH only) -> SED broad fallback
+}
+
+
+def sdr_fine_for(key: str) -> Optional[str]:
+    """SDR fine-field-of-doctorate label for a Tier-0 field key (industry-share proxy).
+    Returns None for the humanities fields not covered by SDR."""
+    return SDR_FINE_BY_KEY.get(key)
+
 
 def tier0_fields() -> list[dict]:
     """Return the curated Tier-0 field list (a copy)."""

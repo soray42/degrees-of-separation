@@ -21,10 +21,17 @@ This project is gated. **Nothing downstream is built until Tier 0 passes.**
 | Step | What | State |
 |---|---|---|
 | 1 | Project summary + skeleton | ✅ |
-| 2 | Reference library (`refs/`) | ⏳ in progress |
+| 2 | Reference library (`refs/`, 47 entries + notes) | ✅ |
 | 3 | Repo scaffold (this README, env, crosswalks) | ✅ |
-| 4 | **Tier 0 go/no-go** (`notebooks/tier0_go_no_go.ipynb`) | ⏳ — **GATE** |
-| 5 | Full AR pipeline (`src/ar_pipeline/`) | ⛔ blocked on Tier 0 = GO |
+| 4 | **Tier 0 go/no-go** (`notebooks/tier0_go_no_go.ipynb`) | ✅ — verdict **NO-GO** (narrow) |
+| 5 | Full AR pipeline (`src/ar_pipeline/`) | ⛔ **not started** — Tier 0 ≠ GO |
+
+**Tier 0 outcome (see [`notes/TIER0_RESULT.md`](notes/TIER0_RESULT.md)):** conditions 1
+(variation) and 3 (CS is the 2nd-lowest-gap field of 20) **PASS**; condition 2 (the gap
+falls with the industry-share proxy) **FAILS** — industry *employment share* is a poor
+stand-in for the H2 task-distance mechanism (engineering has high industry share **and**
+high gap). Strict rule ⇒ **NO-GO**: do a *Tier 0.5* (build the real O\*NET task-distance
+variable + a level-consistent ER) and re-test the mechanism **before** the Step-5 pipeline.
 
 The **Tier 0 gate** (proposal §7) uses only already-public, already-computed data
 (Wapman Zenodo SpringRank + College Scorecard earnings + SDR public tables) and must

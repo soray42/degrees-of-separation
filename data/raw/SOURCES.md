@@ -1,61 +1,66 @@
 # Data Provenance — `data/raw/`
 
 Every raw input is logged here with **URL · version/vintage · access date · file(s) · license**.
-Raw files themselves are gitignored; this file is the reproducible manifest. Re-fetch with
-the scripts in `scripts/`.
-
-Access dates use ISO format. Project timezone-agnostic; "accessed 2026-06-20" = first pull.
+Raw files are gitignored; this file is the reproducible manifest. Re-fetch with the scripts
+in `scripts/` (or the commands below). All sources are open. First pull: **2026-06-20**.
 
 ---
 
 ## 1. Academic reputation — Wapman et al. 2022 (Tier 0 prestige source)
 
-- **Source:** Zenodo record **10.5281/zenodo.6941651** — Wapman, Zhang, Clauset & Larremore,
+- **Source:** Zenodo **10.5281/zenodo.6941651** — Wapman, Zhang, Clauset & Larremore,
   *Quantifying hierarchy and dynamics in US faculty hiring and retention* (Nature 2022).
-- **URL:** https://zenodo.org/records/6941651  ·  API: https://zenodo.org/api/records/6941651
-- **Coverage:** US, 2011–2020, ~107 fields / 8 domains, ~368 PhD-granting institutions.
-- **Version:** _to fill on download_  ·  **Access date:** 2026-06-20
-- **Files pulled:** _to fill — list each filename + the column we read as SpringRank prestige_
-- **License:** _to fill from Zenodo (typically CC-BY 4.0)_
+- **Download:** `https://zenodo.org/api/records/6941651/files/us-faculty-hiring-networks.zip/content`
+- **Version:** v1, published 2022-07-29 · **License:** CC BY 3.0 US · **Accessed:** 2026-06-20
+- **Archive:** `us-faculty-hiring-networks.zip` (3,454,885 bytes) → extracted to `wapman2022/`
+  - `ranks.csv` — **used.** Columns `Rank, InstitutionId, InstitutionName, TaxonomyValue, TaxonomyLevel`.
+    `Rank` = SpringRank prestige ordinal (0 = most prestigious). Filter `TaxonomyLevel=="Field"`
+    (81 fields). **This is `SpringRank_prestige` for AR.**
+  - `edge_lists.csv` — directed hiring network (PhD inst → employing inst), for Step-5 validation.
+  - `institution-stats.csv`, `stats.csv`, `yearly-stats.csv` — aggregate stats (not used in Tier 0).
+- **Coverage:** US, 2011–2020, 8 domains, ~368 PhD-granting institutions.
+- *Note:* the GitHub README (`LarremoreLab/us-faculty-hiring-networks`) documents
+  `PrestigeRank/ProductionRank/OrdinalPrestigeRank`, which live in `institution-stats.csv`,
+  **not** in the per-institution `ranks.csv` we use; `ranks.csv` carries the ordering in `Rank`.
 
 ## 2. Employer reputation, undergraduate — College Scorecard, Field of Study
 
-- **Source:** U.S. Department of Education, College Scorecard **Field-of-Study** data files
-  (institution × 4-digit CIP × credential; median earnings 1/4/5 yr, IRS-linked).
-- **URL:** https://collegescorecard.ed.gov/data/  ·  data dictionary + "Most-Recent-Field-of-Study" zip.
-- **Version:** _to fill (release label / date)_  ·  **Access date:** 2026-06-20
-- **Files pulled:** _to fill — e.g. Most-Recent-Cohorts-Field-of-Study.csv_
-- **Key columns:** `UNITID`, `INSTNM`, `CIPCODE`, `CIPDESC`, `CREDLEV`, `EARN_MDN_*` (earnings).
-- **License:** public domain (US Gov).
+- **Source:** U.S. Department of Education, College Scorecard **Field-of-Study** files.
+- **Download:** `https://ed-public-download.scorecard.network/downloads/Most-Recent-Cohorts-Field-of-Study_06102026.zip` (17 MB)
+- **Version:** "Most Recent", updated **2026-06-10** · **License:** public domain (US Gov) · **Accessed:** 2026-06-20
+- **File:** `Most-Recent-Cohorts-Field-of-Study.csv` (≈153 MB, 227,980 rows, 178 cols) → `scorecard_fos/`
+- **Key columns:** `UNITID, INSTNM, CONTROL, CIPCODE` (4-digit, zero-padded), `CREDLEV`
+  (3 = Bachelor's used; 5 = Master's, 6 = Doctoral), `EARN_MDN_4YR` / `EARN_MDN_1YR`
+  (median earnings 4 / 1 yr post-completion; `'PS'` = privacy-suppressed → NaN).
 
 ## 3. Employer reputation, PhD — NSF NCSES SDR / SED
 
-- **Source:** NSF National Center for Science and Engineering Statistics, **Survey of Doctorate
-  Recipients (SDR)** public tables — median salary + employment sector (academia/industry/gov)
-  by fine field of degree; **Survey of Earned Doctorates (SED)** as the cohort frame.
-- **URL:** https://ncses.nsf.gov/surveys/doctorate-recipients/  ·  https://ncses.nsf.gov/surveys/earned-doctorates/
-- **Version:** _to fill (survey year / table id)_  ·  **Access date:** 2026-06-20
-- **Files pulled:** _to fill — salary-by-field table + sector-by-field table_
-- **License:** public domain (US Gov).
+- **SDR 2021 — Table 12-3** (fine-field sector counts; **integration proxy source**):
+  - `https://ncses.nsf.gov/pubs/nsf23319/assets/data-tables/tables/nsf23319-tab012-003.xlsx`
+  - ~98 fine fields × {All employed, Educational institution, Business or industry, Government}
+    (Number + SE). industry_share = Business / All. → `sdr2021/tab012-003.xlsx`. Accessed 2026-06-20.
+  - Companion (not yet used): Table 54 salary by field × sector `…/nsf23319-tab054.xlsx`.
+- **SED 2021 (NSF 23-300) data tables** (broad-field fallbacks / cross-checks):
+  - Table 2-6 employment sector by broad field: `…/nsf23300/assets/data-tables/tables/nsf23300-tab002-006.xlsx`
+    → `sed2021/tab002-006.xlsx` (humanities industry share for english/history/philosophy).
+  - Table 6-7 median salary by broad field × sector: `…/nsf23300-tab006-007.xlsx` → `sed2021/tab006-007.xlsx`.
+  - All-Excel archive: `…/nsf23300/assets/data-tables/nsf23300-data-tables-tables-excels.zip` → `sed2021/all-excels.zip`.
+- **License:** public domain (US Gov). **Accessed:** 2026-06-20.
 
-## 4. Task distance — O\*NET + CIP↔SOC crosswalk  *(Step 5 / full study)*
+## 4. Task distance — O\*NET + CIP↔SOC crosswalk  *(Tier 0.5 / full study — not yet pulled)*
 
-- **Source:** O\*NET Resource Center database (work activities, skills, abilities) + the
-  CIP↔SOC crosswalk.
-- **URL:** https://www.onetcenter.org/database.html  ·  https://www.onetcenter.org/crosswalks.html
-- **Version:** _to fill_  ·  **Access date:** _n/a in Tier 0_
-- **License:** O\*NET — CC-BY 4.0.
+- O\*NET database + CIP↔SOC crosswalk: `https://www.onetcenter.org/database.html` ·
+  `https://www.onetcenter.org/crosswalks.html` · License: CC BY 4.0.
 
-## 5. AR pipeline inputs — ORCID + OpenAlex  *(Step 5 / 2026 extension)*
+## 5. AR pipeline inputs — ORCID + OpenAlex  *(Step 5 / 2026 extension — not yet pulled)*
 
-- **ORCID:** public data file (annual dump). https://orcid.org/  ·  version _to fill_.
-- **OpenAlex:** snapshot / API. https://openalex.org/  ·  https://docs.openalex.org/ · version _to fill_.
-- **License:** ORCID public data CC0; OpenAlex CC0.
+- ORCID public data file (`https://orcid.org/`, CC0); OpenAlex snapshot/API
+  (`https://docs.openalex.org/`, CC0).
 
 ---
 
 ### Crosswalk note
-The **CIP code** is the join key across sources 2–4 and IPEDS. Field↔CIP↔SDR-field mappings are
-centralized in [`src/crosswalks/`](../../src/crosswalks/) — never redefine them ad hoc.
-Institution-level joins (Wapman names ↔ Scorecard `UNITID`/`INSTNM`) use the name-normalizer in
-`src/crosswalks/institutions.py`.
+**CIP is the join key** across sources 2–4 and IPEDS. Field↔CIP↔SDR mappings are centralized
+in [`src/crosswalks/fields.py`](../../src/crosswalks/fields.py) (all 20 Tier-0 `wapman_field`
+labels verified present in source 1). Institution joins (Wapman names ↔ Scorecard `INSTNM`)
+use the normalizer in [`src/crosswalks/institutions.py`](../../src/crosswalks/institutions.py).

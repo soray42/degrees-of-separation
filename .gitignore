@@ -32,6 +32,8 @@ data/processed/*
 *.db
 # ...but keep small curated crosswalk CSVs that live in src/
 !src/**/*.csv
+# ...and keep small, reviewable result tables
+!results/**/*.csv
 
 # ---- Results: keep figures/tables, they are small + reviewable ----
 # (figures/tables are committed; nothing ignored here by default)

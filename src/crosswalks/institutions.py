@@ -47,7 +47,9 @@ def normalize_institution_name(name: str) -> str:
     ('the','at','of','and'); collapse whitespace; apply the alias table. The result
     is a stable key to join Wapman names against Scorecard ``INSTNM``.
     """
-    s = (name or "").lower().strip()
+    if not isinstance(name, str):
+        return ""
+    s = name.lower().strip()
     s = s.replace("&", " and ")
     s = s.replace("-", " ")
     s = re.sub(r"[^a-z0-9 ]+", " ", s)        # drop punctuation
