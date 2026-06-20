@@ -26,6 +26,6 @@ ipykernel>=6.29
 jupytext>=1.16        # pair .ipynb <-> .py for clean diffs
 
 # --- SpringRank ---
-# No reliable PyPI package; a self-contained NumPy/SciPy implementation lives in
-# src/ar_pipeline/springrank.py (built in Step 5). Reference implementation:
-# https://github.com/LarremoreLab/SpringRank  (De Bacco, Larremore & Moore 2018)
+springrank>=0.0.9     # canonical De Bacco-Larremore-Moore SpringRank (reproduction + bootstrap)
+# also a self-contained NumPy/SciPy implementation in src/ar_pipeline/springrank.py.
+# Reference: https://github.com/LarremoreLab/SpringRank (De Bacco, Larremore & Moore 2018)

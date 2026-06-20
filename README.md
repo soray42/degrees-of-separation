@@ -63,6 +63,18 @@ adding the **small-n** field-sampling uncertainty, the full two-level CI include
 gate (p=0.29) and is marginal at 0.65 (p=0.086). **The binding limitation is n, not the
 generated regressor.** See `outputs/FIELD_EXPANSION_RESULT.md`.
 
+**Generated-regressor recalibration (`scripts/09_recalibrate.py` → `outputs/GENREG_RECALIBRATION_RESULT.md`).**
+The from-scratch SpringRank only reproduces Wapman's published ranks at ρ≈0.8, which over-
+attenuated P1 inside the old bootstrap. Diagnosis: the **canonical** SpringRank (cdebacco/
+LarremoreLab pkg, α+preprocessing sweep) also tops out at **ρ≈0.77** → a **data ceiling** (the
+public aggregated edges are lossy vs the AARC census), not a code bug. The deposit has no rank
+SEs but does ship the continuous score, so the bootstrap was rebuilt **anchored** at the
+published ranks (consistent point estimate) with a data-driven edge-sampling rank-SD as the
+only injected spread. Un-attenuated, the gen-reg point returns from −0.36 (old) to **−0.45**
+(≈ naive −0.49); P1 survives SpringRank noise (gen-reg CI excludes 0 at both gates) and the
+full small-n CI now **excludes 0 at 0.65 (p=0.042)** but still spans 0 at 0.50 (p=0.14) — so the
+recalibration confirms **n, not the generated regressor, is the binding limit.**
+
 **Tier 0 outcome (see [`notes/TIER0_RESULT.md`](notes/TIER0_RESULT.md)):** conditions 1
 (variation) and 3 (CS is the 2nd-lowest-gap field of 20) **PASS**; condition 2 (gap falls
 with the industry-share proxy) **FAILS**. ⇒ ran a Tier 0.5 mechanism diagnosis.
