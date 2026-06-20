@@ -1,0 +1,53 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# ---- Data (raw + large derived; keep provenance docs only) ----
+data/raw/*
+!data/raw/.gitkeep
+!data/raw/SOURCES.md
+data/interim/*
+!data/interim/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Large / binary data artifacts anywhere
+*.zip
+*.gz
+*.tar
+*.7z
+*.parquet
+*.feather
+*.csv
+*.xlsx
+*.xls
+*.dta
+*.sav
+*.sqlite
+*.db
+# ...but keep small curated crosswalk CSVs that live in src/
+!src/**/*.csv
+
+# ---- Results: keep figures/tables, they are small + reviewable ----
+# (figures/tables are committed; nothing ignored here by default)
+
+# ---- Secrets / env ----
+.env
+*.secret
+secrets.*
+*.key
+config.local.*
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+*.swp
+*~
+*.Zone.Identifier
+.idea/
+.vscode/
