@@ -173,6 +173,80 @@ def sdr_fine_for(key: str) -> Optional[str]:
     return SDR_FINE_BY_KEY.get(key)
 
 
+# ---------------------------------------------------------------------------
+# Field -> O*NET postsecondary-teacher SOC crosswalk (Tier 0.5 task-distance).
+# The "academic-research task vector" for a field is the O*NET Work Activities (IM x LV)
+# profile of its "<field> Teachers, Postsecondary" occupation. The "industry task vector"
+# is the (employment-weighted) average over the field's CIP -> O*NET-SOC destinations
+# from Education_CIP_to_ONET_SOC.xlsx, excluding 25-10xx teaching SOCs. task_distance =
+# Gathmann-Schoenberg angular distance between the two. All SOCs verified present in
+# O*NET 30.3 Occupation Data. Engineering subfields share 25-1032 on the academic side;
+# they differ on the industry side via distinct CIP destinations.
+# ---------------------------------------------------------------------------
+ONET_TEACHER_SOC_BY_KEY: dict[str, str] = {
+    "computer_science": "25-1021.00",       # Computer Science Teachers
+    "mathematics": "25-1022.00",            # Mathematical Science Teachers
+    "statistics": "25-1022.00",             # Mathematical Science Teachers
+    "electrical_engineering": "25-1032.00",  # Engineering Teachers
+    "mechanical_engineering": "25-1032.00",
+    "civil_engineering": "25-1032.00",
+    "chemical_engineering": "25-1032.00",
+    "materials_science": "25-1032.00",
+    "physics": "25-1054.00",                # Physics Teachers
+    "chemistry": "25-1052.00",              # Chemistry Teachers
+    "biology": "25-1042.00",                # Biological Science Teachers
+    "earth_sciences": "25-1051.00",         # Atmospheric, Earth, Marine, Space Teachers
+    "economics": "25-1063.00",              # Economics Teachers
+    "political_science": "25-1065.00",      # Political Science Teachers
+    "sociology": "25-1067.00",              # Sociology Teachers
+    "anthropology": "25-1061.00",           # Anthropology and Archeology Teachers
+    "psychology": "25-1066.00",             # Psychology Teachers
+    "english": "25-1123.00",                # English Language and Literature Teachers
+    "history": "25-1125.00",                # History Teachers
+    "philosophy": "25-1126.00",             # Philosophy and Religion Teachers
+}
+
+
+def teacher_soc_for(key: str) -> Optional[str]:
+    """O*NET postsecondary-teacher SOC for a Tier-0 field (academic task vector)."""
+    return ONET_TEACHER_SOC_BY_KEY.get(key)
+
+
+# ---------------------------------------------------------------------------
+# Field -> SDR Table 54 salary-row crosswalk (Tier 0.5 academia-industry price wedge).
+# SDR 2021 Table 54 (nsf23319) gives median salary by field x sector. We read
+# academic = "4-year educational institution", industry = "Private, for profit",
+# mean = "All full-time employed", and form price_wedge = (industry - academic)/mean.
+# ~33 field rows (coarser than Table 12-3: math & statistics share a row; anthropology
+# folds into "Other social sciences"). SEH only -> humanities have no wedge.
+# ---------------------------------------------------------------------------
+SDR_SALARY_FIELD_BY_KEY: dict[str, str] = {
+    "computer_science": "Computer and information sciences",
+    "mathematics": "Mathematics and statistics",
+    "statistics": "Mathematics and statistics",
+    "electrical_engineering": "Electrical and computer engineering",
+    "mechanical_engineering": "Mechanical engineering",
+    "civil_engineering": "Civil engineering",
+    "chemical_engineering": "Chemical engineering",
+    "materials_science": "Metallurgical and materials engineering",
+    "physics": "Physics",
+    "chemistry": "Chemistry, except biochemistry",
+    "earth_sciences": "Geosciences, atmospheric sciences, and ocean sciences",
+    "biology": "Biological, agricultural, and environmental life sciences",
+    "economics": "Economics",
+    "political_science": "Political science and government",
+    "sociology": "Sociology, demography, and population studies",
+    "anthropology": "Other social sciences",
+    "psychology": "Psychology",
+    # english / history / philosophy: not in SDR (SEH only)
+}
+
+
+def sdr_salary_field_for(key: str) -> Optional[str]:
+    """SDR Table-54 salary-row label for a Tier-0 field (price-wedge source)."""
+    return SDR_SALARY_FIELD_BY_KEY.get(key)
+
+
 def tier0_fields() -> list[dict]:
     """Return the curated Tier-0 field list (a copy)."""
     return [dict(f) for f in TIER0_FIELDS]

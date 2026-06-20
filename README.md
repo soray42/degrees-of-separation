@@ -24,14 +24,22 @@ This project is gated. **Nothing downstream is built until Tier 0 passes.**
 | 2 | Reference library (`refs/`, 47 entries + notes) | ✅ |
 | 3 | Repo scaffold (this README, env, crosswalks) | ✅ |
 | 4 | **Tier 0 go/no-go** (`notebooks/tier0_go_no_go.ipynb`) | ✅ — verdict **NO-GO** (narrow) |
-| 5 | Full AR pipeline (`src/ar_pipeline/`) | ⛔ **not started** — Tier 0 ≠ GO |
+| 4.5 | **Tier 0.5 mechanism diagnosis** (`notebooks/tier0_5_diagnose.ipynb`) | ✅ — verdict **REFRAME** |
+| 5 | Full AR pipeline (`src/ar_pipeline/`) | ⛔ **not started** — mechanism not yet established |
 
 **Tier 0 outcome (see [`notes/TIER0_RESULT.md`](notes/TIER0_RESULT.md)):** conditions 1
-(variation) and 3 (CS is the 2nd-lowest-gap field of 20) **PASS**; condition 2 (the gap
-falls with the industry-share proxy) **FAILS** — industry *employment share* is a poor
-stand-in for the H2 task-distance mechanism (engineering has high industry share **and**
-high gap). Strict rule ⇒ **NO-GO**: do a *Tier 0.5* (build the real O\*NET task-distance
-variable + a level-consistent ER) and re-test the mechanism **before** the Step-5 pipeline.
+(variation) and 3 (CS is the 2nd-lowest-gap field of 20) **PASS**; condition 2 (gap falls
+with the industry-share proxy) **FAILS**. ⇒ ran a Tier 0.5 mechanism diagnosis.
+
+**Tier 0.5 outcome (see [`notes/TIER0_5_RESULT.md`](notes/TIER0_5_RESULT.md)) — REFRAME.**
+Four competing explanators of the gap, real data: the original **task distance (H2)** is
+**signed backwards** (−0.38) and chemistry refutes it; the gap is instead driven by an
+**academic-pipeline / earnings-informativeness axis** — **grad-school pull** (+0.48, the only
+significant one) and **earnings dispersion** (−0.41) place both CS (low gap) and chemistry
+(high gap) correctly. The **price wedge** (price agreement) does **not** coincide with the
+institution-level **rank** gap. The descriptive gap map is real; the H2 *mechanism* is not
+supported. Re-specify the gap (robust to earnings informativeness) or reframe around the
+pipeline mechanism **before** the Step-5 pipeline.
 
 The **Tier 0 gate** (proposal §7) uses only already-public, already-computed data
 (Wapman Zenodo SpringRank + College Scorecard earnings + SDR public tables) and must

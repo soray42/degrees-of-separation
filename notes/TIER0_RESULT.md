@@ -67,19 +67,23 @@ mechanism (task distance).** A field can place most graduates in industry yet st
 academic prestige and undergraduate earnings disagree (engineering), and a field can be
 academia-centric yet have a moderate gap. The mechanism test needs the *real* variable.
 
-## Two issues this surfaced (must be fixed before the mechanism can be judged)
+## What this surfaced
 
 1. **The proxy is wrong for H2.** Replace industry-employment share with the actual
    **Gathmann–Schönberg O\*NET task-distance** measure (academic-research vs modal-
    industry task vectors via the CIP↔SOC crosswalk). Condition 2 must be re-run on that.
-2. **The ER level mismatch is material — and not fixable at the institution level.**
-   Institution-level **PhD** earnings are effectively unavailable: Scorecard doctoral
-   coverage is only **4/20** fields (median ≈ 2 matched institutions); Bachelor's gives
-   20/20 (median ≈ 115). The robustness sweep shows the (weak) negative mechanism sign
-   strengthens at graduate-level earnings, hinting the Bachelor's-vs-PhD mismatch
-   attenuates it. Re-ground ER at the **field level** (SDR salary, Table 54) and/or
-   model the level explicitly rather than relying on undergraduate earnings as a PhD
-   proxy.
+
+> **Correction (post-review).** An earlier draft of this file called the PhD-prestige
+> vs Bachelor's-earnings "level mismatch" a *confound* to be fixed. That was wrong.
+> Academic reputation **is** research/PhD-level (SpringRank measures who the academy
+> recognizes); employer reputation **is** about the graduate mass, i.e. undergraduates.
+> So `Gap = 1 − Spearman(PhD-research prestige, bachelor's earnings)` is not two
+> mismatched levels — **it is the AR–ER distinction itself** (a department's price in the
+> academic market vs its price in the labor market). The gap construction is **accepted
+> and unchanged.** The only residual measurement question is the *mechanical* one (could
+> compressed within-field earnings variance inflate the gap?), which Tier 0.5 tests
+> directly as "earnings dispersion." The Scorecard-doctoral-coverage note remains a fact,
+> but it is **not** a reason to change the gap — it just rules out a PhD-earnings ER.
 
 ## Recommended next step (instead of Step 5)
 

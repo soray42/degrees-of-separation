@@ -1,0 +1,5 @@
+explanator,n,spearman,p,predicted_sign,sign_ok,desc
+task_distance,20,-0.38345864661654133,0.09512441358281754,1,False,gap RISES with task distance (H2)
+earn_cv,20,-0.41353383458646614,0.06992073829262122,-1,True,gap FALLS as earnings dispersion rises (artifact)
+doc_ba_ratio,20,0.4827067669172932,0.03110521686954333,1,True,gap RISES with grad-school pull
+price_wedge_abs,17,-0.4156959702243604,0.09701398218450397,1,False,gap RISES with |price wedge|

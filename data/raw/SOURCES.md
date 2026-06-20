@@ -47,12 +47,33 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
   - All-Excel archive: `…/nsf23300/assets/data-tables/nsf23300-data-tables-tables-excels.zip` → `sed2021/all-excels.zip`.
 - **License:** public domain (US Gov). **Accessed:** 2026-06-20.
 
-## 4. Task distance — O\*NET + CIP↔SOC crosswalk  *(Tier 0.5 / full study — not yet pulled)*
+## 4. Task distance — O\*NET + CIP↔SOC crosswalk  *(Tier 0.5)*
 
-- O\*NET database + CIP↔SOC crosswalk: `https://www.onetcenter.org/database.html` ·
-  `https://www.onetcenter.org/crosswalks.html` · License: CC BY 4.0.
+- **O\*NET database, text format, v30.3:** `https://www.onetcenter.org/dl_files/database/db_30_3_text.zip`
+  → `onet/`. Used: `Work Activities.txt` (O\*NET-SOC × 41 Generalized Work Activities, scales
+  IM & LV; task vector = IM×LV per element) and `Occupation Data.txt`. License: CC BY 4.0.
+- **CIP→O\*NET-SOC crosswalk (2020 CIP → O\*NET-SOC 2019, updated Jul 2024):**
+  `https://www.onetcenter.org/crosswalks/cip/Education_CIP_to_ONET_SOC.xlsx` → `onet/`.
+  Real header on row 3; cols CIP / CIP title / O\*NET-SOC / SOC title.
+- **Accessed:** 2026-06-20. Field→teacher-SOC and field→SDR-salary crosswalks: `src/crosswalks/fields.py`.
 
-## 5. AR pipeline inputs — ORCID + OpenAlex  *(Step 5 / 2026 extension — not yet pulled)*
+## 5. Grad-school pull — IPEDS Completions  *(Tier 0.5)*
+
+- **IPEDS Completions C2023 (finalized), part A:** `https://nces.ed.gov/ipeds/datacenter/data/C2023_A.zip`
+  → `ipeds/C2023_a.csv`. Dict: `…/C2023_A_Dict.zip`. **Accessed:** 2026-06-20. Public domain.
+- **Key columns:** `UNITID, CIPCODE` (2020 CIP), `MAJORNUM` (filter = 1), `AWLEVEL`
+  (5 = Bachelor's, 17 = Doctor's research/scholarship), `CTOTALT` (grand total completions).
+  grad-school pull = Σ doctoral(17) / Σ bachelor(5) by CIP-4 field.
+
+## 6. Industry employment weights — OEWS  *(Tier 0.5 — UNAVAILABLE)*
+
+- BLS OEWS national file (`https://www.bls.gov/oes/special-requests/oesm24nat.zip`, cols
+  `OCC_CODE`, `TOT_EMP`) would employment-weight the industry task vectors. **Not obtained:**
+  bls.gov returns a uniform Akamai **HTTP 403** to all automated fetches (curl/WebFetch),
+  masking 200/404. Tier-0.5 task distances therefore use **equal weighting** over CIP→SOC
+  destinations (documented in `notes/TIER0_5_RESULT.md`).
+
+## 7. AR pipeline inputs — ORCID + OpenAlex  *(Step 5 / 2026 extension — not started; gated on mechanism reframe)*
 
 - ORCID public data file (`https://orcid.org/`, CC0); OpenAlex snapshot/API
   (`https://docs.openalex.org/`, CC0).
