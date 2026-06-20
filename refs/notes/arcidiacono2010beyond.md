@@ -1,0 +1,10 @@
+# arcidiacono2010beyond
+**Full citation:** Arcidiacono, P., Bayer, P., Hizmo, A. (2010). Beyond Signaling and Human Capital: Education and the Revelation of Ability. American Economic Journal: Applied Economics, 2(4), 76-104.
+**DOI / URL:** https://doi.org/10.1257/app.2.4.76 (also NBER WP 13951)
+**Access level:** abstract read (NBER WP 13951 abstract + AEA listing); journal full text paywalled, details from abstracts and search results
+
+## What it contributes to THIS project
+This paper sharpens the employer-learning story in exactly the way the project needs: it shows that *the credential itself can directly reveal ability*, so the speed at which the labor market sees true productivity is heterogeneous across education levels — the cross-field analogue of which is the project's core variation in the AR-ER gap. Their finding that ability is observed nearly perfectly for college graduates (wages track own ability from career start) but only gradually for high-school graduates implies that some credentials short-circuit employer learning entirely, collapsing the signal-vs-productivity wedge. Mapped to fields, this predicts the computer-science near-zero-gap extreme (ability revealed fast, AR and ER coincide) versus credential fields where the academic signal continues to carry weight the market hasn't yet validated. It refines the Spence/Altonji-Pierret chain by distinguishing revelation from slow statistical learning, which is the mechanism we attribute to low-gap fields.
+
+## Specific equation / result / dataset we reuse
+We reuse the empirical contrast in how strongly *own ability* (AFQT) loads on wages at career entry across credential groups — near-immediate for college graduates, rising-with-experience for high-school graduates — as the template for a field-level "revelation speed" measure. Operationally we adapt their NLSY79 design (own-ability-to-wage correlation by experience, interacted with education group) into a by-field statistic predicting where the AR-ER gap is small (fast revelation) versus large (slow revelation / persistent signaling).

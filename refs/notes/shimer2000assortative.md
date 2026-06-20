@@ -1,0 +1,10 @@
+# shimer2000assortative
+**Full citation:** Shimer, Robert, & Smith, Lones (2000). Assortative Matching and Search. Econometrica, 68(2), 343-369.
+**DOI / URL:** 10.1111/1468-0262.00112 (https://onlinelibrary.wiley.com/doi/abs/10.1111/1468-0262.00112)
+**Access level:** abstract only (the ProQuest/Econometrica PDF I retrieved is a scanned image with no extractable text; conditions confirmed via the Econometric Society listing, the Lones Smith author page, and search snippets — not the full paywalled text)
+
+## What it contributes to THIS project
+This paper adds *search frictions* to Becker's frictionless sorting, which is exactly the regime our two markets live in: faculty hiring and the labor market both involve costly, time-intensive matching, not a frictionless assignment. Its central message — that Becker's supermodularity of output is no longer sufficient for positive assortative matching once search is frictional — is the theoretical caution behind our gap measure: even if academia and industry "want" the same trait, frictions can blur the rank correlation, so a nonzero Gap_field need not mean misaligned complementarities. It motivates why we measure the gap empirically (Spearman of prestige vs ER ranks) rather than inferring it from production primitives, and why we treat task distance as the structural predictor of the residual gap rather than assuming clean Beckerian sorting.
+
+## Specific equation / result / dataset we reuse
+The result we lift is the strengthened sufficient condition for PAM under search: it is not enough that match output f(x,y) be supermodular; one additionally needs **log-supermodularity of the first partial f_x and of the cross-partial f_xy** (symmetric submodularity conditions deliver NAM). We use this as the formal warning that rank-correlation evidence of (mis)sorting is sensitive to frictions, justifying our reliance on the observed Spearman gap plus a structural task-distance regressor rather than reading sorting off output complementarity alone.

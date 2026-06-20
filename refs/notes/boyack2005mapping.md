@@ -1,0 +1,10 @@
+# boyack2005mapping
+**Full citation:** Boyack, K. W., Klavans, R., & Börner, K. (2005). Mapping the Backbone of Science. *Scientometrics*, 64(3), 351–374.
+**DOI / URL:** 10.1007/s11192-005-0255-6
+**Access level:** abstract only (publisher pages at Springer/akjournals returned 303/403; abstract and key findings read via Springer listing, ScirP reference page, and Semantic Scholar)
+
+## What it contributes to THIS project
+This is the foundational paper for the "map of science" covariate the proposal uses to characterize each field's position in the global structure of science. The proposal explicitly lists Boyack–Klavans–Börner citation proximity as a *continuous* "how interdisciplinary/applied" covariate and as an alternative field clustering to Wapman's 8-domain taxonomy (proposal §"Field structure" and robustness §"alternative field clusterings"). Because the AR–ER gap is hypothesized to track academia-vs-industry task distance, a journal-level science map gives an independent, citation-based way to locate fields on an applied↔basic / interdisciplinary axis that can be correlated with the gap or used as a control. The finding that biochemistry is the most interdisciplinary hub illustrates the kind of continuous "centrality/interdisciplinarity" score we can extract per field and join (via journal→discipline→CIP mapping) to the AR and ER measures.
+
+## Specific equation / result / dataset we reuse
+The concrete reusable artifact is the **journal-similarity-and-layout pipeline**: 7,121 journals covering >1 million documents from the combined SCI/SSCI, with eight alternative journal similarity measures (cocitation- and intercitation-based variants) compared, two-dimensional spatial layouts produced by the **VxOrd force-directed graph layout**, and similarity measures evaluated by structural accuracy (a mutual-information / local-accuracy criterion) so that a "best" map can be selected. We lift (a) the idea of selecting the best-validated journal-proximity measure and (b) the resulting field/discipline coordinates, to derive a per-field interdisciplinarity/applied score as a continuous covariate in the gap regressions.

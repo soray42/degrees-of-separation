@@ -1,0 +1,10 @@
+# priem2022openalex
+**Full citation:** Priem, J., Piwowar, H., & Orr, R. (2022). OpenAlex: A fully-open index of scholarly works, authors, venues, institutions, and concepts. arXiv preprint arXiv:2205.01833.
+**DOI / URL:** https://arxiv.org/abs/2205.01833 (DOI: https://doi.org/10.48550/arXiv.2205.01833)
+**Access level:** open-access preprint (arXiv abstract and full PDF read directly)
+
+## What it contributes to THIS project
+OpenAlex is the bibliographic backbone of the panel-extension pipeline that brings the faculty-hiring network (and thus Academic Reputation) forward to 2026. The project replicates the Jiang et al. (2026) China method, which reconstructs faculty hiring flows from researcher publication and affiliation records; OpenAlex provides the fully-open, MAG-successor index of works, disambiguated AUTHORS, and INSTITUTIONS that makes this feasible at scale on open data. Crucially it indexes 200M+ works, 2B+ disambiguated authors, and ~109k institutions with affiliation metadata, which we cross-reference with ORCID employment histories to trace where each faculty member earned their PhD versus where they were hired — the edges of the SpringRank prestige network. Its CC0 license and high-volume REST API/data dump satisfy the project's all-open-data constraint and enable rebuilding the hiring network rather than relying solely on the static Wapman et al. (2022) snapshot used for validation.
+
+## Specific equation / result / dataset we reuse
+We reuse OpenAlex's author and institution entities and their links to works: the disambiguated author IDs, the institution IDs (ROR-linked, ~109k institutions), and the authorship affiliation fields that attach an author to an institution on a given work/year. Access is via the REST API and the full data dump (CC0). Pipeline step: for each faculty member, pull their OpenAlex works timeline, read the institution affiliation per authorship to infer career moves (PhD institution -> hiring institution), and emit a directed hiring edge; aggregating these edges across a field yields the network on which SpringRank computes the prestige ranking (AR_rank).

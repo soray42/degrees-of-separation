@@ -1,0 +1,10 @@
+# altonji2001employer
+**Full citation:** Altonji, J.G., Pierret, C.R. (2001). Employer Learning and Statistical Discrimination. The Quarterly Journal of Economics, 116(1), 313-350.
+**DOI / URL:** https://doi.org/10.1162/003355301556329 (also NBER WP 6279)
+**Access level:** full text of abstract + NBER working-paper abstract read; QJE article body paywalled, so model details summarized from the NBER abstract and search results
+
+## What it contributes to THIS project
+This is the keystone employer-learning paper in the project's theory chain (Spence -> **Altonji-Pierret** -> MacLeod -> Gathmann-Schoenberg) and gives the dynamic mechanism that predicts *when* the AR-ER gap should close. Their result — that as employers learn, the wage coefficient on easily observed credentials (education) falls while the coefficient on hard-to-observe true ability (AFQT) rises with experience — is exactly the process by which behavioral Employer Reputation should diverge from credential-based Academic Reputation over a career. It predicts that fields where productivity is quickly demonstrable on the job (computer science) let employer learning override the academic signal fast (small gap), whereas credential fields where ability stays hard to verify keep weighting the signal (large gap). The paper directly motivates using mid-career SDR salary/sector outcomes (where learning has occurred) as the ER benchmark against early-career academic prestige.
+
+## Specific equation / result / dataset we reuse
+We reuse their wage-regression identification design: log wage regressed on education, a hard-to-observe productivity proxy (AFQT), and their *interactions with labor-market experience*; under employer learning the experience-interaction coefficient on AFQT rises and on education falls. We adapt this "coefficient time-path" test to our two levels (NLSY-style logic applied to NSF SDR for PhDs and Scorecard cohorts for undergrads), and reuse the dataset template (NLSY79: education, AFQT, wages by experience, siblings) as the methodological model for our employer-learning interpretation of the gap.

@@ -1,0 +1,31 @@
+# Degrees of Separation — Python dependencies
+# Tested on Python 3.12. Install into a venv:
+#   python -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
+
+# --- core scientific stack ---
+pandas>=2.2
+numpy>=1.26
+scipy>=1.12
+statsmodels>=0.14
+networkx>=3.2
+
+# --- IO / data access ---
+requests>=2.31
+pyarrow>=15
+openpyxl>=3.1          # read College Scorecard / SDR .xlsx tables
+xlrd>=2.0              # legacy .xls (some NCSES releases)
+
+# --- plotting ---
+matplotlib>=3.8
+
+# --- notebooks ---
+jupyter>=1.0
+nbformat>=5.9
+nbconvert>=7.0
+ipykernel>=6.29
+jupytext>=1.16        # pair .ipynb <-> .py for clean diffs
+
+# --- SpringRank ---
+# No reliable PyPI package; a self-contained NumPy/SciPy implementation lives in
+# src/ar_pipeline/springrank.py (built in Step 5). Reference implementation:
+# https://github.com/LarremoreLab/SpringRank  (De Bacco, Larremore & Moore 2018)

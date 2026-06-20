@@ -1,0 +1,10 @@
+# spence1973job
+**Full citation:** Spence, A.M. (1973). Job Market Signaling. The Quarterly Journal of Economics, 87(3), 355-374.
+**DOI / URL:** https://doi.org/10.2307/1882010
+**Access level:** abstract only (the PDF copies at sfu.ca and ucla.edu are scanned/JBIG2 image files that could not be parsed; verified citation, abstract, and standard model summary via search of QJE/RePEc and secondary sources)
+
+## What it contributes to THIS project
+This is the theoretical taproot of the entire AR-vs-ER project: it formalizes how, under asymmetric information about productivity, education can function as a costly *signal* that sorts workers without itself raising productivity. The project's central distinction between Academic Reputation (a within-field prestige ordering, akin to a credential/signal) and Employer Reputation (realized labor-market outcomes, akin to true productivity) is exactly the wedge Spence's model predicts can persist in equilibrium. Spence motivates why credential-heavy fields (law, finance) — where the degree's signaling value is high and hard to verify on the job — should show a large AR-ER gap, while fields where ability is quickly demonstrable on the job should not. It anchors the theory chain (Spence -> Altonji-Pierret employer learning -> MacLeod et al. reputation decomposition -> Gathmann-Schoenberg task distance) that the project uses to interpret the gap.
+
+## Specific equation / result / dataset we reuse
+We reuse the single-crossing (Spence-Mirrlees) cost condition: the marginal cost of acquiring the signal (education y) is negatively correlated with productivity, so high-productivity types optimally choose higher y, generating a separating equilibrium wage schedule w(y) that supports the signal. We also lift Spence's signal-vs-index distinction (signals are alterable by the agent, e.g. education; indices are unalterable, e.g. demographic attributes) to frame Academic-Reputation prestige as a field-level "signal" whose informativeness — and thus its divergence from behavioral ER outcomes — is what the project measures field by field.
