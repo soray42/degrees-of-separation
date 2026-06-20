@@ -75,10 +75,38 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
   masking 200/404. Tier-0.5 task distances therefore use **equal weighting** over CIP→SOC
   destinations (documented in `notes/TIER0_5_RESULT.md`).
 
-## 7. AR pipeline inputs — ORCID + OpenAlex  *(Step 5 / 2026 extension — not started; gated on mechanism reframe)*
+## 7. Degree-level ER + dispersion — PSEO (Census/LEHD)  *(v2 Tier 0)*
 
-- ORCID public data file (`https://orcid.org/`, CC0); OpenAlex snapshot/API
-  (`https://docs.openalex.org/`, CC0).
+- **Source:** Census Bureau Post-Secondary Employment Outcomes (PSEO), LEHD, latest release
+  **V4.13.0 / 2025Q4** (grad cohorts 2001–2021). `https://lehd.ces.census.gov/data/pseo_experimental.html`
+- **Files (→ `data/raw/pseo/`):**
+  - `pseoe_all.csv.gz` — earnings, all 33 partner-state institutions (985 inst, 623k rows).
+    `https://lehd.ces.census.gov/data/pseo/latest_release/all/pseoe_all.csv.gz`
+  - `pseo_all_institutions.csv` — institution id (8-char OPEID) → `label` (name) → state.
+  - (`pseoe_us.csv.gz`, institutions = the "US/national-location" pseudo-set, only 1 inst — not used.)
+- **Schema used:** `institution, degree_level` (05=Bachelor's, 07=Master's, 17=Doctoral-research,
+  18=Doctoral-prof), `cipcode` (e.g. `11.07`), `cip_level` (keep `4`), `inst_level` (keep `I`),
+  `grad_cohort` (`0000`=pooled), `y5_p25/p50/p75_earnings`, `y5_grads_earn`, `status_y5_earnings`
+  (`1`=released, `5`/`-1`=suppressed). Dispersion = `(p75−p25)/p50`. **Accessed:** 2026-06-20. Public.
+- **CRITICAL coverage findings (Tier 0, see `results/COVERAGE_REPORT.md`):**
+  - **PhD & master's earnings are 100% disclosure-suppressed at the institution×4-digit-CIP
+    grain (0 released cells).** Graduate earnings exist only at 2-digit CIP (too coarse).
+  - **Prestige-truncated:** matches only 29% of Wapman institutions, 22% of the top prestige
+    quartile; ~18 of the top-20 elite privates absent. Used for the undergrad dispersion proxy
+    only (the gap itself uses Scorecard, which spans the full hierarchy).
+
+## 8. AR pipeline inputs — ORCID + OpenAlex / Yifeng resolved edges  *(Tier 1 — not started)*
+
+- ORCID public data file (`https://orcid.org/`, CC0); OpenAlex (`https://docs.openalex.org/`, CC0);
+  Yifeng Li resolved academic-mobility edges (Zenodo 10.5281/zenodo.19651302) for the 2021–2026
+  AR rebuild (proposal v2 §5.1, §11). Gated on the Tier-0 decision.
+
+---
+
+> **Operational-spec note.** This Tier-0 round follows the kickoff prompt +
+> `degrees_of_separation_proposal_v2.md`. The v2 file was supplied *after* the kickoff began;
+> work proceeded on the kickoff's self-contained spec (gap construct identical to v1) and was
+> reconciled to v2 once available. No construct changed.
 
 ---
 

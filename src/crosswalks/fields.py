@@ -96,6 +96,42 @@ TIER0_FIELDS: list[dict] = [
     dict(key="philosophy", label="Philosophy",
          wapman_field="Philosophy", domain="Humanities",
          cip4=["3801"], sdr_field="Philosophy"),
+
+    # --- v2 Tier-0 expansion (→ ~30 fields spanning more disciplines) ---
+    # Natural-science pipeline fields (strong "good students leave for PhD" selection)
+    dict(key="biochemistry", label="Biochemistry",
+         wapman_field="Biochemistry", domain="Natural sciences",
+         cip4=["2602"], sdr_field=None),
+    dict(key="neuroscience", label="Neuroscience",
+         wapman_field="Neuroscience", domain="Natural sciences",
+         cip4=["2610"], sdr_field=None),
+    dict(key="astronomy", label="Astronomy",
+         wapman_field="Astronomy", domain="Natural sciences",
+         cip4=["4002"], sdr_field=None),
+    # Engineering breadth
+    dict(key="computer_engineering", label="Computer Engineering",
+         wapman_field="Computer Engineering", domain="Engineering",
+         cip4=["1409"], sdr_field=None),
+    dict(key="aerospace_engineering", label="Aerospace Engineering",
+         wapman_field="Aerospace Engineering", domain="Engineering",
+         cip4=["1402"], sdr_field=None),
+    dict(key="biomedical_engineering", label="Biomedical Engineering",
+         wapman_field="Biomedical Engineering", domain="Engineering",
+         cip4=["1405"], sdr_field=None),
+    # Business / credential end (high employer reward, weak research linkage)
+    dict(key="finance", label="Finance",
+         wapman_field="Finance", domain="Business",
+         cip4=["5208"], sdr_field=None),
+    dict(key="accounting", label="Accounting",
+         wapman_field="Accounting", domain="Business",
+         cip4=["5203"], sdr_field=None),
+    # Health
+    dict(key="nursing", label="Nursing",
+         wapman_field="Nursing", domain="Health",
+         cip4=["5138"], sdr_field=None),
+    dict(key="communication_disorders", label="Communication Disorders",
+         wapman_field="Communication Disorders and Sciences", domain="Health",
+         cip4=["5109"], sdr_field=None),
 ]
 
 # Quick reference: the headline field whose low gap is hypothesis H4.

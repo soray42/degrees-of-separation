@@ -26,7 +26,19 @@ This project is gated. **Nothing downstream is built until Tier 0 passes.**
 | 4 | **Tier 0 go/no-go** (`notebooks/tier0_go_no_go.ipynb`) | ✅ — verdict **NO-GO** (narrow) |
 | 4.5 | **Tier 0.5 mechanism diagnosis** (`notebooks/tier0_5_diagnose.ipynb`) | ✅ — verdict **REFRAME** |
 | 4.6 | **Diagnostic: signal vs artifact** (`scripts/run_diagnostic.py`) | ✅ — verdict **REAL SIGNAL** (filter required) |
-| 5 | Full AR pipeline (`src/ar_pipeline/`) | ⛔ **not started** — ER-level redesign first |
+| v2-T0 | **v2 Tier 0** — PSEO probe + generic gap map + P1 (`scripts/01–03`) | ✅ — verdict **CONDITIONAL** |
+| 5 / Tier 1 | ORCID AR rebuild + dynamic out-of-sample test | ⛔ **not started** — gated on the v2 Tier-0 call |
+
+**v2 Tier 0 (see [`results/TIER0_RESULT.md`](results/TIER0_RESULT.md)) — CONDITIONAL.**
+Built the spec'd generic, source-agnostic gap machinery (`src/{load_ar,load_er,gap,predictions}.py`,
+`scripts/01_probe.py`/`02_gap_map.py`/`03_p1.py`; Tier-1 plugs in a new AR table via the `period`
+column). The reliability-gated **undergrad gap map** (30 fields, 14 reliable, anchors CS-low /
+biology-high reproduce, full prestige range via Scorecard) is sound. **But:** (1) **P1** (gap vs
+earnings dispersion) is correct-signed on reliable fields (≈ −0.28) yet **not significant** and
+fragile; (2) **PSEO PhD-level ER is infeasible** — institution×field doctoral cells are 100%
+disclosure-suppressed and PSEO is prestige-truncated (misses the elite-private top), so v2's
+two-level PhD-ER enrichment is data-blocked. The top-tier case now rests solely on the untested
+**Tier-1 dynamic compression**. Proceed only if that bet is worth the ORCID-rebuild cost.
 
 **Tier 0 outcome (see [`notes/TIER0_RESULT.md`](notes/TIER0_RESULT.md)):** conditions 1
 (variation) and 3 (CS is the 2nd-lowest-gap field of 20) **PASS**; condition 2 (gap falls
