@@ -16,6 +16,9 @@ data/interim/*
 data/processed/*
 !data/processed/.gitkeep
 
+# ORCID gateway dataset (Yifeng / Zenodo 19651302) — multi-GB, never committed
+data/yifeng_orcid/
+
 # Large / binary data artifacts anywhere
 *.zip
 *.gz

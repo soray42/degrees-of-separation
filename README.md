@@ -28,7 +28,20 @@ This project is gated. **Nothing downstream is built until Tier 0 passes.**
 | 4.6 | **Diagnostic: signal vs artifact** (`scripts/run_diagnostic.py`) | ✅ — verdict **REAL SIGNAL** (filter required) |
 | v2-T0 | **v2 Tier 0** — PSEO probe + generic gap map + P1 (`scripts/01–03`) | ✅ — verdict **CONDITIONAL** |
 | v2-T0+ | **Field expansion + generated-regressor inference** (`scripts/08`, `outputs/`) | ✅ — n-limited; P1 survives SpringRank noise but not small-n |
-| 5 / Tier 1 | ORCID AR rebuild + dynamic out-of-sample test | ⛔ **not started** — gated on the v2 Tier-0 call |
+| T1-gate | **ORCID-AR gateway** — verify Yifeng's data + overlap-validate vs Wapman (`scripts/10–11`) | ✅ — method **validated** (academia ρ=0.74, full prestige coverage); per-field coverage-limited |
+| 5 / Tier 1 | ORCID AR rebuild + dynamic out-of-sample test | ⛔ **not started** — gateway passed; full build is the human's call |
+
+**ORCID-AR gateway (see [`outputs/ORCID_OVERLAP_VALIDATION_RESULT.md`](outputs/ORCID_OVERLAP_VALIDATION_RESULT.md)).**
+Verification-first check of Yifeng's *published* ORCID mobility-edges dataset (Zenodo 19651302,
+2.5 GB) before involving him. **Task 0 PASSES** — all four requirements met (education→employment
+structure via `role_type`, years, ROR 100%; field derivable via ORCID→OpenAlex). Built **63,711
+US PhD→faculty edges** (23.7k in 2011–2020), **85% ROR↔Wapman match, prestige coverage even across
+quartiles (NOT top-truncated like PSEO)**. Canonical SpringRank (α=0.5, binary) on the Wapman
+window reproduces Wapman's published ranks at **academia ρ=0.74** (≈ the ~0.77 bar) with elite
+privates intact; per-field 0.45–0.68 (below the public-Wapman benchmark) — **coverage-limited**
+(thin per-field edges + crude keyword field-tags), **not method failure**, both fixable with
+OpenAlex field tags + denser post-2020 ORCID. Within-window temporal split is stable (ρ=0.76),
+setting the noise floor for the real dynamic test. **No blocking ask for Yifeng.**
 
 **v2 Tier 0 (see [`results/TIER0_RESULT.md`](results/TIER0_RESULT.md)) — CONDITIONAL.**
 Built the spec'd generic, source-agnostic gap machinery (`src/{load_ar,load_er,gap,predictions}.py`,

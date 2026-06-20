@@ -95,11 +95,24 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
     quartile; ~18 of the top-20 elite privates absent. Used for the undergrad dispersion proxy
     only (the gap itself uses Scorecard, which spans the full hierarchy).
 
-## 8. AR pipeline inputs — ORCID + OpenAlex / Yifeng resolved edges  *(Tier 1 — not started)*
+## 8. AR pipeline inputs — ORCID + OpenAlex / Yifeng resolved edges  *(Tier-1 gateway — VERIFIED)*
 
-- ORCID public data file (`https://orcid.org/`, CC0); OpenAlex (`https://docs.openalex.org/`, CC0);
-  Yifeng Li resolved academic-mobility edges (Zenodo 10.5281/zenodo.19651302) for the 2021–2026
-  AR rebuild (proposal v2 §5.1, §11). Gated on the Tier-0 decision.
+- **Yifeng Li, ORCID-Derived Academic Mobility Edges** — Zenodo **10.5281/zenodo.19651302**,
+  version 20260419 (published 2026-04-19). One file `20260419.7z` (2,500,806,456 bytes) →
+  extracts to **681 parquet shards `edge_aff/`** (~3.4 GB), 58 cols, one row per person
+  affiliation **transition** (FROM→TO). Download:
+  `https://zenodo.org/api/records/19651302/files/20260419.7z/content`. Resolver code:
+  `github.com/yifen9/cs2n-orcid-affiliation-resolver` (orgs→ROR, cities→GeoNames).
+  **Accessed:** 2026-06-20. Must be supplied at `data/yifeng_orcid/20260419.7z` (gitignored).
+  - **Key columns:** `role_type_from/to` (education|employment), `role_from/to` (titles),
+    `org_from/to_ror_id`+`_name` (ROR, 100% filled), `org_country_from/to` (lowercase ISO,
+    'us'), `epi_start_year_to` (employment-start year), `person_orcid`, `org_dept_from/to`.
+  - **Use:** PhD→faculty = `role_type_from=education` & `role_type_to=employment`, doctoral
+    `role_from`, faculty `role_to`, US→US. Field NOT in data → derive via `person_orcid`→OpenAlex
+    (rigorous) or degree-title/dept keyword (crude, used in the gateway). Verified sufficient to
+    rebuild a Wapman-style hierarchy (`outputs/ORCID_OVERLAP_VALIDATION_RESULT.md`).
+- ORCID public data file (`https://orcid.org/`, CC0); OpenAlex (`https://docs.openalex.org/`, CC0)
+  — for the per-person field tag in the full Tier-1 build.
 
 ---
 
