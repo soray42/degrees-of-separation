@@ -1,0 +1,31 @@
+field,label,n_institutions,gap,reliable_flag,signal_frac,grad_share_acs,grad_degree_share,licensed,regime
+biomedical_engineering,Biomedical Engineering,48,0.3505210594876249,False,0.02,0.6259473464100289,,False,PhD-pipeline
+materials_science,Materials Science,23,0.48814229249011853,False,0.02,0.5441389053157237,,False,PhD-pipeline
+biochemistry,Biochemistry,47,0.5783996299722478,False,0.02,0.6939318505691144,71.939,False,PhD-pipeline
+biology,Biology,137,0.649835719752833,True,0.7025255868578267,0.6233120284807786,63.983,False,PhD-pipeline
+physics,Physics,43,0.6547870733917245,False,0.341147058782307,0.6742975443971088,67.255,False,PhD-pipeline
+philosophy,Philosophy,41,0.656794425087108,True,0.6026849810458851,0.5948126781798706,56.853,False,PhD-pipeline
+chemistry,Chemistry,76,0.6869446343130553,False,0.02,0.656831220341384,67.479,False,PhD-pipeline
+astronomy,Astronomy,3,,False,,0.5763302752293578,,False,PhD-pipeline
+neuroscience,Neuroscience,1,,False,,0.6487554841231918,,False,PhD-pipeline
+accounting,Accounting,94,0.48753201434486415,True,0.83097827738116,0.33787468348765526,33.667,True,license-standardization
+civil_engineering,Civil Engineering,105,0.49423595272651877,False,0.02,0.4031960041852436,37.138,True,license-standardization
+nursing,Nursing,99,0.9270871985157699,True,0.6704375583208504,0.3131469329157607,30.292,True,license-standardization
+communication_disorders,Communication Disorders,17,1.2083333333333335,True,0.5076906211500589,0.7917348714479725,,True,license-standardization
+statistics,Statistics,28,0.24630541871921174,False,0.7829352630687658,0.5361692202805985,,False,prestige-transmission
+computer_science,Computer Science,161,0.29178168852081887,True,0.9213860069540853,0.33906460117365184,32.691,False,prestige-transmission
+computer_engineering,Computer Engineering,74,0.30252499074416894,False,0.5350060051530409,0.41240272373540854,39.432,False,prestige-transmission
+economics,Economics,116,0.31255261811900503,True,0.8960483529207539,0.4279617113450633,41.595,False,prestige-transmission
+political_science,Political Science,139,0.3430090710040664,True,0.7237827992916619,0.5316098730852121,52.741,False,prestige-transmission
+mechanical_engineering,Mechanical Engineering,133,0.3819854469569246,False,0.18269129811996473,0.39718989393046555,39.059,False,prestige-transmission
+mathematics,Mathematics,120,0.3844294742690466,True,0.8669570396855154,0.5282264385028165,51.343,False,prestige-transmission
+finance,Finance,89,0.4134661218930882,True,0.9379496417067053,0.31337677594935637,31.483,False,prestige-transmission
+history,History,131,0.4134735493514119,True,0.7313475035421256,0.5003402897324007,51.388,False,prestige-transmission
+psychology,Psychology,173,0.42872373465102365,True,0.7658712656561861,0.5283575889142536,51.864,False,prestige-transmission
+sociology,Sociology,114,0.4300115429011159,False,0.5142813756373609,0.4066391921339678,39.137,False,prestige-transmission
+aerospace_engineering,Aerospace Engineering,35,0.4443588472962683,False,0.02,0.5244873002826614,45.525,False,prestige-transmission
+chemical_engineering,Chemical Engineering,91,0.45185539098582583,False,0.02,0.479563795255153,48.111,False,prestige-transmission
+electrical_engineering,Electrical Engineering,118,0.48708724939975157,True,0.7084369681141848,0.48985211329815853,47.67,False,prestige-transmission
+english,English,135,0.5059799043995707,True,0.5794193392387565,0.496517500906415,46.201,False,prestige-transmission
+anthropology,Anthropology,75,0.5079089615931721,False,0.5434850451823682,0.48516662653057446,48.2,False,prestige-transmission
+earth_sciences,Earth Sciences,50,0.7151980792316928,False,0.02,0.49666102220420233,45.557,False,prestige-transmission

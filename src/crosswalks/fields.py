@@ -283,6 +283,124 @@ def sdr_salary_field_for(key: str) -> Optional[str]:
     return SDR_SALARY_FIELD_BY_KEY.get(key)
 
 
+# ---------------------------------------------------------------------------
+# Field -> ACS PUMS FOD1P (field-of-bachelor's-degree) crosswalk.
+# Codes verified verbatim from PUMS_Data_Dictionary_2023.txt (174 FOD1P codes).
+# Used for the NON-TRUNCATED within-field earnings-dispersion proxy (full ACS
+# population, includes private-institution graduates, no institution suppression).
+# Sub-disciplines aggregated where natural; biochemistry/neuroscience kept SEPARATE
+# from biology (they are their own project fields).
+# ---------------------------------------------------------------------------
+FOD1P_BY_KEY: dict[str, list[str]] = {
+    "computer_science": ["2102"],
+    "mathematics": ["3700", "3701"],
+    "statistics": ["3702"],
+    "electrical_engineering": ["2408"],
+    "mechanical_engineering": ["2414"],
+    "civil_engineering": ["2406"],
+    "chemical_engineering": ["2405"],
+    "materials_science": ["2413", "5008"],
+    "aerospace_engineering": ["2401"],
+    "biomedical_engineering": ["2404"],
+    "computer_engineering": ["2407"],
+    "physics": ["5007"],
+    "chemistry": ["5003"],
+    "biology": ["3600", "3602", "3603", "3604", "3605", "3606", "3607", "3608", "3609", "3699"],
+    "biochemistry": ["3601"],
+    "neuroscience": ["3611"],
+    "astronomy": ["5001"],
+    "earth_sciences": ["5004", "5005"],
+    "economics": ["5501"],
+    "political_science": ["5506"],
+    "sociology": ["5507"],
+    "anthropology": ["5502"],
+    "psychology": ["5200", "5201", "5202", "5203", "5205", "5206", "5299"],
+    "english": ["3301"],
+    "history": ["6402", "6403"],
+    "philosophy": ["4801"],
+    "finance": ["6207"],
+    "accounting": ["6201"],
+    "nursing": ["6107"],
+    "communication_disorders": ["6102"],
+}
+
+
+def fod1p_for(key: str) -> list[str]:
+    """ACS FOD1P code(s) for a Tier-0 field (ACS dispersion proxy)."""
+    return list(FOD1P_BY_KEY.get(key, []))
+
+
+def fod1p_to_field_key() -> dict[str, str]:
+    out: dict[str, str] = {}
+    for k, codes in FOD1P_BY_KEY.items():
+        for c in codes:
+            out[c] = k
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Field -> NY Fed "Labor Market for Recent College Graduates" major crosswalk.
+# NY Fed taxonomy is coarser than FOD1P; only clean 1:1 matches are mapped (None
+# where a field folds into a NY Fed bucket, to avoid forced/misleading joins).
+# Provides field-level descriptive correlates: unemployment, underemployment,
+# early/mid wage, and SHARE-WITH-GRADUATE-DEGREE (the continuous pipeline-intensity
+# measure used by the regime typology).
+# ---------------------------------------------------------------------------
+NYFED_MAJOR_BY_KEY: dict[str, Optional[str]] = {
+    "computer_science": "Computer Science",
+    "mathematics": "Mathematics",
+    "statistics": None,                 # folds into Business Analytics / Mathematics
+    "electrical_engineering": "Electrical Engineering",
+    "mechanical_engineering": "Mechanical Engineering",
+    "civil_engineering": "Civil Engineering",
+    "chemical_engineering": "Chemical Engineering",
+    "materials_science": None,          # -> Miscellaneous Engineering
+    "aerospace_engineering": "Aerospace Engineering",
+    "biomedical_engineering": None,     # -> Miscellaneous Engineering
+    "computer_engineering": "Computer Engineering",
+    "physics": "Physics",
+    "chemistry": "Chemistry",
+    "biology": "Biology",
+    "biochemistry": "Biochemistry",
+    "neuroscience": None,               # -> Biology / Misc Biological Science
+    "astronomy": None,                  # -> Physics / Misc Physical Sciences
+    "earth_sciences": "Earth Sciences",
+    "economics": "Economics",
+    "political_science": "Political Science",
+    "sociology": "Sociology",
+    "anthropology": "Anthropology",
+    "psychology": "Psychology",
+    "english": "English Language",
+    "history": "History",
+    "philosophy": "Philosophy",
+    "finance": "Finance",
+    "accounting": "Accounting",
+    "nursing": "Nursing",
+    "communication_disorders": None,    # NY Fed has no speech/comm-disorders major
+}
+
+
+def nyfed_major_for(key: str) -> Optional[str]:
+    return NYFED_MAJOR_BY_KEY.get(key)
+
+
+# ---------------------------------------------------------------------------
+# Ex-ante licensure classification (external, NOT from the gap).
+# Hand-coded binary for the clearly license-standardized fields, per the
+# certification/licensing literature (rule documented in results/REGIME_NOTE.md):
+# a field is LICENSED iff entry to its modal occupation requires a standardized
+# external license/credential that prices the graduate largely independent of
+# department prestige — nursing (RN/NCLEX), speech-language (CCC-SLP/state license),
+# accounting (CPA), civil engineering (PE, effectively required to practice).
+# Other engineering: PE exists but is optional for most industry roles -> 0.
+# ---------------------------------------------------------------------------
+LICENSED_FIELDS = {"nursing", "communication_disorders", "accounting", "civil_engineering"}
+
+
+def is_licensed(key: str) -> bool:
+    return key in LICENSED_FIELDS
+
+
 def tier0_fields() -> list[dict]:
     """Return the curated Tier-0 field list (a copy)."""
     return [dict(f) for f in TIER0_FIELDS]

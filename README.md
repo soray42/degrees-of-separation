@@ -40,6 +40,16 @@ disclosure-suppressed and PSEO is prestige-truncated (misses the elite-private t
 two-level PhD-ER enrichment is data-blocked. The top-tier case now rests solely on the untested
 **Tier-1 dynamic compression**. Proceed only if that bet is worth the ORCID-rebuild cost.
 
+**v2 Tier-0 addendum — final open-data static layer (`scripts/04–07`, `src/dispersion.py`).**
+Re-tested P1 off **non-truncated** dispersion (full-pop **ACS PUMS**; non-suppressed PSEO-state)
+and added an ex-ante **regime typology** (licensure + ACS grad-share) and NY-Fed correlates.
+Result: **P1 firmed up** — −0.51 (p=0.06) on early-career ACS, **−0.71 (p=0.015)** on the
+cleanest fields, vs −0.28 on the old truncated PSEO (truncation was attenuating it). The
+high-gap fields resolve by channel (license-standardization 0.87 · PhD-pipeline 0.65 ·
+prestige-transmission 0.40). Verdict moves to **CONDITIONAL leaning GO-to-Tier1**: solid static
+floor; ceiling unchanged (BA-level, salary-anchored; no PhD/private ER without Revelio); the
+Nature-tier call reduces to the Tier-1 dynamic bet. See `results/TIER0_RESULT.md` (final read).
+
 **Tier 0 outcome (see [`notes/TIER0_RESULT.md`](notes/TIER0_RESULT.md)):** conditions 1
 (variation) and 3 (CS is the 2nd-lowest-gap field of 20) **PASS**; condition 2 (gap falls
 with the industry-share proxy) **FAILS**. ⇒ ran a Tier 0.5 mechanism diagnosis.

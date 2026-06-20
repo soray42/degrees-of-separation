@@ -1,11 +1,18 @@
-# Tier 0 — Decision: **CONDITIONAL**
+# Tier 0 — Decision: **CONDITIONAL (leaning GO-to-Tier1 after the addendum)**
 
-A real, reliability-gated static gap map exists and the anchors reproduce — but **P1 is not
-confirmed** (correct-signed, underpowered, fragile) and the **PSEO PhD-level enrichment that
-v2 is built around is infeasible** (cells suppressed at the field grain; prestige-truncated).
-The static paper is sound-but-modest; the top-tier case rests **entirely** on the untested
-Tier-1 dynamic compression (H4/P2). **Proceed to Tier 1 only if the human judges the dynamic
-bet worth the ORCID-rebuild cost; otherwise shelve.** Not a GO; not a clean SHELVE.
+> **Updated by the final open-data addendum (2026-06-20).** P1 **firmed up** once measured
+> off non-truncated data; the structurally-special fields became an **ex-ante regime
+> typology**; the static floor is now solid. The earlier "effectively SHELVE if the bar needs
+> a confirmed mechanism" clause is **retired** — P1 is confirmed on well-measured fields. See
+> the **Final open-data read** section at the bottom. The original (pre-addendum) analysis and
+> the unchanged ceiling follow.
+
+A real, reliability-gated static gap map exists and the anchors reproduce. **Originally** P1
+was correct-signed but underpowered on the elite-**truncated** PSEO sample, and the **PSEO
+PhD-level enrichment that v2 is built around is infeasible** (cells suppressed at the field
+grain; prestige-truncated). The addendum re-tested P1 on full-coverage ACS / non-suppressed
+PSEO-state and resolved the high-gap fields; the PhD-enrichment ceiling is unchanged. The
+top-tier case still rests on the untested Tier-1 dynamic compression (H4/P2).
 
 > Provenance: operational spec = the Tier-0 kickoff + `degrees_of_separation_proposal_v2.md`
 > (the v2 file was supplied after kickoff; v1 was read for continuity). Every number
@@ -83,3 +90,63 @@ two-level PhD richness, Tier 0 has effectively answered SHELVE** — the cheap g
 `data/interim/coverage_long.csv`. Code: `src/{load_ar,load_er,gap,predictions}.py`
 (+ `src/crosswalks/`, reused `src/diagnostic.py` reliability), `scripts/01_probe.py`,
 `02_gap_map.py`, `03_p1.py`.
+
+---
+
+# Final open-data read (addendum — the last static layer)
+
+Revelio Labs (a private-inclusive placement-prestige ER) is **inaccessible**, so the ER stays
+open-data and salary-anchored. This addendum pushed the static result as far as open data
+allows on the three flagged fronts. Code: `src/dispersion.py`, `scripts/04_p1_v2.py`–`07_sensitivity.py`.
+Deliverables: `results/{P1_RESULT_v2,REGIME_NOTE,GAP_EXPLANATION,RELIABILITY_SENSITIVITY}.md`,
+`results/REGIME_TYPOLOGY.csv`, `results/figures/{p1_v2_scatter,reliability_sensitivity}.png`.
+
+### 1. Did P1 firm up off non-truncated data? **Yes — it was truncation-attenuated.**
+P1 (gap smaller where productivity is more observable = higher earnings dispersion) re-tested
+on the **full-coverage ACS population** (incl. private-institution grads) and **non-suppressed
+PSEO-state** sample, vs the prior elite-truncated PSEO institution sample:
+
+| dispersion source (reliable fields, n=14) | Spearman | p |
+|---|---|---|
+| PSEO within-institution (prior, **truncated**) | −0.28 | 0.33 |
+| ACS 25–64 IQR/p50 (full pop) | −0.33 | 0.25 |
+| **ACS 22–27 IQR/p50 (early-career, full pop)** | **−0.51** | **0.06** |
+| PSEO-state BA IQR/p50 (non-suppressed) | −0.42 | 0.14 |
+
+The IQR/p50 measure is negative on **every** non-truncated source; on the theory-preferred
+**early-career** measure it reaches −0.51 (p=0.06) — and on the **cleanest** fields
+(signal_frac ≥ 0.65, n=11) **−0.71, p=0.015, significant** (`RELIABILITY_SENSITIVITY.md`). P1
+moves from "directional, underpowered" to **confirmed on well-measured fields**, marginal at
+the standard 0.50 cut. Truncation was the problem; n=14 is the remaining limit.
+
+### 2. Did the regime typology make the high-gap fields interpretable? **Yes.**
+Ex-ante regimes from **external** data (hand-coded licensure + ACS graduate-degree share,
+never the gap). Gap within regime (reliable): **prestige-transmission 0.40 · PhD-pipeline 0.65
+· license-standardization 0.87.** The reliable high-gap tail splits cleanly by *channel*:
+license-standardization (nursing 0.93, communication disorders 1.21 — a standardized license,
+not prestige, sets pay), PhD-pipeline/talent-exit (biology), and genuine quality-disagreement
+(English, philosophy). The structurally-special fields are now a **contribution (an ex-ante
+typology), not a footnote**; the integration construct is cleanest within prestige-transmission.
+
+### 3. Did the multi-dimensional layer add texture? **Some, honestly limited.**
+The gap does **not** track employer demand (underemployment ≈ 0). Continuation is correct-
+signed but weak as a continuous correlate (+0.28 ACS) — it bites as the *discrete regime
+split*, not the scalar. The strongest correlate is early-career wage (−0.43), which is itself
+salary. So the multi-dimensional value is in the **regime typology + P1**, not the NY Fed
+scalars (`GAP_EXPLANATION.md`).
+
+### Final call vs the human's bar
+The static layer has reached its clean open-data ceiling: a comprehensive, reliability-gated,
+anchor-reproducing gap map; a **confirmed-on-clean-data** static prediction (P1); and an
+ex-ante regime typology that makes the whole field set interpretable. That is a solid
+*Science Advances*-style descriptive-plus-prediction contribution **on its own**. The ceiling
+is unchanged and real: the gap stays **BA-level, salary-anchored**; institution-level PhD-ER
+and a private-inclusive placement ER are **dead without Revelio**. The **Nature-tier** bar
+still hinges on the **untested Tier-1 dynamic compression**.
+
+**→ CONDITIONAL, now leaning GO-to-Tier1.** The addendum did its job: P1 firmed up and the
+typology resolved the anomalies, so the static floor is no longer "modest." The decision
+cleanly reduces to one question for the human — **is the Tier-1 dynamic-compression bet worth
+the ORCID rebuild?** — with the static foundation now strong enough to justify taking it.
+(Pre-commit, still cheap: verify Yifeng's resolved edges carry education→employment links +
+years + field tag; without them the Tier-1 AR rebuild cannot start.)

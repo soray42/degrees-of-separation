@@ -103,10 +103,39 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
 
 ---
 
+## 9. Addendum — non-truncated dispersion + multi-dimensional correlates  *(v2 Tier-0 addendum)*
+
+- **ACS PUMS 2023, 1-year, national person file** (non-truncated within-field earnings
+  dispersion; full US pop incl. private-institution grads, no suppression).
+  `https://www2.census.gov/programs-surveys/acs/data/pums/2023/1-Year/csv_pus.zip`
+  → `data/raw/acs/psam_pusa.csv`, `psam_pusb.csv` (3.41M persons). Dict:
+  `…/tech_docs/pums/data_dict/PUMS_Data_Dictionary_2023.txt` → `data/raw/acs/`.
+  Variables: `FOD1P` (field of degree, 174 codes; crosswalk in `src/crosswalks/fields.py`),
+  `PERNP`/`WAGP` (earnings), `SCHL` (≥21 = bachelor's+; 22 = master's, 24 = doctorate),
+  `AGEP`, `WKHP` (≥35 FT), `ESR` (1,2 employed), `PWGTP` (person weight). Accessed 2026-06-20.
+  246k workers map to the 30 fields. Cached filtered set: `data/interim/acs_workers.parquet`.
+- **PSEO state-level** (non-suppressed dispersion): the `inst_level == 'S'` rows of
+  `pseoe_all.csv.gz` (§7), `institution` = state FIPS. **Bachelor's earnings survive state-level
+  pooling; master's & doctoral remain 100% suppressed even at state level** (a finding).
+- **NY Fed "The Labor Market for Recent College Graduates"** (field-level descriptive
+  correlates: unemployment, underemployment, early/mid wage, share-with-graduate-degree).
+  **Verified .xlsx** (updated 2026-02-04; the HTML page 403s and naive 404→200 redirects fool
+  `curl -w`): `https://www.newyorkfed.org/medialibrary/Research/Interactives/Data/college-labor-market/College-labor-data`
+  → `data/raw/nyfed/College-labor-data.xlsx`. Sheet "outcomes by major", 73 majors + Overall.
+  Source inside: ACS (IPUMS) + O\*NET. Crosswalk (clean 1:1 only) in `fields.py`.
+- **CPS licensing (certification/licensing question, 2015+)** — *not pulled as microdata.* The
+  licensure regime (`src/crosswalks/fields.py::LICENSED_FIELDS`) is a **hand-coded ex-ante
+  binary** (nursing, communication disorders, accounting/CPA, civil/PE), rule documented in
+  `results/REGIME_NOTE.md`. CPS basic-monthly `PRCERTEXAM`/`PECERT1-3` is the source to validate
+  against later if a continuous rate is wanted; not required for the ex-ante binary.
+
+---
+
 > **Operational-spec note.** This Tier-0 round follows the kickoff prompt +
 > `degrees_of_separation_proposal_v2.md`. The v2 file was supplied *after* the kickoff began;
 > work proceeded on the kickoff's self-contained spec (gap construct identical to v1) and was
-> reconciled to v2 once available. No construct changed.
+> reconciled to v2 once available. No construct changed. The addendum (§9, Tasks 1–4) extends
+> the same repo; the gap construct is still unchanged.
 
 ---
 
