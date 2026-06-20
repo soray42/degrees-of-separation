@@ -42,11 +42,14 @@ def weighted_quantile(values, weights, q):
 # ---------------------------------------------------------------------------
 # ACS PUMS
 # ---------------------------------------------------------------------------
-def load_acs_workers(earn_col: str = "PERNP", refresh: bool = False) -> pd.DataFrame:
-    """Bachelor's-or-higher, full-time-employed persons with a field of degree, mapped
-    to the 30 project fields. Cached to parquet after first build."""
-    if ACS_CACHE.exists() and not refresh:
-        return pd.read_parquet(ACS_CACHE)
+def load_acs_workers(earn_col: str = "PERNP", refresh: bool = False, expanded: bool = False) -> pd.DataFrame:
+    """Bachelor's-or-higher, full-time-employed persons with a field of degree, mapped to
+    project fields. `expanded=True` maps over ALL_FIELDS (biology FOD1P narrowed; +expansion).
+    Cached to parquet per universe."""
+    cache = ACS_CACHE.with_name("acs_workers_expanded.parquet") if expanded else ACS_CACHE
+    if cache.exists() and not refresh:
+        return pd.read_parquet(cache)
+    code_map = F.fod1p_to_field_key(F.fod1p_by_key_all() if expanded else None)
     need = ["FOD1P", "PERNP", "WAGP", "SCHL", "AGEP", "WKHP", "ESR", "PWGTP"]
     frames = []
     for f in sorted(glob.glob(ACS_GLOB)):
@@ -56,10 +59,10 @@ def load_acs_workers(earn_col: str = "PERNP", refresh: bool = False) -> pd.DataF
     acs = acs[(acs.SCHL >= 21) & acs.FOD1P.notna() & (acs.WKHP >= 35) &
               acs.ESR.isin([1, 2]) & (acs[earn_col] > 0)].copy()
     acs["fod1p"] = acs.FOD1P.astype(int).astype(str).str.zfill(4)
-    acs["field"] = acs.fod1p.map(F.fod1p_to_field_key())
+    acs["field"] = acs.fod1p.map(code_map)
     acs = acs[acs.field.notna()].copy()
-    ACS_CACHE.parent.mkdir(parents=True, exist_ok=True)
-    acs.to_parquet(ACS_CACHE)
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    acs.to_parquet(cache)
     return acs
 
 

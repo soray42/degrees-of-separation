@@ -1,0 +1,55 @@
+field,label,new,ar_inst,sc_inst,overlap,signal_frac,gap,reliable_50
+accounting,Accounting,False,146,834,94,0.83097827738116,0.48753201434486415,True
+aerospace_engineering,Aerospace Engineering,False,69,59,35,0.02,0.4443588472962683,False
+agricultural_economics,Agricultural Economics,True,42,14,4,0.5096848515102754,1.2,False
+agronomy,Agronomy,True,23,45,11,0.02,0.9272727272727272,False
+animal_sciences,Animal Sciences,True,53,79,35,0.02,0.8039215686274509,False
+anthropology,Anthropology,False,172,189,75,0.5434850451823682,0.5079089615931721,False
+architecture,Architecture,True,85,79,34,0.02,0.7770817417876241,False
+astronomy,Astronomy,False,92,4,3,,,False
+atmospheric_sciences,Atmospheric Sciences,True,50,18,4,0.019999999999999997,0.0,False
+biochemistry,Biochemistry,False,168,110,47,0.02,0.5783996299722478,False
+biology,Biology,False,201,871,137,0.7025255868578267,0.649835719752833,True
+biomedical_engineering,Biomedical Engineering,False,86,118,48,0.02,0.3505210594876249,False
+biostatistics,Biostatistics,True,57,3,0,,,False
+chemical_engineering,Chemical Engineering,False,128,159,91,0.02,0.45185539098582583,False
+chemistry,Chemistry,False,223,213,76,0.02,0.6869446343130553,False
+civil_engineering,Civil Engineering,False,150,234,105,0.02,0.49423595272651877,False
+communication_disorders,Communication Disorders,False,68,266,17,0.5076906211500589,1.2083333333333335,True
+computer_engineering,Computer Engineering,False,147,192,74,0.5350060051530409,0.30252499074416894,False
+computer_science,Computer Science,False,216,791,161,0.9213860069540853,0.29178168852081887,True
+earth_sciences,Earth Sciences,False,161,139,50,0.02,0.7151980792316928,False
+ecology,Ecology,True,40,63,11,0.02,0.6454545454545454,False
+economics,Economics,False,200,370,116,0.8960483529207539,0.31255261811900503,True
+electrical_engineering,Electrical Engineering,False,184,261,118,0.7084369681141848,0.48708724939975157,True
+english,English,False,203,577,135,0.5794193392387565,0.5059799043995707,True
+environmental_engineering,Environmental Engineering,True,118,46,19,0.02,0.8105263157894737,False
+environmental_sciences,Environmental Sciences,True,104,290,48,0.3349766440658893,0.7708423795049935,False
+finance,Finance,False,143,459,89,0.9379496417067053,0.4134661218930882,True
+food_science,Food Science,True,47,29,16,0.29048455088871833,0.2382352941176471,False
+forestry,Forestry,True,31,31,17,0.02,1.1495098039215685,False
+geography,Geography,True,99,118,41,0.02,0.7618466898954703,False
+history,History,False,209,460,131,0.7313475035421256,0.4134735493514119,True
+industrial_engineering,Industrial Engineering,True,71,96,39,0.02,0.5064777327935223,False
+management,Management,True,158,1262,90,0.852183375537622,0.5248055315471045,True
+marketing,Marketing,True,136,531,81,0.8572949217736613,0.4815266485998193,True
+materials_science,Materials Science,False,89,36,23,0.02,0.48814229249011853,False
+mathematics,Mathematics,False,220,328,120,0.8669570396855154,0.3844294742690466,True
+mechanical_engineering,Mechanical Engineering,False,175,321,133,0.18269129811996473,0.3819854469569246,False
+microbiology,Microbiology,True,115,53,17,0.02,0.9338235294117647,False
+music,Music,True,171,275,76,0.4652833013426616,0.9607655502392345,False
+neuroscience,Neuroscience,False,77,5,1,,,False
+nursing,Nursing,False,143,1023,99,0.6704375583208504,0.9270871985157699,True
+pharmacy,Pharmacy,True,47,29,8,0.9252362279712835,0.5714285714285714,False
+philosophy,Philosophy,False,192,86,41,0.6026849810458851,0.656794425087108,True
+physics,Physics,False,214,108,43,0.341147058782307,0.6547870733917245,False
+physiology,Physiology,True,108,64,16,0.26077534252053597,1.3441176470588236,False
+political_science,Political Science,False,194,569,139,0.7237827992916619,0.3430090710040664,True
+psychology,Psychology,False,239,1136,173,0.7658712656561861,0.42872373465102365,True
+public_health,Public Health,True,94,218,32,0.6561822172236617,0.4420821114369502,False
+religious_studies,Religious Studies,True,104,45,6,0.02,0.9142857142857143,False
+social_work,Social Work,True,124,443,68,0.1443425685830825,0.5516046837666929,False
+sociology,Sociology,False,188,465,114,0.5142813756373609,0.4300115429011159,False
+special_education,Special Education,True,53,185,19,0.1337772507692189,0.4508771929824561,False
+statistics,Statistics,False,117,50,28,0.7829352630687658,0.24630541871921174,False
+theatre,Theatre,True,101,260,46,0.3930556316190534,0.6237434474252236,False

@@ -27,6 +27,7 @@ This project is gated. **Nothing downstream is built until Tier 0 passes.**
 | 4.5 | **Tier 0.5 mechanism diagnosis** (`notebooks/tier0_5_diagnose.ipynb`) | ✅ — verdict **REFRAME** |
 | 4.6 | **Diagnostic: signal vs artifact** (`scripts/run_diagnostic.py`) | ✅ — verdict **REAL SIGNAL** (filter required) |
 | v2-T0 | **v2 Tier 0** — PSEO probe + generic gap map + P1 (`scripts/01–03`) | ✅ — verdict **CONDITIONAL** |
+| v2-T0+ | **Field expansion + generated-regressor inference** (`scripts/08`, `outputs/`) | ✅ — n-limited; P1 survives SpringRank noise but not small-n |
 | 5 / Tier 1 | ORCID AR rebuild + dynamic out-of-sample test | ⛔ **not started** — gated on the v2 Tier-0 call |
 
 **v2 Tier 0 (see [`results/TIER0_RESULT.md`](results/TIER0_RESULT.md)) — CONDITIONAL.**
@@ -49,6 +50,18 @@ high-gap fields resolve by channel (license-standardization 0.87 · PhD-pipeline
 prestige-transmission 0.40). Verdict moves to **CONDITIONAL leaning GO-to-Tier1**: solid static
 floor; ceiling unchanged (BA-level, salary-anchored; no PhD/private ER without Revelio); the
 Nature-tier call reduces to the Tier-1 dynamic bet. See `results/TIER0_RESULT.md` (final read).
+
+**Field expansion + generated-regressor inference (`scripts/08_expand.py` → `outputs/`).**
+Expanded the universe 30→**54 fields** (Wapman→CIP+FOD1P; mapping failures logged, not hidden)
+and put proper inference on P1. Two findings: (1) the expansion added only ~2 reliable fields
+(16 vs 14 at the 0.50 gate) — **a real open-data ceiling** (most remaining Wapman fields are
+thin/suppressed/uncrosswalkable, so **n is not the available lever**). (2) A nested
+generated-regressor bootstrap (multinomial **edge resample + SpringRank re-run** — our
+from-scratch SpringRank reproduces Wapman ranks at ρ≈0.72–0.84 — plus earnings/dispersion
+noise): **SpringRank estimation noise alone does NOT overturn P1** (gen-reg CI excludes 0), but
+adding the **small-n** field-sampling uncertainty, the full two-level CI includes 0 at the 0.50
+gate (p=0.29) and is marginal at 0.65 (p=0.086). **The binding limitation is n, not the
+generated regressor.** See `outputs/FIELD_EXPANSION_RESULT.md`.
 
 **Tier 0 outcome (see [`notes/TIER0_RESULT.md`](notes/TIER0_RESULT.md)):** conditions 1
 (variation) and 3 (CS is the 2nd-lowest-gap field of 20) **PASS**; condition 2 (gap falls

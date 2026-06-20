@@ -34,6 +34,7 @@ data/processed/*
 !src/**/*.csv
 # ...and keep small, reviewable result tables
 !results/**/*.csv
+!outputs/**/*.csv
 
 # ---- Results: keep figures/tables, they are small + reviewable ----
 # (figures/tables are committed; nothing ignored here by default)

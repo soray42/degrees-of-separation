@@ -23,15 +23,18 @@ WAPMAN_RANKS = ROOT / "data" / "raw" / "wapman2022" / "ranks.csv"
 WAPMAN_PERIOD = "2011-2020"
 
 
-def load_ar_wapman(path: Path = WAPMAN_RANKS, period: str = WAPMAN_PERIOD) -> pd.DataFrame:
-    """Wapman SpringRank (pooled decade) → normalized AR table over the Tier-0 fields.
+def load_ar_wapman(path: Path = WAPMAN_RANKS, period: str = WAPMAN_PERIOD,
+                   fields=None) -> pd.DataFrame:
+    """Wapman SpringRank (pooled decade) → normalized AR table over the curated fields.
 
     `Rank` is the SpringRank prestige ordinal (0 = most prestigious). One row per
-    (institution, field). Restricted to `TaxonomyLevel == "Field"` and the curated fields.
+    (institution, field). Restricted to `TaxonomyLevel == "Field"`. Pass `fields=F.ALL_FIELDS`
+    for the expanded universe; defaults to the 30 Tier-0 fields.
     """
+    flds = fields if fields is not None else F.TIER0_FIELDS
     r = pd.read_csv(path)
     r = r[r["TaxonomyLevel"] == "Field"].copy()
-    wf2key = {f["wapman_field"]: f["key"] for f in F.TIER0_FIELDS}
+    wf2key = {f["wapman_field"]: f["key"] for f in flds}
     r = r[r["TaxonomyValue"].isin(wf2key)].copy()
     out = pd.DataFrame({
         "inst_key": r["InstitutionName"].map(normalize_institution_name),

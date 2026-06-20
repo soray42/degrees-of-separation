@@ -330,9 +330,11 @@ def fod1p_for(key: str) -> list[str]:
     return list(FOD1P_BY_KEY.get(key, []))
 
 
-def fod1p_to_field_key() -> dict[str, str]:
+def fod1p_to_field_key(code_map: Optional[dict] = None) -> dict[str, str]:
+    """Inverse FOD1P->field-key map. Pass fod1p_by_key_all() for the expanded universe;
+    defaults to the 30 Tier-0 fields' FOD1P_BY_KEY."""
     out: dict[str, str] = {}
-    for k, codes in FOD1P_BY_KEY.items():
+    for k, codes in (code_map if code_map is not None else FOD1P_BY_KEY).items():
         for c in codes:
             out[c] = k
     return out
@@ -401,13 +403,75 @@ def is_licensed(key: str) -> bool:
     return key in LICENSED_FIELDS
 
 
+# ---------------------------------------------------------------------------
+# v2 Tier-0 EXPANSION (field-universe push toward 50-60 of Wapman's 81 fields).
+# Each added field validated to have a Scorecard CIP4 + (for P1) an ACS FOD1P that do
+# NOT collide with an existing field, and Wapman∩Scorecard overlap >= 10. Mapping
+# failures are logged in outputs/FIELD_EXPANSION_RESULT.md, not silently dropped.
+# biostatistics & religious_studies are GAP-ONLY (their FOD1P collides with statistics /
+# philosophy) -> included in the gap universe, excluded from the ACS dispersion / P1.
+# ---------------------------------------------------------------------------
+EXPANSION_FIELDS: list[dict] = [
+    dict(key="management", label="Management", wapman_field="Management", domain="Business", cip4=["5202"]),
+    dict(key="marketing", label="Marketing", wapman_field="Marketing", domain="Business", cip4=["5214"]),
+    dict(key="social_work", label="Social Work", wapman_field="Social Work", domain="Social sciences", cip4=["4407"]),
+    dict(key="microbiology", label="Microbiology", wapman_field="Microbiology", domain="Natural sciences", cip4=["2605"]),
+    dict(key="physiology", label="Physiology", wapman_field="Physiology", domain="Natural sciences", cip4=["2609"]),
+    dict(key="geography", label="Geography", wapman_field="Geography", domain="Social sciences", cip4=["4507"]),
+    dict(key="public_health", label="Public Health", wapman_field="Public Health", domain="Health", cip4=["5122"]),
+    dict(key="architecture", label="Architecture", wapman_field="Architecture", domain="Engineering", cip4=["0402"]),
+    dict(key="industrial_engineering", label="Industrial Engineering", wapman_field="Industrial Engineering", domain="Engineering", cip4=["1435"]),
+    dict(key="atmospheric_sciences", label="Atmospheric Sciences", wapman_field="Atmospheric Sciences and Meteorology", domain="Natural sciences", cip4=["4004"]),
+    dict(key="pharmacy", label="Pharmacy", wapman_field="Pharmacy", domain="Health", cip4=["5120"]),
+    dict(key="food_science", label="Food Science", wapman_field="Food Science", domain="Agriculture", cip4=["0110"]),
+    dict(key="ecology", label="Ecology", wapman_field="Ecology", domain="Natural sciences", cip4=["2613"]),
+    dict(key="animal_sciences", label="Animal Sciences", wapman_field="Animal Sciences", domain="Agriculture", cip4=["0109"]),
+    dict(key="forestry", label="Forestry", wapman_field="Forestry and Forest Resources", domain="Agriculture", cip4=["0305"]),
+    dict(key="special_education", label="Special Education", wapman_field="Special Education", domain="Education", cip4=["1310"]),
+    dict(key="music", label="Music", wapman_field="Music, General", domain="Humanities", cip4=["5009"]),
+    dict(key="theatre", label="Theatre", wapman_field="Theatre Literature, History and Criticism", domain="Humanities", cip4=["5005"]),
+    dict(key="environmental_engineering", label="Environmental Engineering", wapman_field="Environmental Engineering", domain="Engineering", cip4=["1414"]),
+    dict(key="environmental_sciences", label="Environmental Sciences", wapman_field="Environmental Sciences", domain="Natural sciences", cip4=["0301", "3001"]),
+    dict(key="agronomy", label="Agronomy", wapman_field="Agronomy", domain="Agriculture", cip4=["0111"]),
+    dict(key="agricultural_economics", label="Agricultural Economics", wapman_field="Agricultural Economics", domain="Social sciences", cip4=["0103"]),
+    dict(key="biostatistics", label="Biostatistics", wapman_field="Biostatistics", domain="Mathematics and computing", cip4=["2611"]),       # gap-only (FOD1P 3702 collides w/ statistics)
+    dict(key="religious_studies", label="Religious Studies", wapman_field="Religious Studies", domain="Humanities", cip4=["3802"]),          # gap-only (FOD1P 4801 collides w/ philosophy)
+]
+ALL_FIELDS: list[dict] = TIER0_FIELDS + EXPANSION_FIELDS
+
+# FOD1P for the expansion fields (clean, collision-free). biology is NARROWED below so the
+# sub-bio fields (microbiology/physiology/ecology) don't collide. biostatistics &
+# religious_studies intentionally absent (gap-only).
+EXPANSION_FOD1P: dict[str, list[str]] = {
+    "management": ["6203"], "marketing": ["6206"], "social_work": ["5404"],
+    "microbiology": ["3606"], "physiology": ["3608"], "geography": ["5504"],
+    "public_health": ["6110"], "architecture": ["1401"], "industrial_engineering": ["2412"],
+    "atmospheric_sciences": ["5002"], "pharmacy": ["6108"], "food_science": ["1104"],
+    "ecology": ["3604"], "animal_sciences": ["1103"], "forestry": ["1302"],
+    "special_education": ["2310"], "music": ["6002"], "theatre": ["6001"],
+    "environmental_engineering": ["2410"], "environmental_sciences": ["1301"],
+    "agronomy": ["1105"], "agricultural_economics": ["1102"],
+}
+# Narrow biology's ACS FOD1P to general+misc so the added sub-bio fields are collision-free
+# (gap/CIP for biology is unchanged; only its ACS-dispersion point narrows in the expansion).
+_BIOLOGY_FOD1P_EXPANDED = ["3600", "3699"]
+
+
+def fod1p_by_key_all() -> dict[str, list[str]]:
+    """FOD1P map over ALL_FIELDS (biology narrowed; expansion added; collision-free)."""
+    m = {k: list(v) for k, v in FOD1P_BY_KEY.items()}
+    m["biology"] = list(_BIOLOGY_FOD1P_EXPANDED)
+    m.update({k: list(v) for k, v in EXPANSION_FOD1P.items()})
+    return m
+
+
 def tier0_fields() -> list[dict]:
     """Return the curated Tier-0 field list (a copy)."""
     return [dict(f) for f in TIER0_FIELDS]
 
 
-def field_keys() -> list[str]:
-    return [f["key"] for f in TIER0_FIELDS]
+def field_keys(fields: Optional[list[dict]] = None) -> list[str]:
+    return [f["key"] for f in (fields if fields is not None else TIER0_FIELDS)]
 
 
 def by_key(key: str) -> Optional[dict]:
@@ -451,10 +515,11 @@ def match_wapman_field(name: str) -> Optional[dict]:
     return None
 
 
-def cip4_to_field_key() -> dict[str, str]:
-    """Inverse map: every curated CIP-4 prefix -> field key (for tagging Scorecard rows)."""
+def cip4_to_field_key(fields: Optional[list[dict]] = None) -> dict[str, str]:
+    """Inverse map: every curated CIP-4 prefix -> field key (for tagging Scorecard rows).
+    Pass ALL_FIELDS for the expanded universe; defaults to the 30 Tier-0 fields."""
     out: dict[str, str] = {}
-    for f in TIER0_FIELDS:
+    for f in (fields if fields is not None else TIER0_FIELDS):
         for c in f["cip4"]:
             out[c] = f["key"]
     return out

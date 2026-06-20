@@ -39,13 +39,13 @@ PSEO_DEGREE_LEVEL = {"undergrad": "05", "masters": "07", "phd": "17"}
 # Scorecard Field-of-Study (undergraduate ER, broad coverage)
 # ---------------------------------------------------------------------------
 def load_er_scorecard(level: str = "undergrad", earn_col: str = "EARN_MDN_4YR",
-                      count_col: str = "EARN_COUNT_WNE_4YR") -> pd.DataFrame:
+                      count_col: str = "EARN_COUNT_WNE_4YR", fields=None) -> pd.DataFrame:
     credlev = SCORECARD_CREDLEV[level]
     use = ["UNITID", "INSTNM", "CIPCODE", "CREDLEV", earn_col, count_col]
     df = pd.read_csv(SCORECARD_FOS, usecols=use, dtype=str)
     df = df[df["CREDLEV"] == credlev].copy()
     df["cip4"] = df["CIPCODE"].astype(str).str.zfill(4)
-    df["field"] = df["cip4"].map(F.cip4_to_field_key())
+    df["field"] = df["cip4"].map(F.cip4_to_field_key(fields))
     df = df[df["field"].notna()].copy()
     df["earn"] = pd.to_numeric(df[earn_col], errors="coerce")
     df["cohort"] = pd.to_numeric(df[count_col], errors="coerce")
