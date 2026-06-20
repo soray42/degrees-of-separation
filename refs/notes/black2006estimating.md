@@ -1,0 +1,10 @@
+# black2006estimating
+**Full citation:** Black, Dan A., and Jeffrey A. Smith (2006). Estimating the Returns to College Quality with Multiple Proxies for Quality. Journal of Labor Economics, 24(3), 701-728.
+**DOI / URL:** 10.1086/505067
+**Access level:** abstract only (publisher page returned 403; read abstract via AEA/RePEc/journal listing and search summaries)
+
+## What it contributes to THIS project
+This is our econometric authority for the core measurement headache in the ER ranking: every observable proxy for institution quality (or reputation) contains substantial measurement error, and using a single proxy biases the estimated return toward zero. Black and Smith show how to combine multiple imperfect proxies to recover the latent quality factor, which is exactly our situation when we assemble Employer Reputation from several behavioral columns (Scorecard median earnings by CIP, SDR salary, SDR sector) that each measure the same underlying labor-market standing with noise. Their result that single-proxy work understates the wage return to college quality tells us that a naive one-variable ER would understate the true prestige-earnings link and therefore distort Gap_field. It anchors our decision to build ER as a latent index rather than pick one earnings variable.
+
+## Specific equation / result / dataset we reuse
+We reuse their multiple-proxy estimation toolkit: four approaches to combining proxies for a latent quality factor — (1) factor analysis, (2) instrumental variables (one proxy instrumenting another), (3) the Lubotsky-Wittenberg optimal-weighting estimator, and (4) a GMM estimator — applied to proxies such as mean entering SAT, faculty-student ratio, rejection/acceptance rate, and faculty salary. For our pipeline the directly transplantable piece is the Lubotsky-Wittenberg weighting (and factor-analytic latent extraction) for collapsing several noisy ER signals into one measurement-error-corrected ER score per institution-field before ranking against SpringRank prestige.
