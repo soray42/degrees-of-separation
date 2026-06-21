@@ -181,9 +181,9 @@ def main():
          "Outcome-agnostic; ex-ante license/regime tags; AR anchored on Wapman edges (canonical "
          "SpringRank α=0.5, binary). Run: `python scripts/13_granularity.py`. Date 2026-06-20.\n",
          "## Task 1 — CIP-2 hierarchy + license-aware roll-up\n",
-         "Parent → children (★ = fine-reliable, [L] = license):\n"]
+         "Parent -> children (* = fine-reliable, [L] = license):\n"]
     for c2, g in gm.groupby("cip2"):
-        kids = ", ".join(LAB[r.field] + ("★" if r.reliable else "") + ("[L]" if r.license else "")
+        kids = ", ".join(LAB[r.field] + ("*" if r.reliable else "") + ("[L]" if r.license else "")
                          for _, r in g.iterrows())
         L.append(f"- **CIP{c2} {C2NAME.get(c2, c2)}** ({len(g)} fields, {int(g.reliable.sum())} reliable"
                  f"{', MIXED-LICENSE' if g.license.nunique()>1 else ''}): {kids}")

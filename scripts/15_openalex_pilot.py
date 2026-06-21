@@ -1,7 +1,7 @@
 """OpenAlex field-tagging PILOT — 2,000 random ORCIDs from the placement population.
 
 Measures Route A / Route B-rescue / union / residual hit rates BEFORE committing to the
-full 63,711-ORCID run (per the guide: "先拿 2,000 个随机 ORCID 跑一遍"). Also reports the
+full 63,711-ORCID run (validate hit rates on a random subsample first). Also reports the
 OpenAlex 26-field distribution and a consistency check against the existing free-text
 `field_text` heuristic, so we can judge whether OpenAlex tagging will actually change the
 per-field cut. Outcome-agnostic.

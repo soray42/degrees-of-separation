@@ -62,7 +62,7 @@ def main():
          "|---|---|---|---|---|---|---|"]
     for (name, ro), r in res.items():
         scope = "reliable only" if ro else "all (incl. unreliable)"
-        sign = "negative ✓" if r["sign_ok"] else "positive ✗"
+        sign = "negative (ok)" if r["sign_ok"] else "positive (wrong sign)"
         L.append(f"| {name} | {scope} | {r['n']} | {r['spearman']:+.3f} | {r['p']:.3f} | {sign} | {r['holds']} |")
     pp = res[("PSEO within-inst (primary)", True)]
     cv = res[("cross-inst CV (robustness)", True)]

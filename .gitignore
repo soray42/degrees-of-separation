@@ -49,6 +49,18 @@ secrets.*
 *.key
 config.local.*
 
+# ---- Narrative reports & internal planning docs (not part of the reproduction package) ----
+# The pipeline + committed figures/tables are the reproducible artifacts; the prose write-ups,
+# reading notes and planning docs are kept local, not shipped.
+notes/
+results/*.md
+outputs/*.md
+refs/notes/
+degrees_of_separation_proposal*.md
+
+# ---- Exploratory notebooks (scratch; the runnable pipeline lives in scripts/) ----
+notebooks/
+
 # ---- OS / editor ----
 .DS_Store
 Thumbs.db

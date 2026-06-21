@@ -1,31 +1,28 @@
-# Degrees of Separation — Python dependencies
-# Tested on Python 3.12. Install into a venv:
+# Degrees of Separation — pinned Python dependencies (reproduction)
+# Tested on Python 3.12.3. Install into a clean virtual environment:
 #   python -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
+#
+# Exact pins are the tested configuration. SpringRank is the canonical
+# De Bacco-Larremore-Moore package (https://github.com/LarremoreLab/SpringRank);
+# a self-contained NumPy/SciPy implementation also lives in src/ar_pipeline/springrank.py.
 
-# --- core scientific stack ---
-pandas>=2.2
-numpy>=1.26
-scipy>=1.12
-statsmodels>=0.14
-networkx>=3.2
+# core scientific stack
+numpy==2.4.6
+pandas==3.0.3
+scipy==1.18.0
+statsmodels==0.14.6
+patsy==1.0.2
+networkx==3.6.1
 
-# --- IO / data access ---
-requests>=2.31
-pyarrow>=15
-openpyxl>=3.1          # read College Scorecard / SDR .xlsx tables
-xlrd>=2.0              # legacy .xls (some NCSES releases)
+# IO / data access
+requests==2.34.2
+pyarrow==24.0.0
+openpyxl==3.1.5          # College Scorecard / NCSES .xlsx tables
+xlrd==2.0.2              # legacy .xls (older NCSES releases)
+python-dateutil==2.9.0.post0
 
-# --- plotting ---
-matplotlib>=3.8
+# plotting
+matplotlib==3.11.0
 
-# --- notebooks ---
-jupyter>=1.0
-nbformat>=5.9
-nbconvert>=7.0
-ipykernel>=6.29
-jupytext>=1.16        # pair .ipynb <-> .py for clean diffs
-
-# --- SpringRank ---
-springrank>=0.0.9     # canonical De Bacco-Larremore-Moore SpringRank (reproduction + bootstrap)
-# also a self-contained NumPy/SciPy implementation in src/ar_pipeline/springrank.py.
-# Reference: https://github.com/LarremoreLab/SpringRank (De Bacco, Larremore & Moore 2018)
+# academic-reputation ranks
+SpringRank==0.0.10

@@ -45,7 +45,7 @@ def main():
             r = test_p1(gm, tbl, col, reliable_only=ro)
             rows.append(dict(proxy=name, scope="reliable" if ro else "all",
                              n=r["n"], spearman=r["spearman"], p=r["p"],
-                             sign="neg ✓" if r["sign_ok"] else ("pos ✗" if r["sign_ok"] is False else "—")))
+                             sign="neg (ok)" if r["sign_ok"] else ("pos (wrong)" if r["sign_ok"] is False else "n/a")))
     tab = pd.DataFrame(rows)
 
     # ACS attainment bonus (field-level PhD-holder earnings by undergrad field)

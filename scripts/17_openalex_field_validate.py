@@ -1,9 +1,9 @@
 """Task — per-field ORCID-AR re-validation vs Wapman, OpenAlex tags vs field_text heuristic.
 
 Replaces the noisy free-text `field_text` field assignment (scripts/11) with OpenAlex
-publication-topic field tags (scripts/16 -> data/interim/orcid_field.parquet), then asks the
-"顶上去" question: does principled field tagging push per-field ORCID-AR↔Wapman agreement up
-from the 0.45–0.68 field_text baseline toward the ~0.77 public-Wapman ceiling?
+publication-topic field tags (scripts/16 -> data/interim/orcid_field.parquet), then asks
+whether principled field tagging lifts per-field ORCID-AR vs Wapman agreement above the
+0.45-0.68 field_text baseline toward the ~0.77 public-Wapman ceiling.
 
 For each cleanly 1:1-mappable field we report three SpringRank-vs-Wapman Spearmans on the
 SAME Wapman published field ranks (2011–2020 window, canonical SpringRank α=0.5 binary):
