@@ -11,7 +11,11 @@ Residual = gap - +0.650*licensure_strict (net licensing only, per the model's re
 | O*NET | applied − abstract skill intensity of field's occupations | **+0.41** [+0.08, +0.68] | 48 | +0.42 |
 | SDR | \|academic − industry salary\|/mean (price wedge) | **-0.61** [-0.88, -0.11] | 17 | -0.42 |
 
-**Model prediction: POSITIVE.** Verdict: **MIXED / CONTESTED — the two independent proxies DISAGREE.** The **O*NET skill-content** proxy SUPPORTS the model (residual↔divergence **+0.41** [+0.08, +0.68], CI>0), and it is the cleaner test by the model's OWN criterion (B3 below: licensure ⟂ this proxy, -0.03). The **SDR salary-wedge** proxy CONTRADICTS it (**-0.61** [-0.88, -0.11], CI<0). The contradiction is **robust, not a contamination artifact**: netting licensing made the SDR correlation *more* negative (-0.42 raw → -0.61 residual), so it cannot be dismissed. So the residual-as-divergence claim is **partially supported on skill-content divergence and contradicted on salary-wedge divergence** — it is NOT cleanly confirmed; which proxy one trusts decides it.
+**Model prediction: POSITIVE.** Verdict: **MIXED / UNRESOLVED — neither confirmed nor cleanly falsified.** The two independent proxies give OPPOSITE signs and are themselves **negatively correlated (-0.64)** — they are not two noisy reads of one divergence construct, they measure different things and disagree. (i) **O*NET skill-content**: residual↔divergence **+0.41** [+0.08, +0.68] (positive, and robust — see below). (ii) **SDR salary-wedge**: **-0.61** [-0.88, -0.11] (robustly negative). On the SAME 17 fields where both exist, O*NET is +0.75 while SDR is -0.61. There is **no principled, non-circular basis to prefer one**: the B3 licensure-orthogonality tie-breaker does NOT rescue O*NET, because netting licensing makes the SDR correlation *more* negative (-0.42 raw → -0.61; partialling licensure out leaves -0.57) — SDR's contradiction is independent of any licensure contamination. **Verdict: the residual-as-divergence prediction is NOT supported by the open-data evidence — it is contested, not confirmed.**
+
+**Two caveats that further weaken B1 (adversarial review):**
+- **Netting licensing is nearly inert here:** the residual ≈ the raw gap (Spearman +0.87 / +0.90), so B1 is essentially testing the *raw gap* against the proxies, not a licensing-purged quantity.
+- **Field-size leak in O*NET:** controlling institutions-per-field attenuates the O*NET correlation +0.41 → +0.34 (and +0.33 controlling size + licensure + dispersion) — positive but partly a field-size confound.
 
 ## B2 — interaction tau x divergence (licensing controlled)
 
@@ -38,4 +42,4 @@ Netting licensing is unbiased only if licensure ⟂ divergence.
 
 ## What a miss implies
 
-At least one independent proxy moves with the residual in the predicted direction, giving partial open-data support for the residual-as-divergence reading; the caveats above bound how strong that support is.
+The two independent divergence proxies CONTRADICT each other (negatively correlated, opposite signs on the same fields), so the open-data evidence does **not** confirm the residual-as-divergence reading — it is **contested/unresolved**. The model's *internal* logic (residual = floor term) stands, but its key *external* prediction is not borne out: either no available open proxy measures the cross-institution academic-vs-market value correlation the model means, or the residual is not that divergence. Combined with the near-inertness of the licensing-netting (residual ≈ raw gap) and the field-size leak, B1 is **downgraded from 'estimated' to 'unconfirmed'**, and that is the honest headline finding.

@@ -130,7 +130,27 @@ def main():
     # ---- B3 ----
     b3 = {p: boot_corr(df.licensure_strict, df[p])[:3] for p in ["divergence_onet", "divergence_sdr"]}
 
-    write_report(df, b1, b2, b3, b_lambda)
+    # ---- diagnostics demanded by adversarial review (report, do not spin) ----
+    def partial_corr(y, x, controls):
+        d = df.dropna(subset=[y, x] + controls).copy()
+        ry = sm.OLS(d[y].values, sm.add_constant(d[controls].values)).fit().resid
+        rx = sm.OLS(d[x].values, sm.add_constant(d[controls].values)).fit().resid
+        return float(spearmanr(ry, rx)[0]), len(d)
+    both = df.dropna(subset=["divergence_onet", "divergence_sdr"])
+    diag = dict(
+        resid_vs_rawgap_onet=float(spearmanr(df.dropna(subset=["divergence_onet"]).residual_netlic,
+                                             df.dropna(subset=["divergence_onet"]).gap)[0]),
+        resid_vs_rawgap_sdr=float(spearmanr(df.dropna(subset=["divergence_sdr"]).residual_netlic,
+                                            df.dropna(subset=["divergence_sdr"]).gap)[0]),
+        proxy_vs_proxy=float(spearmanr(both.divergence_onet, both.divergence_sdr)[0]),
+        onet_on_sdr_fields=float(spearmanr(both.residual_netlic, both.divergence_onet)[0]),
+        sdr_partial_lic=partial_corr("residual_netlic", "divergence_sdr", ["licensure_strict"])[0],
+        onet_partial_size=partial_corr("residual_netlic", "divergence_onet", ["n_institutions"])[0],
+        onet_partial_all=partial_corr("residual_netlic", "divergence_onet",
+                                      ["n_institutions", "licensure_strict", "tau_disp"])[0],
+    )
+    write_report(df, b1, b2, b3, b_lambda, diag)
+    print("diagnostics:", {k: round(v, 2) for k, v in diag.items()})
     print(f"b_lambda(net) = {b_lambda:+.3f}")
     print("B1 residual<->divergence:")
     for p, v in b1.items():
@@ -143,7 +163,7 @@ def main():
         print(f"  {p}: {v[0]:+.2f} [{v[1]:+.2f},{v[2]:+.2f}]")
 
 
-def write_report(df, b1, b2, b3, b_lambda):
+def write_report(df, b1, b2, b3, b_lambda, diag):
     on, sd = b1["divergence_onet"], b1["divergence_sdr"]
     supports = [p for p, v in b1.items() if v["lo"] > 0]
     contradicts = [p for p, v in b1.items() if v["hi"] < 0]
@@ -169,18 +189,30 @@ def write_report(df, b1, b2, b3, b_lambda):
             "falsified on these open-data proxies. Reported as a falsification, not rescued."
             if both_fail else
             ("**SUPPORTED — both proxies positive (CIs exclude 0).**" if both_support else
-             ("**MIXED / CONTESTED — the two independent proxies DISAGREE.** The **O*NET skill-content** "
-              f"proxy SUPPORTS the model (residual↔divergence **{on['rho']:+.2f}** [{on['lo']:+.2f}, "
-              f"{on['hi']:+.2f}], CI>0), and it is the cleaner test by the model's OWN criterion (B3 below: "
-              f"licensure ⟂ this proxy, {b3['divergence_onet'][0]:+.2f}). The **SDR salary-wedge** proxy "
-              f"CONTRADICTS it (**{sd['rho']:+.2f}** [{sd['lo']:+.2f}, {sd['hi']:+.2f}], CI<0). The "
-              "contradiction is **robust, not a contamination artifact**: netting licensing made the SDR "
-              f"correlation *more* negative ({sd['rho_vs_rawgap']:+.2f} raw → {sd['rho']:+.2f} residual), so "
-              "it cannot be dismissed. So the residual-as-divergence claim is **partially supported on "
-              "skill-content divergence and contradicted on salary-wedge divergence** — it is NOT cleanly "
-              "confirmed; which proxy one trusts decides it."
+             ("**MIXED / UNRESOLVED — neither confirmed nor cleanly falsified.** The two independent "
+              f"proxies give OPPOSITE signs and are themselves **negatively correlated ("
+              f"{diag['proxy_vs_proxy']:+.2f})** — they are not two noisy reads of one divergence "
+              "construct, they measure different things and disagree. (i) **O*NET skill-content**: "
+              f"residual↔divergence **{on['rho']:+.2f}** [{on['lo']:+.2f}, {on['hi']:+.2f}] (positive, and "
+              "robust — see below). (ii) **SDR salary-wedge**: "
+              f"**{sd['rho']:+.2f}** [{sd['lo']:+.2f}, {sd['hi']:+.2f}] (robustly negative). On the SAME "
+              f"{sd['n']} fields where both exist, O*NET is {diag['onet_on_sdr_fields']:+.2f} while SDR is "
+              f"{sd['rho']:+.2f}. There is **no principled, non-circular basis to prefer one**: the B3 "
+              "licensure-orthogonality tie-breaker does NOT rescue O*NET, because netting licensing makes "
+              f"the SDR correlation *more* negative ({sd['rho_vs_rawgap']:+.2f} raw → {sd['rho']:+.2f}; "
+              f"partialling licensure out leaves {diag['sdr_partial_lic']:+.2f}) — SDR's contradiction is "
+              "independent of any licensure contamination. **Verdict: the residual-as-divergence prediction "
+              "is NOT supported by the open-data evidence — it is contested, not confirmed.**"
               if mixed else
               "**INCONCLUSIVE:** CIs span 0; neither confirmation nor falsification."))) + "\n",
+         "**Two caveats that further weaken B1 (adversarial review):**",
+         f"- **Netting licensing is nearly inert here:** the residual ≈ the raw gap "
+         f"(Spearman {diag['resid_vs_rawgap_onet']:+.2f} / {diag['resid_vs_rawgap_sdr']:+.2f}), so B1 is "
+         "essentially testing the *raw gap* against the proxies, not a licensing-purged quantity.",
+         f"- **Field-size leak in O*NET:** controlling institutions-per-field attenuates the O*NET "
+         f"correlation {on['rho']:+.2f} → {diag['onet_partial_size']:+.2f} (and "
+         f"{diag['onet_partial_all']:+.2f} controlling size + licensure + dispersion) — positive but "
+         "partly a field-size confound.\n",
          "## B2 — interaction tau x divergence (licensing controlled)\n",
          "tau proxy = within-field earnings dispersion. **CIRCULARITY FLAG: tau is earnings-derived, so it "
          "shares measurement with the gap; B2 is secondary and not independent of the gap construct.**\n",
@@ -214,9 +246,14 @@ def write_report(df, b1, b2, b3, b_lambda):
            "'residual = divergence' claim is downgraded from 'estimated' to 'unconfirmed', and that is the "
            "headline finding."
            if both_fail else
-           "At least one independent proxy moves with the residual in the predicted direction, giving "
-           "partial open-data support for the residual-as-divergence reading; the caveats above bound how "
-           "strong that support is.") + "\n"]
+           "The two independent divergence proxies CONTRADICT each other (negatively correlated, opposite "
+           "signs on the same fields), so the open-data evidence does **not** confirm the residual-as-"
+           "divergence reading — it is **contested/unresolved**. The model's *internal* logic (residual = "
+           "floor term) stands, but its key *external* prediction is not borne out: either no available "
+           "open proxy measures the cross-institution academic-vs-market value correlation the model "
+           "means, or the residual is not that divergence. Combined with the near-inertness of the "
+           "licensing-netting (residual ≈ raw gap) and the field-size leak, B1 is **downgraded from "
+           "'estimated' to 'unconfirmed'**, and that is the honest headline finding.") + "\n"]
     (ROOT / "MODEL_VALIDATION_RESULT.md").write_text("\n".join(L))
 
 
