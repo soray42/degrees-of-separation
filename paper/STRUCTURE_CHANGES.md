@@ -57,11 +57,21 @@ hedging); (2) the second axis is now reframed as **revealed labour-market placem
 `cluster_means_forest` (§3), `gap_by_cluster` (§3), `pseo_vs_scorecard_gap` + `placement_proxy_by_horizon`
 (§4a), `licensing_mechanism` (§4b); `field_earnings_revaluation` moved to SI D.
 
+## §5 trimmed (second pass)
+§5 was cut from six items to four, removing what merely repeated §3: the measurement-error ICC
+correction ($0.30\to0.45$) and the crosswalk ICC numbers ($0.30\to0.32$ / $0.45\to0.57$) are stated
+once, in §3, and dropped from §5. §5 now carries only the checks that answer a distinct question:
+the per-field reliability filter (the false-positive control, stated confidently), cluster-size
+subsampling ($+0.98$, "not an $n$ artifact"), horizon stability ($+0.81$--$0.85$), AR-rank
+propagation ($0/16$ flips, "prestige noise doesn't break the gap"), and a one-clause taxonomy
+expansion ($54\to66$, no ICC numbers). The vague "horizon-stable" mention in §4.3 was deleted so the
+numeric horizon statement lives only in §5.
+
 ## Open markers
-- One `\todo{}` in §5: formal FDR/BH q-values. **No FDR analysis exists in the record**; the
-  per-field reliability filter (signal-fraction + bootstrap-CI screen) is the de-facto false-positive
-  control, and the `\todo` flags a formal multiple-testing statistic as the only genuinely missing
-  value (per the "[TODO: source]" instruction). All other numbers map to a `*_RESULT.md`.
+- **No visible `\todo` in the main text.** The earlier FDR/BH `\todo` was removed: the per-field
+  reliability filter (signal-fraction + bootstrap-CI screen) *is* the false-positive control and is
+  stated as such; a formal multiple-testing statistic, if a reviewer wants one, is a one-line SI
+  addition, not a gap to flag in the main line. All numbers map to a `*_RESULT.md`.
 - `\coauthor{}` notes retained only where a senior decision is genuinely needed (authorship; whether
   to feature the CS ranking).
 

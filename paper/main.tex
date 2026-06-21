@@ -78,8 +78,8 @@ ruled-out alternative explanations, and a dynamic-revaluation pilot --- are in t
 \citet{wapman2022quantifying}. Because the licensing analysis and the applied ranking need meaningful score
 \emph{differences}, not just ordinal ranks, we recompute the continuous SpringRank score
 \citep{debacco2018physical} on the public field-level edge subgraphs. A from-scratch reconstruction reproduces the
-published ranks at a data ceiling ($\rho\approx0.77$; the loss is the lossiness of the public aggregated edges,
-not a coding error), and an independent ORCID-derived rebuild of the hiring network reproduces Wapman's academia
+published ranks at a data ceiling ($\rho\approx0.77$; the loss reflects the lossiness of the public aggregated
+edges), and an independent ORCID-derived rebuild of the hiring network reproduces Wapman's academia
 ranks at Spearman $0.74$ --- certifying the method against an independent network.
 
 \paragraph{Revealed placement (the earnings proxy).} The labour market does not publish a placement rank; what it
@@ -171,12 +171,12 @@ The gap's placement axis is earnings; we show earnings is a faithful proxy for r
 \emph{First, an independent earnings source.} On the same institution$\times$field, PSEO (UI wages) and Scorecard
 (Title-IV median) rank pay near-identically (Spearman $+0.94$, $n=1535$), and the field-level gap \emph{replicates}
 across the two independent population definitions (Spearman $+0.68\,[+0.52,+0.80]$ over 57 fields;
-Fig.~\ref{fig:pseo}). Using PSEO flows, 34\% of bachelor's graduates work out-of-state, and netting destination
+Fig.~\ref{fig:placement}, left). Using PSEO flows, 34\% of bachelor's graduates work out-of-state, and netting destination
 geography barely moves the gap ($0.68\to0.67$): the rank gap is robust to geography even though geography drives
 earnings \emph{levels}. \emph{Second, non-wage placement.} Across earnings horizons (1/4/5-year) and across sources
 (Scorecard, PSEO, ACS), salary standing tracks non-wage placement --- occupational prestige (a survey-based status
 score) and vertical match (the inverse of underemployment) --- at Spearman $+0.65$ to $+0.84$
-(Fig.~\ref{fig:proxy}). The proxy \emph{improves} at longer horizons (salary-vs-occupational-prestige rises
+(Fig.~\ref{fig:placement}, right). The proxy \emph{improves} at longer horizons (salary-vs-occupational-prestige rises
 $+0.75\to+0.83$ from 1 to 5 years on Scorecard, replicated on PSEO $+0.73\to+0.84$), as graduates reach the
 occupations their field routes them into. Earnings is a validated revealed-placement proxy; its one systematic
 incompleteness is timing (Section~\ref{sec:defer}).
@@ -188,8 +188,7 @@ incompleteness is timing (Section~\ref{sec:defer}).
 definitions (Scorecard Title-IV median vs.\ PSEO UI wages), Spearman $+0.68$. \emph{Right:} salary tracks non-wage
 placement and improves with horizon; the improvement concentrates in high-deferral fields. Sources:
 \texttt{PSEO\_GAP\_CROSSVALIDATION\_RESULT.md}, \texttt{ER\_AXIS\_IDENTIFICATION\_RESULT.md}.}
-\label{fig:pseo}
-\label{fig:proxy}
+\label{fig:placement}
 \end{figure}
 
 \subsection{The clean channel and its mechanism: licensing sets pay by setting, not school}\label{sec:license}
@@ -236,23 +235,23 @@ market: the field-level divergence between occupational status and BA wage is ex
 share (status-residual $\sim$ deferral, Pearson $+0.59$). This is a \emph{cross-field} proxy-timing effect with
 three sharp properties: it is distinct from the null academic-absorption channel (deferral is BA$\to$graduate
 school, absorption is PhD$\to$academia; the two are near-orthogonal, $+0.08$); it does \emph{not} touch the
-within-field gap (which is rank-based: $\mathrm{corr}(\text{gap},\text{deferral})=+0.02$ on reliable fields, and
-the gap's discipline structure is horizon-stable); and it narrows the apparent ``decoupling'' of the natural
+within-field gap (which is rank-based: $\mathrm{corr}(\text{gap},\text{deferral})=+0.02$ on reliable fields); and
+it narrows the apparent ``decoupling'' of the natural
 sciences to a measurement-timing fact rather than market undervaluation. We considered and rejected three further
 alternative readings of the gap (generic-brand versus field-specific prestige; a distinct integration ``shape'';
 program-level mispricing as value-added); each is dispatched in SI~\ref{si:ruleout}.
 
 % =====================================================================
 \section{Robustness}\label{sec:robust}
-The four findings survive a battery of checks (full detail in SI~\ref{si:robust}). The reliability filter is the
-false-positive screen on which all downstream analysis runs \todo{formal FDR/BH $q$-values if a reviewer wants a
-multiple-testing statistic beyond the per-field filter}; the integrated--decoupled ranking is not an artifact of
-cluster size (subsampling to a common $n$ preserves the order, Spearman $+0.98$); correcting the within-cluster
-variance for sampling noise \emph{raises} the ICC ($0.30\to0.45$); auditing the field taxonomy and recovering
-genuine fields expands the universe $54\to66$ while the headline holds (cluster ranking $+0.98$, ICC $0.30\to0.32$
-raw / $0.45\to0.57$ corrected); the structure is horizon-stable (between-discipline ICC drifts $0.50$ at 1yr to
-$0.30$--$0.33$ at 4--5yr but the cluster ranking is stable at $+0.81$--$0.85$); and propagating prestige-rank
-sampling uncertainty widens the gap CIs by only $\sim$4\% and flips $0/16$ reliability flags.
+The four findings survive a battery of checks (full detail in SI~\ref{si:robust}). The per-field reliability
+filter (signal-fraction plus bootstrap-CI screen) is the false-positive control on which all downstream analysis
+runs. Three further checks confirm the structure is not an artifact of how it is built: the integrated--decoupled
+ranking is not an artifact of cluster size (subsampling every cluster to a common $n$ preserves the order, Spearman
+$+0.98$); it is horizon-stable (the between-discipline ICC drifts from $0.50$ at 1yr to $0.30$--$0.33$ at 4--5yr,
+but the cluster ranking holds at $+0.81$--$0.85$); and prestige-rank measurement noise barely perturbs it
+(propagating SpringRank sampling uncertainty widens the gap CIs by only $\sim$4\% and flips $0/16$ reliability
+flags). The headline also holds under taxonomy expansion (recovering genuine fields, $54\to66$, cluster ranking
+$+0.98$).
 
 % =====================================================================
 \section{Discussion}\label{sec:discussion}
