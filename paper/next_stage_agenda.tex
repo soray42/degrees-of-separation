@@ -1,0 +1,219 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\graphicspath{{../outputs/figures/}{../results/figures/}}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\newcommand{\coauthor}[1]{\textcolor{blue!60!black}{[COAUTHOR: #1]}}
+\title{\textbf{Degrees of Separation --- Next-Stage Research Agenda}\\[4pt]
+\large A forward-looking companion to the static paper:\\
+the platform, the frontier, and the two leverage points}
+\author{Sora Yng \and \coauthor{prospective advisors/collaborators --- see closing}}
+\date{Agenda companion to \texttt{main.tex}. Synthesised from the analysis record; no new analysis.}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This agenda is the forward-looking companion to the static paper (\texttt{paper/main.tex}). It \textbf{supersedes}
+the prior research-agenda material (the project proposals, \texttt{degrees\_of\_separation\_proposal\{,\_v2\}.md},
+and the agenda fragments in earlier drafts), which predate two changes that strengthen the base: the
+\emph{revealed-placement} reframe of the second axis, and the placement-\emph{identification} layer that
+establishes earnings as a validated-but-incomplete placement proxy with two characterised failure modes. The
+static paper is now a \emph{platform} --- a measured, structured, cross-validated, mechanistically-explained wedge
+--- and the frontier is to relax the four things the platform's placement axis still is: a single scalar at the
+institution grain, US-only, median-level, and disconnected from student beliefs. Three thrusts relax these in
+order of access cost: \textbf{(A)} cross-national external validity, available now on public data; \textbf{(B)} the
+multi-dimensional, within-field placement gap, the flagship, gated on Revelio resume data, into which the prior
+residual-mechanism, tail, and dynamic questions all converge; and \textbf{(C)} a behavioural layer linking the
+measured gap to student subjective expectations, gated on a co-author and survey fielding. Two leverage points
+define the programme: a Revelio subscription unlocks the entire within-field/multi-dimensional/dynamic/tail
+frontier (B); a subjective-expectations collaboration unlocks the behavioural and welfare contribution (C).
+\end{abstract}
+
+% =====================================================================
+\section{Where the project stands: the platform}\label{sec:platform}
+The static paper establishes four findings, and they should be read as a \emph{platform}, not a set of claims to
+defend. \textbf{(1) Measurement:} the academic-reputation--placement gap,
+$\mathrm{gap}_f = 1 - \mathrm{Spearman}_i(\text{prestige}_{i,f},\,\text{placement}_{i,f})$ within field across
+institutions, is a measurable, reliable object (only 15\% of fields inside a perfect-agreement-plus-noise null,
+65\% above; artifact channel $R^2=0.20$; a per-field reliability filter). \textbf{(2) Structure:} it is
+discipline-structured --- a precision-weighted multilevel decomposition places $\sim$30\% of cross-field gap
+variance between broad discipline areas (ICC $0.30$; measurement-corrected $0.45$), with an integrated end
+(Computing, Mathematics/Statistics, Economics-adjacent social science, Engineering) and a decoupled end (Health,
+Arts, the natural sciences). \textbf{(3) A validated-but-incomplete placement proxy:} earnings tracks an
+independent earnings source (PSEO vs Scorecard, institution pay Spearman $+0.94$; field gap $+0.68$) and non-wage
+placement (occupational prestige, vertical match) at $+0.65$ to $+0.84$ across horizons and sources.
+\textbf{(4) One identified mechanism:} occupational licensing cleanly moves the gap ($b_{\text{licensure}}=+0.66$),
+and the mechanism is identified --- in regulated, locally-employed fields pay is set by \emph{setting}, not school
+(as licensure rises, the incremental wage-variance explained by school prestige beyond geography falls,
+$\mathrm{corr}(\text{licensure},\text{incremental-prestige }R^2)=-0.59$; Nursing $\approx 0$).
+
+\paragraph{The placement axis, precisely.} The reframe matters for the agenda because it scopes the open
+questions. The second axis is not ``employer reputation''; it is \emph{revealed labour-market placement} ---
+where graduates land --- and earnings is its validated-but-incomplete proxy, with two \emph{characterised} failure
+modes rather than vague ``limitations'': a cross-field \emph{proxy-timing} effect (in high-deferral fields
+early-career earnings understates terminal placement; the status-residual tracks the graduate-degree share at
+Pearson $+0.59$, distinct from the null academic-absorption channel and not touching the within-field gap,
+$\mathrm{corr}(\text{gap},\text{deferral})=+0.02$), and the \emph{licensing-setting} effect of finding (4). The
+platform is therefore not ``a gap we measured'' but ``a gap we measured, structured, cross-validated, and partly
+mechanised --- whose placement axis we have \emph{identified} as a scalar proxy with known where-it-fails.''
+
+% =====================================================================
+\section{Organising logic of the frontier}\label{sec:logic}
+The platform's placement axis is, deliberately, four things at once: \textbf{(a)} a single scalar (earnings) at the
+institution grain; \textbf{(b)} US-only; \textbf{(c)} median-level and descriptive; and \textbf{(d)} disconnected
+from the student beliefs that rankings actually move. Each frontier thrust relaxes one or more of these. Make
+placement \emph{multi-dimensional and within-field} (relaxes a, and turns c from a level into a structure);
+make it \emph{cross-national} (relaxes b, available now on public data); make it \emph{causal/tail-resolved}
+(relaxes c fully, gated on administrative data); and make it \emph{behavioural} (relaxes d, gated on a co-author).
+
+\paragraph{The dynamic question is deprioritised as a standalone.} The prior agenda treated the
+prestige--earnings lead--lag as its own thrust. At the field level it is a fragile two-period time series whose
+direction we could not identify, and it does not become a clean study by adding more field-level cohorts --- the
+identifying variation is at the \emph{institution} level. It therefore \emph{folds into} the within-field block
+(Thrust B): an institution-level placement panel makes the lead--lag tractable as a by-product of the same data
+that delivers the multi-dimensional gap. We do not list it separately.
+
+% =====================================================================
+\section{Thrust A --- Cross-national external validity (immediate, public)}\label{sec:thrustA}
+\paragraph{What and why.} The single analytical ceiling-raiser available \emph{before} any co-author or new
+proprietary data is to ask whether the integrated/decoupled typology is a US institution or a feature of how
+prestige and placement relate in general. This is external validity, and it is buildable now on public data.
+
+\paragraph{Estimand.} For country $k$, recompute the field gap $\mathrm{gap}^{k}_f$ and its CIP-2 (or local
+equivalent) cluster means; the test statistic is the cross-country rank correlation of the field-level typology,
+\[
+\tau_{\,US,k} = \mathrm{Spearman}_c\!\left(\overline{\mathrm{gap}}^{\,US}_c,\ \overline{\mathrm{gap}}^{\,k}_c\right),
+\]
+over discipline clusters $c$. A high $\tau$ says the integrated--decoupled ordering is a general property of the
+prestige$\leftrightarrow$placement map, not a US artifact; a low $\tau$ localises it and is itself informative.
+
+\paragraph{Data.} \emph{UK --- LEO} (Longitudinal Education Outcomes): provider $\times$ subject graduate earnings,
+administratively linked, and crucially published \emph{region-reweighted} --- a built-in geography control that
+directly addresses the setting-driven mechanism of finding (4), against a UK research-prestige hierarchy (REF or a
+UK faculty-hiring network where constructible). \emph{Europe --- EUROGRADUATE}: a comparative graduate survey
+across $\sim$18 countries that elicits \emph{self-reported horizontal skills-match} --- a direct, individual-level
+placement-\emph{match} micro-measure, i.e.\ a non-wage placement dimension observed natively rather than proxied by
+wages. EUROGRADUATE thus also previews the multi-dimensional placement of Thrust B at the survey grain.
+
+\paragraph{Feasibility.} Low risk, public, no IRB, no subscription. The deliverable is a cross-national replication
+table of the typology plus the $\tau_{US,k}$ statistic, and it is the natural first manuscript-strengthening
+extension before the gated thrusts.
+
+% =====================================================================
+\section{Thrust B --- The multi-dimensional, within-field placement gap (flagship; Revelio-gated)}\label{sec:thrustB}
+This is the programme's flagship, and it is where the prior agenda's separate residual-mechanism, tail, and dynamic
+thrusts \emph{converge}, because they require the \emph{same} object: institution $\times$ field placement resolved
+to occupation, firm, and time. One data unlock delivers all of them.
+
+\paragraph{(i) The within-field non-wage placement gap.} The direct analogue of the paper's gap, on a non-wage
+placement dimension:
+\[
+\mathrm{gap}^{\mathrm{occ}}_f = 1 - \mathrm{Spearman}_i\!\left(\text{prestige}_{i,f},\ \text{occ-prestige}_{i,f}\right),
+\qquad
+\text{occ-prestige}_{i,f} = \sum_o P(o\mid i,f)\,\pi_o,
+\]
+where $P(o\mid i,f)$ is the occupation distribution of field-$f$ graduates from institution $i$ and $\pi_o$ a
+survey occupational-prestige score. The static paper can only build the field-level version (one occupation
+distribution per field); the within-field, across-institution version --- the true test of whether the typology is
+a wage phenomenon or a general placement phenomenon --- needs institution $\times$ field occupation flows. This is
+the estimand already specified in the placement-identification layer.
+
+\paragraph{(ii) Sorting versus within-occupation pricing.} A law-of-total-variance decomposition separates the two
+channels by which prestige could raise placement:
+\[
+\mathrm{Var}\!\left(\text{wage}\mid i,f\right)
+= \underbrace{\mathrm{Var}_o\!\left(\mathbb{E}[\text{wage}\mid o]\right)}_{\text{between-occupation sorting}}
++ \underbrace{\mathbb{E}_o\!\left[\mathrm{Var}(\text{wage}\mid o)\right]}_{\text{within-occupation pricing}} .
+\]
+The estimand is the share of the prestige--placement relationship that runs through \emph{which occupations}
+graduates enter (sorting) versus \emph{pay within occupation} (pricing) --- testing the employer-learning reading
+of finding (4) directly.
+
+\paragraph{(iii) Employer-prestige / firm-quality-weighted placement.} Re-weight placement by the prestige or
+selectivity of the \emph{hiring firm} --- a second hierarchy estimable as a SpringRank over the firm-to-firm
+hiring network, or as AKM-style firm pay premia. This makes ``where graduates land'' an employer-identity object,
+the labour-market analogue of the faculty-hiring network that defines AR.
+
+\paragraph{(iv) Career trajectory and promotion.} With individual transitions over time, placement becomes a
+\emph{slope}, not a level: seniority and promotion trajectories test whether decoupled-field prestige buys a
+steeper path even when it does not buy a higher starting wage.
+
+\paragraph{(v) Institution-level dynamic lead--lag (the folded-in dynamic question).} An institution $\times$ field
+$\times$ time placement panel makes the prestige--placement lead--lag identifiable at the grain where the variation
+lives --- the study the field-level pilot could not support.
+
+\paragraph{(vi) Tail-resolved brand premium.} Resume data observe top-firm and top-occupation placement
+\emph{rates}, not just the median --- the elite tail where \citet{chetty2023diversifying} locate the brand's
+causal payoff and which the paper's median earnings cannot see. This converts the paper's ruled-out
+``generic-brand'' alternative from a median-data limitation into a measurable quantity.
+
+\paragraph{Data and access.} Revelio Labs' resume-and-employment-record panel carries the required dictionary:
+occupation, firm, seniority, skills, geography, and individual job-to-job transitions --- exactly the six
+coordinates the platform's scalar proxy omits. Access path: the Revelio research programme
+(\href{mailto:research@reveliolabs.com}{research@reveliolabs.com}; academic engagements associated with
+D.~Dorn and F.~Schoner) \coauthor{confirm current contact and academic-access terms before approach}. \emph{This
+is why Revelio access is the programme's single highest-value unlock:} one subscription turns the entire
+multi-dimensional, within-field, dynamic, and tail frontier from ``specified'' into ``estimable.''
+
+% =====================================================================
+\section{Thrust C --- The behavioural layer (co-author-gated; NHB scope)}\label{sec:thrustC}
+The platform measures a structure in \emph{outcomes}; rankings act on \emph{beliefs}. Closing that loop is the
+boldest contribution and the natural locus of a subjective-expectations collaboration.
+
+\paragraph{Estimands.} Elicit student subjective expectations
+\citep{manski2004measuring, wiswall2015determinants} over field $\times$ tier placement and over programme
+prestige, and ask three questions. \emph{(1) Does belief error track the measured gap?} ---
+$\mathrm{corr}_f\!\left(\overline{\text{belief error about placement}}_f,\ \mathrm{gap}_f\right)$: do students
+mis-price exactly the decoupled fields where prestige and placement diverge? \emph{(2) Do students over-weight
+generic brand?} --- the paper's $c_G$ vs $c_F$ horse race (generic academia-wide brand vs field-specific prestige;
+on outcomes $c_G=+0.45 \ge c_F=+0.40$) re-run on \emph{beliefs}: do students load on the overall brand more than
+on field strength, the cognitive counterpart of the field-agnostic-ranking error? \emph{(3) Welfare.} An
+information treatment in the Wiswall--Zafar tradition --- providing field-specific placement information --- closes
+the loop to the welfare cost of field-agnostic rankings \citep{luca2013salience}, measuring whether corrected
+beliefs shift major or programme choice.
+
+\paragraph{Feasibility and gate.} This is a \emph{human-research} track --- survey-instrument design, IRB, and
+fielding --- not a data-analysis script, and it is where a subjective-expectations co-author (the decision-under-
+subjective-expectations tradition) is essential. It is the thrust that lifts the programme from a descriptive
+computational-social-science contribution toward a behavioural one (\emph{Nature Human Behaviour} scope).
+
+% =====================================================================
+\section{Sequencing, data gates, and the two leverage points}\label{sec:sequence}
+\begin{table}[h]\centering
+\caption{The three thrusts by timing, gate, and scope.}
+\label{tab:thrusts}
+\small
+\begin{tabular}{p{2.9cm}p{2.1cm}p{2.6cm}p{2.4cm}p{3.4cm}}
+\toprule
+Thrust & Timing & Gate & Data & What it unlocks \\
+\midrule
+\textbf{A} Cross-national & now & none (public) & UK LEO; EUROGRADUATE & external validity of the typology
+($\tau_{US,k}$); the pre-collaboration ceiling-raiser \\
+\textbf{B} Within-field multi-dimensional (flagship) & on access & Revelio subscription & Revelio resume panel
+(occupation, firm, time) & the \emph{entire} within-field / multi-dimensional / dynamic / tail frontier \\
+\textbf{C} Behavioural & with co-author & co-author + IRB + fielding & elicited beliefs; information RCT & the
+belief--gap link and the welfare cost of rankings (NHB scope) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The programme has \textbf{two leverage points}, and naming them is the point of this agenda. First, a
+\textbf{Revelio subscription} unlocks the whole of Thrust B: the within-field non-wage gap, the sorting-vs-pricing
+decomposition, employer-prestige-weighted placement, trajectory, the institution-level dynamic lead--lag, and the
+tail-resolved brand premium are \emph{one} data unlock, not six projects --- which is what makes it the highest-value
+single move. Second, a \textbf{subjective-expectations collaboration} unlocks Thrust C and with it the behavioural
+and welfare contribution that a purely outcome-side analysis cannot reach. Thrust A needs neither and should run
+immediately as the external-validity strengthener. The static paper is the platform; A, B, and C are the
+multi-year programme built on it, and the sequence is set by access cost, not by importance.
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\end{document}
