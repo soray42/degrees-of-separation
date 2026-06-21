@@ -157,7 +157,19 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
   **Verified .xlsx** (updated 2026-02-04; the HTML page 403s and naive 404→200 redirects fool
   `curl -w`): `https://www.newyorkfed.org/medialibrary/Research/Interactives/Data/college-labor-market/College-labor-data`
   → `data/raw/nyfed/College-labor-data.xlsx`. Sheet "outcomes by major", 73 majors + Overall.
-  Source inside: ACS (IPUMS) + O\*NET. Crosswalk (clean 1:1 only) in `fields.py`.
+  Source inside: ACS (IPUMS) + O\*NET. Crosswalk in `fields.py::NYFED_MAJOR_BY_KEY` (24 clean 1:1)
+  + 8 more high-confidence 1:1 added in `scripts/35_er_definition.py` (32 fields total).
+- **Occupational prestige — Hughes, Srivastava, Leszko & Condon 2024** ("Occupational Prestige:
+  The Status Component of Socioeconomic Status," *Collabra: Psychology* 10(1)). **Survey-rated
+  prestige, NOT income/education-based** (so non-circular for a non-wage ER measure; this is why
+  SEI/ISEI/HWSEI are deliberately avoided). 1029 occupations + 22 families. Harvard Dataverse
+  `doi:10.7910/DVN/G1E4BF`, single file `OccupationalPrestigeRatings.tab` (also OSF `ngk2t`,
+  occupationalprestige.com). Download:
+  `curl -L https://dataverse.harvard.edu/api/access/datafile/6573384 -o data/raw/prestige/condon_OccupationalPrestigeRatings.tab`.
+  Columns used: `OPR Job Rating` (primary scale) + `GSS Ratings 1989` (Nakao–Treas) & `GSS
+  Ratings 2012` (robustness scales), keyed to `ONET SOC 2018 Code` and `Census Code 2010`.
+  Occupation join (`scripts/35`): ACS `SOCP` → O\*NET-SOC-2018 (primary); `OCCP`/Census-2010
+  fallback. Accessed 2026-06-21. Used in `scripts/35_er_definition.py` (non-wage ER dimension 1).
 - **CPS licensing (certification/licensing question, 2015+)** — *not pulled as microdata.* The
   licensure regime (`src/crosswalks/fields.py::LICENSED_FIELDS`) is a **hand-coded ex-ante
   binary** (nursing, communication disorders, accounting/CPA, civil/PE), rule documented in
