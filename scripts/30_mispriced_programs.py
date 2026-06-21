@@ -23,7 +23,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import warnings; warnings.filterwarnings("ignore")
 import numpy as np, pandas as pd
 from scipy.stats import spearmanr, rankdata
+import statsmodels.api as sm
 import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
+
+from src.crosswalks.institutions import normalize_institution_name
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "outputs"; (OUT / "figures").mkdir(parents=True, exist_ok=True)
@@ -52,11 +55,36 @@ def residualize(t, min_field_n=MIN_FIELD_N):
     return pd.concat(out, ignore_index=True)
 
 
+def geography_check(r, inst):
+    """Adversarial-review addition: a partial GEOGRAPHY proxy IS derivable in-repo (PSEO institution
+    state). Report R^2(residual ~ state fixed effects) vs R^2(residual ~ brand percentile)."""
+    ins = pd.read_csv(ROOT / "data" / "raw" / "pseo" / "pseo_all_institutions.csv", dtype=str)
+    ins.columns = [c.strip().lstrip("﻿") for c in ins.columns]
+    ins["inst_key"] = ins.label.map(normalize_institution_name)
+    st = ins.dropna(subset=["institution_state"]).drop_duplicates("inst_key")[["inst_key", "institution_state"]]
+    rg = r.merge(st, on="inst_key", how="inner")
+    ig = inst.merge(st, on="inst_key", how="inner")
+    def r2_state(df, yc):
+        if df.institution_state.nunique() < 3 or len(df) < 20:
+            return np.nan
+        X = pd.get_dummies(df.institution_state, drop_first=True).astype(float)
+        return sm.OLS(df[yc].values, sm.add_constant(X.values)).fit().rsquared
+    def r2_brand(df, yc, bc):
+        d = df.dropna(subset=[bc])
+        return sm.OLS(d[yc].values, sm.add_constant(d[bc].values)).fit().rsquared
+    return dict(prog_match=len(rg) / len(r), inst_match=len(ig) / len(inst),
+                r2_state_inst=r2_state(ig, "mean_resid"), r2_state_prog=r2_state(rg, "resid"),
+                r2_brand_inst=r2_brand(ig, "mean_resid", "mean_G_pct"),
+                r2_brand_prog=r2_brand(rg, "resid", "G_pct"))
+
+
 def main():
     t = s28.build_table()
     r = residualize(t)
     r["label"] = r.field.map(LAB)
     r.to_csv(ROOT / "data" / "interim" / "valuation_residuals.csv", index=False)
+    # disclosure: how much of the residual is just the within-field earnings ranking?
+    resid_is_pay = np.mean([abs(spearmanr(g.resid, g.y)[0]) for _, g in r.groupby("field") if len(g) > 8])
 
     # institution-level aggregate (>= MIN_INST_FIELDS fields)
     inst = r.groupby("inst_key").agg(institution=("institution_name", "first"),
@@ -72,12 +100,14 @@ def main():
         th = s28.build_table(ec, cc); rh = residualize(th)
         hz[h] = rh.set_index(["inst_key", "field"]).resid
     base = r.set_index(["inst_key", "field"]).resid
-    horizon_corr = {}
+    horizon_corr, sign_flip = {}, {}
     for h, s in hz.items():
         j = pd.concat([base, s], axis=1, keys=["b", "h"]).dropna()
         horizon_corr[h] = spearmanr(j.b, j.h)[0]
+        sign_flip[h] = float((np.sign(j.b) != np.sign(j.h)).mean())
 
-    write_report(r, inst, horizon_corr)
+    geo = geography_check(r, inst)
+    write_report(r, inst, horizon_corr, sign_flip, geo, resid_is_pay)
     make_figures(r, inst)
 
     surf = r[r.cohort_n >= MIN_COHORT]
@@ -90,7 +120,7 @@ def main():
     print(surf.nlargest(6, "resid")[["institution_name", "label", "F_pct", "G_pct", "y", "resid"]].to_string(index=False))
 
 
-def write_report(r, inst, hz):
+def write_report(r, inst, hz, sign_flip, geo, resid_is_pay):
     surf = r[r.cohort_n >= MIN_COHORT]
     ov = surf.nsmallest(12, "resid")[["institution_name", "label", "F_pct", "G_pct", "y", "resid", "cohort_n"]]
     op = surf.nlargest(12, "resid")[["institution_name", "label", "F_pct", "G_pct", "y", "resid", "cohort_n"]]
@@ -125,26 +155,46 @@ def write_report(r, inst, hz):
          "\n**Most systematically ACADEMICALLY OVER-VALUED institutions** (mean r<0):\n",
          inst.nsmallest(10, "mean_resid")[["institution", "n_fields", "mean_resid", "mean_G_pct"]]
             .to_markdown(index=False, floatfmt=("", ".0f", "+.2f", ".2f")),
-         f"\nNote the **mean_G_pct** column — if over-performing institutions are systematically high-"
-         f"brand (or low-brand), that is the selection/brand signal, not value-added: corr(mean_resid, "
-         f"mean_G_pct) = **{spearmanr(inst.mean_resid, inst.mean_G_pct)[0]:+.2f}** across institutions.\n",
+         "\n### What the residual actually conflates — GEOGRAPHY dominates (adversarial-review addition)\n",
+         f"The brand column corr(mean_resid, mean_G_pct) = **{spearmanr(inst.mean_resid, inst.mean_G_pct)[0]:+.2f}** "
+         "is vs the academic-HIRING brand, **not** selectivity/wealth/geography — so it is a weak read on "
+         "the real confounders. A partial **geography** proxy IS derivable in-repo (PSEO institution "
+         f"state; matched {geo['inst_match']:.0%} of institutions, {geo['prog_match']:.0%} of programs):\n",
+         f"- **R²(institution mean residual ~ state fixed effects) = {geo['r2_state_inst']:.2f}** vs "
+         f"R²(~ brand) = {geo['r2_brand_inst']:.2f}.",
+         f"- **R²(program residual ~ state FE) = {geo['r2_state_prog']:.2f}** vs R²(~ brand) "
+         f"= {geo['r2_brand_prog']:.2f}.",
+         "\n**Geography/regional wages explain far more of the 'mispricing' than academic brand does** — "
+         "the named extremes (Santa Clara = Silicon Valley; high-residual VA/MA/CT vs low-residual "
+         "IA/MN/OH; top over-performers are selective coastal/urban privates — Georgetown, Dartmouth, "
+         "Vanderbilt, BC) track regional labour markets and selectivity, exactly the selection confound. "
+         "The disagreement is mostly **where you are and who you enrol**, not academic value-added.\n",
+         f"Also note: because field prestige explains little of within-field earnings (mean "
+         f"Spearman(F,y)≈0.42 ⇒ ~18% of rank-variance), the standardized residual is "
+         f"**{resid_is_pay:+.2f}-correlated with the raw within-field earnings ranking** — a "
+         "'market-overperforming' program is mostly just a **high-paying one for its field**, which is "
+         "the geography/selection signal again, lightly adjusted for prestige.\n",
          "## Robustness — does the disagreement survive across earnings horizons?\n",
-         f"Program-level residual rank-stability vs the 4yr residual: **1yr {hz['1yr']:+.2f}, 5yr "
-         f"{hz['5yr']:+.2f}**. " + ("Stable → the over/under-valuation is a robust disagreement, not a "
-         "single-horizon artifact." if min(hz.values()) > 0.5 else "Only moderately stable → individual "
-         "program residuals are partly horizon-specific noise; read the distribution, not the names.") + "\n",
-         "## Selectivity netting (optional) — NOT FEASIBLE in-repo\n",
-         "The optional 'residual net of selectivity' (y ~ F + admit-rate/SAT) is **not run**: no "
-         "institution-level selectivity (ADM_RATE, SAT/ACT) is in the repo — the Scorecard FoS file is "
-         "field-level and carries none, and IPEDS here is Completions only. So the selection confound "
-         "**cannot be netted out** with current data — which makes the HARD CAVEAT load-bearing. To add "
-         "it: pull the Scorecard institution file (ADM_RATE, SAT_AVG) and re-residualize y ~ F + "
-         "selectivity (still descriptive; selection-on-unobservables would remain).\n",
+         f"Program-level residual rank-stability vs 4yr: **1yr {hz['1yr']:+.2f}, 5yr {hz['5yr']:+.2f}** "
+         f"(only ~{hz['1yr']**2*100:.0f}–{hz['5yr']**2*100:.0f}% shared rank-variance). **Moderate, not "
+         f"strong:** {sign_flip['1yr']:.0%} of program residuals FLIP the sign of their over/under-"
+         "valuation between 1yr and 4yr. The residual **DISTRIBUTION** is reasonably stable but "
+         "**individual program labels are horizon-sensitive** — read the named programs as illustrative "
+         "only, never as a verdict on a program.\n",
+         "## Selectivity netting (optional) — partial geography proxy derivable; admit-rate/SAT absent\n",
+         "Direct selectivity (ADM_RATE, SAT/ACT) is **not in the repo** (Scorecard FoS is field-level; "
+         "IPEDS here is Completions only), so y ~ F + selectivity is not run. **But the selection "
+         "confound is NOT un-probeable:** the PSEO-state geography check above already absorbs far more "
+         "residual variance than brand, so the HARD CAVEAT is empirically load-bearing, not just "
+         "asserted. To net selectivity fully: pull the Scorecard institution file (ADM_RATE, SAT_AVG) and "
+         "re-residualize y ~ F + selectivity (still descriptive; selection-on-unobservables remains).\n",
          "## Adversarial self-check\n",
-         "1. **Selection vs value-added (central):** the entire residual is contaminated by who enrols. "
-         "The institution-level corr(mean_resid, mean brand percentile) above is a direct read on how "
-         "much the 'mispricing' is just brand/selectivity sorting. We claim DISAGREEMENT between two "
-         "valuations, never value-added or 'underrated'.",
+         "1. **Selection vs value-added (central, strengthened):** the residual is dominated by who "
+         "enrols and WHERE — the PSEO-state geography check shows state fixed effects explain far more "
+         f"residual variance (R²≈{geo['r2_state_inst']:.2f} institution-level) than academic brand "
+         f"(R²≈{geo['r2_brand_inst']:.2f}), and the residual is {resid_is_pay:+.2f}-correlated with the "
+         "raw within-field pay ranking. We claim DISAGREEMENT between two valuations, never value-added "
+         "or 'underrated'; the disagreement is mostly geography/selection.",
          "2. **Named = illustrative, distribution = robust:** institution×field Scorecard earnings are "
          "noisy (small cohorts, privacy suppression); the named tables are examples, and we require "
          f"cohort ≥ {MIN_COHORT} to surface one. The robust objects are the residual DISTRIBUTION and the "

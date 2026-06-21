@@ -61,18 +61,25 @@ def main():
     df = df[df.n >= 8].copy()
     df.to_csv(ROOT / "data" / "interim" / "autonomy.csv", index=False)
 
-    # driver tests (Spearman with gap = autonomy)
+    # driver tests (Spearman with gap = autonomy) + bootstrap 95% CIs (n=48-57 is low power)
     def sc(col):
-        d = df.dropna(subset=["gap", col]); return (*spearmanr(d.gap, d[col]), len(d))
+        d = df.dropna(subset=["gap", col]); rho, p = spearmanr(d.gap, d[col]); n = len(d)
+        rng = np.random.default_rng(0); bs = []
+        for _ in range(2000):
+            i = rng.integers(0, n, n); dd = d.iloc[i]
+            if dd.gap.std() > 0 and dd[col].std() > 0:
+                bs.append(spearmanr(dd.gap, dd[col])[0])
+        return (rho, p, n, np.nanpercentile(bs, 2.5), np.nanpercentile(bs, 97.5))
     drivers = {"absorption_acs": sc("absorption_acs"), "basic_applied": sc("basic_applied"),
                "licensure_strict": sc("licensure_strict")}
+    mde = 0.39  # ~80% power for |Spearman| at n~50
     # gap by basic/applied class
     by_class = df.groupby("ba_name").gap.agg(["mean", "median", "count"]).reindex(["basic", "applied", "professional"])
     # does basic_applied survive controlling licensure?
     d2 = df.dropna(subset=["gap", "basic_applied", "licensure_strict"])
     m = sm.OLS(d2.gap.values, sm.add_constant(np.column_stack([d2.basic_applied, d2.licensure_strict]))).fit(cov_type="HC1")
 
-    write_report(df, drivers, by_class, m)
+    write_report(df, drivers, by_class, m, mde)
     make_figures(df)
 
     print("autonomy (gap) driver Spearman:")
@@ -83,7 +90,7 @@ def main():
           f"b_lic={m.params[2]:+.3f} (p={m.pvalues[2]:.3f}), R2={m.rsquared:.2f}")
 
 
-def write_report(df, drivers, by_class, m):
+def write_report(df, drivers, by_class, m, mde):
     da, dba, dl = drivers["absorption_acs"], drivers["basic_applied"], drivers["licensure_strict"]
     ba_holds = dba[0] < -0.2 and dba[1] < 0.10   # hypothesis: basic->higher gap => NEGATIVE corr w/ ordering
     L = ["# How autonomous is academic prestige? (descriptive)\n",
@@ -99,13 +106,16 @@ def write_report(df, drivers, by_class, m):
          "\n…\n",
          df.sort_values("gap").head(8)[["label", "n", "gap", "ba_name"]].to_markdown(index=False, floatfmt=("", ".0f", ".2f", "")),
          "\n## Drivers of autonomy (Spearman with gap)\n",
-         "| driver | Spearman(gap, ·) | p | n | status |",
-         "|---|---|---|---|---|",
-         f"| academic-absorption (reuse) | {da[0]:+.2f} | {da[1]:.3f} | {da[2]} | "
+         f"*Underpowered: n={da[2]}-{dba[2]} gives ~80% power only for |Spearman|≥{mde:.2f}, so a small "
+         "true effect could read as null. Bootstrap 95% CIs shown.*\n",
+         "| driver | Spearman(gap, ·) | 95% CI | p | n | status |",
+         "|---|---|---|---|---|---|",
+         f"| academic-absorption (reuse) | {da[0]:+.2f} | [{da[3]:+.2f}, {da[4]:+.2f}] | {da[1]:.3f} | {da[2]} | "
          + ("NULL (as previously found)" if abs(da[0]) < 0.2 or da[1] > 0.1 else "non-null") + " |",
-         f"| basic↔applied↔professional ordering (NEW) | {dba[0]:+.2f} | {dba[1]:.3f} | {dba[2]} | "
+         f"| basic↔applied ordering (NEW) | {dba[0]:+.2f} | [{dba[3]:+.2f}, {dba[4]:+.2f}] | {dba[1]:.3f} | {dba[2]} | "
          + ("supports autonomy thesis" if ba_holds else "does NOT support (see below)") + " |",
-         f"| licensing (reuse, cite +0.66 on gap) | {dl[0]:+.2f} | {dl[1]:.3f} | {dl[2]} | the one clean channel |",
+         f"| licensing (reuse) | {dl[0]:+.2f} | [{dl[3]:+.2f}, {dl[4]:+.2f}] | {dl[1]:.3f} | {dl[2]} | one channel "
+         f"(OLS slope +{m.params[2]:.2f} on 0-1 licensure; scripts/20 reported +0.66 in its own spec) |",
          "\n### basic↔applied dimension (NEW) — gap by class\n",
          by_class.to_markdown(floatfmt=(".3f", ".3f", ".0f")),
          f"\n**The autonomy thesis (basic/autonomous fields have higher gaps) is "
@@ -113,9 +123,10 @@ def write_report(df, drivers, by_class, m):
          + (f"The ordering correlates {dba[0]:+.2f} with the gap — "
             "but note the **professional** fields have the highest mean gap, which is the **licensing** "
             "channel (health/credential fields are licensed → compressed pay → high gap), not autonomy. "
-            "Controlling for licensing, the basic↔applied ordering coefficient is "
-            f"**{m.params[1]:+.3f} (p={m.pvalues[1]:.3f})** while licensing is "
-            f"**{m.params[2]:+.3f} (p={m.pvalues[2]:.3f})** — "
+            "Controlling for licensing (OLS, n=48 — 6 professional fields dropped for missing "
+            "licensure_strict; the ordering null holds on both the n=57 Spearman and this n=48 OLS), the "
+            f"basic↔applied ordering coefficient is **{m.params[1]:+.3f} (p={m.pvalues[1]:.3f})** while "
+            f"licensing is **{m.params[2]:+.3f} (p={m.pvalues[2]:.3f})** — "
             + ("the basic↔applied dimension survives." if m.pvalues[1] < 0.10 else
                "the basic↔applied dimension adds little once licensing is netted (the apparent autonomy "
                "gradient is mostly the licensing of professional fields).")) + "\n",
@@ -129,7 +140,10 @@ def write_report(df, drivers, by_class, m):
          "`referenced_works` fields (or topic-cross-field entropy) → one insularity score per field → "
          "crosswalk OpenAlex's 26 research fields to these degree fields (the same lossy research-vs-"
          "degree mapping flagged in scripts 15–19) → Spearman(gap, insularity). ~26 field queries; "
-         "feasible but a real data pull. **Documented as the key next step, not run here.**\n",
+         "feasible but a real data pull. **Documented as the key next step, not run here.** (A *crude* "
+         "member-topic-dispersion proxy could be built today from the cached `orcid_field` tags + faculty "
+         "edges, but it would measure people's topic spread, NOT citation self-reference — a weak "
+         "substitute, so we defer to the real citation pull rather than ship a misleading proxy.)\n",
          "## Honest verdict\n",
          "As scoped, autonomy ≈ **licensing + a large unexplained residual**: academic-absorption is "
          f"{'null' if abs(da[0])<0.2 else 'weak'}, and the basic↔applied dimension "

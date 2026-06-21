@@ -45,13 +45,14 @@ def structure(g, c_F):
     fmed = g.y.median()
     top_prem = (top.y.median() - rest.y.median()) / fmed
     c_rest = spearmanr(rest.F, rest.y)[0]
-    # documented cutoffs (stable across the 0.5-0.7 graded-ratio range; see self-check)
+    # top_prem now PARTICIPATES: THRESHOLD = a large apex premium with a weak gradient below it,
+    # evaluated BEFORE the GRADED branch (the earlier ordering left top_prem inert - see self-check).
     if abs(c_F) < 0.20:
         cls = "FLAT"                                   # prestige barely maps to pay anywhere
-    elif np.isfinite(c_rest) and c_rest >= 0.5 * c_F and c_rest >= 0.20:
-        cls = "GRADED"                                 # relationship persists below the top tier
-    elif top_prem > 0.05:
-        cls = "THRESHOLD"                              # premium concentrated in the top tier
+    elif top_prem >= 0.10 and (not np.isfinite(c_rest) or c_rest < 0.30):
+        cls = "THRESHOLD"                              # winner-take-all: big top tier, flat-ish rest
+    elif np.isfinite(c_rest) and c_rest >= 0.30:
+        cls = "GRADED"                                 # gradient persists below the top tier
     else:
         cls = "FLAT"
     return cls, top_prem, c_rest
@@ -71,7 +72,29 @@ def main():
     im = pd.DataFrame(rows).sort_values("integration", ascending=False)
     im.to_csv(ROOT / "data" / "interim" / "integration_map.csv", index=False)
 
-    write_report(im)
+    # honesty diagnostics demanded by adversarial review:
+    rel = im[im.structure != "n/a"]
+    cls_ord = {"FLAT": 0, "THRESHOLD": 1, "GRADED": 2}
+    redund = dict(rest_vs_cF=spearmanr(rel.rest_corr, rel.integration)[0],
+                  class_vs_cF=spearmanr(rel.structure.map(cls_ord), rel.integration)[0])
+    # cutoff sweep: 3-way split sensitivity to the flat-cut and the graded c_rest threshold
+    sweep = {}
+    for flat_cut in (0.10, 0.20, 0.30):
+        for cr_cut in (0.20, 0.30, 0.40):
+            c = []
+            for _, r in rel.iterrows():
+                if abs(r.integration) < flat_cut:
+                    c.append("FLAT")
+                elif r.top_decile_premium >= 0.10 and (not np.isfinite(r.rest_corr) or r.rest_corr < cr_cut):
+                    c.append("THRESHOLD")
+                elif np.isfinite(r.rest_corr) and r.rest_corr >= cr_cut:
+                    c.append("GRADED")
+                else:
+                    c.append("FLAT")
+            vc = pd.Series(c).value_counts()
+            sweep[(flat_cut, cr_cut)] = (vc.get("GRADED", 0), vc.get("THRESHOLD", 0), vc.get("FLAT", 0))
+
+    write_report(im, redund, sweep)
     make_figures(im)
 
     rel = im[im.structure != "n/a"]
@@ -83,7 +106,7 @@ def main():
     print(im.tail(6)[["label", "n", "integration", "structure"]].to_string(index=False))
 
 
-def write_report(im):
+def write_report(im, redund, sweep):
     rel = im[im.structure != "n/a"]
     vc = rel.structure.value_counts().to_dict()
     L = ["# Two-market integration map (static)\n",
@@ -109,22 +132,35 @@ def write_report(im):
          "earns a premium); persists in the rest → **GRADED** (academic standing is rewarded gradually); "
          "neither → **FLAT** (prestige barely maps to pay).\n",
          f"Among the {len(rel)} fields with ≥{MIN_N_STRUCT} institutions: "
-         f"**GRADED {vc.get('GRADED',0)}, THRESHOLD {vc.get('THRESHOLD',0)}, FLAT {vc.get('FLAT',0)}**.\n",
-         "Answers *'is academic standing rewarded gradually, or only at the very top?'* — and it varies "
-         "by field:\n",
+         f"**GRADED {vc.get('GRADED',0)}, THRESHOLD {vc.get('THRESHOLD',0)}, FLAT {vc.get('FLAT',0)}**ITHRESHOLD"
+         f" (THRESHOLD = {', '.join(rel[rel.structure=='THRESHOLD'].label)}).\n".replace("ITHRESHOLD", ""),
+         "**Honest caveat — the structure is largely a re-cut of integration STRENGTH, not an orthogonal "
+         "SHAPE.** After adversarial review: the non-top-decile correlation `c_rest` tracks the overall "
+         f"`c_F` at Spearman **{redund['rest_vs_cF']:+.2f}**, and the class ordinal tracks `c_F` at "
+         f"**{redund['class_vs_cF']:+.2f}** — so GRADED-vs-FLAT mostly restates whether integration is "
+         "strong or weak. The one genuinely shape-based cell is **THRESHOLD** (large top-decile premium "
+         "with a weak gradient below — fixed by the top-decile premium, which now does the classifying), "
+         "but it is only "
+         f"{vc.get('THRESHOLD',0)}/{len(rel)} fields and (see below) medians cannot really validate it.\n",
          rel.sort_values("integration", ascending=False)[
              ["label", "n", "integration", "structure", "top_decile_premium", "rest_corr"]]
             .to_markdown(index=False, floatfmt=("", ".0f", "+.2f", "", "+.2f", "+.2f")),
-         "\n- **GRADED** fields are the genuinely integrated ones: prestige maps to pay across the whole "
-         "hierarchy, not just at the apex. **THRESHOLD** fields have a winner-take-all top tier with a "
-         "pooled remainder — integration is an elite-tier phenomenon there. **FLAT** fields are segmented "
-         "(the gap is high and there is no top-tier rescue).",
-         "- **GRADED dominates and THRESHOLD is rare on MEDIANS — but that is exactly what Chetty-Deming-"
-         "Friedman predicts.** Their winner-take-all brand premium is concentrated in the elite TAIL "
-         "(top-1% earnings, elite firms/grad school) that Scorecard MEDIANS cannot see; a median-earnings "
-         "view will therefore under-detect THRESHOLD shapes. So 'mostly graded on medians' is consistent "
-         "with 'winner-take-all in the tail' — not a contradiction of it. The robust claim is that "
-         "integration has different *shapes*, not just different *strengths*.\n",
+         "\n**Cutoff sensitivity (the 3-way split is NOT robust).** GRADED/THRESHOLD/FLAT counts across a "
+         "flat-cut × c_rest-cut grid:\n",
+         "| flat_cut \\ c_rest_cut | 0.20 | 0.30 | 0.40 |\n|---|---|---|---|\n"
+         + "\n".join(f"| {fc:.2f} | " + " | ".join(f"{sweep[(fc,cc)][0]}/{sweep[(fc,cc)][1]}/{sweep[(fc,cc)][2]}"
+                                                    for cc in (0.20, 0.30, 0.40)) + " |"
+                     for fc in (0.10, 0.20, 0.30)) + "  *(GRADED/THRESHOLD/FLAT)*",
+         "\nFLAT swings widely with the flat-cut and THRESHOLD with the c_rest-cut — the headline counts "
+         "are cutoff-dependent. **The robust, honest reading is weaker than 'three clean shapes':** "
+         "integration varies mostly in **strength** (≈the gap), with a small, cutoff-sensitive set of "
+         "**THRESHOLD** (apex-only) fields layered on top.\n",
+         "- **Why THRESHOLD is rare here is a LIMITATION, not a finding (corrected from the earlier "
+         "draft).** Scorecard reports MEDIANS, and a winner-take-all premium lives in the elite TAIL "
+         "(top-1%, elite firms) that medians cannot see (Chetty-Deming-Friedman). So **median data simply "
+         "cannot test winner-take-all** — the rarity of THRESHOLD on medians is what the data can't "
+         "resolve, not evidence that winner-take-all is absent. (The earlier draft mis-framed this as a "
+         "defense; it is a ceiling on what medians can show.)\n",
          "## 3. Integration barriers (reframe — no new channel compute)\n",
          "What keeps the two markets apart? The ONE externally-identified barrier is **occupational "
          "LICENSING** (b_licensure ≈ **+0.66** on the gap, scripts/20): credentialing standardizes pay "
@@ -151,8 +187,11 @@ def write_report(im):
          "here** — sized, not executed.\n",
          "## Adversarial self-check\n",
          "1. **Integration index = 1 − gap is a REFRAME** (disclosed) — section 1 adds no new measurement. "
-         "The genuinely new content is (a) the **structure classification** (GRADED/THRESHOLD/FLAT) and "
-         "(b) the **feasibility sizing** of the dynamic test.",
+         "The attempted new content (structure classification) turned out **largely redundant with "
+         f"integration strength** (class vs c_F Spearman {redund['class_vs_cF']:+.2f}; c_rest vs c_F "
+         f"{redund['rest_vs_cF']:+.2f}); only the small, cutoff-sensitive **THRESHOLD** cell is genuinely "
+         "shape-based, and medians cannot validate it. The one clean new contribution is (b) the "
+         "**feasibility sizing** of the dynamic test.",
          "2. **'Two markets' is a metaphor**, not literal arbitrage: there is no traded asset, no "
          "enforceable law of one price; 'integration/segmentation' is a descriptive analogy for how "
          "tightly two valuation orderings co-move.",
@@ -162,10 +201,10 @@ def write_report(im):
          "value-added; a THRESHOLD shape, in particular, is exactly what Chetty's elite-tail story "
          "predicts on selection grounds (top-tier brands enroll the students whose tails the median "
          "still partly reflects). The structure classes describe shape, not cause.",
-         "5. **Thresholds are tunable:** the GRADED/THRESHOLD/FLAT cutoffs (|c_F|<0.2 flat; c_rest≥0.5·c_F "
-         "graded; top-premium>3% threshold) are documented and reproducible; field counts may shift "
-         "modestly with the cutoffs — the qualitative point (integration has different *shapes*, not just "
-         "different *strengths*) is the robust claim.\n"]
+         "5. **Cutoffs are tunable and the split is sensitive** (the sweep above shows FLAT and THRESHOLD "
+         "counts move materially across the grid). The honest qualitative claim is the WEAKER one: "
+         "integration varies mostly in *strength* (≈ the gap), with a small, cutoff-sensitive THRESHOLD "
+         "(apex-only) set on top — NOT three robustly-separated shapes.\n"]
     (ROOT / "TWO_MARKET_INTEGRATION_RESULT.md").write_text("\n".join(L))
 
 

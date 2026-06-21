@@ -36,9 +36,9 @@
 
 The same correlation hides different shapes. For each field we compare the **top-prestige-decile pay premium** against the prestige–pay correlation **among the non-top-decile** institutions: driven only by the top decile → **THRESHOLD** (winner-take-all: only the most prestigious tier earns a premium); persists in the rest → **GRADED** (academic standing is rewarded gradually); neither → **FLAT** (prestige barely maps to pay).
 
-Among the 44 fields with ≥20 institutions: **GRADED 37, THRESHOLD 4, FLAT 3**.
+Among the 44 fields with ≥20 institutions: **GRADED 30, THRESHOLD 5, FLAT 9** (THRESHOLD = Theatre, Spanish Lang & Lit, Biology, Physics, Geography).
 
-Answers *'is academic standing rewarded gradually, or only at the very top?'* — and it varies by field:
+**Honest caveat — the structure is largely a re-cut of integration STRENGTH, not an orthogonal SHAPE.** After adversarial review: the non-top-decile correlation `c_rest` tracks the overall `c_F` at Spearman **+0.96**, and the class ordinal tracks `c_F` at **+0.80** — so GRADED-vs-FLAT mostly restates whether integration is strong or weak. The one genuinely shape-based cell is **THRESHOLD** (large top-decile premium with a weak gradient below — fixed by the top-decile premium, which now does the classifying), but it is only 5/44 fields and (see below) medians cannot really validate it.
 
 | label                    |   n |   integration | structure   |   top_decile_premium |   rest_corr |
 |:-------------------------|----:|--------------:|:------------|---------------------:|------------:|
@@ -71,24 +71,33 @@ Answers *'is academic standing rewarded gradually, or only at the very top?'* �
 | Management               |  90 |         +0.48 | GRADED      |                +0.20 |       +0.43 |
 | Social Work              |  68 |         +0.45 | GRADED      |                +0.09 |       +0.39 |
 | Biochemistry             |  47 |         +0.42 | GRADED      |                +0.11 |       +0.35 |
-| Theatre                  |  46 |         +0.38 | GRADED      |                +0.20 |       +0.29 |
-| Spanish Lang & Lit       |  30 |         +0.38 | GRADED      |                +0.31 |       +0.25 |
-| Biology                  | 137 |         +0.35 | GRADED      |                +0.13 |       +0.28 |
+| Theatre                  |  46 |         +0.38 | THRESHOLD   |                +0.20 |       +0.29 |
+| Spanish Lang & Lit       |  30 |         +0.38 | THRESHOLD   |                +0.31 |       +0.25 |
+| Biology                  | 137 |         +0.35 | THRESHOLD   |                +0.13 |       +0.28 |
 | Physics                  |  43 |         +0.35 | THRESHOLD   |                +0.37 |       +0.18 |
 | Philosophy               |  41 |         +0.34 | GRADED      |                +0.07 |       +0.34 |
-| Chemistry                |  76 |         +0.31 | GRADED      |                +0.08 |       +0.24 |
-| Earth Sciences           |  50 |         +0.28 | GRADED      |                +0.10 |       +0.27 |
-| Nutrition Sciences       |  30 |         +0.27 | THRESHOLD   |                +0.06 |       +0.17 |
-| Geography                |  41 |         +0.24 | GRADED      |                +0.11 |       +0.21 |
-| Teacher Ed (subjects)    |  36 |         +0.23 | GRADED      |                +0.04 |       +0.22 |
-| Environmental Sciences   |  48 |         +0.23 | THRESHOLD   |                +0.06 |       +0.17 |
-| Architecture             |  34 |         +0.22 | THRESHOLD   |                +0.09 |       +0.13 |
+| Chemistry                |  76 |         +0.31 | FLAT        |                +0.08 |       +0.24 |
+| Earth Sciences           |  50 |         +0.28 | FLAT        |                +0.10 |       +0.27 |
+| Nutrition Sciences       |  30 |         +0.27 | FLAT        |                +0.06 |       +0.17 |
+| Geography                |  41 |         +0.24 | THRESHOLD   |                +0.11 |       +0.21 |
+| Teacher Ed (subjects)    |  36 |         +0.23 | FLAT        |                +0.04 |       +0.22 |
+| Environmental Sciences   |  48 |         +0.23 | FLAT        |                +0.06 |       +0.17 |
+| Architecture             |  34 |         +0.22 | FLAT        |                +0.09 |       +0.13 |
 | Animal Sciences          |  35 |         +0.20 | FLAT        |                +0.01 |       +0.17 |
 | Nursing                  |  99 |         +0.07 | FLAT        |                +0.01 |       +0.05 |
 | Music                    |  76 |         +0.04 | FLAT        |                +0.15 |       -0.07 |
 
-- **GRADED** fields are the genuinely integrated ones: prestige maps to pay across the whole hierarchy, not just at the apex. **THRESHOLD** fields have a winner-take-all top tier with a pooled remainder — integration is an elite-tier phenomenon there. **FLAT** fields are segmented (the gap is high and there is no top-tier rescue).
-- **GRADED dominates and THRESHOLD is rare on MEDIANS — but that is exactly what Chetty-Deming-Friedman predicts.** Their winner-take-all brand premium is concentrated in the elite TAIL (top-1% earnings, elite firms/grad school) that Scorecard MEDIANS cannot see; a median-earnings view will therefore under-detect THRESHOLD shapes. So 'mostly graded on medians' is consistent with 'winner-take-all in the tail' — not a contradiction of it. The robust claim is that integration has different *shapes*, not just different *strengths*.
+**Cutoff sensitivity (the 3-way split is NOT robust).** GRADED/THRESHOLD/FLAT counts across a flat-cut × c_rest-cut grid:
+
+| flat_cut \ c_rest_cut | 0.20 | 0.30 | 0.40 |
+|---|---|---|---|
+| 0.10 | 37/1/6 | 30/5/9 | 24/8/12 |
+| 0.20 | 37/1/6 | 30/5/9 | 24/8/12 |
+| 0.30 | 34/1/9 | 30/4/10 | 24/7/13 |  *(GRADED/THRESHOLD/FLAT)*
+
+FLAT swings widely with the flat-cut and THRESHOLD with the c_rest-cut — the headline counts are cutoff-dependent. **The robust, honest reading is weaker than 'three clean shapes':** integration varies mostly in **strength** (≈the gap), with a small, cutoff-sensitive set of **THRESHOLD** (apex-only) fields layered on top.
+
+- **Why THRESHOLD is rare here is a LIMITATION, not a finding (corrected from the earlier draft).** Scorecard reports MEDIANS, and a winner-take-all premium lives in the elite TAIL (top-1%, elite firms) that medians cannot see (Chetty-Deming-Friedman). So **median data simply cannot test winner-take-all** — the rarity of THRESHOLD on medians is what the data can't resolve, not evidence that winner-take-all is absent. (The earlier draft mis-framed this as a defense; it is a ceiling on what medians can show.)
 
 ## 3. Integration barriers (reframe — no new channel compute)
 
@@ -103,8 +112,8 @@ The exciting extension is DYNAMIC: when a field is economically revalued (earnin
 
 ## Adversarial self-check
 
-1. **Integration index = 1 − gap is a REFRAME** (disclosed) — section 1 adds no new measurement. The genuinely new content is (a) the **structure classification** (GRADED/THRESHOLD/FLAT) and (b) the **feasibility sizing** of the dynamic test.
+1. **Integration index = 1 − gap is a REFRAME** (disclosed) — section 1 adds no new measurement. The attempted new content (structure classification) turned out **largely redundant with integration strength** (class vs c_F Spearman +0.80; c_rest vs c_F +0.96); only the small, cutoff-sensitive **THRESHOLD** cell is genuinely shape-based, and medians cannot validate it. The one clean new contribution is (b) the **feasibility sizing** of the dynamic test.
 2. **'Two markets' is a metaphor**, not literal arbitrage: there is no traded asset, no enforceable law of one price; 'integration/segmentation' is a descriptive analogy for how tightly two valuation orderings co-move.
 3. **Static = descriptive**: no lead-lag and no causal claim is made; section 4 only SIZES the dynamic test, it does not run or pre-judge it.
 4. **Selection:** the prestige–pay co-movement reflects who enrolls as much as institutional value-added; a THRESHOLD shape, in particular, is exactly what Chetty's elite-tail story predicts on selection grounds (top-tier brands enroll the students whose tails the median still partly reflects). The structure classes describe shape, not cause.
-5. **Thresholds are tunable:** the GRADED/THRESHOLD/FLAT cutoffs (|c_F|<0.2 flat; c_rest≥0.5·c_F graded; top-premium>3% threshold) are documented and reproducible; field counts may shift modestly with the cutoffs — the qualitative point (integration has different *shapes*, not just different *strengths*) is the robust claim.
+5. **Cutoffs are tunable and the split is sensitive** (the sweep above shows FLAT and THRESHOLD counts move materially across the grid). The honest qualitative claim is the WEAKER one: integration varies mostly in *strength* (≈ the gap), with a small, cutoff-sensitive THRESHOLD (apex-only) set on top — NOT three robustly-separated shapes.

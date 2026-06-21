@@ -32,11 +32,13 @@ Most autonomous (high gap, self-referential) → most market-embedded (low gap):
 
 ## Drivers of autonomy (Spearman with gap)
 
-| driver | Spearman(gap, ·) | p | n | status |
-|---|---|---|---|---|
-| academic-absorption (reuse) | -0.00 | 0.983 | 47 | NULL (as previously found) |
-| basic↔applied↔professional ordering (NEW) | -0.01 | 0.926 | 57 | does NOT support (see below) |
-| licensing (reuse, cite +0.66 on gap) | +0.37 | 0.009 | 48 | the one clean channel |
+*Underpowered: n=47-57 gives ~80% power only for |Spearman|≥0.39, so a small true effect could read as null. Bootstrap 95% CIs shown.*
+
+| driver | Spearman(gap, ·) | 95% CI | p | n | status |
+|---|---|---|---|---|---|
+| academic-absorption (reuse) | -0.00 | [-0.28, +0.28] | 0.983 | 47 | NULL (as previously found) |
+| basic↔applied ordering (NEW) | -0.01 | [-0.28, +0.24] | 0.926 | 57 | does NOT support (see below) |
+| licensing (reuse) | +0.37 | [+0.09, +0.59] | 0.009 | 48 | one channel (OLS slope +0.62 on 0-1 licensure; scripts/20 reported +0.66 in its own spec) |
 
 ### basic↔applied dimension (NEW) — gap by class
 
@@ -46,11 +48,11 @@ Most autonomous (high gap, self-referential) → most market-embedded (low gap):
 | applied      |  0.577 |        0 |      17 |
 | professional |  0.614 |        1 |      17 |
 
-**The autonomy thesis (basic/autonomous fields have higher gaps) is NOT supported / confounded.** The ordering correlates -0.01 with the gap — but note the **professional** fields have the highest mean gap, which is the **licensing** channel (health/credential fields are licensed → compressed pay → high gap), not autonomy. Controlling for licensing, the basic↔applied ordering coefficient is **-0.023 (p=0.545)** while licensing is **+0.616 (p=0.009)** — the basic↔applied dimension adds little once licensing is netted (the apparent autonomy gradient is mostly the licensing of professional fields).
+**The autonomy thesis (basic/autonomous fields have higher gaps) is NOT supported / confounded.** The ordering correlates -0.01 with the gap — but note the **professional** fields have the highest mean gap, which is the **licensing** channel (health/credential fields are licensed → compressed pay → high gap), not autonomy. Controlling for licensing (OLS, n=48 — 6 professional fields dropped for missing licensure_strict; the ordering null holds on both the n=57 Spearman and this n=48 OLS), the basic↔applied ordering coefficient is **-0.023 (p=0.545)** while licensing is **+0.616 (p=0.009)** — the basic↔applied dimension adds little once licensing is netted (the apparent autonomy gradient is mostly the licensing of professional fields).
 
 ## STRONGEST test — OpenAlex field insularity (NOT run; key next step)
 
-The one genuinely-new positive test the autonomy thesis could pass is an EXTERNAL self-reference measure independent of the channels: do more **insular / self-referential** fields (citations staying within-field; low cross-field citation diversity) have higher gaps? **Feasibility:** the repo has OpenAlex *field tags* per person (`orcid_field.parquet`, scripts 15–19) and an API key, but **no citation/insularity data** — that needs a new pull. Minimal viable: for each OpenAlex field, sample works and compute the within-field share of `referenced_works` fields (or topic-cross-field entropy) → one insularity score per field → crosswalk OpenAlex's 26 research fields to these degree fields (the same lossy research-vs-degree mapping flagged in scripts 15–19) → Spearman(gap, insularity). ~26 field queries; feasible but a real data pull. **Documented as the key next step, not run here.**
+The one genuinely-new positive test the autonomy thesis could pass is an EXTERNAL self-reference measure independent of the channels: do more **insular / self-referential** fields (citations staying within-field; low cross-field citation diversity) have higher gaps? **Feasibility:** the repo has OpenAlex *field tags* per person (`orcid_field.parquet`, scripts 15–19) and an API key, but **no citation/insularity data** — that needs a new pull. Minimal viable: for each OpenAlex field, sample works and compute the within-field share of `referenced_works` fields (or topic-cross-field entropy) → one insularity score per field → crosswalk OpenAlex's 26 research fields to these degree fields (the same lossy research-vs-degree mapping flagged in scripts 15–19) → Spearman(gap, insularity). ~26 field queries; feasible but a real data pull. **Documented as the key next step, not run here.** (A *crude* member-topic-dispersion proxy could be built today from the cached `orcid_field` tags + faculty edges, but it would measure people's topic spread, NOT citation self-reference — a weak substitute, so we defer to the real citation pull rather than ship a misleading proxy.)
 
 ## Honest verdict
 

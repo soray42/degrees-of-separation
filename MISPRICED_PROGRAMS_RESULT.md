@@ -78,19 +78,28 @@ Mean standardized residual across each institution's fields (≥3 fields; single
 | University of Kentucky                          |         30 |        -0.85 |         0.52 |
 | University of Wisconsin - Milwaukee             |         33 |        -0.84 |         0.48 |
 
-Note the **mean_G_pct** column — if over-performing institutions are systematically high-brand (or low-brand), that is the selection/brand signal, not value-added: corr(mean_resid, mean_G_pct) = **+0.31** across institutions.
+### What the residual actually conflates — GEOGRAPHY dominates (adversarial-review addition)
+
+The brand column corr(mean_resid, mean_G_pct) = **+0.31** is vs the academic-HIRING brand, **not** selectivity/wealth/geography — so it is a weak read on the real confounders. A partial **geography** proxy IS derivable in-repo (PSEO institution state; matched 38% of institutions, 44% of programs):
+
+- **R²(institution mean residual ~ state fixed effects) = 0.46** vs R²(~ brand) = 0.00.
+- **R²(program residual ~ state FE) = 0.13** vs R²(~ brand) = 0.00.
+
+**Geography/regional wages explain far more of the 'mispricing' than academic brand does** — the named extremes (Santa Clara = Silicon Valley; high-residual VA/MA/CT vs low-residual IA/MN/OH; top over-performers are selective coastal/urban privates — Georgetown, Dartmouth, Vanderbilt, BC) track regional labour markets and selectivity, exactly the selection confound. The disagreement is mostly **where you are and who you enrol**, not academic value-added.
+
+Also note: because field prestige explains little of within-field earnings (mean Spearman(F,y)≈0.42 ⇒ ~18% of rank-variance), the standardized residual is **+0.88-correlated with the raw within-field earnings ranking** — a 'market-overperforming' program is mostly just a **high-paying one for its field**, which is the geography/selection signal again, lightly adjusted for prestige.
 
 ## Robustness — does the disagreement survive across earnings horizons?
 
-Program-level residual rank-stability vs the 4yr residual: **1yr +0.56, 5yr +0.64**. Stable → the over/under-valuation is a robust disagreement, not a single-horizon artifact.
+Program-level residual rank-stability vs 4yr: **1yr +0.56, 5yr +0.64** (only ~31–41% shared rank-variance). **Moderate, not strong:** 29% of program residuals FLIP the sign of their over/under-valuation between 1yr and 4yr. The residual **DISTRIBUTION** is reasonably stable but **individual program labels are horizon-sensitive** — read the named programs as illustrative only, never as a verdict on a program.
 
-## Selectivity netting (optional) — NOT FEASIBLE in-repo
+## Selectivity netting (optional) — partial geography proxy derivable; admit-rate/SAT absent
 
-The optional 'residual net of selectivity' (y ~ F + admit-rate/SAT) is **not run**: no institution-level selectivity (ADM_RATE, SAT/ACT) is in the repo — the Scorecard FoS file is field-level and carries none, and IPEDS here is Completions only. So the selection confound **cannot be netted out** with current data — which makes the HARD CAVEAT load-bearing. To add it: pull the Scorecard institution file (ADM_RATE, SAT_AVG) and re-residualize y ~ F + selectivity (still descriptive; selection-on-unobservables would remain).
+Direct selectivity (ADM_RATE, SAT/ACT) is **not in the repo** (Scorecard FoS is field-level; IPEDS here is Completions only), so y ~ F + selectivity is not run. **But the selection confound is NOT un-probeable:** the PSEO-state geography check above already absorbs far more residual variance than brand, so the HARD CAVEAT is empirically load-bearing, not just asserted. To net selectivity fully: pull the Scorecard institution file (ADM_RATE, SAT_AVG) and re-residualize y ~ F + selectivity (still descriptive; selection-on-unobservables remains).
 
 ## Adversarial self-check
 
-1. **Selection vs value-added (central):** the entire residual is contaminated by who enrols. The institution-level corr(mean_resid, mean brand percentile) above is a direct read on how much the 'mispricing' is just brand/selectivity sorting. We claim DISAGREEMENT between two valuations, never value-added or 'underrated'.
+1. **Selection vs value-added (central, strengthened):** the residual is dominated by who enrols and WHERE — the PSEO-state geography check shows state fixed effects explain far more residual variance (R²≈0.46 institution-level) than academic brand (R²≈0.00), and the residual is +0.88-correlated with the raw within-field pay ranking. We claim DISAGREEMENT between two valuations, never value-added or 'underrated'; the disagreement is mostly geography/selection.
 2. **Named = illustrative, distribution = robust:** institution×field Scorecard earnings are noisy (small cohorts, privacy suppression); the named tables are examples, and we require cohort ≥ 30 to surface one. The robust objects are the residual DISTRIBUTION and the institution-level aggregate, not any single program.
 3. **Horizon stability** is reported above; unstable program residuals are noise.
 4. **Selectivity-netting** would change which programs top the list; it is not feasible here and is flagged, not silently skipped.
