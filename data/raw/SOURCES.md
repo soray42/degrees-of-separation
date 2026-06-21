@@ -87,8 +87,16 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
 - **Files (→ `data/raw/pseo/`):**
   - `pseoe_all.csv.gz` — earnings, all 33 partner-state institutions (985 inst, 623k rows).
     `https://lehd.ces.census.gov/data/pseo/latest_release/all/pseoe_all.csv.gz`
-  - `pseo_all_institutions.csv` — institution id (8-char OPEID) → `label` (name) → state.
+  - `pseo_all_institutions.csv` — institution id (8-char OPEID) → `label` (name) → `institution_state`.
   - (`pseoe_us.csv.gz`, institutions = the "US/national-location" pseudo-set, only 1 inst — not used.)
+  - **`pseof_all.csv.gz` — PSEO FLOWS** (destination geography + industry; 174 MB, ~42M rows; added
+    2026-06-21 for scripts/32). `https://lehd.ces.census.gov/data/pseo/latest_release/all/pseof_all.csv.gz`.
+    Key cols: `y5_grads_emp`, `y5_grads_emp_instate` (in-state employment), `geo_level` (N national /
+    D destination-state), `ind_level` (A all / S sector), `geography`. **Flows are only at CIP-2 / all-CIP**
+    (no CIP-4), so geography is used at the INSTITUTION level. Gitignored (multi-100MB).
+  - **Dollar basis:** PSEO earnings are **real / constant 2023 dollars** (inflation-adjusted; confirmed
+    from the LEHD public-use schema) — so cross-cohort time series (scripts/33) need NO further deflation.
+    Used by scripts/32 (gap cross-validation + flows geography) and scripts/33 (earnings revaluation).
 - **Schema used:** `institution, degree_level` (05=Bachelor's, 07=Master's, 17=Doctoral-research,
   18=Doctoral-prof), `cipcode` (e.g. `11.07`), `cip_level` (keep `4`), `inst_level` (keep `I`),
   `grad_cohort` (`0000`=pooled), `y5_p25/p50/p75_earnings`, `y5_grads_earn`, `status_y5_earnings`
