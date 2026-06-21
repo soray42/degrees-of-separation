@@ -113,6 +113,15 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
     rebuild a Wapman-style hierarchy (`outputs/ORCID_OVERLAP_VALIDATION_RESULT.md`).
 - ORCID public data file (`https://orcid.org/`, CC0); OpenAlex (`https://docs.openalex.org/`, CC0)
   — for the per-person field tag in the full Tier-1 build.
+- **OpenAlex API field-tagging (executed 2026-06-21)** — `https://api.openalex.org`. 2026 auth:
+  API key is a **query param `api_key=`** (not a header) + `mailto=` polite pool; free keyed tier
+  ≈ $1/day, 10,000 list+filter calls/day. Key/mailto in gitignored `secrets.json` (or env
+  `OPENALEX_API_KEY`/`OPENALEX_MAILTO`). Route A `/authors?filter=orcid:o1|o2|…` (batch 50) → modal
+  field over `author.topics[].field` (Scopus-derived **26 fields**); concepts endpoint deprecated.
+  Module `src/openalex_tag.py`; raw lookups cached JSONL in `data/interim/openalex_cache/`
+  (gitignored). Output `data/interim/orcid_field.parquet` (63,711 ORCIDs, 80.3% tagged). Verdict in
+  `outputs/OPENALEX_TAGGING_RESULT.md`: research-field tags ≠ degree-field; do not raise per-field
+  Wapman ρ (coverage-bound, not tag-noise-bound).
 
 ---
 
