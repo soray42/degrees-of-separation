@@ -53,28 +53,34 @@ The mixture decomposition gives **b_licensure = +0.66** (licensure raises the ga
 
 ### (i) Compression test -- does licensure shrink within-field wage variance?
 
-`corr(licensure, within-field cross-institution wage CV)` = **+0.02** [-0.30,+0.32] (n=45). Mean CV: licensed (>= 0) **0.137** vs unlicensed (<0.1) **0.166**. **Wage compression is NOT supported**: licensed fields do NOT have markedly lower within-field wage variance -- there is still real cross-institution wage spread to predict.
+`corr(licensure, within-field cross-institution wage CV)` = **+0.02** [-0.30,+0.32] (n=45). **Wage compression is NOT supported**: licensed fields do not have markedly lower within-field wage variance -- there is still real cross-institution wage spread to predict (e.g. Nursing CV 0.10 is mid-pack). So apparent decoupling in licensed fields is not 'no variance to predict'.
 
-### (ii) Decomposition -- is that variance prestige-driven or setting-driven?
+### (ii) Commonality decomposition -- prestige vs geography, handling their overlap
 
-Per field, within-field institution earnings variance is decomposed into a **prestige** component (R^2 of earnings ~ SpringRank F) and a **destination-geography/setting** component (R^2 of earnings ~ institution-state fixed effects). Across fields:
+Elite institutions cluster geographically, so a separate `R^2(earnings~prestige)` and `R^2(earnings~state)` overlap; we therefore use **incremental (partial) R^2**. Per field: `incremental_prestige = R2_full - R2_geo_only` (what school prestige adds BEYOND where the school is); `incremental_geo = R2_full - R2_prestige_only`; `shared` is the geographically-confounded overlap. Decomposable fields: **n=34** (>= 15 institutions; 5 thin, 15--19 inst., flagged). **Headline (continuous gradient):**
 
-- `corr(licensure, prestige_R^2)` = **-0.45** [-0.72,-0.09] -- higher licensure, *less* of the wage spread is explained by school prestige.
+- `corr(licensure, incremental_prestige)` = **-0.59** [-0.80,-0.30] -- **negative**: as licensure rises, school prestige adds essentially nothing beyond geography. Robust to dropping thin fields: -0.57 (n=29).
 
-- `corr(licensure, geography_R^2)` = **+0.52** [+0.17,+0.75] -- higher licensure, *more* of it is explained by where the institution (and so the graduate) is.
+- `corr(licensure, incremental_geo)` = **+0.47** [+0.16,+0.69] -- geography adds *more* beyond prestige as licensure rises.
 
-- `corr(licensure, geography_R^2 - prestige_R^2)` = **+0.51** [+0.15,+0.76] -- the geography-over-prestige dominance rises with licensure (n=29).
+- `corr(licensure, shared)` = -0.20 [-0.53,+0.17] (the confounded overlap; small).
 
 
-| group | n | mean prestige R^2 | mean geography R^2 |
-|---|---|---|---|
-| licensed (licensure >= 0) | 3 | 0.095 | 0.684 |
-| unlicensed | 26 | 0.237 | 0.550 |
-| **Nursing** (clean case) | 99 | 0.003 | 0.721 |
+**Group means by licensure tercile (ILLUSTRATION only; the headline is the continuous gradient):**
 
-### Verdict: the mechanism is **(b) PRESTIGE-ORTHOGONAL VARIANCE**
+| licensure tercile | n | licensure range | mean incremental_prestige | mean incremental_geo | mean shared |
+|---|---|---|---|---|---|
+| low | 12 | 0.03--0.08 | 0.218 | 0.361 | 0.130 |
+| mid | 11 | 0.09--0.17 | 0.079 | 0.557 | 0.075 |
+| high | 11 | 0.18--0.77 | 0.063 | 0.536 | 0.085 |
 
-Across all fields the data show licensed fields retain real within-field wage variance (no compression), but that variance is **prestige-orthogonal** -- driven by destination geography / setting, not by the school's academic prestige. Nursing is the clean illustration (licensed, high occupational prestige, low underemployment, low deferral): its within-field wage spread is 72%-explained by state and only 0% by prestige. So the story behind **b_licensure = +0.66** is NOT 'the license compresses wages' but **'the license makes wages depend on setting (state/employer/shift), not school'** -- which mechanically drives the within-field prestige->pay rank disagreement that the gap measures. This is field-general (continuous across n=29 fields), not a Nursing special case.
+**Nursing (clean illustration):** incremental_prestige = **0.000** (prestige adds ~nothing beyond geography), incremental_geo = 0.71, on 46 institutions -- nursing pay is a state/setting phenomenon, not an alma-mater one.
+
+### Verdict: the mechanism is **(b) prestige-orthogonal, setting-driven variance**
+
+Licensed fields retain real within-field wage variance (no compression), but that variance is **prestige-orthogonal**: school prestige adds no *incremental* predictive power over geography, while geography adds a lot. 
+
+**Attribution (do not over-attribute to the credential).** 'Licensure' here is the cleanest OBSERVABLE marker for a **collinear bundle** -- regulated / public-sector / locally-employed labour markets (the public-sector-share and pay-wedge channels are collinear with licensure, `EXTERNAL_CHANNELS_RESULT.md`, |corr| up to 0.54). In these fields pay is set by **setting** (state / employer / shift / local pay scale), so school prestige adds no incremental power over geography -- which mechanically produces the within-field prestige->pay rank disagreement the gap measures. This is the mechanism behind **b_licensure = +0.66**: *the marker (not necessarily the credential-as-cause)* identifies where wages depend on setting, not school. Field-general (continuous across n=34 decomposable fields), not a Nursing special case.
 
 
 ## Synthesis
@@ -83,7 +89,7 @@ Across all fields the data show licensed fields retain real within-field wage va
 
 1. **Pipeline-deferral fields** -- a **cross-field proxy-timing** effect. Early-career BA earnings is a poor *terminal*-market proxy where graduates defer to graduate school; the field-level salary-vs-status divergence is explained by graduate-degree share (status residual ~ deferral, Pearson +0.59). This is **distinct from the project's null academic-absorption channel** (b_absorption = -0.02; absorption is PhD->academia, a different construct, near-orthogonal to deferral), and it does **not** explain the within-field gap (which is rank-based and horizon-stable). It narrows the 'earnings mis-prices natural science' claim to a measurement-timing fact.
 
-2. **Licensed fields** -- via **(b) prestige-orthogonal variance (setting, not school)**, *not* wage compression. Licensure does not shrink within-field wage variance (CV ~ licensure +0.02); rather, with higher licensure that variance becomes prestige-orthogonal -- driven by destination geography/setting, not school prestige (geography-over-prestige dominance ~ licensure +0.51). This is the mechanism behind b_licensure = +0.66: the license makes wages depend on *setting*, so prestige cannot predict pay and the field looks decoupled.
+2. **Licensed / regulated fields** -- via **(b) prestige-orthogonal, setting-driven variance (the license marks where pay is set by setting, not school)**, *not* wage compression. Licensure does not shrink within-field wage variance (CV ~ licensure +0.02, flat); rather, using a commonality (incremental-R^2) decomposition that handles the geographic clustering of elite institutions, **school prestige adds essentially nothing beyond geography as licensure rises** (corr(licensure, incremental_prestige) = -0.59; Nursing's incremental_prestige ~ 0). Here 'licensure' is the cleanest OBSERVABLE marker for a collinear bundle -- regulated / public-sector / locally-employed labour markets (the public-sector and pay-wedge channels are collinear with it, EXTERNAL_CHANNELS_RESULT.md). The mechanism behind b_licensure = +0.66: in these fields pay is set by *setting* (state / employer / shift / local pay scale), so prestige cannot predict pay and the field looks decoupled -- the marker, not necessarily the credential-as-cause.
 
 
 Neither failure is evidence that the labour market undervalues these fields; both are properties of **salary as a timed, setting-sensitive proxy** for revealed placement.
@@ -92,7 +98,7 @@ Neither failure is evidence that the labour market undervalues these fields; bot
 
 - **Absorption vs deferral reconciliation.** The null academic-absorption channel (PhD->academia, b_absorption = -0.02) and pipeline deferral (BA->grad-school) are different constructs and near-orthogonal (corr ~ +0.08); deferral drives the status residual while absorption does not. So 35b does not contradict, re-discover, or rehabilitate the absorption null -- it identifies a separate cross-field proxy-timing effect.
 
-- **35c mechanism stated explicitly.** The data reject (a) wage compression (CV is flat in licensure) and support (b) prestige-orthogonal/setting-driven variance. The honest consequence: the story is **'license makes wages depend on setting, not school'**, not 'license compresses wages'. Nursing is the clean illustration, but the claim is field-general (continuous across the decomposable fields).
+- **35c mechanism stated explicitly (commonality decomposition).** The data reject (a) wage compression (CV flat in licensure, +0.02) and support (b) prestige-orthogonal/setting-driven variance via incremental R^2 (corr(licensure, incremental_prestige) = -0.59, negative), which handles the geographic clustering of elite institutions that would confound a separate-R^2 attribution. Attribution is deliberately to the **observable marker** (regulated/public-sector/locally-employed bundle), not the credential-as-cause; the licensure-tercile group means are illustration only -- the headline is the continuous gradient.
 
 - **Rigor-up / punch-down on natural science.** 35b *narrows* rather than inflates: it converts an apparent 'market undervalues natural science' story into a proxy-window measurement fact, and leaves the within-field gap intact. We do not claim natural-science programs are well- or under-priced in terminal markets -- only that early-career BA salary cannot adjudicate it.
 

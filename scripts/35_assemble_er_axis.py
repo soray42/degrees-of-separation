@@ -28,11 +28,12 @@ def main():
     db = pd.read_csv(INTERIM / "er_axis_35b_deferral.csv").dropna(subset=["status_resid", "grad_degree_share"])
     r_defer = pearsonr(db.status_resid, db.grad_degree_share)[0]
     mc = pd.read_csv(INTERIM / "er_axis_35c_mechanism.csv")
-    cvr = spearmanr(mc.dropna(subset=["xinst_cv", "licensure"]).licensure,
-                    mc.dropna(subset=["xinst_cv", "licensure"]).xinst_cv)[0]
-    dd = mc.dropna(subset=["prestige_R2", "geo_R2", "licensure"])
-    rdom = spearmanr(dd.licensure, dd.geo_R2 - dd.prestige_R2)[0]
-    mech = "(b) prestige-orthogonal variance (setting, not school)" if rdom > 0.2 and cvr > -0.2 else \
+    cvm = mc.dropna(subset=["xinst_cv", "licensure"])
+    cvr = spearmanr(cvm.licensure, cvm.xinst_cv)[0]
+    dd = mc.dropna(subset=["incremental_prestige", "licensure"])
+    r_incp = spearmanr(dd.licensure, dd.incremental_prestige)[0]   # negative: prestige adds ~nothing beyond geography
+    mech = ("(b) prestige-orthogonal, setting-driven variance (the license marks where pay is set by setting, "
+            "not school)") if r_incp < -0.2 and cvr > -0.2 else \
            ("(a) wage compression" if cvr < -0.2 else "mixed")
 
     frags = []
@@ -66,12 +67,16 @@ def main():
         f"orthogonal to deferral), and it does **not** explain the within-field gap (which is rank-based and "
         f"horizon-stable). It narrows the 'earnings mis-prices natural science' claim to a measurement-timing "
         f"fact.\n",
-        f"2. **Licensed fields** -- via **{mech}**, *not* wage compression. Licensure does not shrink within-"
-        f"field wage variance (CV ~ licensure {cvr:+.2f}); rather, with higher licensure that variance becomes "
-        f"prestige-orthogonal -- driven by destination geography/setting, not school prestige (geography-over-"
-        f"prestige dominance ~ licensure {rdom:+.2f}). This is the mechanism behind b_licensure = "
-        f"{B_LICENSURE:+.2f}: the license makes wages depend on *setting*, so prestige cannot predict pay and "
-        f"the field looks decoupled.\n",
+        f"2. **Licensed / regulated fields** -- via **{mech}**, *not* wage compression. Licensure does not "
+        f"shrink within-field wage variance (CV ~ licensure {cvr:+.2f}, flat); rather, using a commonality "
+        f"(incremental-R^2) decomposition that handles the geographic clustering of elite institutions, "
+        f"**school prestige adds essentially nothing beyond geography as licensure rises** "
+        f"(corr(licensure, incremental_prestige) = {r_incp:+.2f}; Nursing's incremental_prestige ~ 0). Here "
+        f"'licensure' is the cleanest OBSERVABLE marker for a collinear bundle -- regulated / public-sector / "
+        f"locally-employed labour markets (the public-sector and pay-wedge channels are collinear with it, "
+        f"EXTERNAL_CHANNELS_RESULT.md). The mechanism behind b_licensure = {B_LICENSURE:+.2f}: in these fields "
+        f"pay is set by *setting* (state / employer / shift / local pay scale), so prestige cannot predict pay "
+        f"and the field looks decoupled -- the marker, not necessarily the credential-as-cause.\n",
         "\nNeither failure is evidence that the labour market undervalues these fields; both are properties of "
         "**salary as a timed, setting-sensitive proxy** for revealed placement.\n",
         "## Adversarial self-check\n",
@@ -80,10 +85,13 @@ def main():
         f"and near-orthogonal (corr ~ +0.08); deferral drives the status residual while absorption does not. So "
         f"35b does not contradict, re-discover, or rehabilitate the absorption null -- it identifies a separate "
         f"cross-field proxy-timing effect.\n",
-        f"- **35c mechanism stated explicitly.** The data reject (a) wage compression (CV is flat in licensure) "
-        f"and support (b) prestige-orthogonal/setting-driven variance. The honest consequence: the story is "
-        f"**'license makes wages depend on setting, not school'**, not 'license compresses wages'. Nursing is "
-        f"the clean illustration, but the claim is field-general (continuous across the decomposable fields).\n",
+        f"- **35c mechanism stated explicitly (commonality decomposition).** The data reject (a) wage "
+        f"compression (CV flat in licensure, {cvr:+.2f}) and support (b) prestige-orthogonal/setting-driven "
+        f"variance via incremental R^2 (corr(licensure, incremental_prestige) = {r_incp:+.2f}, negative), which "
+        f"handles the geographic clustering of elite institutions that would confound a separate-R^2 "
+        f"attribution. Attribution is deliberately to the **observable marker** (regulated/public-sector/"
+        f"locally-employed bundle), not the credential-as-cause; the licensure-tercile group means are "
+        f"illustration only -- the headline is the continuous gradient.\n",
         "- **Rigor-up / punch-down on natural science.** 35b *narrows* rather than inflates: it converts an "
         "apparent 'market undervalues natural science' story into a proxy-window measurement fact, and leaves "
         "the within-field gap intact. We do not claim natural-science programs are well- or under-priced in "
