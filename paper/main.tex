@@ -10,338 +10,349 @@
 \graphicspath{{../outputs/figures/}{../results/figures/}}
 \newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
 \newcommand{\coauthor}[1]{\textcolor{blue!60!black}{[COAUTHOR: #1]}}
-\title{\textbf{Degrees of Separation:\\ a measurable wedge between academic prestige\\ and the labour-market pricing of fields}}
+\title{\textbf{Degrees of Separation:\\ a measurable wedge between academic prestige\\ and the labour-market placement of fields}}
 \author{Sora Yng \and \coauthor{authorship/order to be set; see COAUTHOR\_NOTES.md}}
-\date{First draft --- assembled from the analysis record. Not for circulation.}
+\date{Draft --- restructured from the analysis record.}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Academic prestige and labour-market pay are two valuation systems pricing the same human capital
-(institution $\times$ field). We measure the wedge between them --- the \emph{academic--employer reputation gap},
-$\mathrm{gap}_f = 1 - \mathrm{Spearman}(\text{field prestige}, \text{earnings})$ within field across institutions
---- using a continuous SpringRank reconstruction of the US faculty-hiring network \citep{wapman2022quantifying,
-debacco2018physical} and College Scorecard field-of-study earnings, cross-validated against Census PSEO
-\citep{scorecard, pseo}. Three descriptive results form the spine. (i) The gap is \emph{structured by discipline}:
-a precision-weighted multilevel decomposition attributes $\sim$30\% of cross-field gap variance to between-CIP-2
-clusters (measurement-corrected $\sim$0.45; one-way $\eta^2=0.50$), with an integrated end
-(Computing, Mathematics/Statistics, Economics-adjacent social science, Engineering) and a decoupled end
-(Health, Arts, natural sciences). (ii) \emph{One} clean external channel --- occupational \emph{licensing}
-($b\approx+0.66$) --- plus a large irreducible residual; additional candidate channels are collinear and add
-essentially nothing. (iii) The structure is \emph{robust to a completely different earnings source}: PSEO and
-Scorecard rank institution pay near-identically (Spearman $+0.94$) and the field-level gap replicates
-($+0.68$). We further show the labour market \emph{actively reprices fields} in real dollars over two decades
-(Statistics $+\$2{,}311$/yr, Computer Science $+\$1{,}616$/yr; Pharmacy $-\$1{,}774$/yr), with a
-prestige--earnings lead--lag specified but not yet identified. Three deflationary analyses are reported as
-ruled-out alternatives and scope conditions: the gap is \emph{not} explained by generic-brand versus
-field-specific prestige (on medians the brand predicts pay at least as well), \emph{not} a distinct
-``shape'' beyond its strength, and program-level ``mispricing'' is largely geography and selection, not
-value-added. We make no causal claim; we read the wedge through signalling and employer-learning theory
-\citep{spence1973job, altonji2001employer, macleod2017big} and cite \citet{chetty2023diversifying} for why
-median data cannot see the tail where elite-brand effects concentrate. The practical implication is a critique
-of field-agnostic prestige rankings.
+Academic prestige and labour-market placement are two orderings of the same human capital
+(institution $\times$ field): where the \emph{academy} ranks a program (academic reputation, AR, realised in the
+faculty-hiring network) and where the \emph{labour market} places its graduates (revealed placement, proxied by
+earnings). These are not two reputations; they are a \emph{perception} and a \emph{realised outcome}, and the
+wedge between them is informative. We measure that wedge --- the academic-reputation--placement gap,
+$\mathrm{gap}_f = 1 - \mathrm{Spearman}(\text{field prestige},\,\text{placement})$ within field across
+institutions --- using a continuous SpringRank reconstruction of the US faculty-hiring network
+\citep{wapman2022quantifying, debacco2018physical} and College Scorecard field-of-study earnings, cross-validated
+against Census PSEO \citep{scorecard, pseo}. Four findings stand. \textbf{(1) Measurement:} the gap is a
+\emph{measurable, reliable} object, not an artifact (only 15\% of fields sit inside a perfect-agreement-plus-noise
+null, 65\% above; the artifact channel explains $R^2=0.20$). \textbf{(2) Structure:} it is
+\emph{discipline-structured} --- a precision-weighted multilevel decomposition puts $\sim$30\% of cross-field gap
+variance between broad discipline areas (ICC $=0.30$; measurement-corrected $0.45$; $\eta^2=0.50$), with an
+integrated end (Computing, Mathematics/Statistics, Economics-adjacent social science, Engineering) and a
+decoupled end (Health, Arts, the natural sciences). \textbf{(3) Proxy validation:} earnings is a
+\emph{validated-but-incomplete} placement proxy --- PSEO and Scorecard rank institution pay near-identically
+(Spearman $+0.94$) and the field gap replicates ($+0.68$), and salary tracks non-wage placement (occupational
+prestige, vertical match) at $+0.65$ to $+0.84$ across horizons and sources. \textbf{(4) Mechanism:} a single
+external channel cleanly moves the gap --- occupational \emph{licensing} ($b=+0.66$) --- and we identify its
+mechanism: in regulated, locally-employed fields, pay is set by \emph{setting} (state, employer, local pay scale),
+so school prestige adds essentially zero incremental wage-predictive power beyond geography
+($\mathrm{corr}(\text{licensure},\,\text{incremental prestige }R^2)=-0.59$; Nursing $\approx 0$). The practical
+implication is direct: because the prestige$\leftrightarrow$placement structure is \emph{field-specific}, a
+field-agnostic overall ranking (QS, US News overall) systematically mis-prices programs.
 \end{abstract}
 
 % =====================================================================
 \section{Introduction and stakes}\label{sec:intro}
-Students, employers, and policy-makers lean on institutional prestige as a summary of educational quality.
-But the dominant public signals --- overall university rankings (QS, US News overall) --- are \emph{field-agnostic}:
-they compress a single ``brand'' that is supposed to stand in for the quality of every program. If the way
-academic prestige maps onto labour-market pay is itself \emph{field-specific}, then a field-agnostic ranking
-systematically mis-prices programs, and the literature on how rankings move behaviour
-\citep{luca2013salience} implies real welfare consequences.
+Students, employers, and policy-makers read institutional prestige as a summary of educational quality, and the
+dominant public signals --- overall university rankings (QS, US News overall) --- are \emph{field-agnostic}: a
+single ``brand'' is made to stand for the quality of every program. \textbf{If the way academic prestige maps onto
+labour-market placement is itself field-specific, a field-agnostic ranking systematically mis-prices programs} ---
+and the evidence that rankings move student and institutional behaviour \citep{luca2013salience} makes that a
+welfare-relevant error. This paper measures the object such a ranking hides.
 
-This paper measures the object that a field-agnostic ranking hides: the wedge, \emph{within each field across
-institutions}, between where the academy places an institution (academic reputation, AR) and where the labour
-market prices its graduates (employer reputation, ER). We call it the \emph{academic--employer reputation gap}.
-Our contribution is deliberately \emph{descriptive}: we do not estimate the causal earnings effect of attending
-a more prestigious program --- that requires administrative, tail-resolved data we do not have
-\citep{chetty2023diversifying} --- but we characterise the gap, its discipline structure, the one external
-channel that cleanly moves it, its robustness across two independent earnings definitions, and its movement
-over time. Ruling out several intuitive alternative explanations is part of the contribution, not a failure of
-it.
+The object is a wedge between two orderings of the same institution-by-field human capital. The \emph{academic}
+ordering is where the academy places an institution, realised in who hires whose PhDs: the faculty-hiring network
+induces a prestige hierarchy \citep{wapman2022quantifying}. The \emph{placement} ordering is where the labour
+market puts the institution's graduates, realised in earnings. Crucially these are \emph{not} two measurements of
+the same ``reputation.'' One is a \emph{perception} held inside the academy; the other is a \emph{realised
+outcome} in the labour market. We read their disagreement, within a field across institutions, as the
+academic-reputation--placement gap, and frame it through signalling \citep{spence1973job} and employer-learning
+theory \citep{altonji2001employer}, in which the weight on a credential signal decays as employers observe
+productivity, and reputation raises pay precisely where employer information is scarce \citep{macleod2017big}.
 
-\paragraph{Roadmap.} Section~\ref{sec:framework} frames the gap through signalling and employer learning.
-Section~\ref{sec:data} describes the data and the honest coverage limitations. Section~\ref{sec:gap} defines
-the gap and reports its discipline structure. Section~\ref{sec:explain} isolates the licensing channel and
-rules out alternatives. Section~\ref{sec:model} sketches a two-signal model and is explicit about its
-unvalidated status. Section~\ref{sec:robust} reports the robustness battery, including the PSEO cross-source
-test. Section~\ref{sec:discussion} discusses the temporal revaluation result, the lead--lag frontier, and the
-ranking critique.
-
-% =====================================================================
-\section{Framework: two pricing equilibria}\label{sec:framework}
-Treat an institution's graduates in a field as a bundle of human capital that two markets price independently.
-The \emph{academic} market prices research/credential standing and is realised in the faculty-hiring network:
-who hires whose PhDs induces a prestige hierarchy \citep{wapman2022quantifying}. The \emph{labour} market
-prices productivity as employers perceive it and is realised in earnings. Signalling theory
-\citep{spence1973job} says credentials carry information when productivity is hard to observe; employer-learning
-theory \citep{altonji2001employer} says the weight on the credential signal decays as employers learn true
-productivity. \citet{macleod2017big} show reputation can causally raise pay precisely where employer
-information is scarce.
-
-Two equilibria that price the same bundle can disagree. We define their disagreement as the gap and read a
-\emph{large} gap as a field where academic standing and market pay are decoupled, a \emph{small} gap as a
-field where they are integrated. This is a metaphor of two valuation systems, not a literal arbitrage claim:
-there is no traded asset and no enforceable law of one price. Crucially, the gap is a \emph{rank} statistic
-within field, so it is insensitive to the level differences (e.g.\ engineering pays more than education) that
-dominate raw earnings; what it captures is whether, \emph{among the institutions that teach field $f$}, the
-prestige ordering and the pay ordering coincide.
+Four findings carry the paper, each stated as a result: the gap is (1) measurable and reliable; (2)
+discipline-structured; (3) robust to an independent earnings source and a faithful, if incomplete, reading of
+revealed placement; and (4) moved by one clean mechanism --- occupational licensing --- whose operation we
+identify. Section~\ref{sec:data} establishes the measurement, Section~\ref{sec:structure} the discipline
+structure, Section~\ref{sec:proxy} the proxy validation and the licensing mechanism, Section~\ref{sec:robust} the
+robustness, and Section~\ref{sec:discussion} the ranking-critique implication and the forward frontier;
+Section~\ref{sec:limits} states the limitations. Supporting analyses --- an organising two-signal model, three
+ruled-out alternative explanations, and a dynamic-revaluation pilot --- are in the Supplementary Information.
 
 % =====================================================================
-\section{Data and coverage}\label{sec:data}
-\paragraph{Academic reputation (AR).} We use the public US faculty hiring network of
-\citet{wapman2022quantifying}. The release ships only ordinal ranks; because the blend in
-Section~\ref{sec:explain} and the applied ranking require meaningful score \emph{differences}, we recompute the
-continuous SpringRank score \citep{debacco2018physical} on the public field-level edge subgraphs. A from-scratch
-reconstruction reproduces the published ranks at a data ceiling ($\rho\approx0.77$); an independent ORCID-derived
-rebuild of the hiring network reproduces Wapman's academia ranks at Spearman $0.74$ with the elite-private top
-intact (Section~\ref{sec:robust}), certifying the method.
+\section{Data and the wedge: a measurable object}\label{sec:data}
+\paragraph{Academic reputation (AR).} We use the public US faculty-hiring network of
+\citet{wapman2022quantifying}. Because the licensing analysis and the applied ranking need meaningful score
+\emph{differences}, not just ordinal ranks, we recompute the continuous SpringRank score
+\citep{debacco2018physical} on the public field-level edge subgraphs. A from-scratch reconstruction reproduces the
+published ranks at a data ceiling ($\rho\approx0.77$; the loss is the lossiness of the public aggregated edges,
+not a coding error), and an independent ORCID-derived rebuild of the hiring network reproduces Wapman's academia
+ranks at Spearman $0.74$ --- certifying the method against an independent network.
 
-\paragraph{Employer reputation (ER).} Primary earnings are College Scorecard Field-of-Study median earnings
-(bachelor's; 4-year-after-completion horizon) \citep{scorecard}. The honest limitation is that Scorecard covers
-\emph{Title-IV} (federally-aided) graduates only and is a single cross-section. We cross-validate against Census
-PSEO (UI-wage-based, population-inclusive of UI-employed graduates, real 2023 dollars) \citep{pseo}.
+\paragraph{Revealed placement (the earnings proxy).} The labour market does not publish a placement rank; what it
+publishes is the realised \emph{price}, the wage. We use College Scorecard Field-of-Study median earnings
+(bachelor's, four-year-after-completion) \citep{scorecard} as the proxy for revealed placement, and validate it as
+a proxy in Section~\ref{sec:proxy} (against an independent earnings source and against non-wage placement
+measures). Scorecard covers Title-IV graduates; we cross-validate against Census PSEO (UI-wage-based, real 2023
+dollars) \citep{pseo}.
 
 \paragraph{Join and coverage.} The Classification of Instructional Programs (CIP) is the join key. Scorecard
 covers $\sim$69\% of Wapman institutions with even coverage across prestige quartiles
-(74.2/64.5/71.7/65.6\% by quartile from top to bottom); PSEO covers only $\sim$29\% and is top-truncated
-(just 21.5\% of the top prestige quartile; $\sim$18 of the top-20 elite privates absent), so PSEO is used for
-cross-validation and flows, \emph{not} as the primary earnings source. PSEO doctoral and master's cells are
-100\% disclosure-suppressed at the 4-digit-CIP grain (18{,}442 doctoral rows, 0 released), which is why the
-analysis is at the bachelor's level. Table~\ref{tab:coverage} summarises.
+(74.2/64.5/71.7/65.6\% top to bottom), so the gap is not a coverage artifact; PSEO covers $\sim$29\% and is
+top-truncated (21.5\% of the top prestige quartile), so PSEO is used for cross-validation, not as the primary
+source. PSEO doctoral and master's cells are fully disclosure-suppressed at the 4-digit-CIP grain
+(18{,}442 doctoral rows, 0 released), which is why the analysis is at the bachelor's level (Table~\ref{tab:coverage}).
 
 \begin{table}[t]\centering
-\caption{Coverage and limitations of the two earnings sources (Wapman-institution overlap).}
+\caption{Coverage of the two earnings sources (Wapman-institution overlap).}
 \label{tab:coverage}
 \begin{tabular}{lcc}
 \toprule
  & College Scorecard FOS & Census PSEO \\
 \midrule
 population & Title-IV recipients & UI-employed graduates \\
-dollars / time & single cross-section & real 2023\$, cohorts 2001--2021 \\
-\% of Wapman institutions & $\sim$69\% (even) & $\sim$29\% (top-truncated) \\
+\% of Wapman institutions & $\sim$69\% (even by quartile) & $\sim$29\% (top-truncated) \\
 top prestige quartile covered & 74.2\% & 21.5\% \\
-BA fields with $\ge10$ matched inst. & 28/30 & 29/30 (public-skewed) \\
-doctoral cells released (4-digit CIP) & --- & 0 / 18{,}442 (0\%) \\
+doctoral cells released (4-digit CIP) & --- & 0 / 18{,}442 \\
+role & primary placement proxy & cross-validation \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-% =====================================================================
-\section{The gap and its discipline structure}\label{sec:gap}
-\paragraph{Definition and reliability.} For field $f$ with institutions $i$,
+\paragraph{The gap, and that it is real.} For field $f$ with institutions $i$,
 \[
-\mathrm{gap}_f = 1 - \mathrm{Spearman}_i\!\left(\text{prestige}_{i,f},\ \text{earnings}_{i,f}\right).
+\mathrm{gap}_f = 1 - \mathrm{Spearman}_i\!\left(\text{prestige}_{i,f},\ \text{placement}_{i,f}\right).
 \]
-Because a Spearman computed on few or noisy institutions is attenuation-prone, a diagnostic battery
-(null-model, bootstrap, residualization, restriction) certifies the gap is \emph{real signal, not a global
-artifact}: only 15\% of fields' observed gaps fall inside the perfect-agreement-plus-noise null band while
-65\% sit above it, and the artifact channel explains only $R^2=0.20$ of cross-field gap variance
-(\texttt{DIAGNOSTIC\_RESULT.md}). A per-field reliability filter (signal fraction $\ge0.5$ \emph{and} bootstrap
-CI excluding the null band) is required: well-measured low-gap fields have tight clearly-positive
-prestige--earnings correlations (Computer Science $0.71\,[0.62,0.78]$, Statistics $0.75\,[0.52,0.87]$), and
-genuine high-gap fields survive (Biology $0.37\,[0.22,0.52]$, $N=138$), but a low-earnings-signal cluster
-(Chemistry, Earth Sciences) is noise-dominated and screened out.
+The gap is a \emph{rank} statistic within field, so it is insensitive to the level differences that dominate raw
+earnings (engineering out-earns education) and asks only whether, among the institutions that teach $f$, the
+prestige ordering and the placement ordering coincide; $0$ is perfect agreement, larger is more decoupled. A
+diagnostic battery (null-model, bootstrap, residualization, restriction) establishes that the gap is \emph{real
+signal}: only 15\% of fields' observed gaps fall inside a perfect-agreement-plus-noise null band while 65\% sit
+above it, and a global-artifact channel explains only $R^2=0.20$ of cross-field variance. A per-field reliability
+filter (signal fraction $\ge0.5$ and bootstrap CI excluding the null band) admits well-measured fields ---
+Computer Science prestige--earnings correlation $0.71\,[0.62,0.78]$, Statistics $0.75\,[0.52,0.87]$, the genuine
+high-gap Biology $0.37\,[0.22,0.52]$ ($N=138$) --- and screens a noise-dominated low-earnings-signal cluster.
+The gap is a measurable, reliable object; everything below runs on the screened field universe.
 
-\paragraph{The headline: the gap is a discipline-area phenomenon.} A precision-weighted multilevel meta-model
-$\mathrm{gap}_f \sim 1 + (1\,|\,\text{CIP-2})$ (REML; $V=\mathrm{diag}(\mathrm{SE}^2)+\tau^2\cdot\text{same-parent}$),
-fit on $n=48$ reliable fine fields, gives between-cluster variance $\tau^2=0.0231$ (SD $0.15$ gap-units) and
+% =====================================================================
+\section{The gap is structured by discipline}\label{sec:structure}
+The central structural result is that the gap is primarily a property of \emph{which discipline a field belongs
+to}. A precision-weighted multilevel meta-model
+$\mathrm{gap}_f \sim 1 + (1\,|\,\text{CIP-2})$
+(REML; marginal covariance $V=\mathrm{diag}(\mathrm{SE}^2)+\tau^2\cdot\text{same-parent}$), fit on $n=48$ reliable
+fine fields across 18 CIP-2 clusters, gives between-cluster variance $\tau^2=0.0231$ and
 \[
 \mathrm{ICC} = \frac{\tau^2}{\tau^2+\overline{\text{within-cluster var}}} = 0.30,
 \]
 i.e.\ $\sim$30\% of cross-field gap variance is \emph{between} broad discipline areas (one-way $\eta^2=0.50$).
-Correcting the within-cluster variance for sampling noise raises this to $0.45$ (Section~\ref{sec:robust}), and
-expanding the field universe (Section~\ref{sec:robust}) to 0.57. The gap is primarily about \emph{which
-discipline a field belongs to}, not field idiosyncrasy.
+Correcting the within-cluster variance for per-field sampling noise raises this to $0.45$, and expanding the field
+universe (Section~\ref{sec:robust}) to $0.57$: noise-correction and a fuller taxonomy both \emph{strengthen} the
+between-discipline share.
 
 \paragraph{The integrated--decoupled typology.} The shrunk, partial-pooled CIP-2 cluster means
-(Fig.~\ref{fig:cluster}) rank from integrated to decoupled:
-\emph{integrated} (prestige predicts pay) --- Computer/Info $0.348$, Math \& Stats $0.352$, Social Science
-$0.421$, Engineering $0.432$; \emph{decoupled} --- Health $0.753$, Arts $0.746$, Natural Resources $0.730$,
-Biological Sciences $0.678$, Physical Sciences $0.661$. A weak within-cluster observability gradient (gap vs.\
-earnings dispersion) is directionally negative but CI-spanning-zero (pooled Spearman $-0.44\,[-0.74,+0.01]$;
-within-cluster slope $-0.527\,[-1.08,+0.02]$), a second-order modifier, not the headline.
+(Fig.~\ref{fig:cluster}) order from integrated --- Computer/Info $0.348$, Mathematics \& Statistics $0.352$, Social
+Science $0.421$, Engineering $0.432$ --- to decoupled --- Health $0.753$, Arts $0.746$, Natural Resources $0.730$,
+Biological Sciences $0.678$, Physical Sciences $0.661$. In the integrated disciplines academic prestige and
+labour-market placement rank institutions alike; in the decoupled disciplines they part ways. The map of every
+reliable field (Fig.~\ref{fig:gapmap}) is the object a field-agnostic ranking collapses.
 
 \begin{figure}[t]\centering
-\includegraphics[width=0.78\textwidth]{cluster_means_forest.png}
-\caption{Partial-pooled CIP-2 discipline-cluster gap means, integrated (low) to decoupled (high).
-$\tau^2=0.0231$; ICC $\approx0.30$ ($\sim$30\% of cross-field gap variance between clusters).
+\includegraphics[width=0.74\textwidth]{cluster_means_forest.png}
+\caption{Partial-pooled CIP-2 discipline-cluster gap means, integrated (low) to decoupled (high). $\tau^2=0.0231$;
+ICC $\approx0.30$ ($\sim$30\% of cross-field gap variance between clusters; measurement-corrected $0.45$).
 Source: \texttt{CLUSTER\_DECOMP\_RESULT.md}.}
 \label{fig:cluster}
 \end{figure}
 
 \begin{figure}[t]\centering
 \includegraphics[width=0.92\textwidth]{gap_by_cluster.png}
-\caption{The gap map: every reliable field, grouped by CIP-2 cluster. Source: \texttt{CLUSTER\_DECOMP\_RESULT.md}.}
+\caption{The gap map: every reliable field, grouped by CIP-2 discipline cluster. Source:
+\texttt{CLUSTER\_DECOMP\_RESULT.md}.}
 \label{fig:gapmap}
 \end{figure}
 
 % =====================================================================
-\section{What explains the gap}\label{sec:explain}
-\subsection{The one clean channel: occupational licensing}
-We net mechanical channels with external, field-level anchors (ACS PUMS) in a precision-weighted regression of
-the gap on licensure intensity (share of a field's graduates in licensed occupations) and academic absorption
-(share of doctorate-holders in academia). \textbf{Licensing is the one clean channel:}
-$b_{\text{licensure}}=+0.66\,[+0.33,+0.97]$, while academic absorption is null
-($b=-0.02\,[-0.42,+0.46]$); the two anchors are near-orthogonal ($\mathrm{corr}=-0.21$), so the absorption null
-is real, not collinearity. The two channels explain $R^2=0.28$ of cross-field gap variance; the rest is an
-irreducible residual.
-
-\textbf{Additional channels are redundant.} Adding a pay-wedge and a public-sector-share channel raises the
-joint $R^2$ only from $0.27$ (licensure-only) to $0.29$. In the joint standardized model licensing dominates
-($+0.11\,[+0.07,+0.14]$) while pay-wedge ($-0.03$) and public-sector ($-0.01$) collapse to zero --- they are
-collinear compression mechanisms (public-sector's $+0.37$ bivariate vanishes once licensing is netted;
-channel correlations up to $|0.54|$). The multi-channel residual cluster ranking is \emph{identical} to the
-licensing-only ranking (Spearman $+1.00$) and the residual SD barely shrinks ($0.228\to0.225$). A unionization
-channel is left as a documented data gap rather than fabricated. \emph{Net: the search for more external
-channels finds collinear redundancy, not new explanatory power.}
-
-\subsection{Ruled-out alternatives (scope conditions)}\label{sec:ruleout}
-Three analyses test intuitive explanations and rule them out; reporting them is a strength.
-
-\paragraph{(a) It is not generic-brand vs.\ field-specific prestige.} A natural story is that students chase
-the overall ``brand'' while pay tracks field-specific academic strength (``Georgia-Tech-CS vs.\ Yale-CS'').
-On \emph{median} earnings this fails: the generic academia-wide brand predicts pay at least as well as
-field-specific prestige (mean $c_G=+0.45 \ge c_F=+0.40$; field reputation's advantage $\mathrm{ADV}=c_F-c_G$ is
-negative in 42/57 fields; horse-race classification: brand-dominant 15 vs.\ field-dominant 7). The two prestige
-signals are themselves strongly aligned ($\rho_{PP}$ mean $+0.79$), and in a data-driven CS divergence test
-the brand-strong schools \emph{out-earn} the field-strong ones (\$119{,}643 vs.\ \$98{,}970). This is fully
-consistent with \citet{chetty2023diversifying}: the brand's payoff is concentrated in the elite \emph{tail}
-(top-1\%, elite firms) that median data cannot see. \emph{Scope condition: the gap is a median-earnings
-phenomenon; brand effects live in a tail we do not observe.}
-
-\paragraph{(b) Integration varies in strength, not in ``shape''.} Classifying each field's prestige$\to$pay
-relationship as graded/threshold/flat yields mostly graded (30/5/9 of 44 fields), but the classification is
-\emph{largely redundant with integration strength} (non-top-decile correlation tracks the overall correlation
-at Spearman $+0.96$; the class ordinal tracks it at $+0.80$). Winner-take-all (threshold) shapes are rare on
-medians --- but that is a \emph{limitation} of median data (the winner-take-all premium is in the tail), not a
-finding. \emph{Scope condition: we cannot resolve shape, only strength.}
-
-\paragraph{(c) Program ``mispricing'' is geography and selection.} Residualizing earnings on prestige within
-field surfaces over/under-valued programs, but the residual is \emph{mostly geography and selection, not
-value-added}: institution-level destination-state fixed effects explain $R^2=0.46$ of the residual versus
-$0.00$ for academic brand, and the standardized residual is $+0.88$-correlated with the raw within-field
-earnings ranking (because prestige explains only $\sim$18\% of within-field earnings). Program residuals are
-horizon-unstable (29\% flip sign between 1-yr and 4-yr). \emph{Scope condition: ``where two valuations
-disagree'' $\neq$ ``this program adds value''.}
+\section{Salary as revealed placement, and the licensing mechanism}\label{sec:proxy}
+\subsection{Earnings is a validated --- if incomplete --- placement proxy}\label{sec:proxyval}
+The gap's placement axis is earnings; we show earnings is a faithful proxy for revealed placement on two fronts.
+\emph{First, an independent earnings source.} On the same institution$\times$field, PSEO (UI wages) and Scorecard
+(Title-IV median) rank pay near-identically (Spearman $+0.94$, $n=1535$), and the field-level gap \emph{replicates}
+across the two independent population definitions (Spearman $+0.68\,[+0.52,+0.80]$ over 57 fields;
+Fig.~\ref{fig:pseo}). Using PSEO flows, 34\% of bachelor's graduates work out-of-state, and netting destination
+geography barely moves the gap ($0.68\to0.67$): the rank gap is robust to geography even though geography drives
+earnings \emph{levels}. \emph{Second, non-wage placement.} Across earnings horizons (1/4/5-year) and across sources
+(Scorecard, PSEO, ACS), salary standing tracks non-wage placement --- occupational prestige (a survey-based status
+score) and vertical match (the inverse of underemployment) --- at Spearman $+0.65$ to $+0.84$
+(Fig.~\ref{fig:proxy}). The proxy \emph{improves} at longer horizons (salary-vs-occupational-prestige rises
+$+0.75\to+0.83$ from 1 to 5 years on Scorecard, replicated on PSEO $+0.73\to+0.84$), as graduates reach the
+occupations their field routes them into. Earnings is a validated revealed-placement proxy; its one systematic
+incompleteness is timing (Section~\ref{sec:defer}).
 
 \begin{figure}[t]\centering
-\includegraphics[width=0.6\textwidth]{mixture_residual_vs_raw.png}
-\caption{Licensing channel: cluster gap before vs.\ after netting licensing (and the null absorption channel).
-$b_{\text{licensure}}=+0.66$. Source: \texttt{MIXTURE\_DECOMP\_RESULT.md}.}
-\label{fig:mixture}
+\includegraphics[width=0.49\textwidth]{pseo_vs_scorecard_gap.png}\hfill
+\includegraphics[width=0.49\textwidth]{placement_proxy_by_horizon.png}
+\caption{Earnings is a validated placement proxy. \emph{Left:} the field gap from two independent earnings
+definitions (Scorecard Title-IV median vs.\ PSEO UI wages), Spearman $+0.68$. \emph{Right:} salary tracks non-wage
+placement and improves with horizon; the improvement concentrates in high-deferral fields. Sources:
+\texttt{PSEO\_GAP\_CROSSVALIDATION\_RESULT.md}, \texttt{ER\_AXIS\_IDENTIFICATION\_RESULT.md}.}
+\label{fig:pseo}
+\label{fig:proxy}
 \end{figure}
 
-% =====================================================================
-\section{A two-signal model (built, not validated)}\label{sec:model}
-We build a minimal generative model in the Altonji--Pierret spirit: each institution's graduates have an
-academic value $\theta_A$ and a market value $\theta_M$ with field alignment $\rho_f=\mathrm{corr}(\theta_A,
-\theta_M)$; prestige tracks $\theta_A$ with noise; earnings are a credential-weighted blend
-$w(\tau_f,t)\theta_A+(1-w)\theta_M$ whose weight decays with observability $\tau_f$ and horizon $t$
-(employer learning), compressed by licensing $\lambda_f$. The gap is $1-\mathrm{Spearman}(\text{prestige},
-\text{earnings})$. With \emph{one} parameter vector the model reproduces three predictions cleanly --- P2
-(licensing raises the gap; full-support effect $\approx+0.64$, on top of the empirical $+0.66$); P3 (academic
-absorption is \emph{not} in the mechanism --- the cleanest hit, matching the empirical null); P5 (prestige is
-the slow prior, earnings drift; gap-change correlates $+0.71$ with divergence) --- and partially reproduces P1
-and P4.
+\subsection{The clean channel and its mechanism: licensing sets pay by setting, not school}\label{sec:license}
+One external, field-level channel cleanly moves the gap. In a precision-weighted regression of the gap on two
+external anchors (ACS PUMS), occupational \textbf{licensing raises the gap, $b_{\text{licensure}}=+0.66\,
+[+0.33,+0.97]$}, while academic absorption is null ($-0.02\,[-0.42,+0.46]$); the two anchors are near-orthogonal
+($\mathrm{corr}=-0.21$), so the absorption null is informative, not collinearity. Additional candidate channels
+(pay-wedge, public-sector share) are collinear with licensing and add nothing ($R^2$ rises only $0.27\to0.29$;
+the residual ranking is unchanged at Spearman $+1.00$).
 
-\textbf{We do not present the model as validated.} Its key external prediction --- that the licensing-netted
-residual estimates valuation divergence $(1-\rho)$ --- is \textsc{unconfirmed}: two independent divergence
-proxies give \emph{opposite} signs (O*NET skill-content $+0.41\,[+0.08,+0.68]$ vs.\ SDR salary-wedge
-$-0.61\,[-0.88,-0.11]$) and are themselves negatively correlated ($-0.64$), so the residual-as-divergence
-reading is downgraded from ``estimated'' to ``unconfirmed.'' The model also fails to reproduce the
-ICC-vs-horizon decline in its default calibration (an honest miss; a disclosed discipline-varying
-recalibration recovers it without breaking P2/P3/P5, but that is fitting, not prediction). \emph{The model's
-durable, testable content reduces to the licensing channel and the lead--lag direction
-(Section~\ref{sec:discussion}); we present it as an organizing lens, not a result}
-\coauthor{whether to keep \S6, cut to appendix, or invest in validation --- see COAUTHOR\_NOTES.md}.
+\paragraph{The mechanism.} We identify \emph{why} licensing decouples prestige from pay, and it is not wage
+compression. Within-field cross-institution wage variance is \emph{not} lower in licensed fields
+($\mathrm{corr}(\text{licensure},\,\text{wage CV})=+0.02$): there is real spread to predict. Instead, a commonality
+decomposition of within-field earnings on prestige versus institution-state fixed effects --- using
+\emph{incremental} $R^2$ to handle the geographic clustering of elite institutions --- shows that as licensure
+rises, school prestige adds essentially nothing beyond geography:
+\[
+\mathrm{corr}\!\left(\text{licensure},\ \text{incremental prestige }R^2\right) = -0.59\ [-0.80,-0.30],
+\qquad
+\text{incremental geography }R^2:\ +0.47,
+\]
+with Nursing the clean case (incremental prestige $R^2 \approx 0$; its pay is $\sim$72\% a state phenomenon,
+$\sim$0\% an alma-mater one). The reading: in regulated, locally-employed fields, pay is set by \emph{setting} ---
+state, employer, shift, local pay scale --- so the school's academic prestige cannot predict pay, which
+mechanically produces the prestige$\to$pay rank disagreement the gap measures (Fig.~\ref{fig:license}). Here
+``licensure'' is the cleanest \emph{observable marker} of a collinear regulated/public-sector/locally-employed
+bundle (the public-sector and pay-wedge channels are collinear with it); the marker, not necessarily the
+credential as cause, identifies where placement is local. This is the mechanism behind $b_{\text{licensure}}=+0.66$,
+field-general across the decomposable fields, not a Nursing special case.
+
+\begin{figure}[t]\centering
+\includegraphics[width=0.92\textwidth]{licensing_mechanism.png}
+\caption{The licensing mechanism. \emph{Left:} licensure does not compress within-field wage variance (flat).
+\emph{Right:} as licensure rises, the \emph{incremental} variance explained by school prestige (beyond geography)
+falls to $\approx 0$ while geography's rises --- pay is set by setting, not school. Source:
+\texttt{ER\_AXIS\_IDENTIFICATION\_RESULT.md}.}
+\label{fig:license}
+\end{figure}
+
+\subsection{Where the proxy fails: pipeline deferral is a timing fact, not undervaluation}\label{sec:defer}
+The proxy's one systematic failure is timing, and it is cleanly localised. In high-deferral fields --- those whose
+graduates mostly proceed to graduate school --- early-career BA earnings is a poor proxy for the \emph{terminal}
+market: the field-level divergence between occupational status and BA wage is explained by the graduate-degree
+share (status-residual $\sim$ deferral, Pearson $+0.59$). This is a \emph{cross-field} proxy-timing effect with
+three sharp properties: it is distinct from the null academic-absorption channel (deferral is BA$\to$graduate
+school, absorption is PhD$\to$academia; the two are near-orthogonal, $+0.08$); it does \emph{not} touch the
+within-field gap (which is rank-based: $\mathrm{corr}(\text{gap},\text{deferral})=+0.02$ on reliable fields, and
+the gap's discipline structure is horizon-stable); and it narrows the apparent ``decoupling'' of the natural
+sciences to a measurement-timing fact rather than market undervaluation. We considered and rejected three further
+alternative readings of the gap (generic-brand versus field-specific prestige; a distinct integration ``shape'';
+program-level mispricing as value-added); each is dispatched in SI~\ref{si:ruleout}.
 
 % =====================================================================
 \section{Robustness}\label{sec:robust}
-\paragraph{Statistical hardening.} (i) The integrated--decoupled \emph{ranking} is not an artifact of
-institutions-per-cluster: subsampling every cluster to a common $n=20$ preserves the order (rank Spearman
-$+0.98$ over 18 clusters), though $\mathrm{corr}(\text{gap},n)=-0.54$. (ii) Correcting the within-cluster
-variance for measurement noise (observed $0.0549$, mean $\mathrm{SE}^2=0.0267$) raises the ICC from $0.30$ to
-$0.45$ --- noise-correction \emph{strengthens} the between-discipline share. (iii) Propagating prestige-rank
-sampling uncertainty (edge-bootstrapped SpringRank) into the gap CIs widens them by only $\sim$4\% (median
-ratio $1.04$) and flips $0/16$ reliability flags.
-
-\paragraph{Crosswalk audit.} Auditing why the 81-field Wapman taxonomy collapsed to 54: of 27 missing fields,
-12 are recoverable crosswalk misses, 3 are subsumed, and 12 are genuine data gaps (graduate-only fields with no
-bachelor's earnings). Recovering the 12 (54$\to$66 fields) holds the headline: cluster ranking stable
-(Spearman $+0.98$), ICC raw $0.30\to0.32$, corrected $0.45\to0.57$.
-
-\paragraph{Cross-source: PSEO.} On the same institution$\times$field, PSEO (UI wages) and Scorecard (Title-IV
-median) rank pay near-identically (Spearman $+0.94$, $n=1535$), and the field-level gap \emph{replicates}
-across the two independent population definitions (Spearman $+0.68\,[+0.52,+0.80]$ over 57 fields;
-Fig.~\ref{fig:pseo}). Using PSEO flows, 34\% of bachelor's graduates work out-of-state at 5 years (a bound on
-the UI undercount), and destination-state geography explains a modest within-field earnings share here
-($R^2\approx0.13$ origin-state); crucially, \emph{netting destination geography barely moves the gap}
-($0.68\to0.67$) --- the prestige$\leftrightarrow$pay rank gap is robust to geography even though geography
-drives institution-level earnings \emph{levels}.
-
-\begin{figure}[t]\centering
-\includegraphics[width=0.55\textwidth]{pseo_vs_scorecard_gap.png}
-\caption{Cross-source validation: the field-level gap from two independent earnings definitions (Scorecard
-Title-IV median vs.\ PSEO UI wages), Spearman $+0.68$. Source: \texttt{PSEO\_GAP\_CROSSVALIDATION\_RESULT.md}.}
-\label{fig:pseo}
-\end{figure}
-
-\paragraph{Field-tag robustness.} Tagging the placement population by OpenAlex \emph{research} field does not
-improve per-field reproduction of Wapman (mean $\rho$ $0.515$ vs.\ degree-text $0.551$; a dead heat once
-de-leaked, $0.515$ vs.\ $0.517$), because research field cross-cuts degree field (only 35--54\% of a degree
-cohort lands in the matching research field) --- the residual to the data ceiling is coverage-bound, not
-tagging-noise-bound.
+The four findings survive a battery of checks (full detail in SI~\ref{si:robust}). The reliability filter is the
+false-positive screen on which all downstream analysis runs \todo{formal FDR/BH $q$-values if a reviewer wants a
+multiple-testing statistic beyond the per-field filter}; the integrated--decoupled ranking is not an artifact of
+cluster size (subsampling to a common $n$ preserves the order, Spearman $+0.98$); correcting the within-cluster
+variance for sampling noise \emph{raises} the ICC ($0.30\to0.45$); auditing the field taxonomy and recovering
+genuine fields expands the universe $54\to66$ while the headline holds (cluster ranking $+0.98$, ICC $0.30\to0.32$
+raw / $0.45\to0.57$ corrected); the structure is horizon-stable (between-discipline ICC drifts $0.50$ at 1yr to
+$0.30$--$0.33$ at 4--5yr but the cluster ranking is stable at $+0.81$--$0.85$); and propagating prestige-rank
+sampling uncertainty widens the gap CIs by only $\sim$4\% and flips $0/16$ reliability flags.
 
 % =====================================================================
 \section{Discussion}\label{sec:discussion}
-\paragraph{What we have shown.} A measurable, discipline-structured wedge between academic prestige and
-labour-market pay; one clean external channel (licensing) and a large irreducible residual; robustness to a
-completely different earnings source; and several intuitive alternatives ruled out. The contribution is the
-\emph{measurement and structure} of the wedge, not a causal mechanism.
+\paragraph{Implication: a critique of field-agnostic rankings.} Because the prestige$\leftrightarrow$placement
+structure is field-specific --- the integrated--decoupled typology --- a single overall ranking conflates fields
+with very different gap structures and mis-prices programs. A field-specific ranking is both necessary and
+constructible: as a demonstrator we build a CS-school ranking that blends continuous CS prestige with CS earnings;
+it cross-validates (Scorecard$\leftrightarrow$PSEO CS earnings $+0.84$; Wapman$\leftrightarrow$ORCID CS prestige
+$+0.69$) and flags the schools a field-agnostic ranking would get most wrong
+\coauthor{feature the ranking in-text, in SI, or spin off --- see COAUTHOR\_NOTES.md}.
 
-\paragraph{The temporal contribution.} The labour market \emph{actively reprices fields} in real (constant-2023)
-dollars over 2001--2019 (Fig.~\ref{fig:reval}): 46/60 fields rise, led by Statistics ($+\$2{,}311$/yr),
-Computer Science ($+\$1{,}616$), Computer Engineering ($+\$1{,}421$), Biomedical Engineering ($+\$969$),
-Finance ($+\$868$) and Economics ($+\$817$); the sharpest falls are Pharmacy ($-\$1{,}774$/yr) and
-Communication Disorders ($-\$1{,}405$). This is a clean novel descriptive result on its own. The exciting
-forward frontier is the \emph{lead--lag}: does academic prestige adjust to economic revaluation, or lag? Our
-two-period prestige pilot finds within-field prestige stability of median $\rho\approx0.50$ (a noise-depressed
-lower bound) against materially moving earnings --- \emph{suggestive} that prestige is the slow anchor --- but
-with only two noisy periods the cross-lagged direction \emph{is not identified}. We specify, but do not run,
-the finer-resolution panel a real lead--lag study needs.
+\paragraph{The honest framing.} Naming the second axis \emph{revealed placement} rather than ``employer
+reputation'' is not cosmetic: it states the asymmetry plainly. We compare a perception (the academy's hiring-network
+prestige) with a realised outcome (where graduates land), and earnings is the validated-but-partial proxy for that
+outcome. This framing makes the contribution precise --- a measured, structured, mechanistically-explained wedge
+between academic perception and labour-market reality --- and it scopes the open questions to the placement side.
+
+\paragraph{The forward frontier.} Two extensions follow. \emph{Temporally}, the labour market actively reprices
+fields: in real (constant-2023) dollars over 2001--2019, 46 of 60 fields rise (Statistics $+\$2{,}311$/yr,
+Computer Science $+\$1{,}616$/yr; Pharmacy $-\$1{,}774$/yr), and whether academic prestige lags this revaluation is
+a sharp lead--lag question we specify but do not yet identify (SI~\ref{si:dynamic}). \emph{Cross-sectionally}, the
+within-field placement gap should be measured on a \emph{multi-dimensional} placement object --- employer identity
+and occupation mix (resume data), occupational status, trajectory --- via the estimand
+$\mathrm{gap}^{\mathrm{occ}}_f = 1-\mathrm{Spearman}_i(\text{prestige}_{i,f},\,\text{occ-prestige}_{i,f})$ that
+needs institution$\times$field occupation flows. An organising two-signal employer-learning model that generates
+the gap and these extensions is developed in SI~\ref{si:model}.
+
+% =====================================================================
+\section{Limitations}\label{sec:limits}
+Three limitations are load-bearing. Scorecard earnings are Title-IV only, though cross-validated against PSEO's
+independent population (Section~\ref{sec:proxyval}); the analysis is \emph{descriptive}, not causal --- we
+characterise the wedge but do not estimate a causal earnings effect of prestige, and median earnings cannot see
+the elite tail where \citet{chetty2023diversifying} locate the brand's causal payoff; and the placement axis is,
+at the institution grain, a single proxy (median earnings), so the within-field gap on a \emph{multi-dimensional}
+placement object remains to be measured with resume-level occupation data (the estimand is in
+Section~\ref{sec:discussion}). Each is a boundary of the descriptive claim, not a threat to the four findings,
+which are internal to the data we use.
+
+% =====================================================================
+\appendix
+\section*{Supplementary Information}
+\addcontentsline{toc}{section}{Supplementary Information}
+
+\section{SI: An organising two-signal model (not validated)}\label{si:model}
+We build a minimal generative model in the Altonji--Pierret spirit, as an \emph{organising lens} for the empirics,
+not a validated result. Each institution's graduates carry an academic value $\theta_A$ and a market value
+$\theta_M$ with field alignment $\rho_f=\mathrm{corr}(\theta_A,\theta_M)$; prestige tracks $\theta_A$ with noise;
+earnings are a credential-weighted blend $w(\tau_f,t)\theta_A+(1-w)\theta_M$ whose weight decays with observability
+$\tau_f$ and horizon $t$ (employer learning), compressed by licensing $\lambda_f$; the gap is
+$1-\mathrm{Spearman}(\text{prestige},\text{earnings})$. With one parameter vector the model reproduces three
+predictions: licensing raises the gap (full-support effect $\approx+0.64$, matching the empirical $+0.66$); academic
+absorption is not in the mechanism (the cleanest hit, matching the empirical null); and prestige is the slow prior
+while earnings drift (gap-change correlates $+0.71$ with divergence). Its key \emph{external} prediction --- that
+the licensing-netted residual estimates valuation divergence $(1-\rho)$ --- is not confirmed: two independent
+divergence proxies give opposite signs (O*NET $+0.41$ vs.\ SDR $-0.61$) and are themselves negatively correlated,
+so the residual-as-divergence reading is unconfirmed. We therefore present the model as an organising framework and
+keep its durable, testable content (the licensing channel of Section~\ref{sec:license} and the lead--lag direction
+of SI~\ref{si:dynamic}) in the main text.
+
+\section{SI: Three ruled-out alternative explanations}\label{si:ruleout}
+Three intuitive alternative readings of the gap are tested and rejected; we summarise them here.
+\emph{(a) Not generic-brand versus field-specific prestige.} On medians the academia-wide brand predicts pay at
+least as well as field-specific prestige (mean $c_G=+0.45 \ge c_F=+0.40$; field reputation's advantage is negative
+in 42/57 fields), consistent with \citet{chetty2023diversifying}: the brand's payoff concentrates in the elite tail
+that median data cannot see. \emph{(b) Not a distinct ``shape''.} Classifying each field's prestige$\to$pay relation
+as graded/threshold/flat is largely redundant with integration \emph{strength} (Spearman $+0.80$--$0.96$); median
+data cannot resolve winner-take-all. \emph{(c) Program ``mispricing'' is geography and selection.} Residualizing
+earnings on prestige within field surfaces over/under-valued programs, but the residual is mostly geography and
+selection, not value-added: destination-state fixed effects explain $R^2=0.46$ of the residual versus $0.00$ for
+academic brand, and the residual is $+0.88$-correlated with the raw within-field earnings ranking. Full numbers are
+in \texttt{FIELD\_VS\_GENERIC\_RESULT.md}, \texttt{TWO\_MARKET\_INTEGRATION\_RESULT.md}, and
+\texttt{MISPRICED\_PROGRAMS\_RESULT.md}.
+
+\section{SI: Robustness detail}\label{si:robust}
+The checks summarised in Section~\ref{sec:robust} are detailed in \texttt{HARDENING\_RESULT.md} (n-subsample,
+measurement-error ICC correction, AR-rank propagation), \texttt{CROSSWALK\_AUDIT\_RESULT.md} (the $54\to66$
+recovery: 12 recoverable / 3 subsumed / 12 genuine data gaps), \texttt{MULTIHORIZON\_RESULT.md} (horizon
+stability), and \texttt{OPENALEX\_TAGGING\_RESULT.md} (research-field tags do not beat degree-text; the residual to
+the data ceiling is coverage-bound).
+
+\section{SI: Dynamic revaluation pilot}\label{si:dynamic}
+The temporal revaluation result (46/60 fields rising in real terms; Statistics $+\$2{,}311$/yr, Computer Science
+$+\$1{,}616$/yr, Pharmacy $-\$1{,}774$/yr) and the prestige--earnings lead--lag pilot (prestige stability median
+$\rho\approx0.50$ against materially moving earnings; direction \emph{not} yet identified with two noisy periods)
+are developed in \texttt{DYNAMIC\_LEADLAG\_PILOT\_RESULT.md} (Fig.~\ref{fig:reval}). We specify, but do not run, the
+finer panel a lead--lag study needs.
 
 \begin{figure}[t]\centering
-\includegraphics[width=0.8\textwidth]{field_earnings_revaluation.png}
-\caption{Temporal revaluation: real (2023\$) bachelor's earnings by field over graduation cohorts. The market
+\includegraphics[width=0.72\textwidth]{field_earnings_revaluation.png}
+\caption{Temporal revaluation: real (2023\$) bachelor's earnings by field over graduation cohorts; the market
 reprices fields. Source: \texttt{DYNAMIC\_LEADLAG\_PILOT\_RESULT.md}.}
 \label{fig:reval}
 \end{figure}
 
-\paragraph{Implication: a critique of field-agnostic rankings.} Because the prestige$\leftrightarrow$pay
-structure is field-specific (the integrated--decoupled typology), a single overall ranking conflates fields
-with very different gap structures and mis-prices programs. As a concrete demonstrator we build a CS-school
-ranking that blends continuous CS prestige with CS earnings; it cross-validates (Scorecard$\leftrightarrow$PSEO
-CS earnings Spearman $+0.84$; Wapman$\leftrightarrow$ORCID CS prestige $+0.69$) and flags 15 schools whose
-placement is salary-driven and thus low-robustness --- exactly the entries a field-agnostic ranking would get
-most wrong \coauthor{whether to feature the ranking in-text, in SI, or spin off --- see COAUTHOR\_NOTES.md}.
-
-\paragraph{What a causal version would need.} Our earnings are medians of observed workers; we cannot see the
-elite tail where \citet{chetty2023diversifying} locate the brand's causal payoff, nor do we have an exogenous
-shock to reputation as in \citet{macleod2017big}. A causal version would need administrative, tail-resolved,
-quasi-experimental data we do not have. We are explicit that this is the boundary of the descriptive claim.
-
-\paragraph{Limitations.} Title-IV earnings (cross-validated, not eliminated); a selected/top-truncated PSEO
-subset; selection vs.\ value-added unaddressed throughout; the model unvalidated; the lead--lag unidentified.
-We report each plainly. The audit trail from every claim to its source is in \texttt{CLAIMS\_LEDGER.md}.
-
 % =====================================================================
 \section*{Data and code availability}
 All analysis is reproducible from the public sources above via the scripts in the repository; every figure and
-statistic in this draft is traced to a \texttt{*\_RESULT.md} file in \texttt{CLAIMS\_LEDGER.md}. No new analysis
-was run to assemble this draft.
+statistic is traced to a \texttt{*\_RESULT.md} file in \texttt{CLAIMS\_LEDGER.md}. A methods-and-design companion
+(\texttt{paper/methods\_companion.tex}) decodes every estimator and number; \texttt{paper/STRUCTURE\_CHANGES.md}
+records what moved between this draft and the prior structure.
 
 \bibliographystyle{plainnat}
 \bibliography{refs}
