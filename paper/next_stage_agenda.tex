@@ -31,9 +31,11 @@ institution grain, US-only, median-level, and disconnected from student beliefs.
 order of access cost: \textbf{(A)} cross-national external validity, available now on public data; \textbf{(B)} the
 multi-dimensional, within-field placement gap, the flagship, gated on Revelio resume data, into which the prior
 residual-mechanism, tail, and dynamic questions all converge; and \textbf{(C)} a behavioural layer linking the
-measured gap to student subjective expectations, gated on a co-author and survey fielding. Two leverage points
-define the programme: a Revelio subscription unlocks the entire within-field/multi-dimensional/dynamic/tail
-frontier (B); a subjective-expectations collaboration unlocks the behavioural and welfare contribution (C).
+measured gap to student subjective expectations, whose descriptive and quasi-experimental tiers run now on public
+data and whose flagship RCT is gated on a co-author. Two leverage points define the programme: a Revelio
+subscription unlocks the within-field, multi-dimensional, and tail frontier and the placement half of the dynamic
+question (B; the prestige-temporal half needs a separate dynamic-SpringRank upgrade, edge density its binding
+constraint); a subjective-expectations collaboration unlocks the flagship behavioural and welfare contribution (C).
 \end{abstract}
 
 % =====================================================================
@@ -71,14 +73,27 @@ institution grain; \textbf{(b)} US-only; \textbf{(c)} median-level and descripti
 from the student beliefs that rankings actually move. Each frontier thrust relaxes one or more of these. Make
 placement \emph{multi-dimensional and within-field} (relaxes a, and turns c from a level into a structure);
 make it \emph{cross-national} (relaxes b, available now on public data); make it \emph{causal/tail-resolved}
-(relaxes c fully, gated on administrative data); and make it \emph{behavioural} (relaxes d, gated on a co-author).
+(relaxes c fully, gated on administrative data); and make it \emph{behavioural} (relaxes d; public descriptive and
+quasi-experimental tiers run now, only the flagship RCT gated on a co-author).
 
-\paragraph{The dynamic question is deprioritised as a standalone.} The prior agenda treated the
-prestige--earnings lead--lag as its own thrust. At the field level it is a fragile two-period time series whose
-direction we could not identify, and it does not become a clean study by adding more field-level cohorts --- the
-identifying variation is at the \emph{institution} level. It therefore \emph{folds into} the within-field block
-(Thrust B): an institution-level placement panel makes the lead--lag tractable as a by-product of the same data
-that delivers the multi-dimensional gap. We do not list it separately.
+\paragraph{The dynamic question folds into Thrust B, but its binding constraint is edge density.} The prior agenda
+treated the prestige--earnings lead--lag as its own thrust; the field-level pilot gave only two noisy periods and
+could not identify a direction. The reason is \emph{not}, as the earlier framing implied, that prestige is static.
+A prestige \emph{time series} is constructible from the project's existing ORCID hiring-network rebuild --- rebuild
+the network by appointment-year window (ORCID's dated PhD$\to$first-faculty-appointment edges) and run SpringRank
+per window to obtain $\text{prestige}_f(t)$ --- so it is an \emph{extension} of a pipeline already in the project,
+not missing data. The binding constraint is \emph{edge density}, and it is worse at the temporal grain: splitting
+the already-sparse, lossy hiring-edge set (the source of the $\rho\approx0.77$ reconstruction ceiling) across time
+windows leaves each window too thin for a stable per-window SpringRank --- exactly why the pilot had two noisy
+periods. The placement side (earnings over time: Scorecard cohorts, or Revelio) is adequate; the bottleneck is on
+the \emph{prestige-network} side. The dynamic question therefore folds into Thrust B --- it needs the
+institution-level placement panel \emph{and} a time-varying prestige series --- and resolving it needs one of three
+upgrades on the prestige side: \textbf{(a)} a denser hiring-edge source (ORCID $+$ faculty directories $+$ Revelio
+academic transitions); \textbf{(b)} a temporally-pooled \emph{dynamic} SpringRank with cross-window shrinkage /
+state-space smoothing to stabilise sparse-window estimates --- a slowly-evolving-graph-recovery-under-edge-sparsity
+problem in the spirit of minimax VAR-graph recovery; or \textbf{(c)} coarser windows (resolution traded for
+density). We do not list the lead--lag separately, but flag edge density, not data availability, as its real
+obstacle.
 
 % =====================================================================
 \section{Thrust A --- Cross-national external validity (immediate, public)}\label{sec:thrustA}
@@ -110,7 +125,8 @@ extension before the gated thrusts.
 \section{Thrust B --- The multi-dimensional, within-field placement gap (flagship; Revelio-gated)}\label{sec:thrustB}
 This is the programme's flagship, and it is where the prior agenda's separate residual-mechanism, tail, and dynamic
 thrusts \emph{converge}, because they require the \emph{same} object: institution $\times$ field placement resolved
-to occupation, firm, and time. One data unlock delivers all of them.
+to occupation, firm, and time. One data unlock --- Revelio --- delivers the placement side of all of them; the
+dynamic item (v) additionally needs a time-varying prestige series (\S\ref{sec:logic}).
 
 \paragraph{(i) The within-field non-wage placement gap.} The direct analogue of the paper's gap, on a non-wage
 placement dimension:
@@ -145,9 +161,12 @@ the labour-market analogue of the faculty-hiring network that defines AR.
 \emph{slope}, not a level: seniority and promotion trajectories test whether decoupled-field prestige buys a
 steeper path even when it does not buy a higher starting wage.
 
-\paragraph{(v) Institution-level dynamic lead--lag (the folded-in dynamic question).} An institution $\times$ field
-$\times$ time placement panel makes the prestige--placement lead--lag identifiable at the grain where the variation
-lives --- the study the field-level pilot could not support.
+\paragraph{(v) Institution-level dynamic lead--lag (the folded-in dynamic question).} The lead--lag becomes
+identifiable at the institution grain, but it needs \emph{both} halves: the Revelio panel supplies the time-varying
+\emph{placement} side, while the time-varying \emph{prestige} side must come from an ORCID-windowed dynamic
+SpringRank (\S\ref{sec:logic}), whose binding constraint is edge density, not data availability. Revelio unlocks the
+placement half; the prestige-temporal half needs the dynamic-SpringRank / denser-edge upgrade --- the study the
+field-level pilot could not support.
 
 \paragraph{(vi) Tail-resolved brand premium.} Resume data observe top-firm and top-occupation placement
 \emph{rates}, not just the median --- the elite tail where \citet{chetty2023diversifying} locate the brand's
@@ -159,30 +178,46 @@ occupation, firm, seniority, skills, geography, and individual job-to-job transi
 coordinates the platform's scalar proxy omits. Access path: the Revelio research programme
 (\href{mailto:research@reveliolabs.com}{research@reveliolabs.com}; academic engagements associated with
 D.~Dorn and F.~Schoner) \coauthor{confirm current contact and academic-access terms before approach}. \emph{This
-is why Revelio access is the programme's single highest-value unlock:} one subscription turns the entire
-multi-dimensional, within-field, dynamic, and tail frontier from ``specified'' into ``estimable.''
+is why Revelio access is the programme's single highest-value unlock:} one subscription turns the within-field,
+multi-dimensional, and tail frontier from ``specified'' into ``estimable,'' and supplies the placement half of the
+dynamic frontier --- whose prestige-temporal half needs the separate dynamic-SpringRank upgrade of \S\ref{sec:logic}.
 
 % =====================================================================
 \section{Thrust C --- The behavioural layer (co-author-gated; NHB scope)}\label{sec:thrustC}
 The platform measures a structure in \emph{outcomes}; rankings act on \emph{beliefs}. Closing that loop is the
 boldest contribution and the natural locus of a subjective-expectations collaboration.
 
-\paragraph{Estimands.} Elicit student subjective expectations
-\citep{manski2004measuring, wiswall2015determinants} over field $\times$ tier placement and over programme
-prestige, and ask three questions. \emph{(1) Does belief error track the measured gap?} ---
-$\mathrm{corr}_f\!\left(\overline{\text{belief error about placement}}_f,\ \mathrm{gap}_f\right)$: do students
-mis-price exactly the decoupled fields where prestige and placement diverge? \emph{(2) Do students over-weight
-generic brand?} --- the paper's $c_G$ vs $c_F$ horse race (generic academia-wide brand vs field-specific prestige;
-on outcomes $c_G=+0.45 \ge c_F=+0.40$) re-run on \emph{beliefs}: do students load on the overall brand more than
-on field strength, the cognitive counterpart of the field-agnostic-ranking error? \emph{(3) Welfare.} An
-information treatment in the Wiswall--Zafar tradition --- providing field-specific placement information --- closes
-the loop to the welfare cost of field-agnostic rankings \citep{luca2013salience}, measuring whether corrected
-beliefs shift major or programme choice.
+\paragraph{Three tiers by data requirement.} The behavioural layer does \emph{not} have to begin with primary data
+collection: two of its three tiers are public and runnable now, and only the flagship RCT needs fielding.
 
-\paragraph{Feasibility and gate.} This is a \emph{human-research} track --- survey-instrument design, IRB, and
-fielding --- not a data-analysis script, and it is where a subjective-expectations co-author (the decision-under-
-subjective-expectations tradition) is essential. It is the thrust that lifts the programme from a descriptive
-computational-social-science contribution toward a behavioural one (\emph{Nature Human Behaviour} scope).
+\emph{Tier 1 --- descriptive belief accuracy (public, no fielding; runnable now).} Public expectations panels ---
+HSLS:09 (NCES; expected major and expected occupation at age 30, with realised outcomes) and NLSY97 --- let us test
+whether students' expected major$\to$occupation/earnings systematically mis-estimates placement, and whether the
+mis-estimation \emph{tracks the integrated/decoupled typology}:
+$\mathrm{corr}_f\!\left(\overline{\text{belief error}}_f,\ \mathrm{gap}_f\right)$, joinable to the field-level gap.
+Do students mis-price exactly the decoupled fields where prestige and placement diverge?
+
+\emph{Tier 2 --- the information shock (public, quasi-experimental, no fielding).} The College Scorecard
+field-of-study earnings rollout (institution-level 2015; field-of-study $\sim$2019) is a natural information
+treatment in the Wiswall--Zafar spirit \citep{wiswall2015determinants}: with IPEDS CIP completions before/after,
+does major choice respond to newly-public earnings information \emph{more in high-gap / decoupled fields}, treatment
+intensity being the revealed-earnings surprise versus priors? Identification caveats are explicit (staggered rollout
+timing; the field-of-study $\sim$2019 release confounded by COVID).
+
+\emph{Tier 3 --- the flagship RCT (fielded; co-author $+$ IRB-gated).} The clean causal/welfare claim: elicit
+subjective probabilistic beliefs over field $\times$ tier \emph{placement} --- not just earnings ---
+\citep{manski2004measuring}, randomly provide the true gap/placement, and re-elicit or track intended choice
+\citep{wiswall2015determinants}; with the generic-vs-field horse race re-run on \emph{beliefs} (does the belief
+weight on the overall brand exceed that on field strength, the cognitive counterpart of $c_G=+0.45 \ge c_F=+0.40$
+on outcomes?), this closes the loop to the welfare cost of field-agnostic rankings \citep{luca2013salience}.
+Fielding can be a modest online-panel module (Prolific, or the USC Understanding America Study), not a captive
+multi-year cohort --- but it is the one tier that strictly requires primary collection, needing IRB and a
+subjective-expectations co-author. It is the tier that reaches \emph{Nature Human Behaviour} scope (causal $+$
+welfare).
+
+\paragraph{Gate.} Tiers 1--2 are public and need neither co-author nor IRB; only Tier 3 needs fielding, and even
+that is a modest panel module, not a captive study. Thrust C thus \emph{starts} immediately on public data and
+\emph{escalates} to the co-author-gated RCT --- the natural locus of a subjective-expectations collaboration.
 
 % =====================================================================
 \section{Sequencing, data gates, and the two leverage points}\label{sec:sequence}
@@ -197,18 +232,19 @@ Thrust & Timing & Gate & Data & What it unlocks \\
 \textbf{A} Cross-national & now & none (public) & UK LEO; EUROGRADUATE & external validity of the typology
 ($\tau_{US,k}$); the pre-collaboration ceiling-raiser \\
 \textbf{B} Within-field multi-dimensional (flagship) & on access & Revelio subscription & Revelio resume panel
-(occupation, firm, time) & the \emph{entire} within-field / multi-dimensional / dynamic / tail frontier \\
-\textbf{C} Behavioural & with co-author & co-author + IRB + fielding & elicited beliefs; information RCT & the
-belief--gap link and the welfare cost of rankings (NHB scope) \\
+(occupation, firm, time) & within-field / multi-dimensional / tail frontier $+$ the placement half of the dynamic question \\
+\textbf{C} Behavioural & T1--2 now, T3 later & public (T1--2); co-author + IRB (T3 RCT) & HSLS:09 / NLSY97;
+Scorecard rollout $+$ IPEDS; panel RCT & the belief--gap link and the welfare cost of rankings (NHB scope) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 The programme has \textbf{two leverage points}, and naming them is the point of this agenda. First, a
-\textbf{Revelio subscription} unlocks the whole of Thrust B: the within-field non-wage gap, the sorting-vs-pricing
-decomposition, employer-prestige-weighted placement, trajectory, the institution-level dynamic lead--lag, and the
-tail-resolved brand premium are \emph{one} data unlock, not six projects --- which is what makes it the highest-value
-single move. Second, a \textbf{subjective-expectations collaboration} unlocks Thrust C and with it the behavioural
+\textbf{Revelio subscription} unlocks the placement side of the whole of Thrust B: the within-field non-wage gap,
+the sorting-vs-pricing decomposition, employer-prestige-weighted placement, trajectory, the placement half of the
+institution-level dynamic lead--lag, and the tail-resolved brand premium are \emph{one} data unlock, not six
+projects --- which is what makes it the highest-value single move (the dynamic item's prestige-temporal half needs
+the dynamic-SpringRank / denser-edge upgrade of \S\ref{sec:logic}). Second, a \textbf{subjective-expectations collaboration} unlocks Thrust C and with it the behavioural
 and welfare contribution that a purely outcome-side analysis cannot reach. Thrust A needs neither and should run
 immediately as the external-validity strengthener. The static paper is the platform; A, B, and C are the
 multi-year programme built on it, and the sequence is set by access cost, not by importance.
