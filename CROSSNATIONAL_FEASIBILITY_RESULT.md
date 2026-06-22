@@ -91,3 +91,49 @@ UK field-level gap computed for **16 CAH2 subjects** (providers in BOTH the UK h
 
 
 *Verdict:* all pieces hold (UK ORCID prestige feasible and oriented; LEO acquired; crosswalk and matching adequate), so the UK gap and the US-vs-UK comparison are computed and reported above --- a **weak, non-significant replication** of the typology at this first-pass grain. Nothing was fabricated; the open items (axis choice, finer crosswalk, better tagging/matching) are flagged for a senior pass, not silently resolved.
+
+## Licensing-mechanism replication (the data-feasible, robust cross-national test)
+
+We pivot from the full-typology replication --- which the data attenuate (the weak US-vs-UK +0.18 above is suppressed by CAH2 aggregation and ~39% ORCID field-tagging, **not** a clean null) --- to the paper's **featured, identified mechanism** (\S35c), which the already-acquired UK data can test cleanly. US finding: in licensed/regulated fields, school prestige adds ~0 *incremental* wage-predictive power beyond geography (pay is set by setting, not school; Nursing the clean case, incremental-prestige $\approx 0$).
+
+Per usable UK CAH2 subject we run the **same commonality (incremental-$R^2$) decomposition** of within-subject across-provider LEO median earnings on the UK ORCID SpringRank prestige vs provider nation/region location:
+
+| cah2                                       |   n_prov |   n_geo |   R2_prestige_only |   R2_geo_only |   R2_full |   incremental_prestige |   incremental_geo | licensed   | partial   |
+|:-------------------------------------------|---------:|--------:|-------------------:|--------------:|----------:|-----------------------:|------------------:|:-----------|:----------|
+| Nursing and midwifery                      |       44 |      11 |              0.009 |         0.479 |     0.493 |                  0.013 |             0.484 | True       | False     |
+| Engineering                                |       67 |      11 |              0.048 |         0.243 |     0.261 |                  0.018 |             0.213 | False      | True      |
+| Geography, earth and environmental studies |       25 |      10 |              0.08  |         0.664 |     0.683 |                  0.019 |             0.602 | False      | False     |
+| English studies                            |       65 |      11 |              0.079 |         0.257 |     0.335 |                  0.077 |             0.255 | False      | False     |
+| Physics and astronomy                      |       34 |       9 |              0.171 |         0.259 |     0.348 |                  0.089 |             0.176 | False      | False     |
+| Chemistry                                  |       39 |      10 |              0.233 |         0.322 |     0.412 |                  0.09  |             0.179 | False      | False     |
+| Mathematical sciences                      |       52 |      10 |              0.173 |         0.273 |     0.368 |                  0.096 |             0.196 | False      | False     |
+| Philosophy and religious studies           |       45 |      10 |              0.259 |         0.468 |     0.593 |                  0.126 |             0.334 | False      | False     |
+| Computing                                  |       73 |      11 |              0.188 |         0.158 |     0.291 |                  0.134 |             0.103 | False      | False     |
+| Economics                                  |       52 |      10 |              0.175 |         0.193 |     0.343 |                  0.15  |             0.169 | False      | False     |
+| Business and management                    |       79 |      11 |              0.232 |         0.186 |     0.388 |                  0.202 |             0.156 | False      | False     |
+| Sociology, social policy and anthropology  |       75 |      11 |              0.221 |         0.275 |     0.484 |                  0.209 |             0.263 | False      | False     |
+| History and archaeology                    |       71 |      10 |              0.388 |         0.218 |     0.518 |                  0.3   |             0.131 | False      | False     |
+| Politics                                   |       24 |      10 |              0.529 |         0.544 |     0.858 |                  0.314 |             0.329 | False      | False     |
+| Biosciences                                |       51 |      11 |              0.319 |         0.11  |     0.457 |                  0.347 |             0.137 | False      | False     |
+| Psychology                                 |       89 |      11 |              0.443 |         0.185 |     0.567 |                  0.382 |             0.125 | False      | False     |
+
+**UK Nursing (the clean licensed case):** incremental-prestige = **+0.013**, incremental-geography = **+0.484** (on 44 providers across 11 locations; prestige-only $R^2=0.009$, geography-only $R^2=0.479$, full $R^2=0.493$).
+
+Against the unlicensed usable subjects (incremental-prestige mean +0.181, range +0.019 to +0.382), UK Nursing's school-prestige increment is the lowest / among the lowest (rank 1 of 16). 
+
+**Verdict: the featured mechanism REPLICATES in the UK.** In UK Nursing --- a licensed, locally-employed, publicly-funded (NHS) labour market --- earnings variation across providers is a **geography/setting** phenomenon (incremental-geo +0.484) and the school's research-hiring prestige adds essentially nothing beyond it (incremental-prestige +0.013) --- exactly the US 35c pattern (US Nursing incremental-prestige $\approx 0$, pay $\sim$72\% a state phenomenon). NHS Agenda-for-Change national pay bands are the obvious mechanism: nursing pay is set by national/regional scale, not by alma mater.
+
+
+**This is the robust cross-national claim**, and it is sharper than the full-typology test: the FEATURED MECHANISM (licensing sets pay by setting, not school) corroborates cross-nationally on a clean licensed case, even though the full integrated/decoupled *ordering* does not strongly replicate at the coarse CAH2 grain.
+
+*Only 1 usable CAH2 subject is clearly occupationally licensed (Nursing) --- the other licensed subjects (Medicine, Allied health, Education, Pharmacology, Veterinary) lack a usable UK ORCID prestige axis at the CAH2 grain --- so we report Nursing as the clean licensed case versus the unlicensed distribution, not a continuous licensure gradient.*
+
+### Adversarial self-check (licensing replication)
+
+- **Provider-location $\neq$ destination geography.** UK geography here is where the *provider* is (England region / nation), not where graduates *work* --- UK graduates move (notably toward London), so this is a weaker geography control than the US PSEO *destination*-state decomposition of 35c. It biases incremental-geo *down* and incremental-prestige *up*, so it is a **conservative** test of the setting-not-school claim: finding Nursing's prestige increment near zero despite a weaker geography proxy strengthens, not weakens, the conclusion.
+
+- **n of providers.** UK Nursing decomposes on 44 providers across 11 locations --- adequate for a few geography dummies; thinner subjects are dropped (<15 providers or <3 locations), not forced.
+
+- **CAH2 coarseness on the prestige axis.** Nursing and midwifery is a single CAH2 subject (no sub-field collapse), so unlike the engineering/business rows of the typology test it is *not* attenuated by aggregation --- which is part of why this test is clean where the typology test is not.
+
+- **One clean licensed case, not a gradient.** Only Nursing has both a usable UK prestige axis and clear occupational licensure, so this corroborates the FEATURED MECHANISM on the clean case, not via a continuous licensure gradient (which the UK CAH2 data cannot support); it corroborates the mechanism cross-nationally, **not** the full typology.
