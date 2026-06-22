@@ -170,6 +170,16 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
   Ratings 2012` (robustness scales), keyed to `ONET SOC 2018 Code` and `Census Code 2010`.
   Occupation join (`scripts/35`): ACS `SOCP` → O\*NET-SOC-2018 (primary); `OCCP`/Census-2010
   fallback. Accessed 2026-06-21. Used in `scripts/35_er_definition.py` (non-wage ER dimension 1).
+- **HSLS:09 (High School Longitudinal Study of 2009)** — behavioural-half feasibility
+  (`scripts/42_behavioural_feasibility.py`). NCES public-use file, Base Year 2009 through Second
+  Follow-up 2016 (23,503 students). Download:
+  `curl -L https://nces.ed.gov/EDAT/Data/Zip/HSLS_2016_v1_0_CSV_Datasets.zip -o data/raw/hsls/hsls_2016_csv.zip`
+  → `hsls_16_student_v1_0.csv` (latin-1). Confirmed variables: `S4FIELD2`/`S3FIELD2` (field of
+  study, 2-digit CIP), `X1STU30OCC2` (base-year expected occupation at 30, 2-digit SOC),
+  `S4OCC30EARN`/`S2OCC30EARN` (expected earnings at 30), `X1STUEDEXPCT` (expected attainment),
+  `W4W1STU` (panel weight). **6-digit occupation/field codes are disclosure-suppressed in the
+  PUF** → cut is at CIP-2 / SOC-2 grain. NLSY97 (secondary) is access-gated via the BLS NLS
+  Investigator (manual extract), not used. Accessed 2026-06-22.
 - **UK LEO (Longitudinal Education Outcomes), provider × subject earnings** — cross-national
   replication (Thrust A; `scripts/40_crossnational_uk.py`). DfE / Explore Education Statistics,
   *Graduate outcomes (LEO) provider level data* (2022-23 release). The provider × CAH2-subject
