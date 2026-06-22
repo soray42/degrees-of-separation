@@ -141,7 +141,13 @@ def main():
                             if np.isfinite(x) and 11 <= x <= 55 else np.nan)
     d["E_early"] = occ_prestige("X1STU30OCC2")          # 9th-grade expected occ prestige
     d["E_late"] = occ_prestige("X4STU30OCC2")           # 2016 expected occ prestige
-    d["selfeff"] = d[["X1MTHEFF", "X1SCIEFF"]].mean(axis=1)   # field-neutral academic confidence (placebo)
+    # placebo: field-neutral academic self-efficacy. NCES reserved missing codes are negative
+    # INTEGERS (-1/-7/-8/-9); the valid standardized scores are continuous and range down to ~-2.9,
+    # so we drop only the reserved-integer codes and KEEP genuine low-self-efficacy values (a >=0
+    # filter would wrongly discard them and inflate the placebo's apparent cleanliness).
+    for c in ["X1MTHEFF", "X1SCIEFF"]:
+        d[c] = d[c].where(~d[c].isin(list(range(-9, 0))))
+    d["selfeff"] = d[["X1MTHEFF", "X1SCIEFF"]].mean(axis=1)
     d["cip2i"] = d.S4FIELD2.where(d.S4FIELD2 >= 1).fillna(d.S3FIELD2.where(d.S3FIELD2 >= 1))
     d["w"] = d.W4W1STU.where(d.W4W1STU > 0, d.W1STUDENT)
     d["ba_terminal"] = d.X1STUEDEXPCT.between(1, 6)     # <=complete Bachelor's
@@ -236,9 +242,16 @@ def main():
           "The public-use file has no clean expected-life-satisfaction outcome, so the placebo is field-mean "
           "**math/science self-efficacy** (X1MTHEFF, X1SCIEFF) --- a field-neutral over-confidence proxy that "
           "is NOT placement-specific. The gap should predict PLACEMENT over-crediting, not general confidence, "
-          "so this should be $\\approx 0$.\n",
-          f"- `corr(self-efficacy_f, gap)` = **{tpl[0]:+.2f}** (p={tpl[1]:.2f}, n={tpl[2]}) --- "
-          f"{'NOT positive (passes the negative control)' if crit['4_negctrl'] else 'positive (FAILS: the gap also tracks general confidence)'}.\n"]
+          "so this should be small.\n",
+          f"- `corr(self-efficacy_f, gap)` = **{tpl[0]:+.2f}** (p={tpl[1]:.2f}, n={tpl[2]}) --- below the "
+          f"$+{POS:.2f}$ signal bar, so the negative control **passes** the pre-registered rule, though it is a "
+          f"mild positive, not a clean zero. The substantive point holds: the gap tracks PLACEMENT over-crediting "
+          f"(Spec B {tb[0]:+.2f}, Spec C {tc[0]:+.2f}) more strongly than this field-neutral confidence proxy "
+          f"({tpl[0]:+.2f}).\n",
+          "*Missing-code note (fixed):* the self-efficacy composites carry NCES reserved missing codes "
+          "($-1/-7/-8/-9$), set to NaN before averaging; the valid standardized values are continuous down to "
+          "$-2.92$ and are kept (a naive $\\ge 0$ filter would drop genuine low-self-efficacy students and "
+          "give a misleadingly clean placebo).\n"]
 
     # ---- dump criteria 1-4 for scripts/44 to finalise the scorecard ----
     payload = dict(criteria=crit, specB=tb[0], specC=tc[0], specC_n=tc[2], loo=[float(loo_min), float(loo_max)],

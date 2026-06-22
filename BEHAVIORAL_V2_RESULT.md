@@ -49,9 +49,11 @@ Leave-one-out is the n=17 fragility test: the headline is sign-stable.
 
 ## Part 3 --- negative control (placebo: field-neutral academic self-efficacy)
 
-The public-use file has no clean expected-life-satisfaction outcome, so the placebo is field-mean **math/science self-efficacy** (X1MTHEFF, X1SCIEFF) --- a field-neutral over-confidence proxy that is NOT placement-specific. The gap should predict PLACEMENT over-crediting, not general confidence, so this should be $\approx 0$.
+The public-use file has no clean expected-life-satisfaction outcome, so the placebo is field-mean **math/science self-efficacy** (X1MTHEFF, X1SCIEFF) --- a field-neutral over-confidence proxy that is NOT placement-specific. The gap should predict PLACEMENT over-crediting, not general confidence, so this should be small.
 
-- `corr(self-efficacy_f, gap)` = **+0.14** (p=0.56, n=21) --- NOT positive (passes the negative control).
+- `corr(self-efficacy_f, gap)` = **+0.18** (p=0.44, n=21) --- below the $+0.20$ signal bar, so the negative control **passes** the pre-registered rule, though it is a mild positive, not a clean zero. The substantive point holds: the gap tracks PLACEMENT over-crediting (Spec B +0.26, Spec C +0.45) more strongly than this field-neutral confidence proxy (+0.18).
+
+*Missing-code note (fixed):* the self-efficacy composites carry NCES reserved missing codes ($-1/-7/-8/-9$), set to NaN before averaging; the valid standardized values are continuous down to $-2.92$ and are kept (a naive $\ge 0$ filter would drop genuine low-self-efficacy students and give a misleadingly clean placebo).
 
 
 *Criteria 1--4 computed; criterion 5 (ELS:2002 replication) and the final 5-point scorecard are written by `scripts/44_els_replication.py`.*
@@ -71,7 +73,7 @@ ELS:2002 public-use file acquired; parallel variables present (realized BA field
 | 1 | Spec B (late expectation) positive | **PASS** | rho=+0.26 (>=+0.20) |
 | 2 | Spec C (attainment-conditioned) positive | **PASS** | BA-terminal rho=+0.45, n=9 (power-limited on thin science cells) |
 | 3 | Leave-one-field-out stable | **PASS** | LOO rho in [+0.16, +0.51], sign-stable |
-| 4 | Negative control NOT positive | **PASS** | corr(self-efficacy, gap)=+0.14 (|.|<0.20) |
+| 4 | Negative control NOT positive | **PASS** | corr(self-efficacy, gap)=+0.18 (|.|<0.20) |
 | 5 | ELS:2002 cross-cohort replication | **PASS** | ELS rho=+0.13 |
 
 **5/5 satisfied** (0 fail, 0 not-estimable/testable). Direction reverses: no.
