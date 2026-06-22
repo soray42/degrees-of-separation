@@ -180,6 +180,14 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
   `W4W1STU` (panel weight). **6-digit occupation/field codes are disclosure-suppressed in the
   PUF** → cut is at CIP-2 / SOC-2 grain. NLSY97 (secondary) is access-gated via the BLS NLS
   Investigator (manual extract), not used. Accessed 2026-06-22.
+- **ELS:2002 (Education Longitudinal Study of 2002)** — behavioural v2 cross-cohort replication
+  (`scripts/44_els_replication.py`). NCES public-use file, base year 2002 (10th grade) through
+  2012 third follow-up. Download:
+  `curl -L https://nces.ed.gov/EDAT/Data/Zip/ELS_2002-12_PETS_v1_0_Student_CSV_Datasets.zip -o data/raw/els/els_student_csv.zip`
+  → `els_02_12_byf3pststu_v1_0.csv` (latin-1). Confirmed parallel vars: `F3TZBCHLCIP2` (realized
+  BA field, 2-digit CIP), `BYOCC30` (expected occupation at 30, **17-category ELS scheme, not SOC**
+  — mapped to SOC-2→Condon by the documented crosswalk in `scripts/44`), `BYSTEXP` (expected
+  attainment), `F3BYPNLWT` (panel weight). Accessed 2026-06-22.
 - **UK LEO (Longitudinal Education Outcomes), provider × subject earnings** — cross-national
   replication (Thrust A; `scripts/40_crossnational_uk.py`). DfE / Explore Education Statistics,
   *Graduate outcomes (LEO) provider level data* (2022-23 release). The provider × CAH2-subject
