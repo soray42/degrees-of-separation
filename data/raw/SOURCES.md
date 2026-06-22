@@ -187,7 +187,11 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
   resource→media-id map is on the dynamic page; a provider-level zip verified downloadable, used
   for the provider universe). Provider key = UCAS code + name (NOT UKPRN) → join by normalised
   name. **Complete OFFERS / admit rates are the PAID "UCAS EXACT" product — NOT used** (only an
-  18-yr-old offer subset is free). Accessed 2026-06-22.
+  18-yr-old offer subset is free). Accessed 2026-06-22. **Step 2** used the provider × **CAH1**
+  subject-group resources (UCAS publishes provider × subject at CAH level 1, 23 groups): resource
+  `_015_3` *Main scheme applications* (`media/140351`) and `_015_1` *Accepted applicants*
+  (`media/140341`), pooled 2019–2021; demand pressure = applications/acceptances. LEO earnings +
+  ORCID prestige rolled up CAH2→CAH1 to match.
 - **US UC "Freshman admission by discipline" (UC Information Center)** — campus × discipline
   (15 broad disciplines + undeclared), applications/admits/enrolled, 2012–2023; downloadable via
   Tableau crosstab export (`universityofcalifornia.edu/.../freshman-admission-discipline`). Grain
