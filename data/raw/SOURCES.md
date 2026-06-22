@@ -180,6 +180,19 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
   `W4W1STU` (panel weight). **6-digit occupation/field codes are disclosure-suppressed in the
   PUF** → cut is at CIP-2 / SOC-2 grain. NLSY97 (secondary) is access-gated via the BLS NLS
   Investigator (manual extract), not used. Accessed 2026-06-22.
+- **UK UCAS end-of-cycle (free provider-level data resources)** — revealed-demand feasibility
+  gate (`scripts/45_demand_feasibility.py`). FREE provider × subject-group APPLICATIONS and
+  ACCEPTANCES: resources `EOC_HEP_*_014` (subject group JACS3, 2007–2021) and `_015` (HECoS,
+  2019–2021); per-resource CSV/zip behind `https://www.ucas.com/media/<id>/download` (the
+  resource→media-id map is on the dynamic page; a provider-level zip verified downloadable, used
+  for the provider universe). Provider key = UCAS code + name (NOT UKPRN) → join by normalised
+  name. **Complete OFFERS / admit rates are the PAID "UCAS EXACT" product — NOT used** (only an
+  18-yr-old offer subset is free). Accessed 2026-06-22.
+- **US UC "Freshman admission by discipline" (UC Information Center)** — campus × discipline
+  (15 broad disciplines + undeclared), applications/admits/enrolled, 2012–2023; downloadable via
+  Tableau crosstab export (`universityofcalifornia.edu/.../freshman-admission-discipline`). Grain
+  = discipline (≈CIP-2), 9 UC undergraduate campuses only. **US CSU** data centre was HTTP 403
+  here (portal/scrape-gated). Documented for the gate; not pulled (US gate = NO-GO on coverage).
 - **ELS:2002 (Education Longitudinal Study of 2002)** — behavioural v2 cross-cohort replication
   (`scripts/44_els_replication.py`). NCES public-use file, base year 2002 (10th grade) through
   2012 third follow-up. Download:
