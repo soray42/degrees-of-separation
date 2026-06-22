@@ -170,6 +170,27 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
   Ratings 2012` (robustness scales), keyed to `ONET SOC 2018 Code` and `Census Code 2010`.
   Occupation join (`scripts/35`): ACS `SOCP` → O\*NET-SOC-2018 (primary); `OCCP`/Census-2010
   fallback. Accessed 2026-06-21. Used in `scripts/35_er_definition.py` (non-wage ER dimension 1).
+- **UK LEO (Longitudinal Education Outcomes), provider × subject earnings** — cross-national
+  replication (Thrust A; `scripts/40_crossnational_uk.py`). DfE / Explore Education Statistics,
+  *Graduate outcomes (LEO) provider level data* (2022-23 release). The provider × CAH2-subject
+  rows are in the dashboard underlying-data file (median earnings 5 years after graduation, all
+  graduates). Download:
+  `curl -L https://content.explore-education-statistics.service.gov.uk/api/releases/a13c6267-1527-4761-bf8e-3566d8d26629/files/3896dae9-11af-46ef-b6c6-2eed9acda9e5 -o data/raw/leo/leo_dashboard.zip`
+  → `provider_data_*.csv` (latin-1; £-encoded). Region-reweighted `earnings_adjusted_median` is
+  published but disclosure-suppressed at provider × subject grain → raw `earnings_median` used.
+  UK placement axis (comparable to the US Scorecard axis). Accessed 2026-06-22.
+- **ROR data dump** (country resolution for ORCID hiring edges) — Zenodo record `20512981`
+  (v2.8, 2026-06-02): `curl -L https://zenodo.org/api/records/20512981/files/v2.8-2026-06-02-ror-data.zip/content -o data/raw/ror/ror-data.zip`.
+  The CSV's `id` × `locations.geonames_details.country_code` maps each ROR institution to a
+  country; used to extract **GB→GB** UK hiring edges from the existing ORCID shards (the US
+  filter of `scripts/10` swapped to `"gb"`). UK prestige axis (option a). Accessed 2026-06-22.
+- **EUROGRADUATE** (18-country graduate survey, self-reported skills-match) — **access-gated**:
+  site reachable but the pilot microdata is distributed by application to the consortium/GESIS,
+  not open download. Recorded, not used (Thrust A proceeded on UK LEO).
+- **REF 2021** (Research Excellence Framework, research-quality by institution × unit of
+  assessment) — public/official (`results2021.ref.ac.uk`, reachable; export-all endpoint). The
+  documented **fallback** UK prestige axis (option b); NOT adopted — REF is research-output
+  quality, not faculty-placement prestige, so it is not construct-comparable to the US axis.
 - **CPS licensing (certification/licensing question, 2015+)** — *not pulled as microdata.* The
   licensure regime (`src/crosswalks/fields.py::LICENSED_FIELDS`) is a **hand-coded ex-ante
   binary** (nursing, communication disorders, accounting/CPA, civil/PE), rule documented in
