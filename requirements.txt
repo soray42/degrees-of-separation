@@ -13,6 +13,7 @@ scipy==1.18.0
 statsmodels==0.14.6
 patsy==1.0.2
 networkx==3.6.1
+scikit-learn==1.9.0      # 1-D GMM + ARI/NMI clustering metrics (scripts/47)
 
 # IO / data access
 requests==2.34.2
