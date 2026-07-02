@@ -57,10 +57,12 @@ results/*.md
 outputs/*.md
 refs/notes/
 degrees_of_separation_proposal*.md
-# Root-level narrative reports (*_RESULT.md, MODEL*.md, etc.) are kept local too;
-# README.md is the single tracked guide / data-delivery handoff at the repo root.
+# Root-level narrative reports (*_RESULT.md, MODEL*.md, etc.) are kept local too.
+# The two tracked root docs are README.md (platform / findings brief) and
+# ROADMAP.md (pending / co-author action list); everything else stays local.
 /*.md
 !/README.md
+!/ROADMAP.md
 
 # ---- Exploratory notebooks (scratch; the runnable pipeline lives in scripts/) ----
 notebooks/
