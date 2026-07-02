@@ -1,9 +1,9 @@
 # Degrees of Separation — Roadmap (pending / Act Two)
 
 > Companion to [`README.md`](README.md) (the finished platform). This is the **pending** side:
-> extension directions, engineering plans, ordering, and the Revelio boundary. It is the
-> **co-author action list** — engineering detail is **not abbreviated** (data columns, pipelines,
-> caveats are all kept). Source: the author's current post-pilot strategy + `paper/next_stage_agenda.tex`.
+> extension directions, engineering plans, ordering, and the Revelio boundary. **Working notes to
+> myself** — engineering detail is **not abbreviated** (data columns, pipelines, caveats all kept).
+> Source: current post-pilot strategy + `paper/next_stage_agenda.tex`.
 
 **Strategy in one line.** The pilot proved there is **no second mechanism beyond licensing** — stop
 hunting for one. What the pilot actually bought is the upgrade of **licensing into a special case of a
@@ -54,7 +54,7 @@ Altonji–Pierret 2001 / Lange 2007 / Arcidiacono–Bayer–Hizmo 2010). Three m
 - The clever route: **state-space smoothed rankings** — Whole-History Rating (Coulom 2008), TrueSkill
   Through Time (Dangauthier et al., NIPS 2007). A temporal-smoothness prior lets sparse windows borrow
   edges from neighbours, demoting edge density from a **fatal flaw** to a **regularization-strength choice.**
-  ⚠️ This is a methods sub-project with a distinct minimax-bounds flavour — **hand it to Yifeng.**
+  ⚠️ This is a self-contained methods sub-project with a distinct minimax-bounds flavour — a natural piece to spin off as a separate track.
 - The lazy route (legitimate version): Wapman 2022's title says "dynamics" and its conclusion is that the
   2011–2020 hierarchy is **extremely stable** → cite it, fix prestige as **quasi-static** → gap dynamics =
   placement dynamics, and identification is actually *cleaner*. Backed by the literature, not a concession.
@@ -188,7 +188,7 @@ wages (grad students earn a stipend). The data to fix it is **open and free.**
 (learning, ①) + the variance dimension (dispersion, ②) + the institutional dimension
 (license / pay-scale / union, ③) + a placement redefinition (④). **All entirely Revelio-free.**
 
-**Revelio is squeezed down to three exclusives** (the pitch to Yu):
+**Revelio is squeezed down to three exclusives** (for the Revelio pitch):
 1. individual trajectories (who is climbing; firm-to-firm jumps);
 2. the true firm elite tail above p75;
 3. the **prestige-sortable decomposition** of within-occupation variance (ACS gives only the upper bound;
@@ -222,12 +222,12 @@ Three thrusts, ordered by access cost:
 - **Thrust B — the multi-dimensional, within-field placement gap (the flagship).** **Revelio-gated;** the
   residual-mechanism, tail, and dynamic questions all converge here (= the three Revelio exclusives).
 - **Thrust C — the behavioural layer.** Descriptive / quasi-experimental tiers run on public data now (but
-  42–46 already showed they're under-powered); the flagship RCT is gated on a co-author working on
-  subjective expectations.
+  42–46 already showed they're under-powered); the flagship RCT is gated on a subjective-expectations
+  partnership.
 
 **Two leverage points.** A Revelio subscription unlocks B + the placement half of the dynamic question (the
 prestige-temporal half needs a separate dynamic-SpringRank upgrade, edge density its binding constraint =
-axis ③); a subjective-expectations collaboration unlocks C.
+axis ③); a subjective-expectations partnership unlocks C.
 
 ---
 
@@ -245,8 +245,8 @@ axis ③); a subjective-expectations collaboration unlocks C.
       that grain (schedule only if it passes).
 - [ ] **⑥ prerequisite.** Get the latest PERM disclosure and confirm whether the education fields carry an
       institution name (otherwise, not a word).
-- [ ] **Collaboration.** Hand the data off to Yifeng (see README §4 footprint: ship raw+interim, or fetch
-      raw via SOURCES.md); axis ③'s state-space smoothed ranking (WHR/TTT) is a methods sub-project — **hand
-      it to Yifeng.**
+- [ ] **Data handoff.** Ship raw+interim or fetch raw via SOURCES.md (see README §4 footprint); axis ③'s
+      state-space smoothed ranking (WHR/TTT) is a self-contained methods sub-project — a natural piece to
+      spin off.
 - [ ] **Co-author decisions.** The six items in `paper/COAUTHOR_NOTES.md` (venue / so-what / keep-or-cut the
       model / do UK first or cite as next step / outreach targets / scope of the CS-ranking artifact).

@@ -2,7 +2,7 @@
 
 ### A measurable wedge between academic prestige and the labour-market pricing of fields
 
-This README is the **co-author onboarding brief**: the whole project at a glance — what it
+These are my working notes on the whole project, at a glance — what it
 measures, every finding with its verified number and caveat, each experiment's design, the
 engineering architecture, and what is done vs. pending. Pending/roadmap lives in
 [`ROADMAP.md`](ROADMAP.md). All in-text numbers are copied verbatim from the verified audit
@@ -174,10 +174,10 @@ Makefile                    make setup / check-data / tier0 / diagnostic / gap /
   prose `*.md` except this README** (`/*.md` + `!/README.md`; `results/*.md`, `outputs/*.md`). The
   narrative RESULT reports live locally + in git history — they are the analysis record, not a shipped
   artifact. **No datasets are redistributed in this repo.**
-- **Data footprint** (for the Yifeng handoff): `data/raw` ≈ 3.7 GB (all open: ACS 2.8G, HSLS, PSEO,
+- **Data footprint** (for any data handoff): `data/raw` ≈ 3.7 GB (all open: ACS 2.8G, HSLS, PSEO,
   Scorecard, IPEDS, LEO, ONET, UCAS, ELS, Wapman…); `data/interim` ≈ 25 MB (derived analysis-ready
-  tables); ORCID ≈ 5.5 GB (Yifeng owns). 13 scripts read `data/raw` directly, 30 read `data/interim`
-  → interim-alone is **not** a sufficient handoff; ship raw+interim or fetch raw via `SOURCES.md`.
+  tables); ORCID ≈ 5.5 GB (supplied separately). 13 scripts read `data/raw` directly, 30 read
+  `data/interim` → interim-alone is **not** a sufficient handoff; ship raw+interim or fetch via `SOURCES.md`.
 - **Version-pinning gotcha.** Scorecard is a *dated snapshot* (`...Field-of-Study_06102026.zip`);
   re-fetching "most recent" yields a *different vintage* → numbers drift. Share the pinned zip to match.
 
@@ -239,10 +239,9 @@ quantile coupling; PERM green-card data) ranked by leverage, plus the platform f
 now; B multi-dimensional within-field placement, Revelio-gated flagship; C behavioural layer) and the
 three things that genuinely still need Revelio.
 
-**Open co-author decisions** (`paper/COAUTHOR_NOTES.md`): venue (descriptive CSS vs bolder NHB push);
-how hard to lean on the ranking critique; keep/cut/validate the §6 model; add UK replication before
-submission or cite as next step; outreach targets (Giustinelli → beliefs; Sinatra → networks); scope of
-the public CS-ranking artifact.
+**Open decisions** (`paper/COAUTHOR_NOTES.md`): venue (descriptive CSS vs bolder NHB push); how hard to
+lean on the ranking critique; keep/cut/validate the §6 model; add UK replication before submission or cite
+as next step; outreach angle (beliefs vs networks); scope of the public CS-ranking artifact.
 
 ---
 
