@@ -248,5 +248,5 @@ axis ③); a subjective-expectations partnership unlocks C.
 - [ ] **Data handoff.** Ship raw+interim or fetch raw via SOURCES.md (see README §4 footprint); axis ③'s
       state-space smoothed ranking (WHR/TTT) is a self-contained methods sub-project — a natural piece to
       spin off.
-- [ ] **Co-author decisions.** The six items in `paper/COAUTHOR_NOTES.md` (venue / so-what / keep-or-cut the
+- [ ] **Open decisions.** The six items in `paper/COAUTHOR_NOTES.md` (venue / so-what / keep-or-cut the
       model / do UK first or cite as next step / outreach targets / scope of the CS-ranking artifact).

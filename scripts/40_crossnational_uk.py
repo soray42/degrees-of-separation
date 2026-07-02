@@ -43,7 +43,7 @@ rng = np.random.default_rng(SEED)
 INTERIM = ROOT / "data" / "interim"; INTERIM.mkdir(parents=True, exist_ok=True)
 ROR_ZIP = ROOT / "data" / "raw" / "ror" / "ror-data.zip"
 LEO_ZIP = ROOT / "data" / "raw" / "leo" / "leo_dashboard.zip"
-SHARDS = sorted(glob.glob(str(ROOT / "data" / "yifeng_orcid" / "all" / "edge_aff" / "*.parquet")))
+SHARDS = sorted(glob.glob(str(ROOT / "data" / "orcid" / "all" / "edge_aff" / "*.parquet")))
 DOC = re.compile(r"ph\.?\s?d|d\.phil|dphil|sc\.?d|\bdoctor|doctoral", re.I)
 FAC = re.compile(r"professor|lecturer|\bfaculty\b|assistant prof|associate prof|\breader\b|instructor|tenure|assoc\. prof|asst\. prof", re.I)
 ELITE = [norm(x) for x in ["university of oxford", "university of cambridge",

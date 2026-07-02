@@ -110,7 +110,7 @@ One parameter vector (N=150, σ_A=0.50, σ_∞=0.30, σ_0=1.00, δ=0.70) reprodu
 **≈+0.64** (~empirical +0.66), P3 absorption null, P5 gap-change↔divergence +0.71 — with **no per-fact
 tuning**. But its key external prediction (**residual = valuation divergence**) is **UNCONFIRMED**:
 O*NET proxy **+0.41 [+0.08,+0.68]** vs SDR proxy **−0.61 [−0.88,−0.11]**, the two proxies *negatively*
-correlated (−0.64). Kept as an **interpretive lens, explicitly not validated** (co-author decision #3).
+correlated (−0.64). Kept as an **interpretive lens, explicitly not validated** (open decision #3).
 
 ---
 
@@ -166,7 +166,7 @@ Makefile                    make setup / check-data / tier0 / diagnostic / gap /
                             granularity / orcid / openalex / all / figures / clean
 ```
 
-**Engineering conventions (important for a co-author):**
+**Engineering conventions (important to know):**
 - **Reproducible & seeded.** Every script reruns deterministically (SEED fixed; pilot scripts verified
   byte-identical across runs). `make all` regenerates every derived artifact from documented raw.
 - **What's tracked vs local.** Committed = code + `outputs/`&`results/` figures/CSVs + `README.md`.
@@ -254,7 +254,7 @@ make check-data                 # reports which core inputs from data/raw/SOURCE
 make all                        # public-data pipeline: Tier 0 → gap → cluster decomposition
 ```
 Two stages need extra inputs, run separately: `make orcid` (Zenodo record **19651302** → place under
-`data/yifeng_orcid/`) and `make openalex` (OpenAlex API key in gitignored `secrets.json`). Individual
+`data/orcid/`) and `make openalex` (OpenAlex API key in gitignored `secrets.json`). Individual
 groups: `make tier0 tier05 diagnostic gap expand granularity`. `make clean` removes regenerated outputs.
 
 ## 8. Data & licensing

@@ -1,4 +1,4 @@
-"""Task 1 — construct ORCID PhD→faculty placement edges from Yifeng's mobility edges.
+"""Task 1 — construct ORCID PhD→faculty placement edges from the ORCID mobility edges.
  → data/interim/orcid_phd_faculty_edges.parquet (+ printed stats)
 
 Population filter to match Wapman: doctoral EDUCATION → faculty EMPLOYMENT, US→US, both
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import warnings; warnings.filterwarnings("ignore")
 import numpy as np, pandas as pd
 
-SHARDS = sorted(glob.glob("data/yifeng_orcid/all/edge_aff/*.parquet"))
+SHARDS = sorted(glob.glob("data/orcid/all/edge_aff/*.parquet"))
 COLS = ["role_type_from", "role_type_to", "role_from", "role_to",
         "org_country_from", "org_country_to", "org_from_ror_id", "org_from_ror_name",
         "org_to_ror_id", "org_to_ror_name", "org_dept_from", "org_dept_to",

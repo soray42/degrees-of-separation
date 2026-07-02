@@ -5,7 +5,7 @@
 #   2. Raw data:     fetch every source listed in data/raw/SOURCES.md into data/raw/
 #                    (run `make check-data` to see what is missing)
 #   3. ORCID gateway (stages orcid/openalex): place Zenodo 19651302 `20260419.7z` at
-#      data/yifeng_orcid/ and extract to data/yifeng_orcid/all/edge_aff/*.parquet
+#      data/orcid/ and extract to data/orcid/all/edge_aff/*.parquet
 #   4. OpenAlex tagging (stage openalex): create secrets.json with an OpenAlex API key
 #      {"openalex_api_key": "...", "openalex_mailto": "you@example.org"}
 #
