@@ -233,12 +233,20 @@ axis ③); a subjective-expectations partnership unlocks C.
 
 ## 6. Immediate next steps (pick up and go)
 
-- [ ] **① start.** Confirm the Scorecard `EARN_MDN_4YR` (and 1yr/5yr) columns against the data dictionary,
-      stand up the `coupling_f(h)` skeleton (reuse `src/gap.py` + the existing SpringRank); fold ⑤'s p25/p75
-      in on the way.
-- [ ] **② main thrust.** Pull ACS PUMS 5-year (IPUMS), build the "destination wage-dispersion index" per the
-      6 steps above, run `coupling_f ~ dispersion_index_f`. This is the **highest-value** shot and the most
-      likely to revive the continuous law.
+- [x] **① DONE — POSITIVE** (`scripts/52`, fig `career_time_coupling.png`). coupling_f(h) over Scorecard
+      1/4/5yr + PSEO y1/y5/y10, prestige fixed. On the clean PSEO panel: **integrated fields' coupling RISES
+      with tenure** +0.025/yr [+0.014,+0.037] (human-capital/compounding signature, not signalling-decay),
+      while the **decoupled group = exactly the wage-compressed set {communication_disorders, nursing,
+      teacher_ed} stays pinned ≈0** (+0.001/yr). Licensed split confirmed (accounting/civil-eng high =
+      uncompressed; nursing/comm-disorders flat = compressed). Scorecard corroborates on breadth but is
+      cohort-confounded. → Extends compression into the temporal dimension.
+- [x] **② DONE — NULL** (`scripts/53`, fig `dispersion_law.png`). Within-occupation wage-variance index
+      (ACS 1-yr PUMS, 6 operationalizations incl. upper-tail) vs coupling: reliable n=16 headline +0.30
+      [−0.32,+0.75] p=0.25, broad n=50 flips negative — robust null. Diagnosis: total within-occupation
+      residual variance is near-constant across occupations (RN 0.58 ≈ SWE 0.56); the prestige-sortable slice
+      is firm-mediated and **ACS cannot isolate it**. This IS the predicted null path = the clean
+      "aggregate only visible at the extremes → firm-level (Revelio) decomposition necessary" testimony.
+      (5-yr IPUMS would only sharpen a near-constant measure; the ceiling is structural, no firm/institution.)
 - [ ] **④.** Locate the NSF SED baccalaureate-origins table + IPEDS completions, check the grain, build
       bio's PhD-axis coupling.
 - [ ] **③ prerequisite.** Vet UK LEO provider×subject grain + whether a UK prestige network is buildable at
