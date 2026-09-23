@@ -33,9 +33,9 @@ is a statement about them.
 
 | Pillar | Construct | Source | Key engineering caveat |
 |---|---|---|---|
-| **AR** — academic prestige | continuous **SpringRank** score of the US faculty-hiring network (recomputed from the public edge subgraph so score *differences* are meaningful) | Wapman et al. *Nature* 2022; independent ORCID rebuild as a robustness gate | From-scratch SpringRank reproduces published ranks at only **ρ≈0.77** (public aggregated edges are *lossy* vs the proprietary census — a data ceiling, **not a code bug**). ORCID-rebuilt reproduces Wapman academia at **ρ=0.74** (public-Wapman benchmark itself only 0.91 → method certification, not 1.0). |
-| **ER** — graduate earnings (the *placement proxy*) | **College Scorecard** field-of-study bachelor's median earnings, **cross-validated against Census PSEO** (UI wages) | Scorecard FoS (Title-IV); PSEO Explorer | Earnings is a **validated-but-incomplete** proxy for "placement," with two characterised failure modes (see §4 pilot: occupation-pinned fields, and delayed-market fields like bio). Scorecard **same-release 1yr vs 4yr are different cohorts** — never diff them for career time (see ROADMAP ①). |
-| **gap = real signal** | diagnostic battery (null-model, bootstrap, residualization, restriction) + per-field reliability filter | `run_diagnostic.py`, `src/diagnostic.py` | Verdict **REAL SIGNAL** but **filter required**: artifact channel explains only **R²=0.20**; only **15%** of fields inside a perfect-agreement-plus-noise null, **65%** above it. A low-earnings-signal cluster (Chemistry, Earth Sci) is noise-dominated and **screened out**. |
+| **AR** — academic prestige | Wapman et al.'s published **SpringRank** field rank of the US faculty-hiring network. Field-level gaps use this ordinal rank; a continuous public-edge SpringRank rebuild is used only for pooled clusters and the CS demonstrator (the public edge list omits institution pairs with a single hire, so it cannot fully reproduce the published rank) | Wapman et al. *Nature* 2022; independent ORCID rebuild as a robustness gate | From-scratch SpringRank reproduces published ranks at only **ρ≈0.77** (public aggregated edges are *lossy* vs the proprietary census — a data ceiling, **not a code bug**). ORCID-rebuilt reproduces Wapman academia at **ρ=0.74** (public-Wapman benchmark itself only 0.91 → method certification, not 1.0). |
+| **ER** — graduate earnings (the *placement proxy*) | **College Scorecard** field-of-study bachelor's median earnings, **cross-validated against Census PSEO** (UI wages) | Scorecard FoS (Title-IV); PSEO Explorer | Earnings is a **validated-but-incomplete** proxy for "placement," with two characterised failure modes (see §4 pilot: occupation-pinned fields, and delayed-market fields like bio). Scorecard **same-release 1yr vs 4yr are different cohorts** — never diff them for career time (see §3). |
+| **gap = real signal** | diagnostic battery (null-model, bootstrap, residualization, restriction) + per-field reliability filter | `run_diagnostic.py`, `src/diagnostic.py` | Verdict **REAL SIGNAL** but **filter required**: artifact channel explains only **R²=0.20**; only **15%** of fields inside a perfect-agreement-plus-noise null, **65%** above it. A low-earnings-signal cluster (Chemistry, Earth Sci) is noise-dominated and **screened out**. *(These shares come from the early 30-field universe; an unscripted re-computation on the 57-field universe gives 53% above / 33% inside / 14% below — values below the band mean the null's noise parameter is miscalibrated for some fields. Cochran's Q/I² in scripts/57 is the cleaner heterogeneity test.)* |
 
 **The placement axis is currently four things (the "four pillars" the frontier relaxes):**
 it is a **single scalar**, at the **institution grain**, **US-only**, and **median-level** —
@@ -54,11 +54,20 @@ bachelor's-level only**. BA fields with ≥10 matched institutions: Scorecard 28
 
 Numbers verbatim from `CLAIMS_LEDGER.md`; each line ends with its binding caveat.
 
-### Result 1 — the gap is structured by discipline
+### Result 1 — cross-field heterogeneity is real; discipline structure is borderline
 Precision-weighted multilevel decomposition `gap_f ~ 1 + (1|CIP-2)` (REML, **n=48**):
 **τ²=0.0231** (SD 0.152), **ICC=0.30**, measurement-corrected **0.45**, expanded-universe **0.57**;
 one-way **η²=0.50**; 18 CIP-2 clusters, 23 reliable locked-grain units. *(Descriptive variance
 decomposition, salary-anchored, not causal.)*
+
+**Phase 1 re-check (scripts/57, three-level REML meta-analysis on Fisher-z coupling, 57 fields):**
+heterogeneity across fields is real (Cochran Q = 183.2 on 56 df, I² = 0.69), but the CIP-2 component is
+borderline. It is significant unadjusted (permutation p = 0.005) but only p = 0.028–0.046 net of field
+size (coupling rises with the number of institutions per field), its profile CI reaches 0, and it fails
+leave-one-cluster-out (dropping Engineering gives p = 0.12). The legacy ICCs below (0.30 raw, 0.57
+corrected) do not clear a size-preserving permutation null (p ≈ 0.06). Read the cluster pattern as a
+descriptive map, not an established finding.
+
 - **Integrated** (prestige predicts pay): Computer/Info **0.348**, Math & Stats **0.352**, Social Sci
   **0.421**, Engineering **0.432**.
 - **Decoupled**: Health **0.753**, Arts **0.746**, Nat. Resources **0.730**, Biological Sci **0.678**,
@@ -114,29 +123,40 @@ correlated (−0.64). Kept as an **interpretive lens, explicitly not validated**
 
 ---
 
-## 3. The extension pilot — verdict: no second mechanism; licensing → *compression*
+## 3. What the re-checks changed (pilot 47–51, Phase 1 scripts 52–57)
 
-A depth-first pilot (scripts 47–51) tested two extension ideas and **adversarially verified** each.
-Honest verdict: **there is no organizing mechanism beyond the paper's licensing result** — but the
-pilot bought a **conceptual upgrade** (licensing is the sharpest special case of a more general
-*wage-compression* mechanism) and one sharper core fact. Full write-up:
-`RESEARCH_PILOT_RESULT.md` (local).
+Every newer result was adversarially re-verified; several earlier claims did not survive. Prose
+write-ups are local (`*_RESULT.md`); numbers below come from the committed scripts.
 
-- **Idea A (disciplinary kinship × coupling) — KILLED.** Coupling does **not** flow over a data-driven
-  faculty-hiring kinship graph: Moran's I **+0.011, p=0.96**, robust across 7 W-constructions. The
-  CIP-2 co-membership signal (I=+1.71, p=0.002) collapses on leave-pair-out — **84% is the single
-  nursing/comm-disorders CIP-51 license pair** = licensing in disguise, caught by adversarial verify.
-  Stats↔CS dual-kinship **falsified** (Stats is a Mathematics satellite, 9.2:1).
-- **Idea B (geography/occupation netting) — mixed → collapses to licensing.** Industry (NAICS-sector)
-  netting *misclassifies* nursing (premium amplifies — sector too coarse). **STATE×OCCP netting fixes
-  it: nursing raw $5k → $0 (n=22,518)** — a real, non-circular correction showing nursing's pay *is*
-  its state's RN occupation wage. But `occ_hhi ↔ coupling` is a **clean null** (CS is the counterexample:
-  occupation-*pinned* yet **highest** coupling 0.708), and occ_hhi ≈ license dummy (Spearman 0.643,
-  p=0.007) → relabel, not new.
-- **⇒ Conceptual upgrade (the trophy).** The sufficient condition for decoupling is **not** "occupation
-  pinning" but **"the field's occupation lacks prestige-sortable within-occupation wage variance."**
-  *Compression* is the mechanism; *licensing* is its most extreme special case. The entire forward
-  agenda (`ROADMAP.md`) is "Act Two: the compression mechanism — when/why/where prestige stops paying."
+- **Selectivity absorbs most of the level of coupling (scripts/55).** Net of institution SAT, admit
+  rate, Pell share, control and state, mean coupling falls from +0.43 to +0.14 (SAT sample, 46 fields).
+  In a within-institution cross-department design, the department-prestige slope falls from +0.084 to
+  +0.013. The cross-field *ordering* still beats a shared-noise null (Spearman +0.63 vs null +0.29,
+  p = 0.006), but it is nearly collinear with how much each field pays for selectivity (true-score
+  r = +0.94), and public data cannot separate the two readings (SAT-based checks lean toward
+  selectivity pricing, admit-rate-based checks the other way). CS/economics vs nursing survives the
+  broad adjustment (+0.33 [+0.09, +0.57]) but not the strict one (+0.11 [−0.31, +0.52]).
+- **Brand vs field prestige (scripts/56).** Academia-wide brand predicts pay at least as well as
+  field-specific prestige, and correcting for field prestige's lower reliability does not reverse
+  this. Under the pessimistic reliability bound the difference is −0.005 [−0.043, +0.044]; the safe
+  claim is "field prestige is no better than brand", not "brand is better".
+- **Career-time coupling (scripts/52, rewritten).** On fixed PSEO cohorts 2001/2004/2007/2010 (balanced
+  institutions, 39 fields), coupling rises +0.031/yr [+0.021, +0.038], in every cohort. A
+  calendar-matched contrast bounds the career-time part to [+0.014, +0.032]/yr. The rise is general
+  across fields (integrated minus others +0.008, p = 0.33) and loads on academia-wide brand
+  (+0.038/yr) rather than field prestige (−0.001/yr).
+- **Discipline structure is borderline (scripts/57)** — see the note under Result 1.
+- **Extension pilot (47–51): no second mechanism.** Disciplinary kinship does not organise coupling
+  (faculty-flow Moran's I +0.011, p = 0.96; the CIP-2 signal was the nursing/communication-disorders
+  pair). State × occupation netting shows nursing's premium is its state's RN wage (raw $5k → $0,
+  n = 22,518). The mechanism is the paper's own: **pay set by setting (state, employer, pay scale),
+  prestige-orthogonal — not wage compression** (corr(licensure, wage CV) = +0.02). The within-occupation
+  dispersion law (scripts/53) is null in 0 of 240 principled specifications.
+- **Withdrawn claims:** wage compression as the mechanism or a continuous law; the "clean same-cohort"
+  PSEO panel (the pooled cohort mixes cohorts across horizons); "compressed fields pinned at 0";
+  "field-agnostic rankings mis-price programs" (untested and contradicted by brand ≥ field); "aggregate
+  data sees nothing, so resume data is necessary" (restated: public aggregates cannot identify the
+  within-occupation channel).
 
 ---
 
@@ -213,7 +233,7 @@ Engineering caveats are in the finding text (not omitted).
 | 32 | PSEO gap cross-validation | replicate gap on PSEO UI wages; net destination geography | ● Result 3 (level +0.94, gap +0.68, geo-robust) |
 | 33 | Dynamic lead–lag pilot | real-$ revaluation 2001–2019; two-period prestige stability | ● revaluation fact / ⧗ lead-lag NOT identified |
 | 34 | CS-school ranking | public-facing prestige×earnings demonstrator, cross-validated | ○ application artifact (CMU top; 15 low-robustness flags) |
-| 35 / 35a–c | ER-axis **reframe** + placement-proxy identification | earnings = *revealed-placement* proxy; validate; 2 failure modes; licensing=compression | ● the platform reframe (validated-but-incomplete proxy) |
+| 35 / 35a–c | ER-axis **reframe** + placement-proxy identification | earnings = *revealed-placement* proxy; validate; 2 failure modes; licensing marks setting-determined pay (not compression) | ● the platform reframe (validated-but-incomplete proxy) |
 | 40–41 | Cross-national UK (licensing) | UK faculty-hiring prestige × LEO earnings feasibility | ⧗ feasibility for Thrust A |
 | 42–44 | Behavioural feasibility + v2 + ELS | HSLS/ELS over-credit vs gap; pre-registered battery | ∅ under-powered on public data (secondary/SI at best) |
 | 45 | Demand feasibility | revealed-demand (applications vs acceptances) gate | ∅ US no-go; UK gated |
@@ -222,22 +242,27 @@ Engineering caveats are in the finding text (not omitted).
 | 48 | Pilot Ph3-4 — netting/unification | ACS state×NAICS netting; A+B unification | ∅ industry netting misclassifies nursing; unification not confirmed |
 | 49,51 | Pilot — faculty-flow + Moran | build kinship graph; Moran's I of coupling | ∅ **Idea A killed** (I=+0.011, p=0.96) |
 | 50 | Pilot — occupation channel | STATE×OCCP netting; occ_hhi ↔ coupling | ● nursing $5k→$0 correction / ∅ concentration null (CS counterexample) |
+| 52 | Career-time coupling (rewritten) | PSEO fixed cohorts 2001–2010, balanced; two-stage bootstrap; calendar-matched bound; brand vs field | ● +0.031/yr, general across fields; brand-loaded |
+| 53 | Within-occupation dispersion law | ACS PUMS occupation wage dispersion → coupling | ∅ null (0/240 robust specifications) |
+| 55 | Selectivity controls | Scorecard institution SAT/admit/Pell/state; partial coupling; within-institution FE | ⧗ level mostly selectivity; ordering not separable from selectivity pricing |
+| 56 | Prestige reliability | split-half SpringRank on public edges; disattenuated c_F vs c_G | ○ field prestige no better than brand |
+| 57 | Three-level ICC | REML meta-analysis, permutation nulls, field-size adjustment | ⧗ discipline component borderline |
 
 ---
 
 ## 6. Status & what's next
 
-**Done.** The static paper is a complete *platform*: a measured, structured (Result 1),
-mechanistically-bounded (Result 2), cross-source-robust (Result 3), temporally-live (Result 4) wedge,
-with three competing explanations ruled out and an honest unvalidated interpretive model. The extension
-pilot closed the "second mechanism" search (null) and upgraded licensing → compression.
+**Done.** The measurement object (within-field prestige–earnings coupling, reliability-gated) and its
+cross-source replication are solid; three alternative explanations are ruled out; licensing marks fields
+where pay is set by setting. The Phase 1 re-checks narrowed the claims: most of the coupling level is
+institutional selectivity/brand, discipline structure is borderline, and the career-time rise is general
+and brand-loaded.
 
-**Pending → [`ROADMAP.md`](ROADMAP.md).** "Act Two: the compression mechanism" — six zero-Revelio
-directions (career-time coupling; the compression continuous-law re-run with the *right* variable;
-UK-vs-US teaching to separate compression from licensing; a second placement axis for bio via NSF SED;
-quantile coupling; PERM green-card data) ranked by leverage, plus the platform frontier (A cross-national
-now; B multi-dimensional within-field placement, Revelio-gated flagship; C behavioural layer) and the
-three things that genuinely still need Revelio.
+**Working headline (to test, not established):** labour markets price institutional status
+(selectivity/brand) rather than a department's academic standing; how much that status pays varies
+strongly across fields and grows over careers, and it largely vanishes where pay is set by setting.
+
+**Pending → [`ROADMAP.md`](ROADMAP.md)** (public data only).
 
 **Open decisions** (`paper/COAUTHOR_NOTES.md`): venue (descriptive CSS vs bolder NHB push); how hard to
 lean on the ranking critique; keep/cut/validate the §6 model; add UK replication before submission or cite
