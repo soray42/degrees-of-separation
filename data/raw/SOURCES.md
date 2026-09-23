@@ -231,6 +231,16 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
   binary** (nursing, communication disorders, accounting/CPA, civil/PE), rule documented in
   `results/REGIME_NOTE.md`. CPS basic-monthly `PRCERTEXAM`/`PECERT1-3` is the source to validate
   against later if a continuous rate is wanted; not required for the ex-ante binary.
+- **College Scorecard, Institution-level "Most Recent Cohorts" file** — selectivity / composition
+  controls for the selectivity-confound test (`scripts/55_selectivity.py`). U.S. Department of
+  Education, downloaded from the College Scorecard data page `https://collegescorecard.ed.gov/data/`
+  (Most-Recent-Cohorts-Institution zip). File `Most-Recent-Cohorts-Institution.csv` → `scorecard_inst/`
+  (100,102,932 bytes; 6,273 institutions = unique `UNITID`; 3,308 cols; md5
+  `7d55bf1048b54be24914400ed4d9c293`). Vintage: "Most Recent" release; file timestamp inside the zip
+  2026-05-27 00:41, the same build date as the §2 Field-of-Study file (2026-05-27 00:39). Columns
+  used: `UNITID` (join key = `institution_id` kept by `load_er_scorecard`), `STABBR`, `CONTROL`,
+  `PREDDEG`, `ADM_RATE`, `SAT_AVG`, `PCTPELL`, `MD_EARN_WNE_P10` (`'NULL'`/`'PrivacySuppressed'` → NaN).
+  License: public domain (US Gov). Accessed 2026-09-23.
 
 ---
 

@@ -74,21 +74,33 @@ def _pseo_institutions() -> pd.DataFrame:
     return ins[["institution", "label", "inst_key"]]
 
 
-def load_er_pseo(level: str = "undergrad", horizon: str = "y5") -> pd.DataFrame:
-    """PSEO earnings + dispersion for a degree level. Uses pooled cohorts
-    (grad_cohort=='0000'), institution-level rows (inst_level=='I'), 4-digit CIP
-    (cip_level=='4'), and only released earnings (status_y{h}_earnings=='1')."""
+def load_er_pseo(level: str = "undergrad", horizon: str = "y5", fields=None,
+                 grad_cohort="0000") -> pd.DataFrame:
+    """PSEO earnings + dispersion for a degree level: institution-level rows (inst_level=='I'),
+    4-digit CIP (cip_level=='4'), only released earnings (status_y{h}_earnings=='1').
+
+    `grad_cohort` defaults to "0000" (all cohorts pooled). CAUTION: the pooled cell mixes
+    DIFFERENT cohorts across horizons (y1 pools 2001-2019, y5 2001-2016, y10 only 2001-2010),
+    so pooled y1/y5/y10 are not the same graduates. For career-time comparisons pass fixed
+    cohorts, e.g. grad_cohort=["2001","2004","2007","2010"]; a list returns one row per
+    (field, institution, grad_cohort) with a `grad_cohort` column.
+
+    `fields` selects the CIP->field map; None keeps the historical TIER0 (30-field) default.
+    Pass FIELDS66 for the expanded universe (otherwise e.g. teacher_ed, management, marketing,
+    human_dev, kinesiology, spanish never load)."""
     dl = PSEO_DEGREE_LEVEL[level]
+    cohorts = [grad_cohort] if isinstance(grad_cohort, str) else [str(c) for c in grad_cohort]
+    by_cohort = not isinstance(grad_cohort, str)
     p25, p50, p75 = f"{horizon}_p25_earnings", f"{horizon}_p50_earnings", f"{horizon}_p75_earnings"
     grads, status = f"{horizon}_grads_earn", f"status_{horizon}_earnings"
     use = ["inst_level", "institution", "degree_level", "cip_level", "cipcode",
            "grad_cohort", p25, p50, p75, grads, status]
     df = pd.read_csv(PSEO_EARN, dtype=str, usecols=use)
     df = df[(df["inst_level"] == "I") & (df["cip_level"] == "4") &
-            (df["grad_cohort"] == "0000") & (df["degree_level"] == dl) &
+            (df["grad_cohort"].isin(cohorts)) & (df["degree_level"] == dl) &
             (df[status] == "1")].copy()
     df["cip4"] = df["cipcode"].astype(str).str.replace(".", "", regex=False).str.zfill(4)
-    df["field"] = df["cip4"].map(F.cip4_to_field_key())
+    df["field"] = df["cip4"].map(F.cip4_to_field_key(fields))
     df = df[df["field"].notna()].copy()
     for c in (p25, p50, p75, grads):
         df[c] = pd.to_numeric(df[c], errors="coerce")
@@ -100,12 +112,14 @@ def load_er_pseo(level: str = "undergrad", horizon: str = "y5") -> pd.DataFrame:
     df = df[df["inst_key"].notna() & (df["inst_key"] != "")]
     df["we"] = df[p50] * df["w"]
     df["wd"] = df["disp"] * df["w"]
-    g = df.groupby(["field", "inst_key"]).agg(
+    keys = ["field", "inst_key"] + (["grad_cohort"] if by_cohort else [])
+    g = df.groupby(keys).agg(
         institution_id=("institution", "first"), institution_name=("label", "first"),
         we=("we", "sum"), wd=("wd", "sum"), wsum=("w", "sum"),
         cohort_n=(grads, "sum")).reset_index()
     g["earnings"] = g["we"] / g["wsum"]
     g["dispersion"] = g["wd"] / g["wsum"]
     g["level"] = f"{level}_pseo"
-    return g[["inst_key", "institution_id", "institution_name", "field", "level",
-              "earnings", "dispersion", "cohort_n"]]
+    cols = ["inst_key", "institution_id", "institution_name", "field", "level",
+            "earnings", "dispersion", "cohort_n"]
+    return g[cols + (["grad_cohort"] if by_cohort else [])]
