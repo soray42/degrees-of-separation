@@ -289,3 +289,22 @@ use the normalizer in [`src/crosswalks/institutions.py`](../../src/crosswalks/in
   birth cohort; outcomes include the median, mean and shares reaching the top 20/10/5/1 percent, with parental
   income measures.
 
+
+### 10c. State unemployment rates — FRED `<ST>UR` (BLS LAUS)  *(entry conditions; scripts/65)*
+- **Source:** Federal Reserve Bank of St. Louis, FRED, series `<ST>UR` = "Unemployment Rate in <State>",
+  percent, monthly, seasonally adjusted; FRED re-publishes the U.S. Bureau of Labor Statistics Local Area
+  Unemployment Statistics series `LASST<fips>0000000000003`. Public, no API key.
+- **URL:** `https://fred.stlouisfed.org/graph/fredgraph.csv?id=<ST>UR` for the 50 states and DC (51 series:
+  AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR
+  PA RI SC SD TN TX UT VT VA WA WV WI WY).
+- **Accessed:** 2026-09-24, 19:13:20-19:13:39 UTC, with `curl --http1.1` (the HTTP/2 request with a browser
+  user-agent string was refused with a stream error; FRED's CSV endpoint had also timed out earlier that day)
+  → `laus_state_ur/<ST>UR.csv`.
+- **Files:** 51 CSVs, 467,508 bytes in total, columns `observation_date,<ST>UR`, 1976-01 to 2026-08 (608 months).
+  October 2025 has no value in any series (empty field). md5: `AKUR` 60bcc09618d56e920572da9a818c0db5, `ALUR` 98a23cd6433045ed203c38b956ee462a, `ARUR` 2836f5a9ef38f1493323d7fe9e0000cc, `AZUR` f8e086183a9893576e56a09c1a81eee4, `CAUR` b351385d2fd1fdea86a5332eebec4854, `COUR` aa88b77a64cefea2ddd323a2532271de, `CTUR` a318bb3843714e58d043b01726c3ad75, `DCUR` 636f640ddfd1646f65d94ebe646e06b3, `DEUR` 3a23664bef69ae160608ffdedccc346c, `FLUR` a84ba2eb0ee0b01bce6930df308b6274, `GAUR` af338d2cbc309e8a8d64f58a9b5360a6, `HIUR` 33f026ee0a218d866c1424e366f20bf1, `IAUR` 401959ce497aa185240724a3309a5b86, `IDUR` 6fe4ff3026ac3dcd3e6b317ed7783cf8, `ILUR` 9447f51f5d50b9c9497afbe3d88445f2, `INUR` ac7bb2e8cea87274d3a29bd42fd5fcd2, `KSUR` 5dd23f8e50154c4293db79a22255f31f, `KYUR` 265c36c3ca3a59970794d1e823ee4161, `LAUR` 9c3f4af3fc84c573a80de785926e468d, `MAUR` 12dce417253b9c6726ae15f42819573d, `MDUR` 184392380b8f124527b1dea7cfd528ee, `MEUR` c81f29b0567641c641f53a22b17e621e, `MIUR` e85763cef0ccd2a579c90849c51af8b9, `MNUR` fc19d373b11931d32afa1adc4bfabfce, `MOUR` 5c42212823539d2d20842a17090f378f, `MSUR` bb01b47eda9604afa0e952a57ae8a597, `MTUR` 4dfb1a41429d226e9392a0e8e5ec916e, `NCUR` 6c800c78ee68e13c3dfce60cd6ed66a0, `NDUR` 3f8cab1e24649c4438e5e60a7694e96c, `NEUR` 2b18a1c69b5519999bbf7526d0cc93e3, `NHUR` 43e5fa58e4843927cd3a18a99899b8e5, `NJUR` a44e6c741f02e5b0f39dc43118821441, `NMUR` b64be92762c840a61ed5f7524682e237, `NVUR` 508ef9c8186c360bbd01ec467291a9ee, `NYUR` 2b6e1a415b0d9545f154dcd15d8776ef, `OHUR` 4fd9c1717a8af9451133cfa95407ac00, `OKUR` 2cac235b7ca42d66921fab2d0d8f48ce, `ORUR` 3a5f7d7ee980f4353483bb0e9b328942, `PAUR` f1326c602484e1348a42732a7a309d7e, `RIUR` 7cb81b7ebd5ec04cc7de6bc65829d7cd, `SCUR` 86c43a7f7505c8f1881546e775d71aa2, `SDUR` 58a515f1e2b31a0483ee8b8597b04c23, `TNUR` d1dffd3301324624504e547b4d458c0e, `TXUR` 27c23312234ff2dc9d24ffe40f5fc5ad, `UTUR` 4edc5909ed69ba2f9b23b157de76a1f3, `VAUR` 072aedb962412e693a7b98ab6962aacc, `VTUR` 2222972971aec4a42f0585c29b46c700, `WAUR` fbd32068b3218526420b612f5acab7af, `WIUR` 758eb61fe4a42da8ff1453e3d9130341, `WVUR` 4cea3d2431a8710c21d8c1c76335c263, `WYUR` 837b266ebe5107e0f5f0c74455bd8cec.
+- **Use:** `scripts/65_coupling_dynamics.py` averages the 12 monthly values of each calendar year (years with all
+  12 months only; 1976-2024) → `data/interim/laus_state_ur_annual.csv`, then averages over the three graduation
+  years of each PSEO bachelor's window (and, as a sensitivity, over its three y1 earnings years). A development
+  run read the same BLS series from the DBnomics mirror (`api.db.nomics.world`, BLS/la); that vintage differs from
+  FRED's by up to 0.9 percentage points in some state-years (e.g. FL 2003-2005, WA 2010-2011) and is not used for
+  any reported number.
