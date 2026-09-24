@@ -152,6 +152,34 @@ write-ups are local (`*_RESULT.md`); numbers below come from the committed scrip
   n = 22,518). The mechanism is the paper's own: **pay set by setting (state, employer, pay scale),
   prestige-orthogonal — not wage compression** (corr(licensure, wage CV) = +0.02). The within-occupation
   dispersion law (scripts/53) is null in 0 of 240 principled specifications.
+- **Phase 2 (scripts 58–64, public data):**
+  - *Department signal beyond status (58).* After selectivity, program Pell share, state and academia-wide
+    prestige, only a small department-prestige premium remains; whether its average differs from zero depends
+    on the specification. Computer science is the one field where it is clearly positive (pre-named, corrected
+    CI [+0.007, +0.114]); engineering and business fields lean positive but do not survive multiple-testing
+    correction.
+  - *UK with a direct prior-attainment control (62).* In DfE LEO, 85–90% of UK prestige–earnings coupling
+    survives standardising on graduates' prior-attainment bands (conservative floor 62%). What survives tracks
+    intake selectivity rather than research prestige. Coupling rises over careers (+0.026/yr), and nursing,
+    medicine and teaching are nearly decoupled (+0.05 vs +0.46 for other subjects).
+  - *Brand, not field, over careers (59).* On the August-2026 PSEO release nothing changes: career-time slope
+    +0.030/yr; the brand-over-field loading (dG − dF) holds under two-way clustered intervals. p75 coupling is
+    only marginally above the median; p25 is clearly below.
+  - *Elite tail (60).* In Opportunity Insights college outcomes, academia-wide prestige adds little beyond
+    selectivity and parental income, and no more for the top 1% than for the median.
+  - *Non-wage placement (61).* Placement into market-priced industries couples with prestige about as strongly
+    as pay does, mostly through selectivity. Whether the pay gradient flattens with setting-priced or with
+    market-sector exposure depends on when sector shares are measured: not identified.
+  - *Setting-priced fields (63, 64).* Nursing's prestige carries little pay information beyond geography —
+    "little", not "none". The cross-field licensing gradient is robust in sign, but the US tests cannot
+    separate it from an engineering/CS/math/business-versus-other contrast, and broad licensure measures show no
+    moderation. Treat it as a descriptive boundary condition. The four field-level nulls (scripts 50–53) are
+    underpowered: none rules out a moderate effect.
+  - *Prior work (literature merge).* Bloem, Hu & Hurwitz (2024; US Scorecard) and Britton et al. (2022; UK
+    LEO) already report the field pattern and the weakness of within-subject rankings beyond selectivity. What is
+    new here is the faculty-hiring hierarchy as the prestige axis, a reliability-gated US field map replicated on
+    two earnings sources, and fixed-cohort career-time rises in coupling (US and UK) that load on
+    institution-wide status.
 - **Withdrawn claims:** wage compression as the mechanism or a continuous law; the "clean same-cohort"
   PSEO panel (the pooled cohort mixes cohorts across horizons); "compressed fields pinned at 0";
   "field-agnostic rankings mis-price programs" (untested and contradicted by brand ≥ field); "aggregate
@@ -247,6 +275,13 @@ Engineering caveats are in the finding text (not omitted).
 | 55 | Selectivity controls | Scorecard institution SAT/admit/Pell/state; partial coupling; within-institution FE | ⧗ level mostly selectivity; ordering not separable from selectivity pricing |
 | 56 | Prestige reliability | split-half SpringRank on public edges; disattenuated c_F vs c_G | ○ field prestige no better than brand |
 | 57 | Three-level ICC | REML meta-analysis, permutation nulls, field-size adjustment | ⧗ discipline component borderline |
+| 58 | Selectivity deep-dive | program Pell share; prestige residualized on brand/selectivity; within-institution FE with field-specific slopes | ○ small remainder; clear only in CS |
+| 59 | PSEO Aug-2026 refresh | V4.14.1 re-run of career time, brand vs field, quantiles, cross-source | ○ no Phase 1 conclusion changes |
+| 60 | Elite tail (Opportunity Insights) | college top-1% shares vs brand, selectivity, parental income | ∅ brand adds little beyond selectivity; tail no stronger than median |
+| 61 | PSEO Flows placement | industry shares as non-wage placement; cell-level exposure interactions | ○ placement couples like pay; setting-vs-market attribution not identified |
+| 62 | UK LEO | academia-wide UK prestige; prior-attainment bands; fixed-cohort career time | ● 85–90% survives attainment control; +0.026/yr |
+| 63 | Hierarchical model + power | cell-level random slopes; licensure moderators; MDE/TOST for nulls | ⧗ licensing moderation not separable from field type; nulls underpowered |
+| 64 | Licensing battery | strict/broad/multilevel; adjusted and CV R²; signed partial r; selectivity | ○ gradient robust in sign; nursing 'little', not 'none' |
 
 ---
 
@@ -258,9 +293,11 @@ where pay is set by setting. The Phase 1 re-checks narrowed the claims: most of 
 institutional selectivity/brand, discipline structure is borderline, and the career-time rise is general
 and brand-loaded.
 
-**Working headline (to test, not established):** labour markets price institutional status
-(selectivity/brand) rather than a department's academic standing; how much that status pays varies
-strongly across fields and grows over careers, and it largely vanishes where pay is set by setting.
+**Working headline:** graduate pay lines up with where a university sits in the academic hierarchy, and more
+so as careers progress, but almost entirely through institution-wide status; the department's own academic
+standing adds little (a small remainder, clearest in computer science). In the UK this status premium mostly
+survives a direct control for graduates' prior attainment. Fields whose graduates work in licensed or
+public-sector settings are only weakly coupled — a descriptive boundary condition, not an identified mechanism.
 
 **Pending → [`ROADMAP.md`](ROADMAP.md)** (public data only).
 

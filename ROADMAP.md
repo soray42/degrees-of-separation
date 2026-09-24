@@ -6,7 +6,7 @@
 
 ---
 
-## 0. Where things stand (after the Phase 1 re-checks, 2026-09-23)
+## 0. Where things stand (after Phases 1–2, 2026-09-24)
 
 - **Solid:** the within-field prestige–earnings coupling object, its reliability gate, and its
   Scorecard–PSEO replication; the three ruled-out alternatives; licensing as a marker of fields
@@ -26,56 +26,44 @@
   "field-agnostic rankings mis-price programs"; "aggregate data sees nothing, so resume data is
   necessary" (restated: public aggregates cannot identify the within-occupation channel).
 
-**Working headline (to test, not established):** labour markets price institutional status
-(selectivity/brand), not a department's academic standing; how much status pays varies strongly
-across fields and grows over careers; it largely vanishes where pay is set by setting. The academy's
-own field hierarchy adds little beyond brand — itself a reportable result for science of science.
+**Working headline (after Phase 2):** graduate pay lines up with where a university sits in the academic
+hierarchy, and more so as careers progress, but almost entirely through institution-wide status; the
+department's own academic standing adds little (clearest remainder: computer science). In the UK the status
+premium mostly survives a direct prior-attainment control. Fields whose graduates work in licensed or
+public-sector settings are weakly coupled — a descriptive boundary condition, not an identified mechanism.
 
 ---
 
 ## 1. Next steps
 
-### Before 2026-10-02 — AEFP 2027 abstract
-- [ ] 1,000-word structured abstract (background, question, data, methods, findings) on the working
-      headline, verified numbers only; no mis-pricing or compression language.
+### Done (2026-09-24) — Phase 2 on public data (scripts 58–64)
+- [x] Selectivity pushed to the public-data limit: small department remainder, clearly positive only in CS.
+- [x] PSEO August-2026 refresh: no conclusion changes; brand-over-field loading holds; p75 ≈ median.
+- [x] Opportunity Insights tail: brand adds little beyond selectivity and parental income; tail ≈ median.
+- [x] PSEO Flows: placement couples like pay (mostly selectivity); setting vs market attribution not identified.
+- [x] UK LEO: 85–90% of coupling survives the prior-attainment control; career rise +0.026/yr; setting-priced
+      subjects nearly decoupled.
+- [x] Cell-level model and power: licensing moderation not separable from field type; field-level nulls
+      underpowered.
+- [x] Licensing battery: gradient robust in sign; nursing "little", not "none".
+- [x] Literature merged and verified (152 entries); related-work draft positions against Bloem, Hu & Hurwitz
+      (2024) and Britton et al. (2022).
+- AEFP 2027 abstract skipped by decision.
 
-### October — the selectivity question and the data refresh
-- [ ] Push the selectivity test as far as public data allow: program-level composition (Scorecard FoS
-      Pell / non-Pell earnings), field-specific brand and selectivity slopes in the within-institution
-      design, and a horse race of department prestige vs institution selectivity vs brand. Report both
-      readings (prestige coupling vs selectivity pricing) and what would separate them.
-- [ ] Refresh PSEO to the August 2026 release (1,117 institutions); rebuild the fixed-cohort panel;
-      add p25/p50/p75 quantile coupling.
-- [ ] Opportunity Insights college-level tail outcomes (top-1% shares) × brand and field prestige,
-      labelled ecological.
-- [ ] PSEO Flows industry exposure at the institution × field level — the one public design that moves
-      mechanism tests from ~20 fields to thousands of cells.
-- [ ] Cell-level hierarchical model on all 47–57 fields; minimum detectable effects and equivalence
-      bounds for every null (at n = 16, 80% power needs |ρ| ≳ 0.65).
+### Now — rewrite the paper (target EPJ Data Science; PNAS Nexus variant)
+- [ ] Rewrite `paper/main.tex` on the working headline (README §6); outline and claim-by-claim evidence tiers are
+      in the local `PAPER_PLAN.md`.
+- [ ] Freeze one canonical specification; everything else to an SI specification curve.
+- [ ] Rebuild the SI from the committed scripts; switch to `paper/refs_merged.bib`.
+- [ ] Compile a PDF; adversarial read by simulated referees before any submission decision.
+- [ ] Optional: fix the 19-institution Wapman–PSEO name-join gap (src/crosswalks/institutions.py) and re-run
+      scripts 52 and 32 on V4.14.1.
 
-### November — second country and the paper
-- [ ] UK LEO: academia-wide prestige × LEO earnings; fixed-cohort career time; **prior-attainment
-      bands as a public selectivity control** (the most direct public answer to the selectivity
-      objection).
-- [ ] France: InserSup earnings × lecturer (MCF) hiring data — feasibility only.
-- [ ] Licensing: report strict / broad / multilevel specifications side by side; adjusted R² for state
-      effects; drop-nursing-and-communication-disorders robustness; accounting as the counter-case.
-- [ ] Merge the existing `refs/references.bib` (47 entries with reading notes) into the paper; add the
-      college-quality, selectivity-by-major and UK LEO literatures.
-- [ ] Rewrite `paper/main.tex` on the working headline; compile a PDF with Methods and a real SI;
-      move the two-signal model, the CS ranking and the behavioural probe out of the main text; freeze
-      one canonical specification (other branches → specification curve in the SI).
-
-### Mid-December — gate
-- Heterogeneity survives selectivity adjustment **and** the career-time rise holds → try PNAS Nexus
-  first, then EPJ Data Science.
-- Otherwise → EPJ Data Science directly (or Quantitative Science Studies with a "does the academic
-  hierarchy predict anything outside academia" framing).
-
-### January 2027 — submit
-- [ ] Submit; post the SocArXiv preprint the same day (not before the fixes).
-- [ ] Optional second paper (Q2 2027): the ORCID-rebuilt US/UK hiring networks as a data/methods note
-      for Quantitative Science Studies.
+### Later
+- [ ] Mid-December gate: heterogeneity survives selectivity only partly (large fields) → EPJ Data Science first.
+- [ ] January 2027: submit + SocArXiv the same day.
+- [ ] Optional Q2 2027: ORCID-rebuilt US/UK hiring networks as a data/methods note (Quantitative Science
+      Studies).
 
 ---
 

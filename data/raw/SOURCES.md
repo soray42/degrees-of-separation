@@ -85,7 +85,7 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
 - **Source:** Census Bureau Post-Secondary Employment Outcomes (PSEO), LEHD, latest release
   **V4.13.0 / 2025Q4** (grad cohorts 2001–2021). `https://lehd.ces.census.gov/data/pseo_experimental.html`
 - **Files (→ `data/raw/pseo/`):**
-  - `pseoe_all.csv.gz` — earnings, all 33 partner-state institutions (985 inst, 623k rows).
+  - `pseoe_all.csv.gz` — earnings, all 33 partner jurisdictions (952 institutions with rows — an earlier note said 985; 623k rows; md5 `49606ec489a2eec9c05cd02d9e9ca011`).
     `https://lehd.ces.census.gov/data/pseo/latest_release/all/pseoe_all.csv.gz`
   - `pseo_all_institutions.csv` — institution id (8-char OPEID) → `label` (name) → `institution_state`.
   - (`pseoe_us.csv.gz`, institutions = the "US/national-location" pseudo-set, only 1 inst — not used.)
@@ -257,3 +257,35 @@ in `scripts/` (or the commands below). All sources are open. First pull: **2026-
 in [`src/crosswalks/fields.py`](../../src/crosswalks/fields.py) (all 20 Tier-0 `wapman_field`
 labels verified present in source 1). Institution joins (Wapman names ↔ Scorecard `INSTNM`)
 use the normalizer in [`src/crosswalks/institutions.py`](../../src/crosswalks/institutions.py).
+
+---
+
+## 10. Phase 2 additions (2026-09)
+
+### 10a. PSEO — V4.14.1 (2026Q2) release  *(re-check of the V4.13.0 results; scripts/59)*
+- **Source:** Census Bureau LEHD Post-Secondary Employment Outcomes, release **V4.14.1 2026Q2**
+  (build stamps `pseopu_<st>_20260715_1529`). Public use.
+- **URL:** `https://lehd.ces.census.gov/data/pseo/latest_release/all/` (files dated 2026-08-25).
+- **Accessed:** 2026-09-23 with `curl -R` → `pseo_2026q2/`; completeness re-checked 2026-09-24 (HEAD
+  Content-Length equals the local size; `gzip -t` passes; the directory holds one national earnings file).
+- **Files:** `pseoe_all.csv.gz` (13,895,857 bytes, md5 `782c6fe6d035b8f44efdac7a4497e6fa`),
+  `pseo_all_institutions.csv` (51,403 bytes, md5 `3f4e0fb7c07c0718e3ed43aeff8a55b9`),
+  `pseo_all_partners.txt` (4,431 bytes, md5 `05b9bb0d3d14cdafef4aaf71da1f03aa`),
+  `version_pseo.txt` (4,758 bytes, md5 `fccea62fb6db6f95804c5b77a2215510`). Flows file not downloaded.
+- **Contents:** 701,293 earnings rows (570,930 institution-level); 1,117 institutions; 38 partner
+  jurisdictions (adds MD, NJ, NM, TN, VT to V4.13.0). Same 36-column schema.
+
+### 10b. Opportunity Insights — Mobility Report Card tables  *(elite-tail outcomes; scripts/60)*
+- **Source:** Chetty, Friedman, Saez, Turner & Yagan, *Mobility Report Cards* (NBER w23618, 2017; QJE 2020),
+  online data tables, April 2018 upload. Public, no registration. Stored in `opportunity_insights/`.
+- **Accessed:** 2026-09-23; re-downloaded 2026-09-24, byte-identical.
+- **Files** (all under `https://opportunityinsights.org/wp-content/uploads/2018/04/`):
+  `mrc_table2.csv` (1,842,351 bytes, md5 `bde6583bc1c5612e3bbb2fc3b2223ead`),
+  `mrc_table3.csv` (21,754,519, `1bfef3d940f45660328baa8d2e8ff988`),
+  `mrc_table10.csv` (884,970, `393aa62349e47565d906fb9e88242235`),
+  `mrc_table11.csv` (433,012, `07bb137eb59ba28c8cdaaf67d00de483`), and the four matching
+  `Codebook-MRC-Table-{2,3,10,11}.pdf` codebooks.
+- **Definitions:** children's individual pre-tax earnings in 2014 (1980–82 birth cohorts), ranked within
+  birth cohort; outcomes include the median, mean and shares reaching the top 20/10/5/1 percent, with parental
+  income measures.
+

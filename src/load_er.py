@@ -67,15 +67,17 @@ def load_er_scorecard(level: str = "undergrad", earn_col: str = "EARN_MDN_4YR",
 # ---------------------------------------------------------------------------
 # PSEO (degree-level ER + within-institution dispersion)
 # ---------------------------------------------------------------------------
-def _pseo_institutions() -> pd.DataFrame:
-    ins = pd.read_csv(PSEO_INST, dtype=str)
+def _pseo_institutions(path=None) -> pd.DataFrame:
+    """PSEO institution id -> name/inst_key. `path` defaults to the repo's pinned release
+    (PSEO_INST); pass another release's `pseo_all_institutions.csv` to read that one."""
+    ins = pd.read_csv(PSEO_INST if path is None else path, dtype=str)
     ins.columns = [c.strip().lstrip("﻿") for c in ins.columns]
     ins["inst_key"] = ins["label"].map(normalize_institution_name)
     return ins[["institution", "label", "inst_key"]]
 
 
 def load_er_pseo(level: str = "undergrad", horizon: str = "y5", fields=None,
-                 grad_cohort="0000") -> pd.DataFrame:
+                 grad_cohort="0000", path=None, inst_path=None) -> pd.DataFrame:
     """PSEO earnings + dispersion for a degree level: institution-level rows (inst_level=='I'),
     4-digit CIP (cip_level=='4'), only released earnings (status_y{h}_earnings=='1').
 
@@ -87,7 +89,12 @@ def load_er_pseo(level: str = "undergrad", horizon: str = "y5", fields=None,
 
     `fields` selects the CIP->field map; None keeps the historical TIER0 (30-field) default.
     Pass FIELDS66 for the expanded universe (otherwise e.g. teacher_ed, management, marketing,
-    human_dev, kinesiology, spanish never load)."""
+    human_dev, kinesiology, spanish never load).
+
+    `path` / `inst_path` select the earnings file and the institutions file; None (default) keeps
+    the pinned release in data/raw/pseo/ (PSEO_EARN / PSEO_INST). To read another release pass
+    both, e.g. data/raw/pseo_2026q2/pseoe_all.csv.gz and .../pseo_all_institutions.csv (new
+    institutions are dropped if the older institutions file is used)."""
     dl = PSEO_DEGREE_LEVEL[level]
     cohorts = [grad_cohort] if isinstance(grad_cohort, str) else [str(c) for c in grad_cohort]
     by_cohort = not isinstance(grad_cohort, str)
@@ -95,7 +102,7 @@ def load_er_pseo(level: str = "undergrad", horizon: str = "y5", fields=None,
     grads, status = f"{horizon}_grads_earn", f"status_{horizon}_earnings"
     use = ["inst_level", "institution", "degree_level", "cip_level", "cipcode",
            "grad_cohort", p25, p50, p75, grads, status]
-    df = pd.read_csv(PSEO_EARN, dtype=str, usecols=use)
+    df = pd.read_csv(PSEO_EARN if path is None else path, dtype=str, usecols=use)
     df = df[(df["inst_level"] == "I") & (df["cip_level"] == "4") &
             (df["grad_cohort"].isin(cohorts)) & (df["degree_level"] == dl) &
             (df[status] == "1")].copy()
@@ -107,7 +114,7 @@ def load_er_pseo(level: str = "undergrad", horizon: str = "y5", fields=None,
     df = df.dropna(subset=[p50])
     df["disp"] = (df[p75] - df[p25]) / df[p50]
     df["w"] = df[grads].fillna(1.0).clip(lower=1.0)
-    inst = _pseo_institutions().drop_duplicates("institution")
+    inst = _pseo_institutions(inst_path).drop_duplicates("institution")
     df = df.merge(inst, on="institution", how="left")
     df = df[df["inst_key"].notna() & (df["inst_key"] != "")]
     df["we"] = df[p50] * df["w"]

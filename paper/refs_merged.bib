@@ -1,0 +1,1860 @@
+% refs_merged.bib -- Degrees of Separation, merged and verified bibliography
+%
+% Built by a verification script kept outside the repo (revision 1 session scratchpad: lit/build_bib.py; that
+% scratchpad copy no longer exists, so each entry's comment line is the record of how it was checked) from
+% paper/refs.bib (12 entries) and refs/references.bib (47 entries): 53 distinct keys; 'collegescorecard' merged
+% into 'scorecard' (same data source) -> 52 existing entries; plus 98 new entries for the literatures the
+% referees said were missing (97 in revision 1; revision 2 added quadlin2021same by hand, checked against its
+% Crossref record) -> 150; revision 4 (2026-09-24) added bloem2024understanding (DataCite) and muse2024college
+% (Crossref) by hand, the closest US prior work on field-varying selectivity gradients in Scorecard data. Total 152.
+%
+% Verification (2026-09-23): every entry with a Crossref DOI was fetched from api.crossref.org/works/<doi> and
+% its year (print year where Crossref has one), venue, volume, issue, first page, title and author surnames were
+% compared with the entry; new entries were generated from the Crossref record and had to match the expected first
+% author, year and title before being written. Entries without a Crossref record were checked against the
+% publisher or registry (arXiv API, DataCite, IZA, Russell Sage Foundation, the data providers' pages); each
+% entry's comment line says which. Details that could not be confirmed are listed at the end of this file.
+% Re-verified 2026-09-24 with a fresh script (session scratchpad lit_fix3/verify_bib.py, also outside the repo):
+% the 138 entries with a DOI were compared field by field with their registry record (136 Crossref, 2 DataCite:
+% title similarity >= 0.90, print/issued year, journal or book title, volume, issue, first page, author surnames);
+% 0 mismatches. The 12 entries without a DOI are hussain2009university, stiglitz1975theory, espeland2016engines
+% and nine data/web/arXiv items (interdisc2025arxiv, jiang2024decoding, ncses_sdr, onet, orcid, pseo, qs_subject,
+% scorecard, the_geurs). Strict pybtex 0.24.0 parse: 150 entries, no duplicate keys.
+% Revision 4 re-ran the same script on the 152 entries (session scratchpad lit_fix4/verify_bib.py): 140 entries
+% with a DOI (137 Crossref, 3 DataCite), 12 without; one flagged detail, muse2024college's first page (33 in the
+% entry, from the publisher's page and PDF; Crossref stores only the article number 55), listed at the end.
+% Keys of existing entries are unchanged (refs/notes/<key>.md and the .tex files use them), so a few keys carry
+% a year that differs from the cited version (chetty2023diversifying -> QJE 2026; machado2022alumni -> JOLE 2025).
+% Titles are brace-protected for plainnat sentence-casing (proper nouns, acronyms).
+
+% ==============================================================================================================
+% Merged existing entries (paper/refs.bib + refs/references.bib), verified and corrected
+% ==============================================================================================================
+% origin: refs/references.bib; crossref:ok
+@article{abowd1999high,
+  author  = {Abowd, John M. and Kramarz, Francis and Margolis, David N.},
+  title   = {High Wage Workers and High Wage Firms},
+  journal = {Econometrica},
+  volume  = {67},
+  number  = {2},
+  pages   = {251--333},
+  year    = {1999},
+  doi     = {10.1111/1468-0262.00020}
+}
+
+% origin: refs/references.bib; crossref:ok
+@techreport{altonji1998employer,
+  author      = {Altonji, Joseph G. and Pierret, Charles R.},
+  title       = {Employer Learning and the Signaling Value of Education},
+  institution = {National Bureau of Economic Research},
+  type        = {NBER Working Paper},
+  number      = {5438},
+  year        = {1996},
+  doi         = {10.3386/w5438}
+}
+
+% origin: both; crossref:ok
+@article{altonji2001employer,
+  author  = {Altonji, Joseph G. and Pierret, Charles R.},
+  title   = {Employer Learning and Statistical Discrimination},
+  journal = {The Quarterly Journal of Economics},
+  volume  = {116},
+  number  = {1},
+  pages   = {313--350},
+  year    = {2001},
+  doi     = {10.1162/003355301556329}
+}
+
+% origin: paper/refs.bib; crossref:fixed, crossref:ok
+@incollection{altonji2016analysis,
+  author    = {Altonji, Joseph G. and Arcidiacono, Peter and Maurel, Arnaud},
+  title     = {The Analysis of Field Choice in College and Graduate School},
+  booktitle = {Handbook of the Economics of Education},
+  publisher = {Elsevier},
+  volume    = {5},
+  pages     = {305--396},
+  year      = {2016},
+  doi       = {10.1016/B978-0-444-63459-7.00007-5},
+  note      = {Also NBER Working Paper 21655 (2015), titled ``The Analysis of Field Choice in College and Graduate School: Determinants and Wage Effects''}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{arcidiacono2010beyond,
+  author  = {Arcidiacono, Peter and Bayer, Patrick and Hizmo, Aurel},
+  title   = {Beyond Signaling and Human Capital: Education and the Revelation of Ability},
+  journal = {American Economic Journal: Applied Economics},
+  volume  = {2},
+  number  = {4},
+  pages   = {76--104},
+  year    = {2010},
+  doi     = {10.1257/app.2.4.76}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{arrow1973higher,
+  author  = {Arrow, Kenneth J.},
+  title   = {Higher Education as a Filter},
+  journal = {Journal of Public Economics},
+  volume  = {2},
+  number  = {3},
+  pages   = {193--216},
+  year    = {1973},
+  doi     = {10.1016/0047-2727(73)90013-3}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{becker1973theory,
+  author  = {Becker, Gary S.},
+  title   = {A Theory of Marriage: Part {I}},
+  journal = {Journal of Political Economy},
+  volume  = {81},
+  number  = {4},
+  pages   = {813--846},
+  year    = {1973},
+  doi     = {10.1086/260084}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{black2006estimating,
+  author  = {Black, Dan A. and Smith, Jeffrey A.},
+  title   = {Estimating the Returns to College Quality with Multiple Proxies for Quality},
+  journal = {Journal of Labor Economics},
+  volume  = {24},
+  number  = {3},
+  pages   = {701--728},
+  year    = {2006},
+  doi     = {10.1086/505067}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{boyack2005mapping,
+  author  = {Boyack, Kevin W. and Klavans, Richard and B{\"o}rner, Katy},
+  title   = {Mapping the Backbone of Science},
+  journal = {Scientometrics},
+  volume  = {64},
+  number  = {3},
+  pages   = {351--374},
+  year    = {2005},
+  doi     = {10.1007/s11192-005-0255-6}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{boyack2014creation,
+  author  = {Boyack, Kevin W. and Klavans, Richard},
+  title   = {Creation of a Highly Detailed, Dynamic, Global Model and Map of Science},
+  journal = {Journal of the Association for Information Science and Technology},
+  volume  = {65},
+  number  = {4},
+  pages   = {670--685},
+  year    = {2014},
+  doi     = {10.1002/asi.22990}
+}
+
+% origin: both; crossref:fixed, crossref:ok, dedup:conflict
+@article{chetty2023diversifying,
+  author  = {Chetty, Raj and Deming, David J. and Friedman, John N.},
+  title   = {Diversifying Society's Leaders? {T}he Determinants and Causal Effects of Admission to Highly Selective Private Colleges},
+  journal = {The Quarterly Journal of Economics},
+  volume  = {141},
+  number  = {1},
+  pages   = {51--145},
+  year    = {2026},
+  doi     = {10.1093/qje/qjaf050},
+  note    = {Earlier version: NBER Working Paper 31492 (2023)}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{clauset2015systematic,
+  author  = {Clauset, Aaron and Arbesman, Samuel and Larremore, Daniel B.},
+  title   = {Systematic Inequality and Hierarchy in Faculty Hiring Networks},
+  journal = {Science Advances},
+  volume  = {1},
+  number  = {1},
+  pages   = {e1400005},
+  year    = {2015},
+  doi     = {10.1126/sciadv.1400005}
+}
+
+% origin: both; crossref:ok
+@article{debacco2018physical,
+  author  = {De Bacco, Caterina and Larremore, Daniel B. and Moore, Cristopher},
+  title   = {A physical model for efficient ranking in networks},
+  journal = {Science Advances},
+  volume  = {4},
+  number  = {7},
+  pages   = {eaar8260},
+  year    = {2018},
+  doi     = {10.1126/sciadv.aar8260}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{eeckhout2011identifying,
+  author  = {Eeckhout, Jan and Kircher, Philipp},
+  title   = {Identifying Sorting---In Theory},
+  journal = {The Review of Economic Studies},
+  volume  = {78},
+  number  = {3},
+  pages   = {872--906},
+  year    = {2011},
+  doi     = {10.1093/restud/rdq034}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{eeckhout2018assortative,
+  author  = {Eeckhout, Jan and Kircher, Philipp},
+  title   = {Assortative Matching With Large Firms},
+  journal = {Econometrica},
+  volume  = {86},
+  number  = {1},
+  pages   = {85--132},
+  year    = {2018},
+  doi     = {10.3982/ECTA14450}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{farber1996learning,
+  author  = {Farber, Henry S. and Gibbons, Robert},
+  title   = {Learning and Wage Dynamics},
+  journal = {The Quarterly Journal of Economics},
+  volume  = {111},
+  number  = {4},
+  pages   = {1007--1047},
+  year    = {1996},
+  doi     = {10.2307/2946706}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{fieldofstudy2024alignment,
+  author  = {Manuel, Nick},
+  title   = {Does the Labour Market Value Field of Study Specific Knowledge? {A}n Alignment Score Based Approach},
+  journal = {Economics of Education Review},
+  volume  = {101},
+  pages   = {102561},
+  year    = {2024},
+  doi     = {10.1016/j.econedurev.2024.102561}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{gathmann2010how,
+  author  = {Gathmann, Christina and Sch{\"o}nberg, Uta},
+  title   = {How General Is Human Capital? {A} Task-Based Approach},
+  journal = {Journal of Labor Economics},
+  volume  = {28},
+  number  = {1},
+  pages   = {1--49},
+  year    = {2010},
+  doi     = {10.1086/649786}
+}
+
+% origin: refs/references.bib; crossref:ok
+@techreport{hastings2013some,
+  author      = {Hastings, Justine S. and Neilson, Christopher A. and Zimmerman, Seth D.},
+  title       = {Are Some Degrees Worth More than Others? {E}vidence from College Admission Cutoffs in {Chile}},
+  institution = {National Bureau of Economic Research},
+  type        = {NBER Working Paper},
+  number      = {19241},
+  year        = {2013},
+  doi         = {10.3386/w19241}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{hungerford1987sheepskin,
+  author  = {Hungerford, Thomas and Solon, Gary},
+  title   = {Sheepskin Effects in the Returns to Education},
+  journal = {The Review of Economics and Statistics},
+  volume  = {69},
+  number  = {1},
+  pages   = {175--177},
+  year    = {1987},
+  doi     = {10.2307/1937919}
+}
+
+% origin: refs/references.bib; publisher:checked, web:no-doi
+@techreport{hussain2009university,
+  author      = {Hussain, Iftikhar and McNally, Sandra and Telhaj, Shqiponja},
+  title       = {University Quality and Graduate Wages in the {UK}},
+  institution = {Institute of Labor Economics (IZA)},
+  type        = {IZA Discussion Paper},
+  number      = {4043},
+  year        = {2009},
+  url         = {https://docs.iza.org/dp4043.pdf}
+}
+
+% origin: refs/references.bib; arxiv:fixed, web:no-doi
+@misc{interdisc2025arxiv,
+  author        = {Zheng, Xiang and Peng, Anli and Hong, Xi and Sugimoto, Cassidy R. and Ni, Chaoqun},
+  title         = {Interdisciplinary {PhDs} Face Barriers to Top University Placement within Their Disciplines},
+  year          = {2025},
+  eprint        = {2503.21912},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CY},
+  howpublished  = {arXiv preprint arXiv:2503.21912},
+  note          = {Version 2, November 2025}
+}
+
+% origin: refs/references.bib; arxiv:checked, web:no-doi
+@misc{jiang2024decoding,
+  author        = {Tian, Chaolin and Jiang, Xunyi and Huang, Yurui and Ma, Langtian and Ma, Yifang},
+  title         = {Decoding University Hierarchy and Prestige in {China} through Domestic {Ph.D.} Hiring Network},
+  year          = {2024},
+  eprint        = {2401.12739},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.DL},
+  howpublished  = {arXiv preprint arXiv:2401.12739}
+}
+
+% origin: refs/references.bib; crossref:fixed, crossref:ok
+@article{jiang2026mapping,
+  author  = {Tian, Chaolin and Jiang, Xunyi and Huang, Yurui and Ma, Langtian and Ma, Yifang},
+  title   = {Mapping university prestige and hierarchy in {China} via faculty hiring networks of internationally active {Ph.D.}s},
+  journal = {Humanities and Social Sciences Communications},
+  volume  = {13},
+  number  = {1},
+  pages   = {379},
+  year    = {2026},
+  doi     = {10.1057/s41599-026-06717-y}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{jones2025tenure,
+  author  = {Tripodi, Giorgio and Zheng, Xiang and Qian, Yifan and Murray, Dakota and Jones, Benjamin F. and Ni, Chaoqun and Wang, Dashun},
+  title   = {Tenure and Research Trajectories},
+  journal = {Proceedings of the National Academy of Sciences},
+  volume  = {122},
+  number  = {30},
+  pages   = {e2500322122},
+  year    = {2025},
+  doi     = {10.1073/pnas.2500322122}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{klavans2009toward,
+  author  = {Klavans, Richard and Boyack, Kevin W.},
+  title   = {Toward a Consensus Map of Science},
+  journal = {Journal of the American Society for Information Science and Technology},
+  volume  = {60},
+  number  = {3},
+  pages   = {455--476},
+  year    = {2009},
+  doi     = {10.1002/asi.20991}
+}
+
+% origin: refs/references.bib; crossref:fixed, crossref:ok
+@article{lee2024higher,
+  author  = {Lee, Hanol and Lee, Jong-Wha},
+  title   = {Higher Education Quality, Income, and Innovation: Cross-Country Evidence},
+  journal = {Japan and the World Economy},
+  volume  = {78},
+  pages   = {101357},
+  year    = {2026},
+  doi     = {10.1016/j.japwor.2026.101357}
+}
+
+% origin: paper/refs.bib; crossref:doi-added, crossref:ok
+@article{luca2013salience,
+  author  = {Luca, Michael and Smith, Jonathan},
+  title   = {Salience in Quality Disclosure: Evidence from the {U.S. News} College Rankings},
+  journal = {Journal of Economics \& Management Strategy},
+  volume  = {22},
+  number  = {1},
+  pages   = {58--77},
+  year    = {2013},
+  doi     = {10.1111/jems.12003}
+}
+
+% origin: refs/references.bib; crossref+publisher:fixed, crossref:ok
+@article{machado2022alumni,
+  author  = {Machado, Cecilia and Reyes, Germ{\'a}n and Riehl, Evan},
+  title   = {The Direct and Spillover Effects of Large-Scale Affirmative Action at an Elite {Brazilian} University},
+  journal = {Journal of Labor Economics},
+  volume  = {43},
+  number  = {2},
+  pages   = {391--431},
+  year    = {2025},
+  doi     = {10.1086/726385},
+  note    = {Earlier version: IZA Discussion Paper 15026 (2022), ``Alumni Job Networks at Elite Universities and the Efficacy of Affirmative Action''}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{macleod2015reputation,
+  author  = {MacLeod, W. Bentley and Urquiola, Miguel},
+  title   = {Reputation and School Competition},
+  journal = {American Economic Review},
+  volume  = {105},
+  number  = {11},
+  pages   = {3471--3488},
+  year    = {2015},
+  doi     = {10.1257/aer.20130332}
+}
+
+% origin: both; crossref:ok
+@article{macleod2017big,
+  author  = {MacLeod, W. Bentley and Riehl, Evan and Saavedra, Juan E. and Urquiola, Miguel},
+  title   = {The Big Sort: College Reputation and Labor Market Outcomes},
+  journal = {American Economic Journal: Applied Economics},
+  volume  = {9},
+  number  = {3},
+  pages   = {223--261},
+  year    = {2017},
+  doi     = {10.1257/app.20160126},
+  note    = {Earlier version: NBER Working Paper No. 21230, June 2015}
+}
+
+% origin: paper/refs.bib; crossref:doi-added, crossref:ok
+@article{manski2004measuring,
+  author  = {Manski, Charles F.},
+  title   = {Measuring Expectations},
+  journal = {Econometrica},
+  volume  = {72},
+  number  = {5},
+  pages   = {1329--1376},
+  year    = {2004},
+  doi     = {10.1111/j.1468-0262.2004.00537.x}
+}
+
+% origin: refs/references.bib; publisher:checked, web:no-doi
+@misc{ncses_sdr,
+  author       = {{National Science Foundation, National Center for Science and Engineering Statistics (NCSES)}},
+  title        = {{Survey of Doctorate Recipients (SDR)} and {Survey of Earned Doctorates (SED)}},
+  address      = {Alexandria, VA},
+  year         = {2023},
+  howpublished = {NSF NCSES},
+  url          = {https://ncses.nsf.gov/surveys/doctorate-recipients/},
+  note         = {Biennial longitudinal panel of U.S. SEH research-doctorate holders; salary, employment sector, field of doctorate; SED provides the Doctorate Records File sampling frame}
+}
+
+% origin: refs/references.bib; publisher:checked, web:no-doi
+@misc{onet,
+  author       = {{O*NET Resource Center}},
+  title        = {{O*NET} Database and {CIP}-to-{O*NET-SOC} Crosswalk},
+  year         = {2024},
+  howpublished = {U.S. Department of Labor, Employment and Training Administration},
+  url          = {https://www.onetcenter.org/crosswalks.html},
+  note         = {Education\_CIP\_to\_ONET\_SOC.xlsx crosswalk (updated July 2024) plus O*NET descriptor files (Skills, Knowledge, Abilities, Work Activities)}
+}
+
+% origin: refs/references.bib; publisher:checked, web:no-doi
+@misc{orcid,
+  author       = {{ORCID, Inc.}},
+  title        = {{ORCID: Open Researcher and Contributor ID} --- Public Registry and Public {API}},
+  howpublished = {Researcher persistent identifiers with date-stamped employment/education affiliations},
+  url          = {https://orcid.org},
+  note         = {Employment/education affiliations include organization (ROR/GRID-disambiguated), role/department, and start/end dates at year granularity}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{poletaev2008human,
+  author  = {Poletaev, Maxim and Robinson, Chris},
+  title   = {Human Capital Specificity: Evidence from the {Dictionary of Occupational Titles} and {Displaced Worker Surveys}, 1984--2000},
+  journal = {Journal of Labor Economics},
+  volume  = {26},
+  number  = {3},
+  pages   = {387--420},
+  year    = {2008},
+  doi     = {10.1086/588180}
+}
+
+% origin: refs/references.bib; arxiv+datacite:fixed
+@misc{priem2022openalex,
+  author        = {Priem, Jason and Piwowar, Heather and Orr, Richard},
+  title         = {{OpenAlex}: A fully-open index of scholarly works, authors, venues, institutions, and concepts},
+  year          = {2022},
+  doi           = {10.48550/arXiv.2205.01833},
+  eprint        = {2205.01833},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.DL},
+  howpublished  = {arXiv preprint arXiv:2205.01833}
+}
+
+% origin: paper/refs.bib; publisher:checked, web:no-doi
+@misc{pseo,
+  author       = {{U.S. Census Bureau, Longitudinal Employer-Household Dynamics}},
+  title        = {{Post-Secondary Employment Outcomes (PSEO)}},
+  year         = {2025},
+  howpublished = {\url{https://lehd.ces.census.gov/data/pseo_experimental.html}},
+  note         = {Release V4.13.0 / 2025Q4; UI-wage based; real 2023 dollars; accessed 2026-06}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{qs2025critical,
+  author  = {Badiuzzaman, MD},
+  title   = {Unpacking the metrics: a critical analysis of the 2025 {QS} {World} {University} {Rankings} using {Australian} university data},
+  journal = {Frontiers in Education},
+  volume  = {10},
+  pages   = {1619897},
+  year    = {2025},
+  doi     = {10.3389/feduc.2025.1619897}
+}
+
+% origin: refs/references.bib; web:no-doi
+@misc{qs_subject,
+  author       = {{QS Quacquarelli Symonds}},
+  title        = {{QS World University Rankings by Subject: Methodology}},
+  year         = {2025},
+  howpublished = {TopUniversities / QS support documentation},
+  url          = {https://www.topuniversities.com/subject-rankings/methodology},
+  note         = {Five indicators: Academic Reputation, Employer Reputation, Citations per Paper, H-index, International Research Network; reputation normalized within subject. Accessed 2026-06-20}
+}
+
+% origin: refs/references.bib; crossref:doi-added, crossref:fixed, crossref:ok
+@book{rivera2015pedigree,
+  author    = {Rivera, Lauren A.},
+  title     = {Pedigree: How Elite Students Get Elite Jobs},
+  publisher = {Princeton University Press},
+  year      = {2015},
+  doi       = {10.1515/9781400865895}
+}
+
+% origin: paper/refs.bib; dedup:merged, publisher:checked, web:no-doi
+@misc{scorecard,
+  author       = {{U.S. Department of Education}},
+  title        = {{College Scorecard}: Field of Study Data},
+  year         = {2026},
+  howpublished = {\url{https://collegescorecard.ed.gov/data/}},
+  note         = {Most-Recent-Cohorts Field-of-Study and Institution files; data last updated 2026-06-10; Title-IV recipients; accessed 2026-06-20 (FoS) and 2026-09-23 (Institution)}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{sekhri2020prestige,
+  author  = {Sekhri, Sheetal},
+  title   = {Prestige Matters: Wage Premium and Value Addition in Elite Colleges},
+  journal = {American Economic Journal: Applied Economics},
+  volume  = {12},
+  number  = {3},
+  pages   = {207--225},
+  year    = {2020},
+  doi     = {10.1257/app.20140105}
+}
+
+% origin: refs/references.bib; crossref:ok
+@article{shimer2000assortative,
+  author  = {Shimer, Robert and Smith, Lones},
+  title   = {Assortative Matching and Search},
+  journal = {Econometrica},
+  volume  = {68},
+  number  = {2},
+  pages   = {343--369},
+  year    = {2000},
+  doi     = {10.1111/1468-0262.00112}
+}
+
+% origin: both; crossref:ok
+@article{spence1973job,
+  author  = {Spence, Michael},
+  title   = {Job Market Signaling},
+  journal = {The Quarterly Journal of Economics},
+  volume  = {87},
+  number  = {3},
+  pages   = {355--374},
+  year    = {1973},
+  doi     = {10.2307/1882010}
+}
+
+% origin: refs/references.bib; repec:not-crossref
+@article{stiglitz1975theory,
+  author  = {Stiglitz, Joseph E.},
+  title   = {The Theory of ``Screening,'' Education, and the Distribution of Income},
+  journal = {American Economic Review},
+  volume  = {65},
+  number  = {3},
+  pages   = {283--300},
+  year    = {1975},
+  url     = {https://www.jstor.org/stable/1804834}
+}
+
+% origin: refs/references.bib; publisher:checked, publisher:fixed, web:no-doi
+@misc{the_geurs,
+  author       = {{Emerging} and {Times Higher Education}},
+  title        = {{Global Employability University Ranking and Survey (GEURS): Methodology}},
+  year         = {2025},
+  howpublished = {Emerging, Paris},
+  url          = {https://www.emerging.fr/geurs/methodology},
+  note         = {Employer-only ranking; 12,350 employer respondents, 119,967 votes cast, seven employability drivers, GEURS Top 250. Accessed 2026-06-20; re-checked 2026-09-23}
+}
+
+% origin: refs/references.bib; datacite:checked
+@misc{wapman2022data,
+  author       = {Wapman, K. Hunter and Zhang, Sam and Clauset, Aaron and Larremore, Daniel B.},
+  title        = {Data for ``{Quantifying hierarchy and dynamics in U.S. faculty hiring and retention}''},
+  year         = {2022},
+  doi          = {10.5281/zenodo.6941651},
+  howpublished = {Zenodo dataset, version 1},
+  note         = {US faculty hiring network 2011--2020, 368 PhD-granting institutions, 107 fields, 8 domains; deidentified release of AARC census; CC BY 3.0 US}
+}
+
+% origin: both; crossref:fixed, crossref:ok
+@article{wapman2022quantifying,
+  author  = {Wapman, K. Hunter and Zhang, Sam and Clauset, Aaron and Larremore, Daniel B.},
+  title   = {Quantifying hierarchy and dynamics in {US} faculty hiring and retention},
+  journal = {Nature},
+  volume  = {610},
+  number  = {7930},
+  pages   = {120--127},
+  year    = {2022},
+  doi     = {10.1038/s41586-022-05222-x},
+  note    = {Author Correction: Nature 619, E49 (2023), doi:10.1038/s41586-023-06379-9}
+}
+
+% origin: paper/refs.bib; crossref:doi-added, crossref:ok
+@article{wiswall2015determinants,
+  author  = {Wiswall, Matthew and Zafar, Basit},
+  title   = {Determinants of College Major Choice: Identification using an Information Experiment},
+  journal = {The Review of Economic Studies},
+  volume  = {82},
+  number  = {2},
+  pages   = {791--824},
+  year    = {2015},
+  doi     = {10.1093/restud/rdu044}
+}
+
+% origin: refs/references.bib; crossref:fixed, crossref:ok
+@article{yi2017transferability,
+  author  = {Yi, Moises and Mueller, Steffen and Stegmaier, Jens},
+  title   = {Transferability of Skills across Sectors and Heterogeneous Displacement Costs},
+  journal = {American Economic Review},
+  volume  = {107},
+  number  = {5},
+  pages   = {332--336},
+  year    = {2017},
+  doi     = {10.1257/aer.p20171024},
+  note    = {Papers and Proceedings}
+}
+
+% origin: refs/references.bib; crossref:ok, datacite:checked
+@article{zhang2022labor,
+  author  = {Zhang, Sam and Wapman, K. Hunter and Larremore, Daniel B. and Clauset, Aaron},
+  title   = {Labor Advantages Drive the Greater Productivity of Faculty at Elite Universities},
+  journal = {Science Advances},
+  volume  = {8},
+  number  = {46},
+  pages   = {eabq7056},
+  year    = {2022},
+  doi     = {10.1126/sciadv.abq7056},
+  note    = {Code and data: Zenodo, doi:10.5281/zenodo.7126263}
+}
+
+% ==============================================================================================================
+% NEW: Returns to college quality, selectivity and value-added
+% ==============================================================================================================
+% verified: Crossref 10.3368/jhr.51.1.200 (journal-article); checked first author/year/title
+@article{andrews2016quantile,
+  author  = {Andrews, Rodney J. and Li, Jing and Lovenheim, Michael F.},
+  title   = {Quantile Treatment Effects of College Quality on Earnings},
+  journal = {Journal of Human Resources},
+  volume  = {51},
+  number  = {1},
+  pages   = {200--238},
+  year    = {2016},
+  doi     = {10.3368/jhr.51.1.200}
+}
+
+% verified: Crossref 10.1016/j.jeconom.2003.10.006 (journal-article); checked first author/year/title
+@article{black2004robust,
+  author  = {Black, Dan A. and Smith, Jeffrey A.},
+  title   = {How robust is the evidence on the effects of college quality? {E}vidence from matching},
+  journal = {Journal of Econometrics},
+  volume  = {121},
+  number  = {1--2},
+  pages   = {99--124},
+  year    = {2004},
+  doi     = {10.1016/j.jeconom.2003.10.006}
+}
+
+% verified: Crossref 10.1016/j.ssresearch.2005.06.006 (journal-article); checked first author/year/title
+@article{brand2006regression,
+  author  = {Brand, Jennie E. and Halaby, Charles N.},
+  title   = {Regression and matching estimates of the effects of elite college attendance on educational and career achievement},
+  journal = {Social Science Research},
+  volume  = {35},
+  number  = {3},
+  pages   = {749--770},
+  year    = {2006},
+  doi     = {10.1016/j.ssresearch.2005.06.006}
+}
+
+% verified: Crossref 10.2307/146304 (journal-article); checked first author/year/title
+@article{brewer1999does,
+  author  = {Brewer, Dominic J. and Eide, Eric R. and Ehrenberg, Ronald G.},
+  title   = {Does It Pay to Attend an Elite Private College? {C}ross-Cohort Evidence on the Effects of College Type on Earnings},
+  journal = {Journal of Human Resources},
+  volume  = {34},
+  number  = {1},
+  year    = {1999},
+  doi     = {10.2307/146304}
+}
+
+% verified: Crossref 10.1093/qje/qjaa005 (journal-article); checked first author/year/title
+@article{chetty2020income,
+  author  = {Chetty, Raj and Friedman, John N. and Saez, Emmanuel and Turner, Nicholas and Yagan, Danny},
+  title   = {Income Segregation and Intergenerational Mobility Across Colleges in the {United States}},
+  journal = {The Quarterly Journal of Economics},
+  volume  = {135},
+  number  = {3},
+  pages   = {1567--1633},
+  year    = {2020},
+  doi     = {10.1093/qje/qjaa005}
+}
+
+% verified: Crossref 10.1016/j.econedurev.2014.06.001 (journal-article); checked first author/year/title
+@article{cunha2014measuring,
+  author  = {Cunha, Jesse M. and Miller, Trey},
+  title   = {Measuring value-added in higher education: Possibilities and limitations in the use of administrative data},
+  journal = {Economics of Education Review},
+  volume  = {42},
+  pages   = {64--77},
+  year    = {2014},
+  doi     = {10.1016/j.econedurev.2014.06.001}
+}
+
+% verified: Crossref 10.1162/003355302320935089 (journal-article); checked first author/year/title; given names from the Crossref record of the same authors' JHR 2014 paper (QJE record has initials only)
+@article{dale2002estimating,
+  author  = {Dale, Stacy B. and Krueger, Alan B.},
+  title   = {Estimating the Payoff to Attending a More Selective College: An Application of Selection on Observables and Unobservables},
+  journal = {The Quarterly Journal of Economics},
+  volume  = {117},
+  number  = {4},
+  pages   = {1491--1527},
+  year    = {2002},
+  doi     = {10.1162/003355302320935089}
+}
+
+% verified: Crossref 10.3368/jhr.49.2.323 (journal-article); checked first author/year/title
+@article{dale2014estimating,
+  author  = {Dale, Stacy B. and Krueger, Alan B.},
+  title   = {Estimating the Effects of College Characteristics over the Career Using Administrative Earnings Data},
+  journal = {Journal of Human Resources},
+  volume  = {49},
+  number  = {2},
+  pages   = {323--358},
+  year    = {2014},
+  doi     = {10.3368/jhr.49.2.323}
+}
+
+% verified: Crossref 10.1257/aer.20141757 (journal-article); checked first author/year/title
+@article{deming2016value,
+  author  = {Deming, David J. and Yuchtman, Noam and Abulafi, Amira and Goldin, Claudia and Katz, Lawrence F.},
+  title   = {The Value of Postsecondary Credentials in the Labor Market: An Experimental Study},
+  journal = {American Economic Review},
+  volume  = {106},
+  number  = {3},
+  pages   = {778--806},
+  year    = {2016},
+  doi     = {10.1257/aer.20141757}
+}
+
+% verified: Crossref 10.1093/sf/sou111 (journal-article) (print 2015, online 2014); checked first author/year/title
+@article{gaddis2015discrimination,
+  author  = {Gaddis, S. Michael},
+  title   = {Discrimination in the Credential Society: An Audit Study of Race and College Selectivity in the Labor Market},
+  journal = {Social Forces},
+  volume  = {93},
+  number  = {4},
+  pages   = {1451--1479},
+  year    = {2015},
+  doi     = {10.1093/sf/sou111}
+}
+
+% verified: Crossref 10.1162/rest.91.4.717 (journal-article); checked first author/year/title
+@article{hoekstra2009effect,
+  author  = {Hoekstra, Mark},
+  title   = {The Effect of Attending the Flagship State University on Earnings: A Discontinuity-Based Approach},
+  journal = {The Review of Economics and Statistics},
+  volume  = {91},
+  number  = {4},
+  pages   = {717--724},
+  year    = {2009},
+  doi     = {10.1162/rest.91.4.717}
+}
+
+% verified: Crossref 10.1257/jep.23.4.95 (journal-article); checked first author/year/title
+@article{hoxby2009changing,
+  author  = {Hoxby, Caroline M.},
+  title   = {The Changing Selectivity of {American} Colleges},
+  journal = {Journal of Economic Perspectives},
+  volume  = {23},
+  number  = {4},
+  pages   = {95--118},
+  year    = {2009},
+  doi     = {10.1257/jep.23.4.95}
+}
+
+% verified: Crossref 10.7208/chicago/9780226574615.003.0003 (book-chapter); checked first author/year/title
+@incollection{hoxby2019productivity,
+  author    = {Hoxby, Caroline M.},
+  title     = {The Productivity of {U.S.} Postsecondary Institutions},
+  booktitle = {Productivity in Higher Education},
+  publisher = {University of Chicago Press},
+  pages     = {31--66},
+  year      = {2019},
+  doi       = {10.7208/chicago/9780226574615.003.0003}
+}
+
+% verified: Crossref 10.1016/bs.hesedu.2022.11.006 (book-chapter); checked first author/year/title; authors: Crossref record of the same-titled NBER Working Paper 29933 (10.3386/w29933); the chapter's own Crossref record has no author list
+@incollection{lovenheim2023returns,
+  author    = {Lovenheim, Michael and Smith, Jonathan},
+  title     = {Returns to different postsecondary investments: Institution type, academic programs, and credentials},
+  booktitle = {Handbook of the Economics of Education},
+  publisher = {Elsevier},
+  pages     = {187--318},
+  year      = {2023},
+  doi       = {10.1016/bs.hesedu.2022.11.006},
+  note      = {Also NBER Working Paper 29933 (2022)}
+}
+
+% verified: Crossref 10.1093/qje/qjab047 (journal-article) (print 2022, online 2021); checked first author/year/title
+@article{michelman2022old,
+  author  = {Michelman, Valerie and Price, Joseph and Zimmerman, Seth D.},
+  title   = {Old Boys' Clubs and Upward Mobility Among the Educational Elite},
+  journal = {The Quarterly Journal of Economics},
+  volume  = {137},
+  number  = {2},
+  pages   = {845--909},
+  year    = {2022},
+  doi     = {10.1093/qje/qjab047}
+}
+
+% verified: Crossref 10.3386/w29276 (report); checked first author/year/title
+@techreport{mountjoy2021returns,
+  author      = {Mountjoy, Jack and Hickman, Brent},
+  title       = {The Returns to College(s): Relative Value-Added and Match Effects in Higher Education},
+  institution = {National Bureau of Economic Research},
+  type        = {NBER Working Paper},
+  number      = {29276},
+  year        = {2021},
+  doi         = {10.3386/w29276}
+}
+
+% verified: Crossref 10.7208/chicago/9780226574615.003.0005 (book-chapter); checked first author/year/title
+@incollection{riehl2019learning,
+  author    = {Riehl, Evan and Saavedra, Juan E. and Urquiola, Miguel},
+  title     = {Learning and Earning: An Approximation to College Value Added in Two Dimensions},
+  booktitle = {Productivity in Higher Education},
+  publisher = {University of Chicago Press},
+  pages     = {105--132},
+  year      = {2019},
+  doi       = {10.7208/chicago/9780226574615.003.0005}
+}
+
+% verified: Crossref 10.1007/s11162-005-2969-y (journal-article); checked first author/year/title
+@article{thomas2005postbaccalaureate,
+  author  = {Thomas, Scott L. and Zhang, Liang},
+  title   = {Post-Baccalaureate Wage Growth within Four Years of Graduation: The Effects of College Quality and College Major},
+  journal = {Research in Higher Education},
+  volume  = {46},
+  number  = {4},
+  pages   = {437--459},
+  year    = {2005},
+  doi     = {10.1007/s11162-005-2969-y}
+}
+
+% verified: Crossref 10.1016/j.ssresearch.2017.01.005 (journal-article); checked first author/year/title
+@article{witteveen2017earnings,
+  author  = {Witteveen, Dirk and Attewell, Paul},
+  title   = {The earnings payoff from attending a selective college},
+  journal = {Social Science Research},
+  volume  = {66},
+  pages   = {154--169},
+  year    = {2017},
+  doi     = {10.1016/j.ssresearch.2017.01.005}
+}
+
+% verified: Crossref 10.1257/aer.20171019 (journal-article); checked first author/year/title
+@article{zimmerman2019elite,
+  author  = {Zimmerman, Seth D.},
+  title   = {Elite Colleges and Upward Mobility to Top Jobs and Top Incomes},
+  journal = {American Economic Review},
+  volume  = {109},
+  number  = {1},
+  pages   = {1--47},
+  year    = {2019},
+  doi     = {10.1257/aer.20171019}
+}
+
+% ==============================================================================================================
+% NEW: Field of study, selectivity by major, horizontal stratification
+% ==============================================================================================================
+% verified: Crossref 10.1146/annurev-economics-080511-110908 (journal-article); checked first author/year/title
+@article{altonji2012heterogeneity,
+  author  = {Altonji, Joseph G. and Blom, Erica and Meghir, Costas},
+  title   = {Heterogeneity in Human Capital Investments: High School Curriculum, College Major, and Careers},
+  journal = {Annual Review of Economics},
+  volume  = {4},
+  number  = {1},
+  pages   = {185--223},
+  year    = {2012},
+  doi     = {10.1146/annurev-economics-080511-110908}
+}
+
+% verified: Crossref 10.1162/rest_a_01503 (journal-article); checked first author/year/title
+@article{andrews2024returns,
+  author  = {Andrews, Rodney J. and Imberman, Scott A. and Lovenheim, Michael F. and Stange, Kevin},
+  title   = {The Returns to College Major Choice: Average and Distributional Effects, Career Trajectories, and Earnings Variability},
+  journal = {The Review of Economics and Statistics},
+  year    = {2024},
+  doi     = {10.1162/rest_a_01503},
+  note    = {Published online ahead of print; also NBER Working Paper 30331 (2022)}
+}
+
+% verified: Crossref 10.1257/app.20200447 (journal-article); checked first author/year/title
+@article{bleemer2022will,
+  author  = {Bleemer, Zachary and Mehta, Aashish},
+  title   = {Will Studying Economics Make You Rich? {A} Regression Discontinuity Analysis of the Returns to College Major},
+  journal = {American Economic Journal: Applied Economics},
+  volume  = {14},
+  number  = {2},
+  pages   = {1--22},
+  year    = {2022},
+  doi     = {10.1257/app.20200447}
+}
+
+% verified: DataCite 10.26300/9ykq-pg87 (Text; publisher edworkingpapers.com, 2024); checked title, year and the
+% three creators (Bloem, Hu, Hurwitz); series and number from the PDF cover page ("EdWorkingPaper No. 24-1112",
+% version December 2024, Annenberg Institute at Brown University), read in full (added 2026-09-24 in revision 4;
+% it is the closest US prior work on field-varying selectivity-earnings gradients in Scorecard FoS data)
+@techreport{bloem2024understanding,
+  author      = {Bloem, Michael D. and Hu, Xiaowen and Hurwitz, Michael},
+  title       = {Understanding Variation in Post-College Earnings: Evidence from the {U.S.} {Department of Education}'s {College Scorecard}},
+  institution = {Annenberg Institute at Brown University},
+  type        = {EdWorkingPaper},
+  number      = {24-1112},
+  year        = {2024},
+  doi         = {10.26300/9ykq-pg87}
+}
+
+% verified: Crossref 10.1093/sf/75.4.1417 (journal-article); checked first author/year/title
+@article{davies1997fields,
+  author  = {Davies, Scott and Guppy, Neil},
+  title   = {Fields of Study, College Selectivity, and Student Inequalities in Higher Education},
+  journal = {Social Forces},
+  volume  = {75},
+  number  = {4},
+  year    = {1997},
+  doi     = {10.1093/sf/75.4.1417}
+}
+
+% verified: Crossref 10.1093/qje/qjaa021 (journal-article); checked first author/year/title
+@article{deming2020earnings,
+  author  = {Deming, David J. and Noray, Kadeem},
+  title   = {Earnings Dynamics, Changing Job Skills, and {STEM} Careers},
+  journal = {The Quarterly Journal of Economics},
+  volume  = {135},
+  number  = {4},
+  pages   = {1965--2005},
+  year    = {2020},
+  doi     = {10.1093/qje/qjaa021}
+}
+
+% verified: Crossref 10.1111/coep.12115 (journal-article) (print 2016, online 2015); checked first author/year/title
+@article{eide2016where,
+  author  = {Eide, Eric R. and Hilmer, Michael J. and Showalter, Mark H.},
+  title   = {Is It Where You Go or What You Study? {T}he Relative Influence of College Selectivity and College Major on Earnings},
+  journal = {Contemporary Economic Policy},
+  volume  = {34},
+  number  = {1},
+  pages   = {37--46},
+  year    = {2016},
+  doi     = {10.1111/coep.12115}
+}
+
+% verified: Crossref 10.1146/annurev.soc.34.040507.134604 (journal-article); checked first author/year/title
+@article{gerber2008horizontal,
+  author  = {Gerber, Theodore P. and Cheung, Sin Yi},
+  title   = {Horizontal Stratification in Postsecondary Education: Forms, Explanations, and Implications},
+  journal = {Annual Review of Sociology},
+  volume  = {34},
+  number  = {1},
+  pages   = {299--318},
+  year    = {2008},
+  doi     = {10.1146/annurev.soc.34.040507.134604}
+}
+
+% verified: Crossref 10.1177/0038040715602132 (journal-article); checked first author/year/title
+@article{kim2015field,
+  author  = {Kim, ChangHwan and Tamborini, Christopher R. and Sakamoto, Arthur},
+  title   = {Field of Study in College and Lifetime Earnings in the {United States}},
+  journal = {Sociology of Education},
+  volume  = {88},
+  number  = {4},
+  pages   = {320--339},
+  year    = {2015},
+  doi     = {10.1177/0038040715602132}
+}
+
+% verified: Crossref 10.1093/qje/qjw019 (journal-article); checked first author/year/title; surname spelling Kirkeb{\o}en (o-slash) from the Crossref record of NBER WP 20816; the QJE record transliterates it
+@article{kirkeboen2016field,
+  author  = {Kirkeb{\o}en, Lars J. and Leuven, Edwin and Mogstad, Magne},
+  title   = {Field of Study, Earnings, and Self-Selection},
+  journal = {The Quarterly Journal of Economics},
+  volume  = {131},
+  number  = {3},
+  pages   = {1057--1111},
+  year    = {2016},
+  doi     = {10.1093/qje/qjw019},
+  note    = {Erratum: Quarterly Journal of Economics 132(3), 1551--1552 (2017), doi:10.1093/qje/qjx025}
+}
+
+% verified: Crossref 10.58567/jea03020003 (journal-article; issued 2024-06-15); checked title, journal, volume,
+% issue, year and both author surnames. Crossref has no page range, only article number 55 (the publisher's
+% article id, citation_id "jea-55"); the publisher page's citation_firstpage/lastpage meta tags (33, 51) and the
+% version-of-record PDF (anserpress.org, CC BY 4.0, read in full; "Journal of Economic Analysis 2024 3(2) 33-51")
+% give pages 33-51, which the entry follows (added 2026-09-24 in revision 4)
+@article{muse2024college,
+  author  = {Muse, William Brian and Muse, Iryna},
+  title   = {College Selectivity, Choice of Major, and Post-College Earnings},
+  journal = {Journal of Economic Analysis},
+  volume  = {3},
+  number  = {2},
+  pages   = {33--51},
+  year    = {2024},
+  doi     = {10.58567/jea03020003}
+}
+
+% verified: Crossref 10.1016/j.rssm.2021.100647 (journal-article); checked first author/year/title, all three author
+% surnames, volume and article number (added 2026-09-23 in revision 2; content from the published abstract)
+@article{quadlin2021same,
+  author  = {Quadlin, Natasha and Cohen, Emma D. and VanHeuvelen, Tom},
+  title   = {Same major, same economic returns? {C}ollege selectivity and earnings inequality in young adulthood},
+  journal = {Research in Social Stratification and Mobility},
+  volume  = {75},
+  pages   = {100647},
+  year    = {2021},
+  doi     = {10.1016/j.rssm.2021.100647}
+}
+
+% verified: Crossref 10.1353/sof.2010.0085 (journal-article); checked first author/year/title
+@article{roksa2010what,
+  author  = {Roksa, J. and Levey, T.},
+  title   = {What Can You Do with That Degree? {C}ollege Major and Occupational Status of College Graduates over Time},
+  journal = {Social Forces},
+  volume  = {89},
+  number  = {2},
+  pages   = {389--415},
+  year    = {2010},
+  doi     = {10.1353/sof.2010.0085}
+}
+
+% verified: Crossref 10.1016/j.labeco.2014.03.009 (journal-article); checked first author/year/title
+@article{webber2014lifetime,
+  author  = {Webber, Douglas A.},
+  title   = {The lifetime earnings premia of different majors: Correcting for selection based on cognitive, noncognitive, and unobserved factors},
+  journal = {Labour Economics},
+  volume  = {28},
+  pages   = {14--23},
+  year    = {2014},
+  doi     = {10.1016/j.labeco.2014.03.009}
+}
+
+% ==============================================================================================================
+% NEW: UK (LEO) institution x subject returns
+% ==============================================================================================================
+% verified: Crossref 10.1920/re.ifs.2019.0808 (report); checked first author/year/title
+@techreport{belfield2018impact,
+  author      = {Belfield, Chris and Britton, Jack and Buscha, Franz and Dearden, Lorraine and Dickson, Matt and van der Erve, Laura and Sibieta, Luke and Vignoles, Anna and Walker, Ian and Zhu, Yu},
+  title       = {The impact of undergraduate degrees on early-career earnings},
+  institution = {Department for Education},
+  type        = {Research report},
+  year        = {2018},
+  doi         = {10.1920/re.ifs.2019.0808},
+  note        = {Prepared by the Institute for Fiscal Studies}
+}
+
+% verified: Crossref 10.1111/obes.12261 (journal-article); checked first author/year/title
+@article{britton2019improving,
+  author  = {Britton, Jack and Dearden, Lorraine and Shephard, Neil and Vignoles, Anna},
+  title   = {Is Improving Access to University Enough? {S}ocio-Economic Gaps in the Earnings of {English} Graduates},
+  journal = {Oxford Bulletin of Economics and Statistics},
+  volume  = {81},
+  number  = {2},
+  pages   = {328--368},
+  year    = {2019},
+  doi     = {10.1111/obes.12261}
+}
+
+% verified: Crossref 10.1920/re.ifs.2020.0167 (report); checked first author/year/title
+@techreport{britton2020impact,
+  author      = {Britton, Jack and Dearden, Lorraine and van der Erve, Laura and Waltmann, Ben},
+  title       = {The impact of undergraduate degrees on lifetime earnings},
+  institution = {Institute for Fiscal Studies},
+  type        = {IFS Report},
+  year        = {2020},
+  doi         = {10.1920/re.ifs.2020.0167}
+}
+
+% verified: Crossref 10.1016/j.labeco.2022.102268 (journal-article); checked first author/year/title
+@article{britton2022how,
+  author  = {Britton, Jack and van der Erve, Laura and Belfield, Chris and Vignoles, Anna and Dickson, Matt and Zhu, Yu and Walker, Ian and Dearden, Lorraine and Sibieta, Luke and Buscha, Franz},
+  title   = {How much does degree choice matter?},
+  journal = {Labour Economics},
+  volume  = {79},
+  pages   = {102268},
+  year    = {2022},
+  doi     = {10.1016/j.labeco.2022.102268}
+}
+
+% verified: Crossref 10.1920/re.ifs.2026.0033 (report); checked first author/year/title
+@techreport{britton2026new,
+  author      = {Britton, Jack and Ogden, Kate and Ornadel, Natan and Waltmann, Ben},
+  title       = {New estimates of the impact of undergraduate degrees on lifetime earnings},
+  institution = {Institute for Fiscal Studies},
+  type        = {IFS Report},
+  year        = {2026},
+  doi         = {10.1920/re.ifs.2026.0033}
+}
+
+% verified: Crossref 10.1016/j.econedurev.2011.01.002 (journal-article); checked first author/year/title
+@article{walker2011differences,
+  author  = {Walker, Ian and Zhu, Yu},
+  title   = {Differences by degree: Evidence of the net financial rates of return to undergraduate study for {England} and {Wales}},
+  journal = {Economics of Education Review},
+  volume  = {30},
+  number  = {6},
+  pages   = {1177--1186},
+  year    = {2011},
+  doi     = {10.1016/j.econedurev.2011.01.002}
+}
+
+% verified: Crossref 10.1016/j.labeco.2018.05.005 (journal-article); checked first author/year/title
+@article{walker2018university,
+  author  = {Walker, Ian and Zhu, Yu},
+  title   = {University selectivity and the relative returns to higher education: Evidence from the {UK}},
+  journal = {Labour Economics},
+  volume  = {53},
+  pages   = {230--249},
+  year    = {2018},
+  doi     = {10.1016/j.labeco.2018.05.005}
+}
+
+% ==============================================================================================================
+% NEW: Employer learning, career dynamics, cohort/entry conditions
+% ==============================================================================================================
+% verified: Crossref 10.1086/682938 (journal-article); checked first author/year/title
+@article{altonji2016cashier,
+  author  = {Altonji, Joseph G. and Kahn, Lisa B. and Speer, Jamin D.},
+  title   = {Cashier or Consultant? {E}ntry Labor Market Conditions, Field of Study, and Career Success},
+  journal = {Journal of Labor Economics},
+  volume  = {34},
+  number  = {S1},
+  pages   = {S361--S401},
+  year    = {2016},
+  doi     = {10.1086/682938}
+}
+
+% verified: Crossref 10.1016/j.labeco.2016.05.024 (journal-article); checked first author/year/title
+@article{araki2016university,
+  author  = {Araki, Shota and Kawaguchi, Daiji and Onozuka, Yuki},
+  title   = {University prestige, performance evaluation, and promotion: Estimating the employer learning model using personnel datasets},
+  journal = {Labour Economics},
+  volume  = {41},
+  pages   = {135--148},
+  year    = {2016},
+  doi     = {10.1016/j.labeco.2016.05.024}
+}
+
+% verified: Crossref 10.1016/j.econedurev.2020.101995 (journal-article); checked first author/year/title
+@article{bordon2020employer,
+  author  = {Bord{\'o}n, Paola and Braga, Breno},
+  title   = {Employer learning, statistical discrimination and university prestige},
+  journal = {Economics of Education Review},
+  volume  = {77},
+  pages   = {101995},
+  year    = {2020},
+  doi     = {10.1016/j.econedurev.2020.101995}
+}
+
+% verified: Crossref 10.1146/annurev-soc-073018-022616 (journal-article); checked first author/year/title
+@article{fosse2019analyzing,
+  author  = {Fosse, Ethan and Winship, Christopher},
+  title   = {Analyzing Age-Period-Cohort Data: A Review and Critique},
+  journal = {Annual Review of Sociology},
+  volume  = {45},
+  number  = {1},
+  pages   = {467--492},
+  year    = {2019},
+  doi     = {10.1146/annurev-soc-073018-022616}
+}
+
+% verified: Crossref 10.1007/s13524-019-00801-6 (journal-article); checked first author/year/title
+@article{fosse2019bounding,
+  author  = {Fosse, Ethan and Winship, Christopher},
+  title   = {Bounding Analyses of Age-Period-Cohort Effects},
+  journal = {Demography},
+  volume  = {56},
+  number  = {5},
+  pages   = {1975--2004},
+  year    = {2019},
+  doi     = {10.1007/s13524-019-00801-6}
+}
+
+% verified: Crossref 10.1016/j.labeco.2009.09.002 (journal-article); checked first author/year/title
+@article{kahn2010long,
+  author  = {Kahn, Lisa B.},
+  title   = {The long-term labor market consequences of graduating from college in a bad economy},
+  journal = {Labour Economics},
+  volume  = {17},
+  number  = {2},
+  pages   = {303--316},
+  year    = {2010},
+  doi     = {10.1016/j.labeco.2009.09.002}
+}
+
+% verified: Crossref 10.1093/restud/rdu021 (journal-article); checked first author/year/title; given names from the Crossref records of 10.1016/j.labeco.2009.09.002 and 10.1086/508730 (REStud record has initials only)
+@article{kahn2014employer,
+  author  = {Kahn, Lisa B. and Lange, Fabian},
+  title   = {Employer Learning, Productivity, and the Earnings Distribution: Evidence from Performance Measures},
+  journal = {The Review of Economic Studies},
+  volume  = {81},
+  number  = {4},
+  pages   = {1575--1613},
+  year    = {2014},
+  doi     = {10.1093/restud/rdu021}
+}
+
+% verified: Crossref 10.1086/508730 (journal-article); checked first author/year/title
+@article{lange2007speed,
+  author  = {Lange, Fabian},
+  title   = {The Speed of Employer Learning},
+  journal = {Journal of Labor Economics},
+  volume  = {25},
+  number  = {1},
+  pages   = {1--35},
+  year    = {2007},
+  doi     = {10.1086/508730}
+}
+
+% verified: Crossref 10.1086/663590 (journal-article); checked first author/year/title
+@article{mansour2012does,
+  author  = {Mansour, Hani},
+  title   = {Does Employer Learning Vary by Occupation?},
+  journal = {Journal of Labor Economics},
+  volume  = {30},
+  number  = {2},
+  pages   = {415--444},
+  year    = {2012},
+  doi     = {10.1086/663590}
+}
+
+% verified: Crossref 10.1257/app.4.1.1 (journal-article); checked first author/year/title
+@article{oreopoulos2012short,
+  author  = {Oreopoulos, Philip and von Wachter, Till and Heisz, Andrew},
+  title   = {The Short- and Long-Term Career Effects of Graduating in a Recession},
+  journal = {American Economic Journal: Applied Economics},
+  volume  = {4},
+  number  = {1},
+  pages   = {1--29},
+  year    = {2012},
+  doi     = {10.1257/app.4.1.1}
+}
+
+% ==============================================================================================================
+% NEW: Faculty hiring hierarchies, academic prestige, science of science
+% ==============================================================================================================
+% verified: Crossref 10.1162/rest.90.1.185 (journal-article); checked first author/year/title
+@article{amir2008ranking,
+  author  = {Amir, Rabah and Knauff, Malgorzata},
+  title   = {Ranking Economics Departments Worldwide on the Basis of {PhD} Placement},
+  journal = {The Review of Economics and Statistics},
+  volume  = {90},
+  number  = {1},
+  pages   = {185--190},
+  year    = {2008},
+  doi     = {10.1162/rest.90.1.185}
+}
+
+% verified: Crossref 10.1177/000312240406900205 (journal-article); checked first author/year/title
+@article{burris2004academic,
+  author  = {Burris, Val},
+  title   = {The Academic Caste System: Prestige Hierarchies in {PhD} Exchange Networks},
+  journal = {American Sociological Review},
+  volume  = {69},
+  number  = {2},
+  pages   = {239--264},
+  year    = {2004},
+  doi     = {10.1177/000312240406900205}
+}
+
+% verified: Crossref 10.1126/science.aao0185 (journal-article); checked first author/year/title
+@article{fortunato2018science,
+  author  = {Fortunato, Santo and Bergstrom, Carl T. and B{\"o}rner, Katy and Evans, James A. and Helbing, Dirk and Milojevi{\'c}, Sta{\v{s}}a and Petersen, Alexander M. and Radicchi, Filippo and Sinatra, Roberta and Uzzi, Brian and Vespignani, Alessandro and Waltman, Ludo and Wang, Dashun and Barab{\'a}si, Albert-L{\'a}szl{\'o}},
+  title   = {Science of science},
+  journal = {Science},
+  volume  = {359},
+  number  = {6379},
+  pages   = {eaao0185},
+  year    = {2018},
+  doi     = {10.1126/science.aao0185}
+}
+
+% verified: Crossref 10.1017/s104909650707117x (journal-article); checked first author/year/title
+@article{fowler2007social,
+  author  = {Fowler, James H. and Grofman, Bernard and Masuoka, Natalie},
+  title   = {Social Networks in Political Science: Hiring and Placement of {Ph.D.s}, 1960--2002},
+  journal = {PS: Political Science \& Politics},
+  volume  = {40},
+  number  = {4},
+  pages   = {729--739},
+  year    = {2007},
+  doi     = {10.1017/s104909650707117x}
+}
+
+% verified: Crossref 10.3102/00346543066004507 (journal-article); checked first author/year/title
+@article{hattie1996relationship,
+  author  = {Hattie, John and Marsh, H. W.},
+  title   = {The Relationship Between Research and Teaching: A Meta-Analysis},
+  journal = {Review of Educational Research},
+  volume  = {66},
+  number  = {4},
+  pages   = {507--542},
+  year    = {1996},
+  doi     = {10.3102/00346543066004507}
+}
+
+% verified: Crossref 10.1093/sf/sov102 (journal-article) (print 2016, online 2015); checked first author/year/title
+@article{headworth2016credential,
+  author  = {Headworth, Spencer and Freese, Jeremy},
+  title   = {Credential Privilege or Cumulative Advantage? {P}restige, Productivity, and Placement in the Academic Sociology Job Market},
+  journal = {Social Forces},
+  volume  = {94},
+  number  = {3},
+  pages   = {1257--1282},
+  year    = {2016},
+  doi     = {10.1093/sf/sov102}
+}
+
+% verified: Crossref 10.1145/3535510 (journal-article); checked first author/year/title; capitalisation LaBerge as in the Crossref records of 10.1038/s41562-022-01425-4 and 10.7554/elife.93755.1
+@article{laberge2022subfield,
+  author  = {LaBerge, Nicholas and Wapman, K. Hunter and Morgan, Allison C. and Zhang, Sam and Larremore, Daniel B. and Clauset, Aaron},
+  title   = {Subfield prestige and gender inequality among {U.S.} computing faculty},
+  journal = {Communications of the ACM},
+  volume  = {65},
+  number  = {12},
+  pages   = {46--55},
+  year    = {2022},
+  doi     = {10.1145/3535510}
+}
+
+% verified: Crossref 10.1007/s11162-006-9045-0 (journal-article); checked first author/year/title
+@article{melguizo2007faculty,
+  author  = {Melguizo, Tatiana and Strober, Myra H.},
+  title   = {Faculty Salaries and the Maximization of Prestige},
+  journal = {Research in Higher Education},
+  volume  = {48},
+  number  = {6},
+  pages   = {633--668},
+  year    = {2007},
+  doi     = {10.1007/s11162-006-9045-0}
+}
+
+% verified: Crossref 10.1140/epjds/s13688-018-0166-4 (journal-article); checked first author/year/title
+@article{morgan2018prestige,
+  author  = {Morgan, Allison C. and Economou, Dimitrios J. and Way, Samuel F. and Clauset, Aaron},
+  title   = {Prestige drives epistemic inequality in the diffusion of scientific ideas},
+  journal = {EPJ Data Science},
+  volume  = {7},
+  number  = {1},
+  pages   = {40},
+  year    = {2018},
+  doi     = {10.1140/epjds/s13688-018-0166-4}
+}
+
+% verified: Crossref 10.1038/s41562-022-01425-4 (journal-article); checked first author/year/title
+@article{morgan2022socioeconomic,
+  author  = {Morgan, Allison C. and LaBerge, Nicholas and Larremore, Daniel B. and Galesic, Mirta and Brand, Jennie E. and Clauset, Aaron},
+  title   = {Socioeconomic roots of academic faculty},
+  journal = {Nature Human Behaviour},
+  volume  = {6},
+  number  = {12},
+  pages   = {1625--1633},
+  year    = {2022},
+  doi     = {10.1038/s41562-022-01425-4}
+}
+
+% verified: Crossref 10.1162/rest_a_00108 (journal-article); checked first author/year/title
+@article{tervio2011divisions,
+  author  = {Tervi{\"o}, Marko},
+  title   = {Divisions within Academia: Evidence from Faculty Hiring and Placement},
+  journal = {The Review of Economics and Statistics},
+  volume  = {93},
+  number  = {3},
+  pages   = {1053--1062},
+  year    = {2011},
+  doi     = {10.1162/rest_a_00108}
+}
+
+% verified: Crossref 10.1073/pnas.1817431116 (journal-article); checked first author/year/title
+@article{way2019productivity,
+  author  = {Way, Samuel F. and Morgan, Allison C. and Larremore, Daniel B. and Clauset, Aaron},
+  title   = {Productivity, prominence, and the effects of academic environment},
+  journal = {Proceedings of the National Academy of Sciences},
+  volume  = {116},
+  number  = {22},
+  pages   = {10729--10733},
+  year    = {2019},
+  doi     = {10.1073/pnas.1817431116}
+}
+
+% ==============================================================================================================
+% NEW: Rankings, status, elite recruiting and credentials
+% ==============================================================================================================
+% verified: Crossref 10.1086/649437 (journal-article); checked first author/year/title
+@article{bastedo2010us,
+  author  = {Bastedo, Michael N. and Bowman, Nicholas A.},
+  title   = {{U.S. News \& World Report} College Rankings: Modeling Institutional Effects on Organizational Reputation},
+  journal = {American Journal of Education},
+  volume  = {116},
+  number  = {2},
+  pages   = {163--183},
+  year    = {2010},
+  doi     = {10.1086/649437}
+}
+
+% verified: Crossref 10.1177/0038040715610883 (journal-article) (print 2016, online 2015); checked first author/year/title
+@article{binder2016career,
+  author  = {Binder, Amy J. and Davis, Daniel B. and Bloom, Nick},
+  title   = {Career Funneling: How Elite Students Learn to Define and Desire ``Prestigious'' Jobs},
+  journal = {Sociology of Education},
+  volume  = {89},
+  number  = {1},
+  pages   = {20--39},
+  year    = {2016},
+  doi     = {10.1177/0038040715610883}
+}
+
+% verified: Crossref 10.1007/s11162-009-9129-8 (journal-article); checked first author/year/title
+@article{bowman2009getting,
+  author  = {Bowman, Nicholas A. and Bastedo, Michael N.},
+  title   = {Getting on the Front Page: Organizational Reputation, Status Signals, and the Impact of {U.S. News and World Report} on Student Decisions},
+  journal = {Research in Higher Education},
+  volume  = {50},
+  number  = {5},
+  pages   = {415--436},
+  year    = {2009},
+  doi     = {10.1007/s11162-009-9129-8}
+}
+
+% verified: Crossref 10.1007/s10734-010-9339-1 (journal-article) (print 2011, online 2010); checked first author/year/title
+@article{bowman2011anchoring,
+  author  = {Bowman, Nicholas A. and Bastedo, Michael N.},
+  title   = {Anchoring effects in world university rankings: exploring biases in reputation scores},
+  journal = {Higher Education},
+  volume  = {61},
+  number  = {4},
+  pages   = {431--444},
+  year    = {2011},
+  doi     = {10.1007/s10734-010-9339-1}
+}
+
+% verified: Crossref 10.1086/517897 (journal-article); checked first author/year/title
+@article{espeland2007rankings,
+  author  = {Espeland, Wendy Nelson and Sauder, Michael},
+  title   = {Rankings and Reactivity: How Public Measures Recreate Social Worlds},
+  journal = {American Journal of Sociology},
+  volume  = {113},
+  number  = {1},
+  pages   = {1--40},
+  year    = {2007},
+  doi     = {10.1086/517897}
+}
+
+% verified: publisher page (no Crossref record); publisher page https://www.russellsage.org/publications/book/engines-anxiety (HTTP 200, 2026-09-23): authors, title, 'Publication Date May 2016', ISBN 978-0-87154-427-8; DOI 10.7758/9781610448543 is not registered with Crossref (404) and does not resolve
+@book{espeland2016engines,
+  author    = {Espeland, Wendy Nelson and Sauder, Michael},
+  title     = {Engines of Anxiety: Academic Rankings, Reputation, and Accountability},
+  publisher = {Russell Sage Foundation},
+  year      = {2016},
+  isbn      = {978-0-87154-427-8}
+}
+
+% verified: Crossref 10.1023/b:rihe.0000032324.46716.f4 (journal-article); checked first author/year/title
+@article{meredith2004why,
+  author  = {Meredith, Marc},
+  title   = {Why Do Universities Compete in the Ratings Game? {A}n Empirical Analysis of the Effects of the {U.S. News and World Report} College Rankings},
+  journal = {Research in Higher Education},
+  volume  = {45},
+  number  = {5},
+  pages   = {443--461},
+  year    = {2004},
+  doi     = {10.1023/b:rihe.0000032324.46716.f4}
+}
+
+% verified: Crossref 10.1080/00091389909604232 (journal-article); checked first author/year/title
+@article{monks1999us,
+  author  = {Monks, James and Ehrenberg, Ronald G.},
+  title   = {{U.S. News \& World Report}'s College Rankings: Why They Do Matter},
+  journal = {Change: The Magazine of Higher Learning},
+  volume  = {31},
+  number  = {6},
+  pages   = {42--51},
+  year    = {1999},
+  doi     = {10.1080/00091389909604232}
+}
+
+% verified: Crossref 10.1177/0003122412463213 (journal-article); checked first author/year/title
+@article{rivera2012hiring,
+  author  = {Rivera, Lauren A.},
+  title   = {Hiring as Cultural Matching: The Case of Elite Professional Service Firms},
+  journal = {American Sociological Review},
+  volume  = {77},
+  number  = {6},
+  pages   = {999--1022},
+  year    = {2012},
+  doi     = {10.1177/0003122412463213}
+}
+
+% verified: Crossref 10.1177/0003122416668154 (journal-article); checked first author/year/title
+@article{rivera2016class,
+  author  = {Rivera, Lauren A. and Tilcsik, Andr{\'a}s},
+  title   = {Class Advantage, Commitment Penalty: The Gendered Effect of Social Class Signals in an Elite Labor Market},
+  journal = {American Sociological Review},
+  volume  = {81},
+  number  = {6},
+  pages   = {1097--1131},
+  year    = {2016},
+  doi     = {10.1177/0003122416668154}
+}
+
+% verified: Crossref 10.1016/j.labeco.2018.10.007 (journal-article); checked first author/year/title
+@article{weinstein2018employer,
+  author  = {Weinstein, Russell},
+  title   = {Employer screening costs, recruiting strategies, and labor market outcomes: An equilibrium analysis of on-campus recruiting},
+  journal = {Labour Economics},
+  volume  = {55},
+  pages   = {282--299},
+  year    = {2018},
+  doi     = {10.1016/j.labeco.2018.10.007}
+}
+
+% ==============================================================================================================
+% NEW: Occupational closure, licensing, setting-determined pay
+% ==============================================================================================================
+% verified: Crossref 10.1257/pol.20200295 (journal-article); checked first author/year/title
+@article{biasi2021labor,
+  author  = {Biasi, Barbara},
+  title   = {The Labor Market for Teachers under Different Pay Schemes},
+  journal = {American Economic Journal: Economic Policy},
+  volume  = {13},
+  number  = {3},
+  pages   = {63--102},
+  year    = {2021},
+  doi     = {10.1257/pol.20200295}
+}
+
+% verified: Crossref 10.1111/bjir.12470 (journal-article); checked first author/year/title
+@article{blair2019how,
+  author  = {Blair, Peter Q. and Chung, Bobby W.},
+  title   = {How Much of Barrier to Entry is Occupational Licensing?},
+  journal = {British Journal of Industrial Relations},
+  volume  = {57},
+  number  = {4},
+  pages   = {919--943},
+  year    = {2019},
+  doi     = {10.1111/bjir.12470}
+}
+
+% verified: Crossref 10.1177/0003122419836081 (journal-article); checked first author/year/title
+@article{bol2019school,
+  author  = {Bol, Thijs and Ciocca Eller, Christina and van de Werfhorst, Herman G. and DiPrete, Thomas A.},
+  title   = {School-to-Work Linkages, Educational Mismatches, and Labor Market Outcomes},
+  journal = {American Sociological Review},
+  volume  = {84},
+  number  = {2},
+  pages   = {275--307},
+  year    = {2019},
+  doi     = {10.1177/0003122419836081}
+}
+
+% verified: Crossref 10.1086/694153 (journal-article); checked first author/year/title
+@article{card2018firms,
+  author  = {Card, David and Cardoso, Ana Rute and Heining, Joerg and Kline, Patrick},
+  title   = {Firms and Labor Market Inequality: Evidence and Some Theory},
+  journal = {Journal of Labor Economics},
+  volume  = {36},
+  number  = {S1},
+  pages   = {S13--S70},
+  year    = {2018},
+  doi     = {10.1086/694153}
+}
+
+% verified: Crossref 10.1086/691327 (journal-article); checked first author/year/title; surname 'Ciocca Eller' as in the Crossref record of 10.1177/0003122419836081; author order as deposited in Crossref (see the unconfirmed list)
+@article{diprete2017school,
+  author  = {DiPrete, Thomas A. and Bol, Thijs and Ciocca Eller, Christina and van de Werfhorst, Herman G.},
+  title   = {School-to-Work Linkages in the {United States}, {Germany}, and {France}},
+  journal = {American Journal of Sociology},
+  volume  = {122},
+  number  = {6},
+  pages   = {1869--1938},
+  year    = {2017},
+  doi     = {10.1086/691327}
+}
+
+% verified: Crossref 10.1111/irel.12200 (journal-article) (print 2018, online 2017); checked first author/year/title
+@article{gittleman2018analyzing,
+  author  = {Gittleman, Maury and Klee, Mark A. and Kleiner, Morris M.},
+  title   = {Analyzing the Labor Market Outcomes of Occupational Licensing},
+  journal = {Industrial Relations: A Journal of Economy and Society},
+  volume  = {57},
+  number  = {1},
+  pages   = {57--100},
+  year    = {2018},
+  doi     = {10.1111/irel.12200}
+}
+
+% verified: Crossref 10.1016/j.jhealeco.2005.03.006 (journal-article); checked first author/year/title
+@article{hirsch2005classic,
+  author  = {Hirsch, Barry T. and Schumacher, Edward J.},
+  title   = {Classic or new monopsony? {S}earching for evidence in nursing labor markets},
+  journal = {Journal of Health Economics},
+  volume  = {24},
+  number  = {5},
+  pages   = {969--989},
+  year    = {2005},
+  doi     = {10.1016/j.jhealeco.2005.03.006}
+}
+
+% verified: Crossref 10.1257/0002828041302073 (journal-article); checked first author/year/title
+@article{hoxby2004pulled,
+  author  = {Hoxby, Caroline M. and Leigh, Andrew},
+  title   = {Pulled Away or Pushed Out? {E}xplaining the Decline of Teacher Aptitude in the {United States}},
+  journal = {American Economic Review},
+  volume  = {94},
+  number  = {2},
+  pages   = {236--240},
+  year    = {2004},
+  doi     = {10.1257/0002828041302073}
+}
+
+% verified: Crossref 10.1257/jep.14.4.189 (journal-article); checked first author/year/title
+@article{kleiner2000occupational,
+  author  = {Kleiner, Morris M.},
+  title   = {Occupational Licensing},
+  journal = {Journal of Economic Perspectives},
+  volume  = {14},
+  number  = {4},
+  pages   = {189--202},
+  year    = {2000},
+  doi     = {10.1257/jep.14.4.189}
+}
+
+% verified: Crossref 10.17848/9781429454865 (monograph) (print 2006, online 2010); checked first author/year/title
+@book{kleiner2006licensing,
+  author    = {Kleiner, Morris M.},
+  title     = {Licensing Occupations: Ensuring Quality or Restricting Competition?},
+  publisher = {W.E. Upjohn Institute},
+  year      = {2006},
+  doi       = {10.17848/9781429454865}
+}
+
+% verified: Crossref 10.1086/669060 (journal-article); checked first author/year/title
+@article{kleiner2013analyzing,
+  author  = {Kleiner, Morris M. and Krueger, Alan B.},
+  title   = {Analyzing the Extent and Influence of Occupational Licensing on the Labor Market},
+  journal = {Journal of Labor Economics},
+  volume  = {31},
+  number  = {S1},
+  pages   = {S173--S202},
+  year    = {2013},
+  doi     = {10.1086/669060}
+}
+
+% verified: Crossref 10.1093/restud/rdad015 (journal-article); checked first author/year/title
+@article{kleiner2023welfare,
+  author  = {Kleiner, Morris M. and Soltas, Evan J.},
+  title   = {A Welfare Analysis of Occupational Licensing in {U.S.} States},
+  journal = {The Review of Economic Studies},
+  volume  = {90},
+  number  = {5},
+  pages   = {2481--2516},
+  year    = {2023},
+  doi     = {10.1093/restud/rdad015}
+}
+
+% verified: Crossref 10.1257/aer.20190690 (journal-article); checked first author/year/title
+@article{prager2021employer,
+  author  = {Prager, Elena and Schmitt, Matt},
+  title   = {Employer Consolidation and Wages: Evidence from Hospitals},
+  journal = {American Economic Review},
+  volume  = {111},
+  number  = {2},
+  pages   = {397--427},
+  year    = {2021},
+  doi     = {10.1257/aer.20190690}
+}
+
+% verified: Crossref 10.1177/0003122417706463 (journal-article); checked first author/year/title
+@article{redbird2017new,
+  author  = {Redbird, Beth},
+  title   = {The New Closed Shop? {T}he Economic and Structural Effects of Occupational Licensure},
+  journal = {American Sociological Review},
+  volume  = {82},
+  number  = {3},
+  pages   = {600--624},
+  year    = {2017},
+  doi     = {10.1177/0003122417706463}
+}
+
+% verified: Crossref 10.1086/652734 (journal-article); checked first author/year/title
+@article{staiger2010there,
+  author  = {Staiger, Douglas O. and Spetz, Joanne and Phibbs, Ciaran S.},
+  title   = {Is There Monopsony in the Labor Market? {E}vidence from a Natural Experiment},
+  journal = {Journal of Labor Economics},
+  volume  = {28},
+  number  = {2},
+  pages   = {211--236},
+  year    = {2010},
+  doi     = {10.1086/652734}
+}
+
+% verified: Crossref 10.1086/467192 (journal-article); checked first author/year/title
+@article{sullivan1989monopsony,
+  author  = {Sullivan, Daniel},
+  title   = {Monopsony Power in the Market for Nurses},
+  journal = {The Journal of Law and Economics},
+  volume  = {32},
+  number  = {2, Part 2},
+  pages   = {S135--S178},
+  year    = {1989},
+  doi     = {10.1086/467192}
+}
+
+% verified: Crossref 10.1086/344121 (journal-article); checked first author/year/title
+@article{weeden2002why,
+  author  = {Weeden, Kim A.},
+  title   = {Why Do Some Occupations Pay More than Others? {S}ocial Closure and Earnings Inequality in the {United States}},
+  journal = {American Journal of Sociology},
+  volume  = {108},
+  number  = {1},
+  pages   = {55--101},
+  year    = {2002},
+  doi     = {10.1086/344121}
+}
+
+% verified: Crossref 10.1086/428815 (journal-article); checked first author/year/title
+@article{weeden2005case,
+  author  = {Weeden, Kim A. and Grusky, David B.},
+  title   = {The Case for a New Class Map},
+  journal = {American Journal of Sociology},
+  volume  = {111},
+  number  = {1},
+  pages   = {141--212},
+  year    = {2005},
+  doi     = {10.1086/428815}
+}
+
+% ==============================================================================================================
+% NEW: Data coverage and methods
+% ==============================================================================================================
+% verified: Crossref 10.1037/a0032968 (journal-article); checked first author/year/title
+@article{cheung2014modeling,
+  author  = {Cheung, Mike W.-L.},
+  title   = {Modeling dependent effect sizes with three-level meta-analyses: A structural equation modeling approach},
+  journal = {Psychological Methods},
+  volume  = {19},
+  number  = {2},
+  pages   = {211--229},
+  year    = {2014},
+  doi     = {10.1037/a0032968}
+}
+
+% verified: Crossref 10.1002/pam.22553 (journal-article) (print 2025, online 2023); checked first author/year/title
+@article{conzelmann2025grads,
+  author  = {Conzelmann, Johnathan G. and Hemelt, Steven W. and Hershbein, Brad J. and Martin, Shawn and Simon, Andrew and Stange, Kevin M.},
+  title   = {Grads on the go: Measuring college-specific labor markets for graduates},
+  journal = {Journal of Policy Analysis and Management},
+  volume  = {44},
+  number  = {3},
+  pages   = {741--763},
+  year    = {2025},
+  doi     = {10.1002/pam.22553}
+}
+
+% verified: Crossref 10.1162/rest.a.1703 (journal-article); checked first author/year/title
+@article{foote2026attrition,
+  author  = {Foote, Andrew and Stange, Kevin},
+  title   = {Attrition from Administrative Data: Problems and Solutions with an Application to Postsecondary Education},
+  journal = {The Review of Economics and Statistics},
+  year    = {2026},
+  doi     = {10.1162/rest.a.1703},
+  note    = {Published online ahead of print; also NBER Working Paper 30232 (2022)}
+}
+
+% verified: Crossref 10.1111/ecin.12530 (journal-article) (print 2018, online 2017); checked first author/year/title
+@article{hurwitz2018student,
+  author  = {Hurwitz, Michael and Smith, Jonathan},
+  title   = {Student Responsiveness to Earnings Data in the {College Scorecard}},
+  journal = {Economic Inquiry},
+  volume  = {56},
+  number  = {2},
+  pages   = {1220--1243},
+  year    = {2018},
+  doi     = {10.1111/ecin.12530}
+}
+
+% verified: Crossref 10.1002/jrsm.35 (journal-article); checked first author/year/title
+@article{konstantopoulos2011fixed,
+  author  = {Konstantopoulos, Spyros},
+  title   = {Fixed effects and variance components estimation in three-level meta-analysis},
+  journal = {Research Synthesis Methods},
+  volume  = {2},
+  number  = {1},
+  pages   = {61--76},
+  year    = {2011},
+  doi     = {10.1002/jrsm.35}
+}
+
+% verified: Crossref 10.1038/s41562-020-0912-z (journal-article); checked first author/year/title
+@article{simonsohn2020specification,
+  author  = {Simonsohn, Uri and Simmons, Joseph P. and Nelson, Leif D.},
+  title   = {Specification curve analysis},
+  journal = {Nature Human Behaviour},
+  volume  = {4},
+  number  = {11},
+  pages   = {1208--1214},
+  year    = {2020},
+  doi     = {10.1038/s41562-020-0912-z}
+}
+
+% verified: Crossref 10.2307/1412159 (journal-article); checked first author/year/title
+@article{spearman1904proof,
+  author  = {Spearman, C.},
+  title   = {The Proof and Measurement of Association between Two Things},
+  journal = {The American Journal of Psychology},
+  volume  = {15},
+  number  = {1},
+  year    = {1904},
+  doi     = {10.2307/1412159}
+}
+
+% verified: Crossref 10.18637/jss.v036.i03 (journal-article); checked first author/year/title
+@article{viechtbauer2010conducting,
+  author  = {Viechtbauer, Wolfgang},
+  title   = {Conducting Meta-Analyses in {R} with the metafor Package},
+  journal = {Journal of Statistical Software},
+  volume  = {36},
+  number  = {3},
+  year    = {2010},
+  doi     = {10.18637/jss.v036.i03}
+}
+
+% ==============================================================================================================
+% NOT CONFIRMED by Crossref or the publisher (entries or details); fix before submission if they matter
+% ==============================================================================================================
+%   altonji1998employer: claimed 1998 book publication (de Gijsel, Wolff and Sadowski eds., Internal Labour Markets, Incentives and Employment) -- not checkable via Crossref; removed from the note. The NBER WP 5438 (1996) itself is Crossref-confirmed. Key keeps '1998' for continuity with refs/notes
+%   altonji2016analysis: volume 5 and the editors (Hanushek, Machin, Woessmann) are not in the Crossref chapter record (volume 5 kept from the original entry and the referee report; editors omitted); the chapter's printed title may carry the subtitle 'Determinants and Wage Effects' that the NBER WP has -- Crossref's chapter title does not
+%   brewer1999does: Crossref gives only the first page (104); pages omitted rather than guessed
+%   davies1997fields: Crossref gives only the first page (1417); pages omitted rather than guessed
+%   diprete2017school: author order: Crossref deposit lists DiPrete, Bol, Ciocca Eller, van de Werfhorst; a referee report lists DiPrete, Ciocca Eller, Bol, van de Werfhorst -- check the article PDF
+%   hungerford1987sheepskin: Crossref gives the first page only; last page kept from the existing entry
+%   hussain2009university: 'Also CEE/CEP Discussion Paper 0099' -- not confirmed; removed. The IZA DP 4043 (February 2009) is confirmed by the IZA publication page
+%   lee2024higher: working-paper version 'CAMA Working Paper 2025-41' (dropped from the note; not checkable via Crossref)
+%   lovenheim2023returns: Handbook volume number (6) and editors are not in the Crossref chapter record; omitted
+%   muse2024college: Crossref has no page range, only article number 55; pages 33--51 are from the publisher's
+%     citation meta tags and the version-of-record PDF (the registry check flags this one field)
+%   pseo: release label 'V4.13.0 / 2025Q4' is from data/raw/SOURCES.md, not re-read from the Census page (which does not print the version on its landing page)
+%   qs_subject: https://www.topuniversities.com/subject-rankings/methodology returned HTTP 403 (bot protection) on 2026-09-23; content not re-checked
+%   spearman1904proof: Crossref gives only the first page (72); pages omitted rather than guessed
+%   spence1973job: Crossref gives the first page only; last page kept from the existing entry
+%   stiglitz1975theory: not in Crossref (AER 1975; JSTOR page blocks non-browser access). The RePEc record aea/aecrev/v65y1975i3p283-300 (AEA series) matches AER 65(3):283-300, 1975
+%   viechtbauer2010conducting: Crossref record has no page range or article number; pages omitted
+%   wapman2022data: descriptive counts in the note (368 institutions, 107 fields, 8 domains, 2011--2020) come from the reading notes; the DataCite record confirms title, creators, year, version 1 and the CC BY 3.0 US licence only
+%
+% Requested/referee-suggested works NOT included (no Crossref record or publisher confirmation obtained, or the
+% record contradicted itself): see RELATED_WORK_DRAFT.md, section 'Bibliography status'.
