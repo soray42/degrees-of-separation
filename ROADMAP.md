@@ -6,7 +6,7 @@
 
 ---
 
-## 0. Where things stand (after Phases 1–2, 2026-09-24)
+## 0. Where things stand (after Phases 1–3, 2026-09-25)
 
 - **Solid:** the within-field prestige–earnings coupling object, its reliability gate, and its
   Scorecard–PSEO replication; the three ruled-out alternatives; licensing as a marker of fields
@@ -26,7 +26,7 @@
   "field-agnostic rankings mis-price programs"; "aggregate data sees nothing, so resume data is
   necessary" (restated: public aggregates cannot identify the within-occupation channel).
 
-**Working headline (after Phase 2):** graduate pay lines up with where a university sits in the academic
+**Working headline (Phase 2; superseded by the Phase 3 thesis in README §6):** graduate pay lines up with where a university sits in the academic
 hierarchy, and more so as careers progress, but almost entirely through institution-wide status; the
 department's own academic standing adds little (clearest remainder: computer science). In the UK the status
 premium mostly survives a direct prior-attainment control. Fields whose graduates work in licensed or
@@ -50,14 +50,24 @@ public-sector settings are weakly coupled — a descriptive boundary condition, 
       (2024) and Britton et al. (2022).
 - AEFP 2027 abstract skipped by decision.
 
-### Now — rewrite the paper (target EPJ Data Science; PNAS Nexus variant)
-- [ ] Rewrite `paper/main.tex` on the working headline (README §6); outline and claim-by-claim evidence tiers are
-      in the local `PAPER_PLAN.md`.
-- [ ] Freeze one canonical specification; everything else to an SI specification curve.
-- [ ] Rebuild the SI from the committed scripts; switch to `paper/refs_merged.bib`.
-- [ ] Compile a PDF; adversarial read by simulated referees before any submission decision.
-- [ ] Optional: fix the 19-institution Wapman–PSEO name-join gap (src/crosswalks/institutions.py) and re-run
-      scripts 52 and 32 on V4.14.1.
+### Done (2026-09-25) — Phase 3: paper, referee analyses, theory (scripts 65–75)
+- [x] `paper/main.tex` rewritten for EPJ Data Science (≈8.9k words incl. a theory section); new SI (S1–S11);
+      five main figures (`scripts/70`); `paper/refs_merged.bib` (verified entries); PDFs tracked.
+- [x] Referee-requested analyses: graduate-school timing (67), era-matched selectivity (68), local field demand
+      (69), UK robustness (72), earnings reliability (73), CS admission routes (74), coupling dynamics (65),
+      employer-learning loadings (66). Each adversarially verified and fixed.
+- [x] Theory spine ("two audiences, one name") with construct audits and model tests T0–T8 (75).
+
+### Now — before submission
+- [ ] Confirm the new title ("Degrees of separation: where the academy's hiring order and graduates' pay agree").
+- [ ] Declarations are left out of the manuscript by decision; fill them in the submission system.
+- [ ] Optional: deposit the binding test texts (THEORY_NOTES §9, local) with a timestamp and cite the DOI/commit
+      in the SI; until then the paper says "specified before the analysis; not publicly registered".
+- [ ] Request full-data reliabilities of the published field and academia-wide ranks from the Wapman et al.
+      data holders (narrows the 0.81–0.96 bracket; enables a degree-corrected F and a direct check of H0).
+- [ ] Feedback from a labour / economics-of-education reader on the two-audiences framing before submitting.
+- [ ] Remaining minor audit items (21 from the last full audit; T8 share next to every pay statement).
+- [ ] Biggest open threat: graduate-study timing behind the career-time rise (needs individual trajectories).
 
 ### Later
 - [ ] Mid-December gate: heterogeneity survives selectivity only partly (large fields) → EPJ Data Science first.

@@ -1,4 +1,4 @@
-\begin{thebibliography}{46}
+\begin{thebibliography}{76}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -16,6 +16,12 @@ Peter Arcidiacono, Patrick Bayer, and Aurel Hizmo.
 \newblock Beyond signaling and human capital: Education and the revelation of ability.
 \newblock \emph{American Economic Journal: Applied Economics}, 2\penalty0 (4):\penalty0 76--104, 2010.
 \newblock \doi{10.1257/app.2.4.76}.
+
+\bibitem[Avery et~al.(2013)Avery, Glickman, Hoxby, and Metrick]{avery2013revealed}
+Christopher~N. Avery, Mark~E. Glickman, Caroline~M. Hoxby, and Andrew Metrick.
+\newblock A revealed preference ranking of {U.S.} colleges and universities.
+\newblock \emph{The Quarterly Journal of Economics}, 128\penalty0 (1):\penalty0 425--467, 2013.
+\newblock \doi{10.1093/qje/qjs043}.
 
 \bibitem[Benjamini and Hochberg(1995)]{benjamini1995controlling}
 Yoav Benjamini and Yosef Hochberg.
@@ -35,6 +41,18 @@ Douglas~G. Bonett and Thomas~A. Wright.
 \newblock \emph{Psychometrika}, 65\penalty0 (1):\penalty0 23--28, 2000.
 \newblock \doi{10.1007/BF02294183}.
 
+\bibitem[Borsboom et~al.(2004)Borsboom, Mellenbergh, and van Heerden]{borsboom2004concept}
+Denny Borsboom, Gideon~J. Mellenbergh, and Jaap van Heerden.
+\newblock The concept of validity.
+\newblock \emph{Psychological Review}, 111\penalty0 (4):\penalty0 1061--1071, 2004.
+\newblock \doi{10.1037/0033-295X.111.4.1061}.
+
+\bibitem[Bradley and Terry(1952)]{bradley1952rank}
+Ralph~Allan Bradley and Milton~E. Terry.
+\newblock Rank analysis of incomplete block designs: {I}. the method of paired comparisons.
+\newblock \emph{Biometrika}, 39\penalty0 (3/4):\penalty0 324--345, 1952.
+\newblock \doi{10.2307/2334029}.
+
 \bibitem[Britton et~al.(2022)Britton, van~der Erve, Belfield, Vignoles, Dickson, Zhu, Walker, Dearden, Sibieta, and Buscha]{britton2022how}
 Jack Britton, Laura van~der Erve, Chris Belfield, Anna Vignoles, Matt Dickson, Yu~Zhu, Ian Walker, Lorraine Dearden, Luke Sibieta, and Franz Buscha.
 \newblock How much does degree choice matter?
@@ -53,6 +71,18 @@ David~V. Budescu.
 \newblock \emph{Psychological Bulletin}, 114\penalty0 (3):\penalty0 542--551, 1993.
 \newblock \doi{10.1037/0033-2909.114.3.542}.
 
+\bibitem[Burris(2004)]{burris2004academic}
+Val Burris.
+\newblock The academic caste system: Prestige hierarchies in {PhD} exchange networks.
+\newblock \emph{American Sociological Review}, 69\penalty0 (2):\penalty0 239--264, 2004.
+\newblock \doi{10.1177/000312240406900205}.
+
+\bibitem[Cabral(2000)]{cabral2000stretching}
+Luis M.~B. Cabral.
+\newblock Stretching firm and brand reputation.
+\newblock \emph{The RAND Journal of Economics}, 31\penalty0 (4):\penalty0 658--673, 2000.
+\newblock \doi{10.2307/2696353}.
+
 \bibitem[Cameron et~al.(2008)Cameron, Gelbach, and Miller]{cameron2008bootstrap}
 A.~Colin Cameron, Jonah~B. Gelbach, and Douglas~L. Miller.
 \newblock Bootstrap-based improvements for inference with clustered errors.
@@ -65,11 +95,24 @@ A.~Colin Cameron, Jonah~B. Gelbach, and Douglas~L. Miller.
 \newblock \emph{Journal of Business \& Economic Statistics}, 29\penalty0 (2):\penalty0 238--249, 2011.
 \newblock \doi{10.1198/jbes.2010.07136}.
 
+\bibitem[Campbell and Fiske(1959)]{campbell1959convergent}
+Donald~T. Campbell and Donald~W. Fiske.
+\newblock Convergent and discriminant validation by the multitrait-multimethod matrix.
+\newblock \emph{Psychological Bulletin}, 56\penalty0 (2):\penalty0 81--105, 1959.
+\newblock \doi{10.1037/h0046016}.
+
 \bibitem[Chetty et~al.(2020)Chetty, Friedman, Saez, Turner, and Yagan]{chetty2020income}
 Raj Chetty, John~N. Friedman, Emmanuel Saez, Nicholas Turner, and Danny Yagan.
 \newblock Income segregation and intergenerational mobility across colleges in the {United States}.
 \newblock \emph{The Quarterly Journal of Economics}, 135\penalty0 (3):\penalty0 1567--1633, 2020.
 \newblock \doi{10.1093/qje/qjaa005}.
+
+\bibitem[Chetty et~al.(2026)Chetty, Deming, and Friedman]{chetty2023diversifying}
+Raj Chetty, David~J. Deming, and John~N. Friedman.
+\newblock Diversifying society's leaders? {T}he determinants and causal effects of admission to highly selective private colleges.
+\newblock \emph{The Quarterly Journal of Economics}, 141\penalty0 (1):\penalty0 51--145, 2026.
+\newblock \doi{10.1093/qje/qjaf050}.
+\newblock Earlier version: NBER Working Paper 31492 (2023).
 
 \bibitem[Cheung(2014)]{cheung2014modeling}
 Mike W.-L. Cheung.
@@ -77,12 +120,42 @@ Mike W.-L. Cheung.
 \newblock \emph{Psychological Methods}, 19\penalty0 (2):\penalty0 211--229, 2014.
 \newblock \doi{10.1037/a0032968}.
 
+\bibitem[Choi(1998)]{choi1998brand}
+Jay~Pil Choi.
+\newblock Brand extension as informational leverage.
+\newblock \emph{The Review of Economic Studies}, 65\penalty0 (4):\penalty0 655--669, 1998.
+\newblock \doi{10.1111/1467-937X.00063}.
+
+\bibitem[Clauset et~al.(2015)Clauset, Arbesman, and Larremore]{clauset2015systematic}
+Aaron Clauset, Samuel Arbesman, and Daniel~B. Larremore.
+\newblock Systematic inequality and hierarchy in faculty hiring networks.
+\newblock \emph{Science Advances}, 1\penalty0 (1):\penalty0 e1400005, 2015.
+\newblock \doi{10.1126/sciadv.1400005}.
+
 \bibitem[Condon and Hughes(2022)]{condon2022prestige}
 David Condon and Bradley Hughes.
 \newblock Occupational prestige ratings data.
 \newblock Harvard Dataverse, version 2.0, 2022.
 \newblock URL \url{https://doi.org/10.7910/DVN/G1E4BF}.
 \newblock Accessed 2026-06-21.
+
+\bibitem[Cronbach and Meehl(1955)]{cronbach1955construct}
+Lee~J. Cronbach and Paul~E. Meehl.
+\newblock Construct validity in psychological tests.
+\newblock \emph{Psychological Bulletin}, 52\penalty0 (4):\penalty0 281--302, 1955.
+\newblock \doi{10.1037/h0040957}.
+
+\bibitem[Dale and Krueger(2002)]{dale2002estimating}
+Stacy~B. Dale and Alan~B. Krueger.
+\newblock Estimating the payoff to attending a more selective college: An application of selection on observables and unobservables.
+\newblock \emph{The Quarterly Journal of Economics}, 117\penalty0 (4):\penalty0 1491--1527, 2002.
+\newblock \doi{10.1162/003355302320935089}.
+
+\bibitem[Dale and Krueger(2014)]{dale2014estimating}
+Stacy~B. Dale and Alan~B. Krueger.
+\newblock Estimating the effects of college characteristics over the career using administrative earnings data.
+\newblock \emph{Journal of Human Resources}, 49\penalty0 (2):\penalty0 323--358, 2014.
+\newblock \doi{10.3368/jhr.49.2.323}.
 
 \bibitem[De~Bacco et~al.(2018)De~Bacco, Larremore, and Moore]{debacco2018physical}
 Caterina De~Bacco, Daniel~B. Larremore, and Cristopher Moore.
@@ -132,6 +205,18 @@ David Freedman and David Lane.
 \newblock \emph{Journal of Business \& Economic Statistics}, 1\penalty0 (4):\penalty0 292--298, 1983.
 \newblock \doi{10.1080/07350015.1983.10509354}.
 
+\bibitem[Gale and Shapley(1962)]{gale1962college}
+David Gale and Lloyd~S. Shapley.
+\newblock College admissions and the stability of marriage.
+\newblock \emph{The American Mathematical Monthly}, 69\penalty0 (1):\penalty0 9--15, 1962.
+\newblock \doi{10.1080/00029890.1962.11989827}.
+
+\bibitem[Gibbons and Waldman(1999)]{gibbons1999theory}
+Robert Gibbons and Michael Waldman.
+\newblock A theory of wage and promotion dynamics inside firms.
+\newblock \emph{The Quarterly Journal of Economics}, 114\penalty0 (4):\penalty0 1321--1358, 1999.
+\newblock \doi{10.1162/003355399556287}.
+
 \bibitem[Gr{\"o}mping(2007)]{gromping2007estimators}
 Ulrike Gr{\"o}mping.
 \newblock Estimators of relative importance in linear regression based on variance decomposition.
@@ -144,6 +229,12 @@ Bradley~T. Hughes, Sanjay Srivastava, Magdalena Leszko, and David~M. Condon.
 \newblock \emph{Collabra: Psychology}, 10\penalty0 (1):\penalty0 92882, 2024.
 \newblock \doi{10.1525/collabra.92882}.
 
+\bibitem[Kane(2013)]{kane2013validating}
+Michael~T. Kane.
+\newblock Validating the interpretations and uses of test scores.
+\newblock \emph{Journal of Educational Measurement}, 50\penalty0 (1):\penalty0 1--73, 2013.
+\newblock \doi{10.1111/jedm.12000}.
+
 \bibitem[Kennedy(1995)]{kennedy1995randomization}
 Peter~E. Kennedy.
 \newblock Randomization tests in econometrics.
@@ -155,6 +246,18 @@ Spyros Konstantopoulos.
 \newblock Fixed effects and variance components estimation in three-level meta-analysis.
 \newblock \emph{Research Synthesis Methods}, 2\penalty0 (1):\penalty0 61--76, 2011.
 \newblock \doi{10.1002/jrsm.35}.
+
+\bibitem[Kruskal(1958)]{kruskal1958ordinal}
+William~H. Kruskal.
+\newblock Ordinal measures of association.
+\newblock \emph{Journal of the American Statistical Association}, 53\penalty0 (284):\penalty0 814--861, 1958.
+\newblock \doi{10.1080/01621459.1958.10501481}.
+
+\bibitem[LaBerge et~al.(2022)LaBerge, Wapman, Morgan, Zhang, Larremore, and Clauset]{laberge2022subfield}
+Nicholas LaBerge, K.~Hunter Wapman, Allison~C. Morgan, Sam Zhang, Daniel~B. Larremore, and Aaron Clauset.
+\newblock Subfield prestige and gender inequality among {U.S.} computing faculty.
+\newblock \emph{Communications of the ACM}, 65\penalty0 (12):\penalty0 46--55, 2022.
+\newblock \doi{10.1145/3535510}.
 
 \bibitem[Lange(2007)]{lange2007speed}
 Fabian Lange.
@@ -169,6 +272,25 @@ Yifeng Li.
 \newblock URL \url{https://doi.org/10.5281/zenodo.19651302}.
 \newblock Version 20260419.
 
+\bibitem[Long et~al.(1979)Long, Allison, and McGinnis]{long1979entrance}
+J.~Scott Long, Paul~D. Allison, and Robert McGinnis.
+\newblock Entrance into the academic career.
+\newblock \emph{American Sociological Review}, 44\penalty0 (5):\penalty0 816--830, 1979.
+\newblock \doi{10.2307/2094529}.
+
+\bibitem[MacLeod and Urquiola(2015)]{macleod2015reputation}
+W.~Bentley MacLeod and Miguel Urquiola.
+\newblock Reputation and school competition.
+\newblock \emph{American Economic Review}, 105\penalty0 (11):\penalty0 3471--3488, 2015.
+\newblock \doi{10.1257/aer.20130332}.
+
+\bibitem[MacLeod et~al.(2017)MacLeod, Riehl, Saavedra, and Urquiola]{macleod2017big}
+W.~Bentley MacLeod, Evan Riehl, Juan~E. Saavedra, and Miguel Urquiola.
+\newblock The big sort: College reputation and labor market outcomes.
+\newblock \emph{American Economic Journal: Applied Economics}, 9\penalty0 (3):\penalty0 223--261, 2017.
+\newblock \doi{10.1257/app.20160126}.
+\newblock Earlier version: NBER Working Paper No. 21230, June 2015.
+
 \bibitem[{National Center for Education Statistics}(2026)]{nces_ipeds}
 {National Center for Education Statistics}.
 \newblock Integrated postsecondary education data system ({IPEDS}): Completions and institutional characteristics.
@@ -180,6 +302,12 @@ Yifeng Li.
 \newblock Survey of earned doctorates: Doctorate recipients by baccalaureate institution (interactive data tool).
 \newblock \url{https://ncsesdata.nsf.gov/builder/sed}, 2026.
 \newblock Doctorate years 2000--2024; accessed 2026-09-24.
+
+\bibitem[{National Research Council}(1995)]{nrc1995research}
+{National Research Council}.
+\newblock \emph{Research-Doctorate Programs in the {United States}: Continuity and Change}.
+\newblock National Academies Press, Washington, DC, 1995.
+\newblock \doi{10.17226/4915}.
 
 \bibitem[{ORCID, Inc.}(2026)]{orcid}
 {ORCID, Inc.}
@@ -206,6 +334,12 @@ Robert~C. Paule and John Mandel.
 \newblock \emph{Journal of Research of the National Bureau of Standards}, 87\penalty0 (5):\penalty0 377, 1982.
 \newblock \doi{10.6028/jres.087.022}.
 
+\bibitem[Podolny(1993)]{podolny1993status}
+Joel~M. Podolny.
+\newblock A status-based model of market competition.
+\newblock \emph{American Journal of Sociology}, 98\penalty0 (4):\penalty0 829--872, 1993.
+\newblock \doi{10.1086/230091}.
+
 \bibitem[Priem et~al.(2022)Priem, Piwowar, and Orr]{priem2022openalex}
 Jason Priem, Heather Piwowar, and Richard Orr.
 \newblock {OpenAlex}: A fully-open index of scholarly works, authors, venues, institutions, and concepts.
@@ -217,6 +351,18 @@ Jason Priem, Heather Piwowar, and Richard Orr.
 \newblock Zenodo, 2026.
 \newblock URL \url{https://doi.org/10.5281/zenodo.20512981}.
 \newblock Data dump v2.8, 2026-06-02.
+
+\bibitem[Rivera(2015)]{rivera2015pedigree}
+Lauren~A. Rivera.
+\newblock \emph{Pedigree: How Elite Students Get Elite Jobs}.
+\newblock Princeton University Press, 2015.
+\newblock \doi{10.1515/9781400865895}.
+
+\bibitem[Sauder et~al.(2012)Sauder, Lynn, and Podolny]{sauder2012status}
+Michael Sauder, Freda Lynn, and Joel~M. Podolny.
+\newblock Status: Insights from organizational sociology.
+\newblock \emph{Annual Review of Sociology}, 38\penalty0 (1):\penalty0 267--283, 2012.
+\newblock \doi{10.1146/annurev-soc-071811-145503}.
 
 \bibitem[Shorrocks(2013)]{shorrocks2013decomposition}
 Anthony~F. Shorrocks.
@@ -235,6 +381,18 @@ C.~Spearman.
 \newblock Correlation calculated from faulty data.
 \newblock \emph{British Journal of Psychology}, 3\penalty0 (3):\penalty0 271--295, 1910.
 \newblock \doi{10.1111/j.2044-8295.1910.tb00206.x}.
+
+\bibitem[Staiger et~al.(2010)Staiger, Spetz, and Phibbs]{staiger2010there}
+Douglas~O. Staiger, Joanne Spetz, and Ciaran~S. Phibbs.
+\newblock Is there monopsony in the labor market? {E}vidence from a natural experiment.
+\newblock \emph{Journal of Labor Economics}, 28\penalty0 (2):\penalty0 211--236, 2010.
+\newblock \doi{10.1086/652734}.
+
+\bibitem[Tirole(1996)]{tirole1996theory}
+Jean Tirole.
+\newblock A theory of collective reputations ({w}ith applications to the persistence of corruption and to firm quality).
+\newblock \emph{The Review of Economic Studies}, 63\penalty0 (1):\penalty0 1--22, 1996.
+\newblock \doi{10.2307/2298112}.
 
 \bibitem[{U.S. Bureau of Labor Statistics}(2026)]{fred_laus}
 {U.S. Bureau of Labor Statistics}.
@@ -285,5 +443,29 @@ Matthew~D. Webb.
 \newblock Reworking wild bootstrap-based inference for clustered errors.
 \newblock \emph{Canadian Journal of Economics}, 56\penalty0 (3):\penalty0 839--858, 2023.
 \newblock \doi{10.1111/caje.12661}.
+
+\bibitem[Weinstein(2018)]{weinstein2018employer}
+Russell Weinstein.
+\newblock Employer screening costs, recruiting strategies, and labor market outcomes: An equilibrium analysis of on-campus recruiting.
+\newblock \emph{Labour Economics}, 55:\penalty0 282--299, 2018.
+\newblock \doi{10.1016/j.labeco.2018.10.007}.
+
+\bibitem[Wernerfelt(1988)]{wernerfelt1988umbrella}
+Birger Wernerfelt.
+\newblock Umbrella branding as a signal of new product quality: An example of signalling by posting a bond.
+\newblock \emph{The RAND Journal of Economics}, 19\penalty0 (3):\penalty0 458--466, 1988.
+\newblock \doi{10.2307/2555667}.
+
+\bibitem[Zimmerman(2019)]{zimmerman2019elite}
+Seth~D. Zimmerman.
+\newblock Elite colleges and upward mobility to top jobs and top incomes.
+\newblock \emph{American Economic Review}, 109\penalty0 (1):\penalty0 1--47, 2019.
+\newblock \doi{10.1257/aer.20171019}.
+
+\bibitem[Zuckerman(1999)]{zuckerman1999categorical}
+Ezra~W. Zuckerman.
+\newblock The categorical imperative: Securities analysts and the illegitimacy discount.
+\newblock \emph{American Journal of Sociology}, 104\penalty0 (5):\penalty0 1398--1438, 1999.
+\newblock \doi{10.1086/210178}.
 
 \end{thebibliography}

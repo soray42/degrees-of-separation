@@ -51,8 +51,7 @@
   \IfFileExists{../outputs/figures/flows_placement.png}{\includegraphics[width=#1,trim=#2,clip]{../outputs/figures/flows_placement.png}}{\missingfig{flows_placement}}}
 
 \title{Supplementary Information for\\[4pt]
-\large Degrees of separation: graduate earnings track institutional status more than the academy's
-departmental hierarchy}
+\large Degrees of separation: where the academy's hiring order and graduates' pay agree}
 \author{Sora Yng}
 \date{}
 
@@ -60,13 +59,15 @@ departmental hierarchy}
 \maketitle
 
 \noindent This Supplementary Information (SI) gives the methods and the robustness results behind the
-main text. Sections S1--S10 follow the order of the analyses: data and crosswalks (S1), prestige measures
-(S2), the coupling estimator, its heterogeneity and the reliability of the earnings medians (S3), selectivity
+main text. Sections S1--S10 follow the order of the analyses: data and crosswalks (S1), prestige measures and the
+audits of field prestige (S2), the coupling estimator, its heterogeneity and the reliability of the earnings medians (S3), selectivity
 designs, selectivity dated to entry years, field-specific local demand, admission routes and the specification
 curve (S4), the UK prior-attainment analysis and its robustness (S5), career time, the graduation-window surface,
 entry conditions, graduate study and status loadings (S6), licensing and employer setting (S7), tail outcomes
 (S8), the power of the reported nulls and the hypotheses examined (S9) and earnings as a placement measure (S10).
-Every analysis is descriptive. Nothing here identifies value added, selection or employer screening.
+Section S11 states the model of Section~3 of the main text, with its assumptions, derivations, a mapping of the
+results to its propositions, and the specification and results of its tests T0--T8. Every analysis is
+descriptive. Nothing here identifies value added, selection or employer screening.
 
 \tableofcontents
 \bigskip
@@ -125,8 +126,8 @@ of Section~\ref{sec:gradshare} in its first revision; \scr{68}'s pre-set margin 
 third of the raw slope, not of the controlled slope its rule text names, and both readings are reported; \scr{73}
 changed its primary correction to the normal-score scale after the per-field reliabilities were computed and before
 any test statistic, and an interrupted first build printed its tests once before the reported run; \scr{74}
-unified its coding rules after the first estimates (Section~\ref{sec:csadmit}); and \scr{75}'s tests were
-registered only by a self-attested digest, written after most results had been seen. The repository also holds
+unified its coding rules after the first estimates (Section~\ref{sec:csadmit}); and \scr{75}'s tests were written after most results had been seen and specified before the analysis, but not
+publicly registered: only the SHA-256 digests of their binding texts, checked at run time, record them. The repository also holds
 earlier exploratory and withdrawn analyses (\scr{01}--\scr{51}) that are not reported here.
 
 \begin{table}[!tbp]
@@ -138,7 +139,7 @@ earlier exploratory and withdrawn analyses (\scr{01}--\scr{51}) that are not rep
 SI section & Scripts & Outputs \\
 \midrule
 S1 Data and crosswalks & 01, 24, 28, 55, 59, 60, 62, 70 & coverage and matching counts \\
-S2 Prestige measures & 56, 62, 75; legacy 09--11, 15--19 & \texttt{data/interim/prestige\_reliability.csv}; \texttt{THEORY\_TESTS} outputs of \scr{75} \\
+S2 Prestige measures & 56, 62, 75; legacy 09--11, 15--19 & \texttt{data/interim/prestige\_reliability.csv}; T0 and T1 of \scr{75} (\texttt{THEORY\_TESTS\_RESULT.md}) \\
 S3 Coupling, heterogeneity, earnings reliability & 02/08, 57, 73 & \texttt{outputs/expanded66\_gap\_map.csv}, \texttt{data/interim/icc\_threelevel.csv}, \texttt{earnings\_reliability*.csv} \\
 S4 Selectivity designs & 55, 58, 68, 69, 74 & \texttt{data/interim/selectivity\_fields.csv}, \texttt{selectivity\_deep.csv}, \texttt{era\_selectivity.csv}, \texttt{local\_field\_demand*.csv}, \texttt{cs\_admission\_*.csv} \\
 S5 UK LEO & 62, 72 & \texttt{data/interim/uk\_leo\_*.csv}, \texttt{uk\_robustness\_*.csv} \\
@@ -147,6 +148,7 @@ S7 Licensing and setting & 61, 63, 64; legacy 20, 35c & \texttt{data/interim/lic
 S8 Tail outcomes & 60; 59 (quantiles) & \texttt{data/interim/oi\_tail.csv} \\
 S9 Power of the nulls & 63 (bounds); 50, 51, 52, 53, 58 & \texttt{data/interim/hierarchical\_power.csv} \\
 S10 Placement proxy & 61; legacy 35a, 35b & \texttt{data/interim/er\_axis\_35a\_proxy\_by\_horizon.csv}, \texttt{er\_axis\_35b\_deferral.csv} \\
+S11 Model and tests T0--T8 & 75; mapping uses the scripts of S1--S10 & \texttt{THEORY\_TESTS\_RESULT.md} (written by \scr{75}) \\
 Main-text figures; SI checks & 70 & \texttt{outputs/figures/paper\_fig1}--\texttt{5}; printed SI-check values (0)--(4) \\
 \bottomrule
 \end{tabular}
@@ -379,8 +381,8 @@ Disattenuation divides each coupling by the square root of its prestige reliabil
 corrected, because within a field an earnings reliability rescales $c_F$ and $c_G$ by the same factor and cannot
 change their difference's sign.
 
-Field prestige predicts earnings no better than academia-wide prestige at either end of the bracket
-(Table~\ref{tab:adv}). Uncorrected, the mean difference $\text{ADV}=c_F-c_G$ is $-0.049$ \ci{-0.085}{-0.011}
+Field prestige does not detectably out-predict academia-wide prestige at either end of the bracket
+(Table~\ref{tab:adv}), although the upper limit under LB ($+0.044$) leaves room for a small advantage. Uncorrected, the mean difference $\text{ADV}=c_F-c_G$ is $-0.049$ \ci{-0.085}{-0.011}
 across 57 fields. Under LB it is $-0.005$ \ci{-0.043}{+0.044}; under EXT $-0.042$ \ci{-0.077}{-0.001}. The
 across-field mean changes sign only if $F$ is less than $(\bar c_F/\bar c_G)^2=0.795$ as reliable as $G$; the
 measured LB ratio averages 0.815, at the break-even point, and the EXT ratio 0.965. No scenario gives an
@@ -447,17 +449,29 @@ data would not help, because the unknown is on the prestige side.
 
 SpringRank orders departments by the direction of hiring exchange, but departments that produce many PhDs also
 place many, so $F$ may partly measure size or research output. \scr{75} audits this on the public field edges and
-IPEDS 2023 research doctorates \citep{nces_ipeds}. The audit is post hoc: its registration is a self-attested
-digest, not a public deposit before the run, and it was written after most results had been seen. Within fields,
+IPEDS 2023 research doctorates \citep{nces_ipeds}. The audit was specified before it was run but not publicly registered, and it was written after most results had
+been seen (Section~\ref{si:theory:tests}). Within fields,
 $F$ correlates on average $+0.441$ \ci{+0.387}{+0.497} with log research doctorates, $+0.405$ \ci{+0.366}{+0.444}
 with the net export ratio of hires, $+0.664$ with the placement rate and $+0.769$ with the published production rank
 (field bootstrap). Replacing $F$ by a degree-corrected rank keeps 0.839 \ci{0.743}{0.936} of mean coupling, and
 residualising $F$ on log doctorates and the export ratio keeps 0.598 \ci{0.471}{0.725} (two-way intervals; 56
-fields, 2,628 cells); the registered reading is ``partly production''. It bounds the production share from above:
-the degree-corrected rank still carries the export ratio, and residualising on the export ratio also removes net
-export that valuation itself produces. For $G$, degree correction barely changes mean coupling ($-0.013$
-\ci{-0.056}{+0.030}). A within-institution slope with the department's own doctoral output as an added control was
-not estimated.
+fields, 2,628 cells); the reading fixed in advance is ``partly production''. That reading bounds the production
+share from above, and only through the residualised branch: residualising on the export ratio also removes net
+export that valuation itself produces (valued departments export on net under H1), so $1-0.598$ can overstate the
+production share. The degree-corrected branch has a separate validity limit: the degree-corrected rank still
+carries the export ratio (mean Spearman with it $+0.658$ against $+0.588$ for $F$), so its retained share does not
+measure the part of $F$ that is free of volume. Both branches also treat log doctorates and the export ratio as
+error-free measures of production, although doctorates come from an IPEDS name match (cells without a match are
+dropped) and a matched institution with no doctorates recorded in the field's CIP codes counts as producing none. For $G$, degree correction barely changes mean coupling ($-0.013$
+\ci{-0.056}{+0.030}). A within-institution slope with the department's own doctoral output as an added control was not estimated.
+A second audit, T1, asks whether one index orders departments both by where their PhDs are hired and by whom they
+hire. The ratio of cross-role to within-role split-half agreement is $0.525$ \ci{0.461}{0.583} over 33 fields,
+below the threshold of 0.80 set in advance. That threshold ignores boundary effects, which make the two roles
+disagree even under one index, so the amended test benchmarks a cross-fitted ratio ($0.658$) against the value
+SpringRank's own generative model produces ($0.828$): the difference is $-0.169$ \ci{-0.229}{-0.115}, ``not one
+index'', under a calibration of the benchmark adopted after the literal one had degenerated
+(Section~\ref{si:theory:tests}). $F$ is therefore read as a net-placement position, not as one belief about the
+quality of a department's PhDs.
 
 \subsection{The UK academia-wide hiring hierarchy}\label{sec:ukprestige}
 
@@ -1420,7 +1434,7 @@ while on the 32-subject composition sample it is detected under both variances. 
 selectivity is itself a status measure, so ``$G$ adds little beyond selectivity'' does not mean that status is
 unrelated to pay.
 
-\subsection{Survival in pay terms, sex and POLAR4, and error in $G$}\label{sec:ukrobust}
+\subsection{Survival in pay terms, sex and POLAR4, and error in \texorpdfstring{$G$}{G}}\label{sec:ukrobust}
 
 \scr{72} re-examines three parts of the UK analysis with tests and reading rules fixed in its docstring
 (Table~\ref{tab:ukrobust}; two-way (subject, provider) intervals; a replicate set whose interval ends within two Monte
@@ -1956,14 +1970,15 @@ T5: $d_G-d_F$, pooled form, uncorrected / $F$ corrected (extrapolated) & $+0.021
 \subsection{Destination location}\label{sec:destination}
 
 Graduates of higher-status institutions may move to higher-wage labour markets as their careers progress.
-\scr{75} (post hoc; self-attested registration, written after most results had been seen) nets each cell's
+\scr{75} (test T7, specified before the analysis but not publicly registered, and written after most results had
+been seen) nets each cell's
 destination wage level out of coupling on the V4.13.0 fixed-cohort panel: $W$ is the average, over the census
 divisions where the cell's employed graduates work (PSEO Flows, same institution, CIP-2 family and cohort), of the
 ACS log median wage of full-time bachelor's-or-higher workers aged 23--35 in the division, and $O$ is the share
 working outside the institution's state. Five-year coupling is unchanged net of $W$ (ratio $+1.014$
 \ci{+0.877}{+1.151}; 39 fields). The within-cohort slope goes from $+0.0304$ \ci{+0.0201}{+0.0407} to $+0.0241$
 \ci{+0.0141}{+0.0340} net of $W$ and $+0.0211$ \ci{+0.0125}{+0.0297} net of $W$ and $O$, so about one fifth to one third
-of the rise moves with destination location (two-way intervals; no verdict was registered for this share). $W$
+of the rise moves with destination location (two-way intervals; no verdict was specified for this share). $W$
 nets only differences between the nine divisions, not location within them.
 
 \subsection{Field prestige against academia-wide prestige}\label{sec:bfbg}
@@ -2027,8 +2042,9 @@ admission rates of the entry windows rank institutions only loosely like the 202
 loading rises, the $G$ loading rises with it, which biases the test toward finding no decline. An entry-year
 version of these loadings was not estimated, although \scr{68} builds entry-window SAT averages and admission
 rates for cohorts 2004, 2007 and 2010 (not Pell shares, which the early files lack). Institution-level selectivity is also learnable from earlier cohorts, so
-a decline of the aggregate status loading is not implied even if employers learn about individuals. The signature of learning would be a falling $G$ loading and a rising
-selectivity loading once both are in the model. Within each cell of the fixed cohorts (sample A: PSEO V4.14.1,
+a decline of the aggregate status loading is not implied even if employers learn about individuals. The signature
+of learning about names would be a falling $G$ loading and a rising selectivity loading once both are in the model;
+neither bears on learning about individuals (Section~\ref{si:theory:experience}). Within each cell of the fixed cohorts (sample A: PSEO V4.14.1,
 cohorts 2001--2010, y1, y5 and y10, cells with SAT data, 37 fields), earnings ranks are regressed on standardised ranks
 of $G$, $F$, SAT, Pell share, the state earnings level and control, and the loadings' slopes over years since
 graduation are averaged over fields; partial-correlation forms are computed as well.
@@ -2055,10 +2071,15 @@ grows at least as fast relative to its level ($\times1.60$ against $\times1.24$ 
 $R^2$ rises from 0.29 to 0.41, so the UK data do not show a shift of relative weight toward selectivity.
 
 Neither country shows the decline of the credential's loading that the learning model predicts once the correlate
-is held fixed. That is consistent with a market in which most of what status and selectivity signal is already
-reflected in pay at hiring and stays reflected in it, and with \citet{arcidiacono2010beyond}, but the aggregate
-analogue is not a test of their model: it cannot distinguish learning about ability from differences in skill growth, networks or sorting into
-steeper careers, and the within-cohort slopes include calendar time. On triple-matched institutions (exploratory),
+is held fixed. This null is not evidence about employer learning. By Proposition~4a of the model
+(Section~\ref{si:theory:experience}), learning about individuals cannot move program-mean pay when employers' beliefs
+about names are accurate, and under rational expectations beliefs about names whose graduates employers see often
+are close to accurate, so the absence of a decline is close to guaranteed. It fits precisely known names, or an
+entry prior whose status component $G$ does not track; the rising UK selectivity loading does not favour precisely
+known names, since learning about names, selectivity-correlated growth and a common rise of standardised loadings
+all produce it; and neither bears on learning about individuals. The aggregate analogue is also not a test of
+\citet{arcidiacono2010beyond}: it cannot distinguish learning about ability from differences in skill growth,
+networks or sorting into steeper careers, and the within-cohort slopes include calendar time. On triple-matched institutions (exploratory),
 the partial correlation of $G$ net of the selectivity set rises by $+0.0173$ \ci{+0.0073}{+0.0274} per year within
 cohorts and $+0.0122$ \ci{+0.0030}{+0.0215} in the calendar-matched contrast.
 
@@ -2746,10 +2767,11 @@ Reliability of the PSEO medians, y10 minus y1 (\scr{73}; secondary) & $-0.016$ \
 Table~\ref{tab:hypotheses} lists the hypotheses examined in \scr{52}--\scr{75} and in the exploratory checks
 marked SI check, with their outcome; earlier exploratory and withdrawn analyses (\scr{01}--\scr{51}) remain in the
 repository. It is meant to let readers judge how many questions were asked; the canonical specification was fixed
-after the analyses of \scr{52}--\scr{64} had been run. The rows for \scr{75} give the registered verdicts of all
-nine of its tests (T0--T8). Their registration is self-attested and was not publicly deposited before the run, and
-they were written after most results had been seen; they test a theory that this paper does not develop, and only
-T0 and T7 enter the main text.
+after the analyses of \scr{52}--\scr{64} had been run. The rows for \scr{75} give the verdicts of T0--T7 under rules
+fixed in advance (T1's amended verdict under a calibration of its benchmark adopted after the literal one had
+degenerated) and the decomposition of T8, which has no verdict. The tests
+were specified before the analysis but not publicly registered, and they were written after most results had been
+seen; they test the model of Section~3 of the main text (Section~\ref{si:theory}).
 
 {\scriptsize
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{6.6cm}>{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}p{7.2cm}@{}}
@@ -2775,9 +2797,9 @@ Within-institution department slope & 58, 68, 69 & small; not established (inter
 Within-institution slopes differ across fields & 58 & with linear $G$ slopes; not robust to cubic $G$ \\
 Computer-science remainder (named in advance) & 58 & holds, also with the 3-field correction, on a sample without 21 of the 50 highest-ranked departments (Section~\ref{sec:csadmit}) \\
 Computer-science/engineering and business groupings (post hoc) & 58 & reported as post hoc \\
-$F$ predicts pay better or worse than $G$ & 56, 55 & no better; ``worse'' depends on reliability \\
+$F$ predicts pay better or worse than $G$ & 56, 55 & better not detected (upper limits $+0.04$ to $+0.05$); ``worse'' depends on reliability \\
 Extra elite-tail loading of $G$ & 60 & not detected net of selectivity and parents; unresolved for the 80 most selective \\
-UK coupling survives prior attainment & 62 & holds (66--90\%) \\
+UK coupling survives prior attainment & 62 & holds (66--90\% of rank coupling; 62\% floor with national band medians; 73\% in pay terms) \\
 UK $G$ adds to intake selectivity & 62, 72 & not detected within bands ($+0.033$); on all-graduate medians $+0.131$, detected under both variances (per-cell mean on band-cell providers not established) \\
 UK pay-scale subjects couple less than others & 62 & holds ($+0.12$ against $+0.52$; permutation $p=0.0009$) \\
 UK pay-scale subjects have a flatter career slope & 62 & not established ($-0.037$ \ci{-0.091}{+0.017}; three subjects) \\
@@ -2803,15 +2825,15 @@ Results change with selectivity dated to entry years & 68 & not detected; equiva
 Field-specific local demand accounts for the within-institution slope or computer science & 69 & not detected; changes bounded \\
 Earnings noise accounts for the heterogeneity of coupling & 73 & in part; field ordering survives \\
 Classified fields change band after the earnings-noise correction & 73 & not detected (0 of 20) \\
-T0: $F$ measures doctoral production rather than exchange position & 75 & partly production, an upper bound on the production share: $F$ residualised on production keeps 0.60 \ci{0.47}{0.73} of mean coupling \\
-T1: $F$ is one index of standing, the same whether a department places or hires PhDs & 75 & not supported: role consistency $+0.525$ \ci{+0.461}{+0.583} against a registered threshold of 0.80 (contradicted); amended test ``not one index'' under a reading of its benchmark adopted after the literal reading had degenerated; gender audit uninformative by construction \\
+T0: $F$ measures doctoral production rather than exchange position & 75 & partly production: $F$ residualised on production keeps 0.60 \ci{0.47}{0.73} of mean coupling, so the production share is at most about 0.40 (an upper bound, since the residualisation also removes net export that valuation produces); a degree-corrected rank keeps 0.84 \ci{0.74}{0.94} \\
+T1: $F$ is one index of standing, the same whether a department places or hires PhDs & 75 & not supported: role consistency $+0.525$ \ci{+0.461}{+0.583} against a threshold of 0.80 set in advance (contradicted); amended test ``not one index'' under a reading of its benchmark adopted after the literal reading had degenerated; gender audit uninformative by construction \\
 T2: among graduates of the same bachelor's institutions, the doctoral destinations the academy chooses track the department-specific part of $F$ (ORCID records, 7 fields) & 75 & inconclusive: $+0.038$ \ci{-0.090}{+0.166}; MDE 0.183 \\
 T3: the rise of the $G$ loading differs with institutional visibility (log undergraduate enrolment) & 75 & null: $+0.0002$ \ci{-0.0074}{+0.0078} per year; MDE 0.0086 \\
-T4: UK, within attainment bands, the premium to intake selectivity net of $G$ decays with years since graduation & 75 & not supported; registered verdict ``rise'': $+0.0266$ \ci{+0.0157}{+0.0374} per year, concentrated in the middle bands (exploratory split) \\
-T5: the field map of coupling is the same with non-academic status indices (faculty salary, instructional spending, endowment per undergraduate) & 75 & inconclusive: disattenuated correlations $+0.79$ to $+0.88$, lower bounds $+0.41$ to $+0.62$ against a registered 0.70 \\
-T6: where pay follows a schedule (education, nursing), $G$ orders institutions by the scheduled pay level of the census divisions where their graduates work & 75 & supported: $+0.238$ \ci{+0.065}{+0.380}, mainly nursing (education $+0.157$ \ci{-0.058}{+0.330}); the pay index largely records the institution's own division \\
-T7: destination location accounts for the coupling at y5 or its rise & 75 & location-robust at y5 (ratio $+1.01$ \ci{+0.88}{+1.15}); a fifth to a third of the rise moves with destination wages and the out-of-state share (no verdict registered) \\
-T8: share of the family coupling in PSEO Flows that runs between employer sectors & 75 & registered decomposition, no verdict: $+0.212$ \ci{+0.081}{+0.343} \\
+T4: UK, within attainment bands, the premium to intake selectivity net of $G$ decays with years since graduation & 75 & not supported; verdict ``rise'': $+0.0266$ \ci{+0.0157}{+0.0374} per year, concentrated in the middle bands (exploratory split) \\
+T5: the field map of coupling is the same with non-academic status indices (faculty salary, instructional spending, endowment per undergraduate) & 75 & inconclusive: disattenuated correlations $+0.79$ to $+0.88$, lower bounds $+0.41$ to $+0.62$ against 0.70 set in advance \\
+T6: where pay follows a schedule (education; health professions, CIP-2 51, scored on registered-nurse pay, since PSEO Flows do not release nursing separately), $G$ orders institutions by the scheduled pay level of the census divisions where their graduates work & 75 & supported: $+0.238$ \ci{+0.065}{+0.380}, mainly health professions ($+0.319$ \ci{+0.159}{+0.451}; education $+0.157$ \ci{-0.058}{+0.330}); the pay index largely records the institution's own division \\
+T7: destination location accounts for the coupling at y5 or its rise & 75 & location-robust at y5 (ratio $+1.01$ \ci{+0.88}{+1.15}); a fifth to a third of the rise moves with destination wages and the out-of-state share (no verdict specified) \\
+T8: share of the family coupling in PSEO Flows that runs between employer sectors & 75 & decomposition specified without a verdict: $+0.212$ \ci{+0.081}{+0.343} \\
 UK survival smaller in pay terms than in rank terms & 72 & holds (73\% against 85\%) \\
 UK $G$ adds to selectivity allowing for error in $G$ & 72 & not detected; not shown to be small at low validity \\
 Computer-science slope differs by entry route & 74 & not detected; underpowered \\
@@ -2875,6 +2897,1140 @@ prestige). Right: log salary growth from one to five years against the field's g
 (``Proxy quality improves with horizon''), drawn by \scr{35a}, predates the current reading: the occupational-prestige
 series rises with horizon but the underemployment series falls ($+0.78$ to $+0.66$).}\label{fig:proxy}
 \end{figure}
+
+\clearpage
+% =====================================================================================
+% S11: the model of main-text Section 3 (assumptions, derivations, mapping) and tests T0--T8.
+% Adapted on 2026-09-25 from paper/theory_si.tex (written after the results were seen; revised after an
+% adversarial review, THEORY_NOTES.md section 10), with the test results of THEORY_TESTS_RESULT.md
+% (scripts/75_theory_tests.py). Every number is copied from a RESULT write-up or interim table named in the text.
+% =====================================================================================
+\section{A model of two audiences: assumptions, derivations, mapping and tests}\label{si:theory}
+
+\subsection*{Status of this section}
+
+This section states the assumptions of the model in Section~3 of the main text, proves its propositions, maps
+every empirical result of the paper to a proposition, and reports the nine tests of the model. The model was
+written on 25 September 2026, after the results of Sections S1--S10 had been seen. It synthesises three candidate formulations: an
+industrial-organisation model of reputation, an employer-learning model and a measurement model. Claims that did
+not survive two rounds of adversarial review were dropped or restated. The mapping in
+Section~\ref{si:theory:map} was organised after the results were seen. It is a check of post hoc consistency and is
+not evidence for the model. The model's only content not fitted to results already seen is the tests T0--T8 of
+Section~\ref{si:theory:tests}, specified before the analysis but not publicly registered, and run on data that
+overlap those of results already seen.
+
+The two construct readings are argued as interpretive arguments \citep{kane2013validating}. Each has a
+definition (the audience, its product and its revealing choice), a warrant (Propositions 1a and 1b), and
+rebuttal conditions (the failure conditions listed with each assumption). What backing there is comes from
+tests T0--T8, which share data with results already seen; the mapping below is post hoc consistency, not backing.
+Within the model the readings meet the criterion of \citet{borsboom2004concept}: variation in the audience's
+valuation produces variation in the indicator, through hiring flows or through wage offers. In the data, T0 finds
+that production volume also moves $F$, so $F$ is not a pure indicator of the academy's valuation. The tests extend the nomological network of
+\citet{cronbach1955construct}; T2 has the convergent--discriminant form of \citet{campbell1959convergent}, but one
+half of its contrast is already known.
+
+Each derivation carries one of three tags:
+\begin{itemize}
+\item \textbf{[S]} (structural): holds for every admissible parameter value under the stated assumptions.
+\item \textbf{[B]} (baseline): holds under an added assumption that is named, which a named alternative contradicts.
+\item \textbf{[P]} (post hoc): a calibration computed from results already in hand. It could have failed, but it
+was computed after the data were seen.
+\end{itemize}
+These tags describe derivations. How results fit the model is classified separately in
+Section~\ref{si:theory:map}.
+
+% -------------------------------------------------------------------------------------
+\subsection{Setup}\label{si:theory:setup}
+
+\paragraph{Units and products.} In field $f$, $\mathcal I_f$ is the set of institutions that grant the
+bachelor's degree in $f$ and have a ranked doctoral department in $f$. A program is $p=(i,f)$. Field $f$ belongs
+to an organisational school $d(f)$ (for example engineering, business, or arts and sciences). A department sells
+two products under the name $i$: doctoral graduates, bought by the field's hiring committees (the
+\emph{academy}), and bachelor's graduates, bought by employers (the \emph{market}).
+
+\paragraph{Latent structure.} The academy's valuation of department $(i,f)$ and the mean productivity of its
+bachelor's graduates are
+\begin{equation}\label{eq:T-latent}
+s_{if}=\alpha_fa_i+r^S_{i\,d(f)}+r_{if},\qquad
+\theta_{if}=\mu_f+\beta_fx_i+y^S_{i\,d(f)}+y_{if},\qquad \eta_k=\theta_{if}+\varepsilon_k .
+\end{equation}
+Here $\eta_k$ is the productivity of graduate $k$, $\varepsilon_k\sim N(0,\sigma^2)$, and $\theta_{if}$ bundles
+selection, peers, value added and networks. $\alpha_f$ is the weight of the institution component in field $f$'s
+academic valuation, and $\beta_f$ is how strongly field $f$'s labour market rewards the institution component of
+graduates' productivity. Within field $f$, $r^S+r$ is defined as the residual of $s$ on $a$, and $y^S+y$ as the
+residual of $\theta$ on $x$, over $\mathcal I_f$; so $\mathrm{Cov}_f(a,r^S+r)=\mathrm{Cov}_f(x,y^S+y)=0$ by
+construction. The two sides are linked within level:
+\[
+\mathrm{Corr}(a,x)=\chi,\qquad \mathrm{Corr}(r^S,y^S)=\kappa^S_d,\qquad \mathrm{Corr}(r_{\cdot f},y_{\cdot f})=\kappa_f .
+\]
+The variances are $\sigma_a^2,\sigma_{rS}^2,\sigma_r^2$ on the academic side and $\sigma_x^2,\sigma_{yS}^2,\sigma_y^2$
+on the graduate side.
+
+\paragraph{A-orth (no covariance across levels).} $\mathrm{Cov}_f(r^S+r,\,x)=0$,
+$\mathrm{Cov}_f(a,\,y^S+y)=0$, the school deviation on one side is uncorrelated with the department deviation on
+the other ($\mathrm{Cov}_f(r^S,y)=\mathrm{Cov}_f(r,y^S)=0$), and the school and department deviations are
+uncorrelated with institution-level growth $g_i(t)$. The projections above do not deliver these; they are
+assumptions. A-orth fails if departments
+are relatively strong at highly selective institutions ($\mathrm{Cov}(r,x)>0$), if programs at high-status
+institutions draw relatively able students into the major ($\mathrm{Cov}(a,y)>0$), or if strong departments sit at
+institutions whose graduates' pay grows faster.
+
+\paragraph{Indicators.} The indicators are
+\begin{itemize}
+\item $F_{if}=s_{if}+e^F_{if}$, the negated published field rank (SpringRank), whose reliability
+$\mathrm{rel}_F$ is bracketed at 0.81--0.96 (\texttt{scripts/56});
+\item $G_i=a_i+\bar r_i+e^G_i$, the negated published academia-wide rank, with $\mathrm{rel}_G\approx0.99$;
+\item $Y_{if}(t)=m_{if}(t)+e^Y_{if}(t)$, the program's median log earnings, with reliability 0.78 (median over
+fields) for Scorecard and 0.74--0.76 for PSEO (\texttt{scripts/73}).
+\end{itemize}
+In $G_i$, $\bar r_i$ is the hire-weighted mean of the institution's school and department deviations. Indicator
+errors are classical: mean zero, mutually independent, and independent of the latent components.
+
+\paragraph{A0 (Gaussian copula).} Within a field, the normal scores of the latent components and the indicators
+are jointly Gaussian. Spearman's $\rho$ and the Pearson $r$ of the normal scores are then linked by
+$\rho=\tfrac{6}{\pi}\arcsin(r/2)$ \citep{kruskal1958ordinal}, a strictly increasing map. Statements about signs
+and orderings hold on either scale. Magnitudes (the thresholds, decompositions and $\cos_\Sigma$ values below) are
+statements about normal scores, carried to $\rho$ by this map. A rank-based partial Spearman correlation need not
+have the sign of the latent partial correlation when that is near zero. Where the latent sign matters (test T2),
+partial correlations are also computed from the arcsine-transformed pairwise $\rho$.
+
+% -------------------------------------------------------------------------------------
+\subsection{The academy's valuation (Proposition 1a)}\label{si:theory:academy}
+
+Let $A_{uv}$ be the number of field-$f$ faculty employed at $v$ whose PhD is from $u$, with self-hires ($u=v$)
+excluded. Let $d^{\rm out}_u=\sum_vA_{uv}$ and $d^{\rm in}_u=\sum_vA_{vu}$.
+
+\paragraph{Assumptions.}
+\begin{itemize}
+\item \textbf{H0 (volume neutrality).} Write $\mathbb E A_{uv}=p_uh_v\,\varphi(s_u-s_v)\,\zeta_{uv}$, with $p_u$
+the production of PhDs at $u$, $h_v$ the hiring at $v$, $\varphi$ increasing, and $\zeta_{uv}=\zeta_{vu}$
+collecting symmetric factors (geography, subfield overlap). H0: the production-to-hiring ratio $p_u/h_u$ is the
+same for all departments. Then $\mathbb E A_{uv}/\mathbb E A_{vu}=\varphi(\Delta)/\varphi(-\Delta)$ with
+$\Delta=s_u-s_v$, so the direction of exchange depends on the valuation alone. Where $p_u/h_u$ varies, the ratio
+is multiplied by $(p_u/h_u)/(p_v/h_v)$, and H0 fails to the extent that this factor correlates with $s$ or reverses
+the direction.
+\item \textbf{H1 (vertical sorting).} For every pair with $\mathbb E(A_{uv}+A_{vu})>0$,
+$s_u>s_v\Rightarrow\mathbb E A_{uv}>\mathbb E A_{vu}$.
+\item \textbf{H2 (many hires).} $\mathbb E A_{uv}=n\,\alpha_{uv}$ with $\alpha$ fixed and $n\to\infty$; the set
+of institutions is fixed.
+\item \textbf{H3 (other drivers do not set direction).} Geography, dual careers, subfield fit and advisor networks
+can change how many hires a pair exchanges, but they enter $\mathbb E A_{uv}$ and $\mathbb E A_{vu}$ alike
+(through $\zeta_{uv}$) or independently of $s$, so they do not reverse H1.
+\item \textbf{H4 (stationarity).} $s$ is constant over the decades in which the observed faculty were hired.
+\end{itemize}
+H0 implies H1, but H1 can hold without any valuation. If $\varphi$ is constant
+(no valuation, random matching), $\mathbb E A_{uv}\propto p_uh_v$, and every pair satisfies H1 with departments
+ordered by $p_u/h_u$. H0 is what makes the direction of exchange informative about $s$. The public edge list
+reports $A_{uv}$ only when $A_{uv}\ge2$, and the published ranks are estimated on the census.
+
+\paragraph{Consistency of the minimum-violation ordering [S].} For an ordering $\pi$, the expected number of
+hires that move up $\pi$ is $V(\pi)=\sum_{(u,v):\,v\succ_\pi u}\mathbb E A_{uv}$. $V$ is a sum over unordered
+pairs. For a pair with $s_u>s_v$, an ordering that places $v$ above $u$ adds $\mathbb E A_{uv}$ to $V$, while
+the $s$-ordering $\pi_s$ adds $\mathbb E A_{vu}$. Hence, by H1,
+\[
+V(\pi)-V(\pi_s)=\sum_{\text{pairs inverted by }\pi}(\mathbb E A_{uv}-\mathbb E A_{vu})\ge0 ,
+\]
+with equality only if $\pi$ inverts no pair that exchanges faculty. So $\pi_s$ minimises $V$, and every minimiser
+agrees with $s$ on every exchanging pair. A minimiser is a total order, so it also agrees with $s$ on every pair
+linked by a chain of exchanging pairs that is monotone in $s$; pairs linked by no such chain are left unordered
+by the data, and most institution pairs in a field never exchange. By H2, $V_n(\pi)/n\to V(\pi)$ for each of the
+finitely many orderings. The gap $V(\pi)-V(\pi_s)$ is bounded away from zero for every $\pi$ that inverts an
+exchanging pair, so the sample minimiser \citep{clauset2015systematic} agrees with $s$ on those pairs with
+probability tending to one. $\square$
+
+This is a consistency property, close to a restatement of H1. The substantive content is H0 and H1, which define
+the construct and can fail.
+
+\paragraph{What $F$ is: SpringRank, not the minimum-violation ordering.} The published $F$ is the SpringRank
+ground state, the minimiser of $H(s)=\tfrac12\sum_{uv}A_{uv}(s_u-s_v-1)^2$ (with a small ridge). Its link to $s$
+rests on its own generative model, which is stronger than H1.
+\begin{itemize}
+\item \emph{Generative model [S].} If $A_{uv}\sim\mathrm{Poisson}(c\exp\{-\tfrac{\beta}{2}(s_u-s_v-1)^2\})$
+independently, with one constant $c$, then $\mathbb E A_{uv}/\mathbb E A_{vu}=e^{2\beta\Delta}$ and, given the
+pair total $T_{uv}$, $A_{uv}\mid T_{uv}\sim\mathrm{Bin}\{T_{uv},\Lambda(2\beta\Delta)\}$ with
+$\Lambda(z)=1/(1+e^{-z})$. As \citet{debacco2018physical} show, this is the Bradley--Terry--Luce comparison
+\citep{bradley1952rank} with strengths $e^{2\beta s_u}$, and the maximum-likelihood ranks of this model approach
+the SpringRank ground state only in the limit of strong hierarchy (large $\beta$). The model has no degree
+heterogeneity.
+\item \emph{Disagreement under H1 alone.} Take three departments with $A_{uv}=1$, $A_{vu}=0$, $A_{vw}=100$,
+$A_{wv}=0$, $A_{uw}=100$ and $A_{wu}=99$. H1 holds for $u\succ v\succ w$, and the minimum-violation ordering is
+$u\succ v\succ w$ (99 upward hires; every other ordering has at least 100). The SpringRank ground state
+(\texttt{src/ar\_pipeline/springrank}, $\alpha=10^{-3}$) gives $s_v-s_w=0.98$ and $s_u-s_w=0.015$, so $v\succ
+u\succ w$. We recomputed this on 25 September 2026.
+\item \emph{Net exporters rank higher [S].} With $\alpha\to0$, the first-order condition of $H$ is
+\[
+s_u=\bar s_u+\frac{d^{\rm out}_u-d^{\rm in}_u}{d^{\rm out}_u+d^{\rm in}_u},\qquad
+\bar s_u=\frac{\sum_v(A_{uv}+A_{vu})\,s_v}{d^{\rm out}_u+d^{\rm in}_u}.
+\]
+A department sits above the exchange-weighted mean of its partners by its net-export ratio. Where H0 fails and
+$p_u/h_u$ varies, net exports reflect $p_u/h_u$ as well as $s_u$, so at equal valuation SpringRank ranks the
+department that produces more PhDs per faculty slot higher. In the no-valuation null above, SpringRank
+ordered departments exactly by $p_u/h_u$ in a numerical check on a random instance. Faculty production is highly
+unequal \citep{wapman2022quantifying}.
+\end{itemize}
+$F$ is therefore a department's net-placement position. It reads as the academy's valuation only under H0 and H1.
+Test T0 audits H0 and finds $F$ partly production; T1 finds that no single index orders departments in both roles,
+which bears on H1 (Section~\ref{si:theory:tests}). The valuation reading is therefore not claimed. On the public
+edges $F$ correlates
+$+0.662$ on average with a minimum-violation ordering, and the share of persons hired upward is 0.031 under that
+ordering against 0.047 under the SpringRank order.
+
+\paragraph{Remarks.}
+\begin{enumerate}
+\item \emph{What H1 is.} H1 is not a lemma. It is the revealed-preference content of the construct: a
+department's standing is revealed by the net direction in which hires move between it and each department it
+trades with, net of volume (H0). The comparison with \citet{avery2013revealed}, who read colleges' standing from
+the choices of students admitted to both, is an analogy, not an equivalence. There the same chooser picks between
+two options. Here $A_{uv}$ and $A_{vu}$ are different events, involving different candidates and different
+hiring slots, faculty hiring is two-sided matching shaped by candidates' location and dual-career constraints,
+and PhDs who were not placed are not observed, so the rejected alternatives are missing. A sufficient
+micro-foundation, which we state but do not prove, has three parts: committees rank candidates by the valuation of
+their PhD department plus idiosyncratic noise; candidates rank employers the same way; and production and hiring
+volumes are proportional (H0). With common rankings on both sides the stable matching \citep{gale1962college} is
+positively assortative, and net flows run down the valuation.
+\item \emph{Two roles, one index.} Under a single index, the placement position of $u$ (the mean standing of the
+employers of $u$'s PhDs) and its attraction position (the mean standing of the origins of $u$'s faculty) both
+increase with $s_u$, so they order departments alike up to noise and boundary effects at the top and bottom of
+the hierarchy. If committees valued a department as a producer on one index and as an employer on another, the two
+positions would diverge. Test T1 checks this against the value that SpringRank's own generative model produces,
+because boundary effects make the two positions disagree even under one index. A world in which $F$ is only a
+position in a hierarchical network, or only placement power, predicts the same agreement, so T1 does not separate
+valuation from network position. Under the calibration of that benchmark adopted after the literal one had
+degenerated, the two positions agree less than one index predicts (Section~\ref{si:theory:tests}).
+\item \emph{Status or belief.} The revealed ordering is status in a deference network
+\citep{burris2004academic,podolny1993status,sauder2012status}. PhD origin shapes placement beyond productivity
+\citep{long1979entrance}, so status may be partly self-reinforcing. $F$ reads as a belief about the quality of a
+department's PhDs only if one index drives both roles, sorting is vertical and volume does not set direction. T1 failed, so only that reading is withdrawn: $F$ is described as the ordering revealed by net placement, its
+position in the hiring network. How a producer is valued depends on the categories its audience uses
+\citep{zuckerman1999categorical}, which is one reason the two audiences are modelled separately.
+\item \emph{Academia-wide rank.} To first order, SpringRank on the network pooled over fields gives
+$G_i\approx a_i+\bar r_i$ with $\mathrm{Var}(\bar r)=O(\bar\sigma_r^2/K_{\rm eff})$, so $G$ is the academy's
+valuation of the name, subject to the same H0 and H1. That $G$ is the institution's ``brand'' is an interpretation;
+nothing requires employers to see $G$.
+\item \emph{Failure conditions.}
+\begin{itemize}
+\item H0 fails where production-to-hiring ratios differ across departments in a way that sets the direction of
+exchange; test T0 finds that $F$ is partly production.
+\item H1 fails if matching is horizontal in a way correlated with $s$, for example by subfield
+\citep{laberge2022subfield}, or if the academy values departments on more than one index (T1).
+\item H2 fails in thin fields. Because single-hire pairs are suppressed, $\mathrm{rel}_F$ can only be bracketed.
+\item H3 fails if steering by subfield, geography or dual careers differs by candidates' gender (T1(b) audits
+this).
+\item H4 fails for departments that rose or fell quickly. The faculty stock behind the 2011--2020 ranks was hired
+over decades, and our graduates are the cohorts of 2001--2019.
+\item The Wapman-to-CIP crosswalk can be wrong.
+\end{itemize}
+\end{enumerate}
+
+% -------------------------------------------------------------------------------------
+\subsection{The market's valuation (Proposition 1b)}\label{si:theory:market}
+
+\paragraph{Assumptions.}
+\begin{itemize}
+\item \textbf{M1 (competitive pricing on a record).} $w_k(t)=\hat{\mathbb E}[\eta_k\mid\Omega_k(t),H_t]$:
+employers pay their posterior expectation of the graduate's productivity given the credential and the graduate's
+own signals $\Omega_k(t)$, and a record $H_t$ of the performance of past graduates that employers have attributed
+to units, under a normal prior over unit means \citep{farber1996learning}. Attribution is costly (bounded
+attention), or labour markets are segmented, so the count $n_u$ that enters a unit's record is the number of its
+graduates that an employer, or a local labour market, has observed and attributed to it, not the number ever
+graduated.
+\item \textbf{M2 (credential observed).} $\Omega_k(0)$ contains the institution and the major.
+\item \textbf{M3 (no schedule).} Pay is not set by a scale that is independent of the posterior expectation.
+\item \textbf{M4 (coverage and shape).} The program median covers graduates who work in the employer market, and
+the within-program distribution of log earnings is symmetric, so the median equals the mean of log pay. For a
+mixture of scheduled and market pay the median is not linear in the scheduled share; Proposition 5 uses the
+mean of log pay as an approximation.
+\end{itemize}
+Under M1 with a public, costless record, $n_u$ would be every graduate ever observed, and with hundreds of
+graduates per program $\omega_f$ would be close to one unless $\sigma_y^2$ is tiny. A small $\omega_f$ therefore
+needs costly attribution or segmented records, and a tiny $\sigma_y^2$ is itself a content explanation (little
+departmental variation in graduates' productivity to price).
+
+\paragraph{Information.} At hiring, employers' belief about a graduate of $p$ is
+\[
+R^E_p=\mu_f+\beta_f\hat x_i+\omega^S_d\,y^S_{i\,d}+\omega_f\,y_{if},\qquad \hat x_i=\omega_ix_i+(1-\omega_i)\,\mathbb E[x\mid P_i],
+\]
+where $P_i$ is a public, non-academic signal attached to the name (name recognition, say). Each weight has the form
+$\omega_u=n_u\tau_u^2/(n_u\tau_u^2+\sigma^2)$ (Section~\ref{si:theory:attrib}). Signals about the individual
+arrive at hiring (precision $h_b$) and each year (precision $h_\varepsilon$); with prior precision $h_0$, the
+weight on the graduate's own record is
+\[
+\lambda_t=b+(1-b)\frac{t}{t+k},\qquad b=\frac{h_b}{h_0+h_b},\quad k=\frac{h_0+h_b}{h_\varepsilon} .
+\]
+
+\paragraph{Derivation of the program wage [S].} Each wage is
+$w_k(t)=(1-\lambda_t)R^E_p+\lambda_t(\eta_k+\bar\nu_{kt})$, where $\bar\nu_{kt}$ is the mean of $k$'s signal
+noise. Averaging over the program's graduates removes $\varepsilon_k$ and $\bar\nu_{kt}$. Adding status-dependent
+growth $g_p(t)$ gives
+\begin{equation}\label{eq:T-wage}
+m_p(t)=\mu_f(t)+\beta_f\big[(1-\lambda_t)\hat x_i+\lambda_tx_i\big]+\Lambda^S_{dt}\,y^S_{i\,d}+\Lambda_{ft}\,y_{if}+g_p(t),
+\qquad \Lambda_{ut}=\omega_u+(1-\omega_u)\lambda_t .
+\end{equation}
+With $\hat x_i=x_i$ (Lemma~B) this is the program wage of Proposition~1(b) in the main text, plus the school term.
+$\square$
+
+\paragraph{Lemma A (invariance) [S].} If employers' posterior means of the unit means equal the unit means
+($\omega_i=\omega^S_d=\omega_f=1$), then $m_p(t)-g_p(t)-\mu_f(t)=\theta_p-\mu_f$ for every $t$.
+
+\emph{Proof.} Then $R^E_p=\theta_p$, and $(1-\lambda_t)\theta_p+\lambda_t\theta_p=\theta_p$. $\square$
+
+This is the result of \citet{farber1996learning}, that the return to a variable employers observe at hiring does
+not change with experience, applied to program means. Learning about individuals moves each graduate's wage but
+not the program mean, unless employers are uncertain about the program's own mean. The lemma is conditional on
+the posterior mean equalling $\theta_p$; it does not follow from M1 and M2 alone.
+
+\paragraph{Corollaries [S].}
+\begin{itemize}
+\item \emph{Entry.} With $b=0$, $m_p(0)=R^E_p$: the program's entry wage is employers' belief about the program,
+its employer reputation in the sense of \citet{macleod2015reputation}, selection included.
+\item \emph{Name.} By Lemma~B, $\omega_i\to1$ for institutions whose graduates employers see often. At the name,
+employer reputation then equals the realised mean productivity of the institution's graduates, and the two differ
+only below the name, by $(1-\omega)(1-\lambda_t)$ times the school or department deviation.
+\item \emph{Employer reputation in the learning sense.} The component that \citet{macleod2017big} identify, a
+school-mean premium with graduates' own ability held fixed that learning erodes, requires graduates' own ability
+to be observed. The US data do not observe it. The UK data observe prior-attainment bands, and within a band selectivity keeps $+0.252$ beyond $G$ (\texttt{scripts/62}). Test T4 finds that this premium
+rises rather than decays within fixed cohorts, on average over prior-attainment bands (Section~\ref{si:theory:tests}), so it is not described as
+reputation that learning corrects.
+\end{itemize}
+
+\paragraph{Failure conditions.}
+\begin{itemize}
+\item M1 fails under monopsony \citep{staiger2010there}, rent sharing and compensating differentials, for example
+when graduates of esteemed programs take lower-paid academic or public jobs.
+\item M3 fails where pay follows schedules (Proposition~5).
+\item M4 fails in several ways. Graduate study depresses y1 medians. Scorecard covers Title IV recipients only.
+PSEO coverage falls with prestige at y1. Hours, labour supply (part-time work, career breaks) and the gender
+composition of a program move its median; in the UK, standardising for sex and POLAR4 as well as prior
+attainment lowers survival in pay terms from 73\% to 66\% (\texttt{scripts/72}). Medians hide the tails.
+\item \emph{Location.} Raw pay contains local price levels, which lie outside the construct, and access to
+high-wage labour markets, which is a quantity. Before T7, the only location controls were at the institution's
+own state: the state earnings level (\texttt{scripts/55}) and the field-specific earnings component of the
+institution's state, which moves mean coupling from $+0.419$ to $+0.415$ (\texttt{scripts/69}). Test T7 nets out
+the wage level of the census divisions where graduates work, on the PSEO fixed-cohort panel only: raw five-year
+coupling is unchanged (ratio $1.014$ \ci{0.877}{1.151}), and a fifth to a third of the career rise moves with
+destination-division wages and the out-of-state share. The Scorecard estimates (the control ladder, the partial
+couplings and the within-institution slope) were not re-estimated net of destination location, and location within
+divisions (metropolitan or not, state) is not netted.
+\item \emph{Sector composition.} If placement into better-paid sectors is inside the pay construct, the construct
+is the market's valuation including allocation. Reading between-sector coupling as employers' valuation requires
+sector access to be rationed by employers; supply-side sorting (graduates' preferences, family background, peer norms) breaks this. Test T8 puts the
+between-sector share of coupling at $0.212$ \ci{0.081}{0.343}.
+\item \emph{Selection.} At the name the construct includes selection. Much of the earnings premium of selective
+colleges reflects whom they admit \citep{dale2002estimating,dale2014estimating}, and their causal effects
+concentrate in top-tail outcomes (top jobs and incomes) that medians miss \citep{zimmerman2019elite,chetty2023diversifying}.
+\item \emph{The umbrella.} If the program is printed on the CV and performance records are public and costless,
+attribution is free ($s_f\approx1$) and $\omega_f\approx1$ (see the remark after M4).
+\end{itemize}
+
+% -------------------------------------------------------------------------------------
+\subsection{Information and attribution}\label{si:theory:attrib}
+
+\paragraph{Lemma B (umbrella precision) [S].} An employer has observed $n^e_{ig}$ graduates of program $(i,g)$.
+The name's record pools all of them, $n^e_i=\sum_gn^e_{ig}$, and its mean is $x_i$ plus
+$u_i=\sum_g(n^e_{ig}/n^e_i)\,(y^S_{i\,d(g)}+y_{ig})$, a term common to all of the institution's programs. Each
+observed graduate is attributed to the department with probability $s_g$, and department deviations are learned
+as deviations from the name's mean, from $n^e_{ig}s_g$ observations. Hence
+\[
+\omega_i=\frac{n^e_i\tau_i^2}{n^e_i\tau_i^2+\sigma^2},\qquad
+\omega_f=\frac{n^e_{if}s_f\tau_y^2}{n^e_{if}s_f\tau_y^2+\sigma^2}.
+\]
+Since $n^e_i\ge n^e_{if}s_f$, $\omega_i\ge\omega_f$ whenever $\tau_i^2\ge\tau_y^2$; $\omega_i\to1$ as
+$n^e_i\to\infty$; and $\omega_f\to0$ as $s_f\to0$. Deviations that are never attributed enter pay only through
+$u_i$, which institution fixed effects absorb. $\square$
+
+The counts are per employer or per local market (M1). With $\tau^2/\sigma^2=0.04$, a record of 1,000 graduates
+gives $\omega=0.976$, so an institution whose graduates a given employer sees rarely is the only place where
+$\omega_i$ can be well below one.
+
+\paragraph{Attribution choice.} Tracking department histories in field $f$ lowers an employer's prediction error
+by $\omega(n_{if})\sigma_y^2$ per hire. The employer tracks them if and only if
+$S_f\,\omega(n_{if})\,\sigma_y^2\ge c_f$, where $S_f$ is the stake (hires in the field times the sensitivity of pay
+to prediction error) and $c_f$ the cost of attribution. Public program-level signals lower $c_f$: program
+rankings, admission controlled by the department, accreditation, a separately branded school, and published
+program-level earnings. The same condition with school counts governs $s^S_d$. The pooling is analogous to
+umbrella branding \citep{wernerfelt1988umbrella}. The mechanism here is buyers' inference across the products of
+one brand \citep{choi1998brand,cabral2000stretching}, not a firm's decision to signal through the brand, and
+reputations shared by the members of a group are collective reputations in the sense of \citet{tirole1996theory}.
+
+% -------------------------------------------------------------------------------------
+\subsection{Proposition 2: decomposition, \texorpdfstring{$F$}{F} against \texorpdfstring{$G$}{G}, and what coupling measures}\label{si:theory:decomp}
+
+\paragraph{Decomposition [S].} Take growth to vary across institutions only, $g_p(t)=g_i(t)$, as in the main
+text. Substituting (\ref{eq:T-latent}) and (\ref{eq:T-wage}) with $\hat x_i=x_i$, and using classical errors,
+\begin{align}
+\mathrm{Cov}\{F_{if},m_{if}(t)\}={}&\alpha_f\beta_f\chi\sigma_a\sigma_x+\Lambda^S_{dt}\kappa^S_d\sigma_{rS}\sigma_{yS}
++\Lambda_{ft}\kappa_f\sigma_r\sigma_y+\alpha_f\mathrm{Cov}\{a_i,g_{i}(t)\}\label{eq:T-decomp}\\
+&+\underbrace{\beta_f\mathrm{Cov}(r^S+r,x)+\alpha_f\mathrm{Cov}(a,\Lambda^S y^S+\Lambda y)+\mathrm{Cov}(r^S+r,g_t)}_{=0\text{ under A-orth}}\nonumber\\
+&+\underbrace{\Lambda_{ft}\mathrm{Cov}(r^S,y)+\Lambda^S_{dt}\mathrm{Cov}(r,y^S)}_{=0\text{ under A-orth}} .\nonumber
+\end{align}
+\begin{enumerate}
+\item[(i)] $\mathrm{Cov}(G,m_t)=\beta_f\chi\sigma_a\sigma_x+\mathrm{Cov}(a,g_t)+O(\mathrm{Var}\,\bar r)$ under A-orth.
+\item[(ii)] Under A-orth, the partial covariance of $F$ and $m$ given $G$ is the school term plus the department
+term; given $G$ and the school's standing, it is the department term alone. Without A-orth it also contains the
+cross-level terms, so the cross-institution partial of $F$ given $G$ identifies $\Lambda_{ft}\kappa_f$ only under
+A-orth. Cross-level terms of this kind would make the cross-institution partial exceed what the
+within-institution design recovers.
+\item[(iii)] \emph{Within institutions.} Institution fixed effects absorb what is common to an institution's
+programs: $a_i$, the field-average reward $\bar\beta x_i$, institution-level growth and $u_i$. They do not absorb
+field-specific rewards $(\beta_f-\bar\beta)x_i$, so identification needs field-specific slopes on institution
+traits, as in the main specification of \texttt{scripts/58} (field $\times$ \{SAT, admission rate, Pell share,
+$G$\}). Those slopes remove $(\beta_f-\bar\beta)x_i$, and the $\mathrm{Cov}(r,x)$ part of A-orth, only as far as
+SAT, admission rate, Pell share and $G$ span $x$. Given that, the slope of $m$ on $F$ is
+\[
+\mathrm{rel}^w_F\,\frac{\Lambda^S\kappa^S\sigma_{rS}\sigma_{yS}+\Lambda_{f}\kappa_f\sigma_r\sigma_y}{\sigma_{rS}^2+\sigma_r^2},
+\qquad \mathrm{rel}^w_F=1-\frac{1-\mathrm{rel}_F}{1-R^2_{F\mid W}} .
+\]
+The school term enters only for institutions with programs in several schools. With $R^2_{F\mid W}\approx0.72$,
+the mean $R^2$ of $F$ on $G$ and selectivity in the cross-institution partial design of \texttt{scripts/58} (the
+within-institution design has its own $R^2$), $\mathrm{rel}^w_F$ is 0.32--0.86 across the reliability bracket. The
+corrected slopes of \texttt{scripts/58} ($+0.0297$ and $+0.0098$ against $+0.0084$) imply 0.28 and 0.86, which
+approximately agree (0.28 against 0.32 at the lower end). The agreement is close to an identity, not a test.
+\end{enumerate}
+
+\paragraph{The $F$-against-$G$ identity [S].} For Spearman correlations computed on the same institutions,
+Pearson algebra on ranks gives exactly
+\[
+c_F=r_{FG}\,c_G+\sqrt{1-r_{FG}^2}\;\mathrm{sr}_F,\qquad
+\mathrm{sr}_F=\frac{c_F-r_{FG}c_G}{\sqrt{1-r_{FG}^2}}=\mathrm{Corr}(Y,F^{\perp G}) .
+\]
+Hence $c_F>c_G\iff\mathrm{sr}_F>c_G(1-r_{FG})/\sqrt{1-r_{FG}^2}=c_G\tan(\vartheta/2)$ with
+$\cos\vartheta=r_{FG}$. The identity holds for any three variables; the model enters only in reading
+$\mathrm{sr}_F$. The part of $F$ that $G$ lacks is signal for the academy and noise for the market unless
+$\kappa_f\Lambda_{ft}$ is large. Whether it is large is a parameter value, which is why the result that $F$ is no
+better than $G$ is accommodated rather than implied.
+
+\paragraph{[P] Numbers.} The 57 fields of \texttt{scripts/28} (\texttt{data/interim/field\_vs\_generic.csv})
+have mean $r_{FG}=0.786$, mean $c_F=0.401$ and mean $c_G=0.450$.
+\begin{itemize}
+\item Over fields, $\mathrm{sr}_F$ averages 0.055 (median 0.074), against a threshold that averages 0.141 (median
+0.144).
+\item $\mathrm{sr}_F$ exceeds the threshold in 15 of 57 fields. By the identity, these are the same fields in which
+$c_F>c_G$.
+\item At the means, the threshold is 0.156 and $\mathrm{sr}_F$ is 0.077.
+\item The raw advantage $c_F-c_G=-0.049$ splits exactly into a dilution term, mean $(r_{FG}c_G-c_G)=-0.083$, and a
+department channel, mean $(c_F-r_{FG}c_G)=+0.034$. The channel is of the same order as the mean partial
+correlation of $F$ with pay net of $G$ and selectivity ($+0.059$ \ci{+0.003}{+0.114}, \texttt{scripts/58}).
+\end{itemize}
+
+\paragraph{[P] Reliability-corrected form.} On true scores,
+$\mathrm{Corr}(F^*,G^*)=r_{FG}/\sqrt{\mathrm{rel}_F\,\mathrm{rel}_G}$, which is 0.81--0.88 across the reliability
+bracket. With $\mathrm{rel}_Y=0.78$, $\rho^*_G\approx0.51$. Write $F^*=\cos\vartheta^*G^*+\sin\vartheta^*H$, with $H$
+the department-specific part of academic prestige. Then $F^*$ out-predicts $G^*$ if and only if
+$\rho_{HT}>\rho^*_G\tan(\vartheta^*/2)\approx0.13$--$0.17$ (0.13 under the lower-bound reliability of $F$, 0.17
+under the extrapolated one). The reliability-corrected advantage is $-0.005$ \ci{-0.043}{+0.044} under the
+public-edge reliability and $-0.042$ \ci{-0.077}{-0.001} under the extrapolated one (\texttt{scripts/56}, which
+corrects the prestige side only, $\mathrm{rel}_Y=1$; the sign of the advantage does not depend on $\mathrm{rel}_Y$).
+Applying the identity at the across-field means on the $\mathrm{rel}_Y=0.78$ scale of $\rho^*_G$
+(\texttt{data/interim/field\_vs\_generic.csv}, \texttt{prestige\_reliability.csv}), the true-score semi-partial
+correlation of the department-specific part with pay is about 0.12 under the lower-bound reliability and 0.09 under
+the extrapolated one, against thresholds of 0.13 and 0.17: close to the threshold under the lower-bound
+reliability, about half of it under the extrapolated one. The upper ends of the intervals allow more, and the
+correlation is not negligible: the department-specific part is diluted by the name, not shown to be absent. Under
+the lower-bound reliability, the disattenuated mean partial correlation is $+0.159$ \ci{+0.052}{+0.266} (34 of 44
+fields identifiable) and the within-institution slope $+0.0297$, about 35\% of the slope without institution fixed
+effects (\texttt{scripts/58}).
+
+\paragraph{Agreement of orderings, not of values [S].} Let both valuations be linear indices of a latent
+attribute vector $z_i$ (research standing, graduates' ability, resources, location): $s=\alpha'z$ and $m=\nu'z$.
+Then
+\[
+r(F,Y)=\sqrt{\mathrm{rel}_F\,\mathrm{rel}_Y}\;\cos_\Sigma(\alpha,\nu),\qquad
+\cos_\Sigma(\alpha,\nu)=\frac{\alpha'\Sigma\nu}{\sqrt{\alpha'\Sigma\alpha\;\nu'\Sigma\nu}} ,
+\]
+where $\Sigma$ is the covariance of attributes among the institutions that offer the field. If one factor dominates
+$\Sigma$ and both $\alpha$ and $\nu$ give it non-zero weight, then $\cos_\Sigma\to\pm1$: audiences that value
+different attributes still agree on orderings. With $\mathrm{rel}_Y=0.78$ and $\mathrm{rel}_F\in[0.81,0.96]$, the
+mean coupling of $+0.42$ ($r\approx0.44$ under A0) corresponds to $\cos_\Sigma\approx0.50$--$0.55$. Coupling also
+depends on $\Sigma$, that is, on which institutions offer the field.
+
+\paragraph{One-factor corollary [B].} Suppose $z=\lambda w+\delta$ with $\mathrm{Var}(w)$ dominant, and suppose the
+academy's and selectivity's loadings on $w$ ($\rho_{Aw}$, $\rho_{Sw}$, both non-zero) are common across fields,
+while the field's pay loading $\rho_{Yw,f}$ is proportional to $\beta_f$. Then
+\[
+r_f(F,Y)\approx\sqrt{\mathrm{rel}_F\mathrm{rel}_Y}\,\rho_{Aw}\,\rho_{Yw,f},\qquad
+r_f(\text{SAT},Y)\approx\sqrt{\mathrm{rel}_Y}\,\rho_{Sw}\,\rho_{Yw,f}.
+\]
+Both are proportional to the field's reward for the institution factor, and their true-score correlation across
+fields is one. The equal-$\beta$ version of the wage equation cannot produce this; it needs $\beta_f$. The
+near-collinearity of the coupling map with field-specific selectivity pricing (true-score $r=+0.94$ in the US,
+Spearman $+0.92$ across UK subjects) is what one institution factor implies under this added assumption. Two
+consequences follow.
+\begin{itemize}
+\item The field map is a map of how steeply each field's pay follows the institution factor that status indices
+share. It would look
+the same with any index that loads on $w$ (faculty salaries, spending, endowment), so for the paper's headline object (the heterogeneity of $\rho_f$) the question of what $F$ measures does not arise.
+Test T5 checks the invariance with three non-academic indices and is inconclusive (Section~\ref{si:theory:tests});
+its selectivity version was known.
+\item The construct reading of $F$ matters for the claims below the name: the within-institution remainder, $F$
+against $G$, and T2.
+\end{itemize}
+
+\paragraph{Selectivity.} Average SAT and the admission rate are outcomes of two-sided sorting between applicants
+and admission offices. We read them as noisy measures of the selection part of $x_i$, the ability of an
+institution's intake; in \citet{macleod2015reputation} and \citet{macleod2017big} a school's reputation is the
+expected ability of its graduates. \citet{avery2013revealed} build a revealed-preference ranking of colleges from
+applicants' matriculation choices precisely because admission and yield rates are manipulable and poor measures of
+applicants' preferences, so their ranking is an analogy for how choices reveal an ordering, not a source for
+reading SAT or the admission rate as one. Partialling selectivity out removes the part of the market's valuation
+that is measured intake ability. What remains bundles value added, peers, networks, growth and unmeasured
+ability. For the question ``does the academy's standing carry information that the market prices beyond
+intake?'', selectivity is a confound; for the question ``where do the two orderings agree?'', it locates the
+agreement. The numbers (\texttt{scripts/55}):
+\begin{itemize}
+\item SAT and admission rate alone take mean coupling from $+0.43$ to $+0.14$ (47 fields).
+\item The broad set, which adds Pell share, control and the state earnings level, gives $+0.14$ (46 fields), and
+$+0.13$ with state fixed effects (28 fields). Controls dated to the graduates' own entry years give the same
+($+0.134$ against $+0.129$ on common programs; \texttt{scripts/68}).
+\item Pell share, control and the state earnings level alone take it to $+0.31$ (47 fields). Raw $\rho_f$
+therefore contains location and composition, which lie outside both constructs.
+\end{itemize}
+Partial couplings are upper bounds on agreement beyond measured intake only if $F$ and pay load with the same
+sign on true selectivity; noisy proxies then leave part of that direction in the residual.
+
+% -------------------------------------------------------------------------------------
+\subsection{Proposition 3: below the name}\label{si:theory:umbrella}
+
+\paragraph{Statement and proof [S].} Under A-orth, the department term of (\ref{eq:T-decomp}) is
+$\Lambda_{ft}\kappa_f\sigma_r\sigma_y$, with $\Lambda_{ft}=\omega_f+(1-\omega_f)\lambda_t\ge\lambda_t$.
+\begin{enumerate}
+\item[(i)] At entry with $b=0$, $\lambda_0=0$ and the term is $\omega_f\kappa_f\sigma_r\sigma_y$. It is non-zero if
+and only if $\kappa_f\neq0$ and $\omega_f>0$. Only here does attribution matter.
+\item[(ii)] For $t>0$, or for $b>0$, $\Lambda_{ft}\ge\lambda_t>0$. Each graduate's own record prices $y_{if}$
+whether or not employers track departments, and the term is non-zero if and only if $\kappa_f\neq0$.
+\end{enumerate}
+The school term behaves the same way with $\kappa^S_d$ and $\omega^S_d$. $\square$
+
+\paragraph{Calibration.} With $b=0$ and $k=3$, the order of magnitude that \citet{lange2007speed} estimates (half
+of employers' initial expectation errors gone within about three years), $\lambda_1=0.25$, $\lambda_4=0.57$ and
+$\lambda_{10}=0.77$. For college graduates, \citet{arcidiacono2010beyond} find that ability is largely revealed at
+hiring, that is, $b$ is large; with $b=0.5$ and $k=3$, $\lambda_4=0.79$. These speeds were estimated in other
+populations (the NLSY), not on these data. If they applied here, $\Lambda_{f4}\ge0.57$, and a department term of
+about 0.8\% of 4-year pay per SD of department prestige would imply that $\kappa_f\sigma_y$ is small, that is,
+little departmental content. The information reading (small $\omega_f$) can account for a small 4-year remainder
+only if learning about individuals is slow over the horizons observed, $b\approx0$ and $k\gtrsim20$
+($\lambda_4\le0.17$, $\lambda_{10}\le0.33$), speeds slower than those estimated elsewhere. Nothing in these data
+measures learning speed, information versus content is not identified by the results in hand, no test separates
+them, and no mechanism is claimed.
+
+\paragraph{Dynamics [S].} $\partial\Lambda_{ft}/\partial t=(1-\omega_f)(1-b)\,k/(t+k)^2\ge0$. Learning moves the
+department loading away from zero if and only if $\kappa_f\neq0$, $\omega_f<1$ and $b<1$; it raises the loading
+only if, in addition, $\kappa_f>0$ (with $\kappa_f<0$, as chemistry's negative remainder would require, it pushes
+the loading further below zero). A flat department loading implies $\kappa_f\approx0$, $\omega_f\approx1$, or
+$\lambda_t$ nearly constant over the horizons observed ($b\approx1$, or negligible learning).
+
+\paragraph{Umbrella ordering [S].} Suppose learning is the only source of change ($g\equiv0$, no change in who is
+observed) and $\omega_i\ge\omega_f$, and take the name prior $\mathbb E[x\mid P_i]$ to be uncorrelated with $a$ (a
+prior that covaries positively with $a$ only slows the rise of the institution loading, which strengthens the
+inequality). Write $b_I(t)=\beta_f[\omega_i+(1-\omega_i)\lambda_t]\chi\sigma_a\sigma_x$ and
+$b_D(t)=\Lambda_{ft}\kappa_f\sigma_r\sigma_y$. Per unit of content, the department loading then rises at least as
+fast as the institution loading:
+\[
+\frac{\dot b_D}{\kappa_f\sigma_r\sigma_y}=(1-\omega_f)\lambda'_t\ \ge\ (1-\omega_i)\lambda'_t=\frac{\dot b_I}{\beta_f\chi\sigma_a\sigma_x} .
+\]
+
+\paragraph{[P] The entry pattern (in tension).} On the PSEO fixed cohorts the field-prestige coefficient is
+$b_F=+0.189$ \ci{+0.060}{+0.309}, $+0.176$ and $+0.177$ at y1, y5 and y10, while the academia-wide coefficient is
+$b_G=-0.013$ \ci{-0.121}{+0.092}, $+0.166$ and $+0.328$ (\texttt{scripts/52}). In the model, with $G$ nearly free of
+error ($\mathrm{rel}_G\approx0.99$) and $F$ loading on $a$ and $r$, the joint regression gives $b_F\approx$ the
+department loading scaled by the reliability of $F$'s department-specific part, and $b_G\approx$ the name-plus-growth
+loading minus $\alpha_f b_F$. Learning alone produces the pattern for no parameter values:
+\begin{itemize}
+\item $\kappa_f\approx0$ implies $b_F\approx0$, against $b_F>0$;
+\item $\kappa_f>0$ with $\omega_f<1$ and $\lambda_t$ rising implies a rising $b_F$, against a flat one;
+\item $\omega_f=1$ implies $\omega_i=1$ (Lemma~B, with comparable prior variances), so under learning alone the
+name loading ($b_G+\alpha_fb_F$) is flat, against a rising one.
+\end{itemize}
+The rise of the name loading needs growth, migration, composition or a scale effect in any case
+(Proposition~4b). Four readings remain for the flat, positive $b_F$, and the data do not choose among them:
+\begin{enumerate}
+\item employers know departments from entry ($\omega_f\approx1$, $\kappa_f>0$), against the umbrella of Lemma~B;
+\item $\lambda_t$ is nearly constant over y1--y10 ($\kappa_f>0$), either because ability is revealed at hiring
+\citep{arcidiacono2010beyond} or because learning is negligible;
+\item $F$ tracks a trait that is not the department term, for example a field-specific reward for institution
+traits that $F$ measures better than $G$, or program-level selection;
+\item y1 is an artefact: M4 fails most at y1, where graduate study and coverage that falls with prestige depress
+the medians of high-status institutions, which pushes $b_G$ towards zero.
+\end{enumerate}
+Net of selectivity the pattern weakens ($b_F=+0.162$ at y1 and $+0.092$ at y10 in \texttt{scripts/66}, sample A),
+and in the pooled form, or with $F$ corrected for reliability, $G$'s lead in the rise is not distinguishable from
+zero ($+0.0219$ \ci{-0.0067}{+0.0504}; \texttt{scripts/67}). Because M4 fails at y1, the entry-horizon reading of
+pay as employer reputation (the Entry corollary) cannot be checked on these data.
+
+\paragraph{[P] Where the remainder appears.} Computer science has the one individually clear within-institution
+remainder ($+0.050$ \ci{+0.012}{+0.096}). Engineering and business lean positive; the other 28 fields average zero
+or below. This grouping was attached after \texttt{scripts/58}'s results were seen, and it carries little
+theoretical weight once Proposition~3(ii) holds: after entry, a remainder requires only $\kappa_f\neq0$, so it says
+where department standing carries information about graduates' productivity, not where employers track
+departments. Special education ($+0.139$, 15 programs) fits neither story well, and chemistry's negative remainder
+($-0.083$) requires $\kappa_f<0$. Whether the computer-science remainder sits in programs that restrict entry is
+undetermined: restricted minus open $+0.018$ \ci{-0.070}{+0.192}, with 80\% power only for a difference of 0.187
+(11\% at the pooled slope; \texttt{scripts/74}, Section~\ref{sec:csadmit}).
+
+% -------------------------------------------------------------------------------------
+\subsection{Proposition 4: experience}\label{si:theory:experience}
+
+\paragraph{(a) Decay requires imprecise name beliefs [S].} By Lemma~A, if $\omega_i=1$ no institution-level
+loading changes through learning about individuals. With $\omega_i<1$, (\ref{eq:T-wage}) contains
+$\beta_f[\omega_i+(1-\omega_i)\lambda_t]x_i+\beta_f(1-\omega_i)(1-\lambda_t)\,\mathbb E[x\mid P_i]$. Regress $m$ on
+$x$ (measured by selectivity) and a status measure $G$. The coefficient on $G$ given $x$ is
+$\beta_f(1-\omega_i)(1-\lambda_t)\phi_G$, where $\phi_G$ is the slope of the entry prior $\mathbb E[x\mid P]$ on $G$
+holding $x$ fixed: the status component of the prior that $G$ tracks beyond selectivity. With $\phi_x$ the slope of
+the entry prior on $x$ holding $G$ fixed, the coefficient on $x$ given $G$ is
+$\beta_f[\omega_i+(1-\omega_i)\lambda_t]+\beta_f(1-\omega_i)(1-\lambda_t)\phi_x$, whose change with $\lambda_t$ is
+$\beta_f(1-\omega_i)(1-\phi_x)$. Hence:
+\begin{itemize}
+\item the $G$ loading net of selectivity decays as $\lambda_t$ rises if and only if $\omega_i<1$ and $\phi_G\neq0$,
+whether $\phi_G$ comes from rational shrinkage towards a status-based prior or from a halo; this is the signature
+of \citet{altonji2001employer};
+\item the selectivity loading net of $G$ rises with $\lambda_t$ if and only if $\omega_i<1$ and $\phi_x<1$; under
+rational shrinkage the prior mean moves less than one for one with $x$, so $\phi_x<1$ holds and the condition
+reduces to $\omega_i<1$.
+\end{itemize}
+The results fit as follows.
+\begin{itemize}
+\item \emph{No decay.} None of 9 decay tests in \texttt{scripts/66} has an interval below 0; in partial form the
+status loading net of selectivity rises by $+0.014$ \ci{+0.003}{+0.024} per year, and in the UK it is flat
+($+0.008$). This is consistent with $\omega_i\approx1$ or with $\phi_G\approx0$. It says nothing about learning about individuals (Lemma~A). Because a name's record pools many graduates,
+$\omega_i$ is near one under rational expectations wherever employers see an institution's graduates often, so
+the absence of a decay is close to guaranteed. It bears on the model only insofar as $G$ tracks the public signal $P$ on which
+employers' prior rests; the model does not assume that employers see $G$.
+\item \emph{Rising selectivity loading.} Net of $G$, the selectivity loading rises in the UK by $+0.024$
+\ci{+0.011}{+0.037} per year (regression) and $+0.024$ \ci{+0.016}{+0.032} (partial form), and in the US by $+0.013$
+\ci{+0.000}{+0.025} (partial form, at the edge of 0) and $+0.013$ \ci{-0.006}{+0.032} (regression). With
+$\omega_i\approx1$, learning cannot produce this.
+\item \emph{Together.} A flat status loading and a rising selectivity loading are what learning about names
+($\omega_i<1$) with $\phi_G\approx0$ produces. With precisely known names they need selectivity-correlated growth.
+Either way they cannot be read as evidence for umbrella precision. One caveat applies to all of these: the loadings are standardised, the
+within-cell $R^2$ rises (0.29 to 0.41 in the UK, 0.32 to 0.48 in the US), and a uniform rise of every loading with
+$R^2$ gives the same UK pattern; in scale-free form neither loading is singled out (\texttt{scripts/66}).
+\end{itemize}
+
+\paragraph{(b) Sources of a rise [B].} In log points, and with $\hat x_i$ as above,
+\[
+\frac{d}{dt}\mathrm{Cov}(a,m_t)=\beta_f(1-\omega_i)\lambda'_t\big[\chi\sigma_a\sigma_x-\mathrm{Cov}(a,\mathbb E[x\mid P])\big]
++\frac{d}{dt}\mathrm{Cov}(a,g_t)+\frac{d}{dt}\mathrm{Cov}(a,\ell_t)+(\text{composition}),
+\]
+where $\ell_t$ is the price level and wage premium of where graduates work at $t$. A rising institution-level
+covariance therefore requires at least one of four sources.
+\begin{itemize}
+\item \emph{Status-correlated growth.} With $\Gamma(t)=\mathrm{Cov}(a,g_t)$ rising, for example through campuses
+recruited by firms with internal promotion ladders \citep{gibbons1999theory,rivera2015pedigree,weinstein2018employer}.
+\citet{macleod2017big} report that college reputation correlates with graduates' earnings growth. Growth need not
+be linear.
+\item \emph{Name learning.} It raises the covariance only if $\mathrm{Cov}(a,\mathbb E[x\mid P])<\chi\sigma_a\sigma_x$,
+that is, if employers' prior under-weights status; with a halo it lowers it. The effect scales with
+$1-\omega_i$, so it is largest where employers have seen few graduates.
+\item \emph{Migration.} Graduates of high-status institutions may move toward high-wage labour markets over their
+careers, which raises pay through price levels as well as productivity.
+\item \emph{Composition.} The observed population can change, for example as graduate students enter the
+earnings data (a failure of M4). A coverage control removes 19\% of the US rise (\texttt{scripts/52}); the
+institution's PhD rate absorbs 0.62 \ci{0.41}{0.83} of it, but that rate also tracks prestige (\texttt{scripts/67}).
+\end{itemize}
+On standardised scales, which are the scales of every rise reported, a fifth source enters: the loading rises when
+the variance of pay unrelated to status shrinks, for example as entry-year local-market components wash out. The
+only log-point version (\texttt{scripts/66}, exploratory, net of selectivity) is $+0.0022$ \ci{-0.0005}{+0.0049}
+log points per SD per year. Net of SAT and admission rate dated to the graduates' own entry, the rise keeps 0.39 of
+its size ($+0.0112$ \ci{+0.0026}{+0.0198} per year; \texttt{scripts/68}).
+
+\paragraph{[P] Shape, conditional on linear growth.} The fixed-cohort coupling rises by $+0.034$
+\ci{+0.016}{+0.052} per year from y1 to y5 and by $+0.028$ \ci{+0.017}{+0.037} per year from y5 to y10, a ratio of
+about 1.2 (\texttt{scripts/52}). If growth is linear, pure learning with $b=0$ implies the benchmarks below. The
+first two columns follow from $k$ alone; the last assumes that learning produces the whole y1--y10 rise of about
+0.28.
+
+\medskip
+\begin{center}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+learning speed & segment ratio & $\lambda_5-[\tfrac59\lambda_1+\tfrac49\lambda_{10}]$ &
+curvature if learning gives the whole rise\\
+\midrule
+$k=3$ (Lange's order) & 3.2 & 0.144 & about $+0.08$\\
+$k=10$ & 1.8 & 0.061 & about $+0.04$\\
+$k=30$ & 1.3 & 0.014 & about $+0.02$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
+
+\noindent The curvature is $\rho(5)-[\tfrac59\rho(1)+\tfrac49\rho(10)]$. Observed within-window curvatures are
+$+0.036$, $-0.002$, $+0.025$ and $+0.011$ for the four graduation windows. The age curvature of the APC
+meta-regression is $+0.024$ \ci{-0.013}{+0.062}, identified only under a piecewise-linear period restriction
+(\texttt{scripts/65}). Fast learning implies a concave rise, and the near-linear rise argues against fast learning
+as its main source. The converse does not hold: experience-earnings profiles are concave, so status-correlated
+growth can be concave too, and concavity would not identify learning. Shape therefore cannot separate learning from growth; only where the rise occurs can (test T3, a null;
+Section~\ref{si:theory:tests}). The evidence is also weak. If learning at $k=3$ produced the whole
+rise, the segment slopes would be about $+0.050$ and $+0.016$ per year, the first inside the observed y1--y5
+interval and the second just outside the y5--y10 interval. The calculation applies $\lambda_t$ to correlations,
+whose denominators change with $t$, rather than to covariances, so it is approximate, and within-cohort changes
+include calendar time.
+
+\paragraph{[P] Access at entry, pay later.} In PSEO Flows, on one cohort and without intervals, placement into
+market-priced sectors couples with family prestige at $+0.28$ at y1 and $+0.38$ at y10, while wage coupling goes
+from $+0.21$ to $+0.51$ (\texttt{scripts/61}, provisional). Placement coupling rises too, but less than wage
+coupling. The pattern fits access followed by growth. It does not exclude learning, because entry placement can
+rest on employers' priors, and it does not show employer rationing, because graduates' own choices can produce the
+same placement.
+
+\paragraph{(c) Entry conditions.} The model has no entry-condition term. A competitive spot market prices each
+graduate at expected productivity whatever the state of the labour market at entry. The Great Recession and COVID
+windows (\texttt{scripts/65}) are outside the model.
+
+% -------------------------------------------------------------------------------------
+\subsection{Proposition 5: pay schedules}\label{si:theory:schedules}
+
+\paragraph{Derivation [S] (to first order, mean of log pay).} Let a share $\pi_p$ of program $p$'s graduates be
+paid on a schedule, with mean level $\bar\tau_p$ where they work, and the rest at market pay
+$m^{\rm mkt}_p=\mu^{\rm mkt}_f+\beta_fx_i+\dots$. Treating the program's median as its mean log pay (M4; the median
+of a mixture is not linear in $\pi$), $m_p=(1-\pi_p)m^{\rm mkt}_p+\pi_p\bar\tau_p$. With
+$\pi_p=\bar\pi_f+\tilde\pi_p$, to first order
+\[
+\mathrm{Cov}(F,m)=(1-\bar\pi_f)\,\mathrm{Cov}(F,m^{\rm mkt})+\bar\pi_f\,\mathrm{Cov}(F,\bar\tau)
+-(\overline{m^{\rm mkt}}-\overline{\tau})\,\mathrm{Cov}(F,\tilde\pi) .
+\]
+The last term is sorting: higher-status programs send fewer graduates into scheduled jobs when market pay exceeds
+schedule pay. $\square$
+
+\paragraph{Grade progression.} Under a national schedule, pay is $\tau(\text{grade}_t)$ and
+$\bar\tau_p(t)=\sum_g\Pr(\text{grade}_t=g\mid p)\,\tau_g$. At entry every graduate starts on the entry grade, so
+$\mathrm{Cov}(F,\bar\tau)=0$. Over careers,
+$\mathrm{Cov}(F,\bar\tau_t)=\sum_g\tau_g\,\mathrm{Cov}\{F,\Pr(\text{grade}_t=g\mid p)\}$, which grows if promotion
+across grades (NHS bands, teachers' leadership ranges) depends on status. Grade attainment is a quantity that
+employers allocate. Exit from scheduled jobs into market jobs, if it depends on status, moves $\tilde\pi$ over
+time and has the same effect.
+
+\paragraph{Consequences.}
+\begin{enumerate}
+\item[(i)] Under a national schedule, coupling at entry is $(1-\bar\pi_f)\mathrm{Cov}_{\rm mkt}$ plus sorting, and
+only sorting as $\bar\pi_f\to1$. Over careers, grade progression and exit can make it rise.
+\item[(ii)] Under local schedules, coupling runs through where graduates work (location, and rationing by employers
+with high schedules). Net of the schedule level at the destination it is zero at entry.
+\item[(iii)] Where M3 fails the wage stops revealing the market's valuation. If employers ration jobs and
+promotions, their valuation of status acts on quantities: who is hired where and who is promoted. Graduates' choices can produce the same quantities, so reading them as valuation needs rationing. Test T6 checks
+the quantity prediction (supported, mainly in health professions, CIP-2 51, scored on registered-nurse pay;
+Section~\ref{si:theory:tests}).
+\item[(iv)] The mechanism does not involve dispersion: schedules can be widely dispersed by location and seniority.
+Consistently, the licensed share is unrelated to cross-institution pay dispersion at the point estimate ($+0.02$
+\ci{-0.30}{+0.32}, 45 fields; \texttt{scripts/35c}), although that interval is too wide to test (iv), and the
+within-occupation dispersion law is null (\texttt{scripts/53}).
+\item[(v)] The field's reward for institution traits is scaled by the same $(1-\bar\pi_f)$: $\beta_f$ becomes
+$(1-\bar\pi_f)\beta_f$. A schedule gradient is therefore collinear with weaker selectivity pricing and cannot be
+separated from it in these data.
+\end{enumerate}
+
+\paragraph{Results.} UK medicine and nursing couple weakly and are flat over careers (slopes $-0.053$ and $-0.018$
+per year; \texttt{scripts/62}), as (i) implies at the point where schedule shares are high, but the schedule share
+is coded from outside and coincides with field type. UK teaching rises from $+0.012$ at YAG1 to $+0.211$ at YAG5
+($+0.050$ per year). Grade progression and exit accommodate this, but they were added to the model after the rise
+was seen. Two results sit badly with Proposition~5:
+\begin{itemize}
+\item US special education couples at $+0.55$ despite district salary schedules; its partial correlation given
+geography is $+0.59$ to $+0.66$, on 19 institutions.
+\item UK allied health couples at $+0.570$ on NHS Agenda for Change bands.
+\end{itemize}
+Proposition~5 accommodates these only through an effective $\pi$ below the nominal one (employment outside the
+schedule, allowances, exit), which is ad hoc without sector-level pay data. At the cell level
+(\texttt{scripts/61}), the SAT gradient is flatter where more graduates enter setting sectors, but the prestige and
+$G$ gradients are not robustly flatter, and the attribution to setting or market is not identified.
+Proposition~5's weak-coupling clause cannot fail on wage data by construction; its content is the quantity
+prediction of T6, which is supported, with the qualifiers of Section~\ref{si:theory:tests}.
+
+% -------------------------------------------------------------------------------------
+\subsection{Mapping of results to propositions (organised after the results were seen)}\label{si:theory:map}
+
+Fit classes:
+\begin{itemize}
+\item \textbf{S}: implied by the structure for every admissible parameter value. No result is in this class.
+\item \textbf{B}: implied under an added assumption named in the row.
+\item \textbf{A}: accommodated by parameter values, most of them inferred from these same results, or by a post hoc
+classification.
+\item \textbf{N}: not implied; accommodated only by an element added to the model.
+\item \textbf{C}: contradicted, or in tension.
+\item \textbf{O}: outside the model, or a check on the indicator rather than on the model.
+\item \textbf{P}: a post hoc calibration, conditional on a stated assumption.
+\end{itemize}
+
+{\small
+\begin{longtable}{@{}p{0.47\linewidth}p{0.16\linewidth}p{0.31\linewidth}@{}}
+\caption{Every empirical result mapped to a proposition. Numbers are those of the main text and SI; sources in
+parentheses. PSEO intervals are two-way (field, institution) unless stated.}\label{tab:T-map}\\
+\toprule
+Result & Proposition & Fit\\
+\midrule
+\endfirsthead
+\toprule
+Result & Proposition & Fit\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+1. Coupling is positive and heterogeneous: mean $+0.419$ \ci{+0.355}{+0.482} (52 fields; scripts/58); Cochran
+$Q=183.2$ on 56 df, $I^2=0.69$ (57 fields; scripts/57); the field ordering replicates on PSEO ($+0.68$; $+0.74$)
+(scripts/32, 59) & 2; one-factor corollary & A: positivity follows from $\chi>0$, a primitive; level and spread
+come from free field parameters.\\
+2. Selectivity absorbs most of the level: SAT and admission rate alone $+0.43\to+0.14$ (47 fields); broad set
+$+0.14$ (46); Pell, control and state level alone $+0.31$; era-matched controls give the same (scripts/55, 68).
+Shapley $R^2$: institution earnings 0.201, selectivity 0.173, $G$ 0.086, $F$ 0.076 (scripts/58) & 1b; 2 & A: $x$
+includes selection, so any absorbed share fits; the part removed by Pell, control and state level lies outside both
+constructs.\\
+3. The cross-field ordering is collinear with selectivity pricing: true-score $r=+0.94$ (US); Spearman $+0.92$
+across UK subjects (scripts/55, 62); T5 with three non-academic indices inconclusive (scripts/75) & 2, one-factor
+corollary & B: under one institution factor with a field-specific $\beta_f$.\\
+4. Field prestige does not detectably out-predict $G$: $c_F-c_G=-0.049$; reliability-corrected $-0.005$ \ci{-0.043}{+0.044} to
+$-0.042$ \ci{-0.077}{-0.001} (scripts/28, 56) & 2 (identity, threshold) & A: the identity sets the threshold (0.16
+against 0.08 at the means); a $\kappa_f\Lambda_{ft}$ below it is a parameter value.\\
+5. Within-institution remainder $+0.0084$ \ci{+0.0000}{+0.0164}, about 10\% of the slope without fixed effects;
+mean partial $+0.059$ \ci{+0.003}{+0.114} net of $G$ and selectivity; under the lower-bound reliability $+0.0297$
+and $+0.159$ \ci{+0.052}{+0.266} (34 of 44 fields identifiable) (scripts/58) & 2(iii); 3 & A: after entry it requires only $\kappa_f\neq0$; small
+$\kappa_f\sigma_y$, or $b\approx0$ with slow learning and small $\omega_f$; not identified. The within design is
+robust to $\mathrm{Cov}(r,x)$ only as far as the traits span $x$.\\
+6. The remainder is individually clear only in computer science ($+0.050$ \ci{+0.012}{+0.096}; the one field that
+survives a multiple-testing correction); engineering and business lean positive; the remaining 28 fields are zero
+or below on average. Uncorrected intervals also exclude 0 for special education ($+0.139$, 15 programs) and
+chemistry ($-0.083$) (scripts/58) & 3 & A, post hoc: after entry the remainder marks content ($\kappa_f\neq0$), not
+tracking; chemistry needs $\kappa_f<0$; special education fits neither story.\\
+7. Computer-science entry policy: restricted minus open $+0.018$ \ci{-0.070}{+0.192}; 80\% power only for a
+difference of 0.187 (11\% at the pooled slope) (scripts/74) & 3 & O: undetermined (underpowered).\\
+8. UK: 66--90\% of rank coupling survives standardisation on prior attainment (62\% floor with national band
+medians; 73\% in pay terms). What survives tracks intake selectivity: within band, $G$ adds $+0.033$
+\ci{-0.047}{+0.112} (two-way) and selectivity $+0.252$ beyond $G$; the within-band selectivity premium rises by
+$+0.0266$ per year within fixed cohorts, on average over bands (T4) (scripts/62, 72, 75) & 1b; 2 & A: consistent in
+direction (a school-mean premium net of own band); the share is not predicted; no learning-driven decay on average
+over bands.\\
+9. Coupling rises with years since graduation on fixed cohorts: US $+0.031$/yr \ci{+0.021}{+0.041} (two-way,
+V4.13.0; career-time part $[+0.015,+0.031]$ on the V4.14.1 surface), UK $+0.026$/yr. A coverage control removes 19\%; the institution PhD rate absorbs 0.62
+\ci{0.41}{0.83}; net of era-matched SAT and admission rate the slope keeps 0.39 of its size (scripts/52, 59, 62,
+67, 68) & 4(b) & N: needs growth, migration, composition or a scale effect.\\
+10. The rise loads on $G$, not $F$: $dG=+0.038$ \ci{+0.021}{+0.055}, $dF=-0.001$ \ci{-0.016}{+0.013} (two-way, V4.13.0; scripts/52,
+59); in pooled form, or with $F$ corrected for reliability, $G$'s lead is not distinguishable from 0 (scripts/67)
+& 3 dynamics; 4(b) & A: the $G$ rise is the added growth of row 9; the flat $F$ loading is row 11.\\
+11. At y1 $F$ carries the association and $G$ does not: $b_F=+0.189$ \ci{+0.060}{+0.309}, $b_G=-0.013$
+\ci{-0.121}{+0.092}; $b_F$ stays flat ($+0.176$, $+0.177$) (scripts/52) & 3 dynamics & C: learning alone fits no
+parameter values; left are known departments (against Lemma~B), a nearly constant $\lambda_t$, a non-departmental
+trait tracked by $F$, or a y1 artefact (M4).\\
+12. No decay of the status loading net of selectivity: 0 of 9 tests; partial form $+0.014$ \ci{+0.003}{+0.024}/yr;
+UK $+0.008$/yr (scripts/66) & 4(a) & A: $\omega_i\approx1$ or $\phi_G\approx0$, close to guaranteed under
+rational expectations; uninformative about learning about individuals.\\
+13. The selectivity loading net of $G$ rises: UK $+0.024$ \ci{+0.011}{+0.037} (regression), $+0.024$
+\ci{+0.016}{+0.032} (partial); US partial $+0.013$ \ci{+0.000}{+0.025} (edge), regression $+0.013$
+\ci{-0.006}{+0.032}; a uniform rise of standardised loadings with $R^2$ gives the UK pattern (scripts/66) & 4(a) &
+A: name learning with $\omega_i<1$ and $\phi_G\approx0$, selectivity-correlated growth, or a scale effect; with
+row 12, it does not favour umbrella precision.\\
+14. Shape of the rise: segments $+0.034$ and $+0.028$/yr; age curvature $+0.024$ \ci{-0.013}{+0.062} under a
+restriction (scripts/52, 65) & 4(b) & P: if growth is linear, fast learning is not the main source; concavity
+would not separate learning from concave growth.\\
+15. Program-median reliability is flat across horizons (0.756/0.736/0.740) (scripts/73) & M4 & O: a check on the
+indicator. The model does not imply it: learning about individuals widens within-program dispersion.\\
+16. Placement into market sectors couples with prestige as pay does ($+0.40$ vs $+0.41$); higher-status programs
+send fewer graduates into setting-priced sectors ($\rho=-0.19$ \ci{-0.27}{-0.11}). Placement coupling rises from
+$+0.28$ (y1) to $+0.38$ (y10) while pay coupling rises from $+0.21$ to $+0.51$ (one cohort). Within institutions,
+one SD of department prestige goes with $+0.51$ pp of market-sector share against $+3.33$ pp across institutions
+(scripts/61, provisional); between-sector share of coupling $0.212$ (T8, scripts/75) & 3; 4(b); 5(iii) & A: reads
+as status acting on quantities only if employers ration sector access; graduates' sorting predicts the same.\\
+17. Pay-scale subjects (UK nursing, medicine, teaching) couple at $+0.120$ against $+0.523$; careers are flat in
+medicine ($-0.053$/yr) and nursing ($-0.018$/yr); the US nursing association is largely geographic (its partial given geography includes zero in 5 of 6 codings; scripts/62, 64) &
+5(i)--(ii) & A: given $\pi_f$, which is coded from outside and coincides with field type.\\
+18. UK teaching rises from $+0.012$ (YAG1) to $+0.211$ (YAG5), $+0.050$/yr (scripts/62); T6: $G$ orders institutions by the scheduled pay level of their graduates'
+destinations, $+0.238$, mainly in health professions (CIP-2 51, scored on registered-nurse pay) (scripts/75) & 5, grade progression; 5(iii) & N: grade progression and exit
+were added after the rise was seen; T6 supports the quantity clause.\\
+19. The US strict-licensure gradient ($-0.53$ to $-0.48$) runs only between disciplines and cannot be separated from
+field type or from selectivity pricing (scripts/64) & 5(v) & A: the collinearity is implied, so the contrast cannot
+identify the mechanism.\\
+20. US special education ($+0.55$) and UK allied health ($+0.570$) couple despite pay schedules (scripts/62, 64) &
+5 & C: accommodated only through an ad hoc effective $\pi$.\\
+21. Cell-level Flows: the SAT gradient is flatter with the setting share; the prestige and $G$ gradients are not
+robustly flatter; attribution is not identified (scripts/61) & 5, cell level & C (tension).\\
+22. Location: the field-specific earnings component of the institution's state moves mean coupling from $+0.419$
+to $+0.415$ and leaves the within-institution slope at $+0.0084$ (scripts/69); net of destination-division wages
+y5 coupling is unchanged ($1.014$) and a fifth to a third of the rise moves with them (T7, scripts/75) & 1b
+(location) & A: nets differences between divisions only; location within divisions is untested.\\
+23. Great Recession entry window: $D=-0.064$ \ci{-0.114}{-0.014}, opposite to the pre-specified sign (placebo rank
+$p=0.20$); the state-unemployment interaction is fragile (scripts/65) & none & O: no entry-condition term.\\
+24. Cross-window drift of $+0.015$/yr at fixed horizon, with window-to-window swings (scripts/65) & none & O:
+reputations are static in the model.\\
+25. Elite tail: $G$ adds little beyond selectivity and parental income, and no more for the top 1\% than for the
+median (scripts/60, provisional) & none & O: the model is median-based. Mild tension with an access reading if
+ladders concentrate at the top.\\
+26. The Pell-share loading falls from $+0.243$ at y1 to $+0.011$ at y10; PSEO coverage falls with prestige at y1
+(scripts/52, 66) & M4 & O: composition, a failure of the indicator, not valuation.\\
+27. Coupling rises with field size; after the earnings-noise correction the log-$n$ slope falls from $+0.077$ to
+$+0.027$ (scripts/57, 73) & 2 (reliability; range of $\Sigma$) & A: the range term is untested.\\
+28. Disciplinary kinship does not organise coupling (Moran's $I=+0.011$, $p=0.95$, 14 fields; 30\% power at a kin
+correlation of 0.30) (scripts/51) & none & O.\\
+\end{longtable}
+}
+
+% -------------------------------------------------------------------------------------
+% -------------------------------------------------------------------------------------
+\subsection{Tests T0--T8: specification and results}\label{si:theory:tests}
+
+\paragraph{Status.} The tests were specified on 25 September 2026, after the model and after most results in the
+main text and in Sections S1--S10 had been seen, and before any statistic named in them was computed. They are
+set out in two binding texts: the original specification B0 (T1--T3) and an amendment A1 written the same day after
+an adversarial review of B0 (T0, T4--T8, and additions to T1--T3). They were not publicly registered: A1 asks for a
+public time-stamped deposit before any test is run, and none was made before they were run, on the same day. The
+binding texts are kept verbatim in the docstring of \scr{75\_theory\_tests.py}, which checks their SHA-256 digests
+before running:
+\begin{center}\footnotesize
+B0: \texttt{bfaa08a283f6ebb5aa96face4d3e8768e2911572066750588d97210083243441}\\
+A1: \texttt{5e1b9d7ec132a29a9a722c1bebf86b49f94cd3b46cb95dff06f80122d2a498c1}
+\end{center}
+A digest detects later edits; it does not establish when a text was written, so the timing is self-attested. The
+tests share data with results already seen. T0 and T1 use the Wapman edges, analysed with split-half SpringRank in
+\scr{56}. T2 uses $F$, $G$ and Scorecard pay from \scr{28} and \scr{56}, and its pay contrast was already known.
+T3 uses the PSEO panel of \scr{66} and was chosen knowing that the $G$ loading rises. T4 uses the UK band panels of
+\scr{62}, where the within-band rise of raw $G$ coupling ($+0.017$ per year) was known. T5 has a known selectivity
+analogue, and T6--T8 use PSEO Flows, whose national sector shares were analysed in \scr{61}. This subsection
+summarises the two texts; where they differ from it, the binding texts govern. Every verdict is reported below,
+whatever it is, with B0 and A1 verdicts side by side; the per-field tables, the deviations from the binding texts
+and their reasons are in \texttt{THEORY\_TESTS\_RESULT.md}, written by \scr{75}. Unless stated otherwise,
+intervals are 95\% two-way (field, institution) intervals as in \scr{59}, and the minimum detectable effect (MDE,
+80\% power) was computed before each estimate. Table~\ref{tab:T-verdicts} collects the verdicts.
+
+Before B0 was written we made only outcome-blind checks, none of which computes a statistic named in the tests:
+\begin{itemize}
+\item every public edge has weight at least 2;
+\item the share of persons without recorded gender. B0 states 9.4\%, which is the share pooled over the academia,
+domain and field networks, which count the same persons several times. In the field-level edges that T1 uses it
+is 6.2\%, and 5.3\% after dropping self-hires (recomputed before A1 was written; A1 records the erratum);
+\item no script uses the gender columns;
+\item the size of the ORCID sample. Over all 681 shards, 968 (economics) to 10{,}112 (chemistry) persons have a US
+bachelor's episode and a later US doctorate at a different institution in the same keyword field, and each field
+has 100--701 bachelor's-institution cells with at least three persons before matching to Wapman institutions. No
+destination rank or earnings figure was computed.
+\item the presence of the needed columns.
+\end{itemize}
+
+\paragraph{Standing of the two texts.} B0 is not edited; its verdicts are computed as specified, with
+clarifications that resolve ambiguities in it (for example, that its T3 interval is the normal two-way interval of
+\scr{59}, and that a postdoctoral role is not a doctorate). A1 adds statistics with their own verdicts and a claim
+map, written before any statistic named in the tests was computed (but after most results had been seen), that
+fixes which verdict governs each claim in the paper. The calibration that decides the single-index claim (T1) was
+adopted after the literal one had degenerated. Both verdicts are always reported.
+
+\begin{table}[!tbp]
+\centering
+\caption{Verdicts of tests T0--T8 (\scr{75}; \texttt{THEORY\_TESTS\_RESULT.md}) and what each changes in the
+paper's claims under the claim map of the binding text A1. The tests were specified before the analysis but not
+publicly registered; ``---'': the test is not in B0.}\label{tab:T-verdicts}
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{1.7cm}>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{7.6cm}@{}}
+\toprule
+Test & B0 verdict & A1 verdict & Consequence for the text \\
+\midrule
+T0 production audit of $F$ & --- & partly production & $F$ is described as a net-placement position that is partly production volume; an upper bound on the production share \\
+T1 one index for both roles & fails & not one index & $F$ is not read as one belief about the quality of a department's PhDs \\
+T2 doctoral destinations of the same graduates & inconclusive & inconclusive & no claim about the academy's own choice among the same graduates \\
+T3 where the career rise occurs & null & null & learning about names and growth both left open \\
+T4 UK within-band selectivity premium & --- & rise & the premium is not described as reputation that learning corrects \\
+T5 field map with non-academic indices & --- & inconclusive & invariance of the field map undecided \\
+T6 quantities where pay is scheduled & --- & supported & the quantity clause of Proposition~5 kept, with location qualifiers \\
+T7 destination location & --- & location-robust & raw five-year PSEO coupling unchanged net of destination-division wages; a fifth to a third of the career rise moves with them; the Scorecard construct estimates are not netted of destination location, nor is location within divisions \\
+T8 between-sector share & --- & no verdict & share $0.212$ reported with the main construct statements about pay (main text: abstract, Introduction, Sections 3, 4.1 and 4.2, Discussion) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{T0: production audit of $F$ (Proposition 1a, H0).} Per field, the Spearman correlations of $F$ with
+log PhD production (IPEDS research doctorates in the field's CIP codes), with the export ratio
+$(d^{\rm out}+1)/(d^{\rm in}+1)$, with the placement rate (out-degree per doctorate) and with Wapman's
+ProductionRank; and of $F$ with a minimum-violation ordering found by local search on the public edges. Then
+coupling with ranks from a degree-corrected Bradley--Terry fit (offsets $\log(d^{\rm out}_ud^{\rm in}_v/
+d^{\rm out}_vd^{\rm in}_u)$) and with $F$ residualised on production and the export ratio, as shares of coupling
+with $F$ ($R_{\mathrm{DC}}$ and $R_\perp$). \emph{Rule}: production-robust if both retained shares have lower
+bounds of at least 0.75; production-dominated if either upper bound is below 0.50, in which case $F$ is renamed
+``placement position''; partly production otherwise. \emph{Rivals.} Placement power predicts a low retained share
+and valuation a high one, so T0 discriminates between them; it does not separate valuation from other network
+positions. \emph{Result: partly production.} Across fields $F$ correlates on average $+0.441$
+\ci{+0.387}{+0.497} with log production, $+0.405$ \ci{+0.366}{+0.444} with the export ratio, $+0.664$ with the
+placement rate and $+0.769$ with minus ProductionRank (field bootstrap), and $+0.662$ with the minimum-violation
+ordering. $R_{\mathrm{DC}}=0.839$ \ci{0.743}{0.936} and $R_\perp=0.598$ \ci{0.471}{0.725} (MDE of $R_{\mathrm{DC}}$
+0.137; 56 fields, 2,628 cells); for $G$, degree correction changes mean coupling by $-0.013$ \ci{-0.056}{+0.030}. The
+specified offset is undefined at zero degrees, which 0.69 of network nodes have; the primary fit adds 1 to every
+degree, a convention fixed after an outcome-blind identification check and before any coupling statistic, and the
+two exact-limit completions also read partly production ($R_{\mathrm{DC}}=0.449$ \ci{0.293}{0.605} with
+unidentified nodes placed in the middle; $0.827$ \ci{0.711}{0.942}, with $R_\perp=0.500$ \ci{0.319}{0.681}, on the
+identified cells only). The lower bound of $R_{\mathrm{DC}}$ is just below 0.75, so the verdict rests mainly on
+$R_\perp$, which also removes net export that valuation itself produces (H1): ``partly production'' bounds the
+production share from above. The degree-corrected rank still carries the export ratio (mean Spearman with it
+$+0.658$ against $+0.588$ for $F$; exploratory), so neither branch isolates production cleanly.
+
+\paragraph{T1: single-index audit (Proposition 1a).} B0: for each institution, $P_u$ (mean field percentile of the
+employers of its PhDs) and $H_u$ (mean percentile of its faculty's PhD origins); $R$ is the ratio of cross-role to
+within-role split-half Spearman correlations, supported if its lower bound is at least 0.80. B0 also compares
+SpringRank fitted separately to men's and women's hires against a permutation null. A1 adds a cross-fitted $R'$
+(ranks fitted on one half of persons, $P$ and $H$ computed on the other), benchmarked against $R_0$, the value that
+SpringRank's own generative model produces on simulated networks with the fitted ranks, $\beta$, and the public
+censoring: one index if the lower bound of $R'-R_0$ is at least $-0.10$, not one index if its upper bound is below
+$-0.10$. A1 treats the gender comparison as an audit of H3 (a uniform gender penalty leaves both orderings
+unchanged) and adds an equivalence rule. \emph{Rivals.} Network position and placement power predict the same
+agreement of roles, so T1 does not discriminate between them and valuation. \emph{Result: B0 fails; A1 not one
+index.} B0: $R=0.525$ \ci{0.461}{0.583} over 33 fields (48 fields excluded for fewer than 15 eligible
+institutions; MDE 0.090), below 0.80. A1: $R'=0.658$ \ci{0.595}{0.718}. A1 says that the simulated total count
+matches the field's total without saying whether before or after the censoring at $A^*\ge2$. Matched after the
+censoring (the public total is itself censored, and this is the only reading whose simulated networks resemble the
+public one), $R_0=0.828$ and $R'-R_0=-0.169$ \ci{-0.229}{-0.115}: not one index, with the upper bound close to
+$-0.10$. Matched before it, the simulated networks keep 0.117 of their persons and only one field (Veterinary
+Medical Sciences) enters $R_0$; $R'-R_0=-0.144$ \ci{-0.208}{-0.088}, inconclusive and degenerate. The post-censoring
+reading was adopted after the literal reading had been seen to degenerate and before any post-censoring statistic
+was computed, so it is not a clean verdict fixed in advance, although it is the reading less favourable to the
+model. The gender audit is supported (B0) and invariant (A1), but every public edge row has at least one man and one
+woman, so the two networks share their edges by construction and the audit carries little information.
+
+\paragraph{T2: the academy's choice among the same graduates (Propositions 1--3).} From the ORCID mobility edges
+\citep{li2026orcid}, persons with a US bachelor's episode and a later US research doctorate at a different
+institution in the same field (computer science, mathematics, physics, psychology, economics, chemistry, biology).
+$D_{if}$ is the mean field percentile of the doctoral destinations of program $(i,f)$'s graduates. B0's statistics
+are $\Delta^D=\rho(F,D)-\rho(G,D)$, the partial $\rho(F,D\mid G)$, and $\Delta^Y=\rho(F,Y)-\rho(G,Y)$ on the cells
+with pay. $\Delta^Y$ was already known for all seven fields (computer science $-0.045$, mathematics $+0.004$,
+physics $-0.052$, psychology $-0.035$, economics $-0.005$, chemistry $-0.073$, biology $-0.091$), so only the $D$
+side is new, and B0's primary $\Delta^D$ is dominated by dilution: by the identity it is negative unless the
+department channel exceeds $c^D_G(1-r_{FG})$. A1 therefore adds T2$'$: the mean partial correlations
+$\rho(F,D\mid G)$ ($\Pi^D$) and $\rho(F,D^G\mid G)$ ($\Pi^{DG}$), where $D^G$ scores destinations on the
+academia-wide scale, and their contrast $K$ with $\rho(F,Y\mid G)$ on the same cells. Supported if all three lower
+bounds exceed 0; contradicted if both $D$ upper bounds are below 0; inconclusive otherwise. \emph{Auxiliary
+assumption.} The ordering that governs faculty hiring also governs doctoral admission and applicants' choice of
+doctoral program. \emph{Rivals} that predict the same sign: advisor-network and subfield routing, geography,
+content (strong departments prepare researchers better), self-selection and the shared scale of $F$ and $D$. T2 is
+therefore a consistency check with one new prediction, not a double dissociation, and it does not separate
+information from content. \emph{Result: inconclusive under both texts.} A1: $\Pi^D=+0.038$ \ci{-0.090}{+0.166}
+(MDE 0.183), $\Pi^{DG}=+0.029$ \ci{-0.093}{+0.151}, $\rho(F,Y\mid G)=-0.014$ \ci{-0.109}{+0.080} and $K=+0.053$
+\ci{-0.079}{+0.184} (7 fields). B0: mean $\Delta^D=-0.040$ \ci{-0.098}{+0.014} and mean $(\Delta^D-\Delta^Y)=+0.025$
+\ci{-0.044}{+0.098} (crossed bootstrap). The split-half reliability of $D$ is 0.28 to 0.57 across the seven fields.
+
+\paragraph{T3: where the career rise occurs (Proposition 4b).} B0: in each field $\times$ cohort $\times$ horizon
+cell of the PSEO panel, the standardised rank of pay is regressed on $G$, visibility $V^\perp$ (log undergraduate
+enrolment residualised on $G$) and $G\times V^\perp$; $\theta_{GV}$ is the per-year slope of the interaction.
+Learning where employers rarely see an institution's graduates predicts $\theta_{GV}<0$; access at nationally
+recruited institutions predicts $\theta_{GV}>0$. A1 adds T3$'$, because B0's ``null'' needs a small MDE, because
+with a status-leaning (halo) prior learning gives $\theta_{GV}>0$, and because low enrolment also marks small private
+institutions that recruit nationally. T3$'$ adds public or private control and its interaction with $G$, reads
+$\theta'$ against the sign of the y1 interaction $g_1$, reports the $G$ gradient at low and high visibility,
+computes the MDE by permuting pay ranks within cells before any estimate, and requires a learning signature to
+hold in public and in private institutions. \emph{Result: null under both texts.} A1: $\theta'=+0.0002$
+\ci{-0.0074}{+0.0078} per year (permutation MDE 0.0086, half the benchmark slope of 0.0172) and $g_1=+0.002$
+\ci{-0.132}{+0.137}; the $G$ gradient rises by $+0.0324$ \ci{+0.0203}{+0.0446} per year at low and $+0.0329$
+\ci{+0.0190}{+0.0469} at high visibility (40 fields). No cell has 10 private institutions, so the control-type
+proviso cannot be checked. B0: $\theta_{GV}=-0.0005$ \ci{-0.0107}{+0.0098} (MDE 0.0146, below the specified 0.019).
+Learning about rarely seen names and status-correlated growth both remain possible sources of the rise.
+
+\paragraph{T4: UK within-band decay (employer reputation in the learning sense).} Within prior-attainment bands of
+the UK panels (YAG 1, 3, 5), the per-year slope of the partial Spearman correlation of band median pay with
+institution selectivity given $G$. Employer learning with graduates' attainment unseen by employers predicts
+decay; value added, growth, or employers who see attainment predict none. Decay if the interval lies below 0, rise
+if above, null if it includes 0 with an MDE of at most 0.02 per year. \emph{Result: rise.} $+0.0266$
+\ci{+0.0157}{+0.0374} per year (MDE 0.0155; 27 subjects, 281 cells); in log points, $+0.0040$
+\ci{+0.0027}{+0.0054} per SD of selectivity per year. The partial is $+0.153$ at YAG1 and $+0.259$ at YAG5. Band by
+band (exploratory, not specified in advance), the slope is $+0.021$ in the second band, $+0.047$ in the third,
+$+0.017$ in the fourth and $-0.001$ in the fifth; the top band has cells only for medicine and dentistry, whose
+graduates are paid on national (NHS) scales ($-0.056$, one subject). The verdict therefore describes the average over
+bands: the within-band premium does not decay on average, and the top band, where own attainment is most uniform,
+says little about employer learning.
+
+\paragraph{T5: invariance of the field map.} For faculty salary, instructional spending per student and endowment
+per undergraduate, the true-score correlation $r^*$ across fields between each index's coupling map and $F$'s, from split
+halves of institutions (fields with at least 60 institutions). The one-factor corollary predicts values near one:
+supported if all three lower bounds are at least 0.70; contradicted if two upper bounds are below 0.70.
+\emph{Result: inconclusive.} $r^*=0.790$ \ci{0.424}{1.020} for faculty salary, $0.878$ \ci{0.619}{1.292} for
+instructional spending and $0.796$ \ci{0.411}{1.153} for endowment per undergraduate (24 fields; field bootstrap; MDE 0.47
+to 0.71); the split-half reliability of the coupling map of $F$ is 0.504.
+
+\paragraph{T6: quantities where pay is scheduled (Proposition 5).} In education and in health professions, the
+Spearman correlation of $G$ with the scheduled-pay level $T$ of the census divisions where an institution's
+graduates work (PSEO Flows division shares at y5 times ACS median pay of teachers or registered nurses aged 23--35 by
+division; full-time full-year bachelor's-or-higher workers). The test was specified for registered nursing, but PSEO
+Flows are released only at CIP-2 and never for CIP 51.38, so the second field is all CIP-2 51 (health professions)
+graduates, scored on registered-nurse pay. Supported if the lower bound exceeds 0; contradicted if the upper bound is below $+0.05$, which would
+withdraw the quantity clause of Proposition~5. \emph{Result: supported.} Mean $+0.238$ \ci{+0.065}{+0.380}
+(institution bootstrap; MDE 0.225): education $+0.157$ \ci{-0.058}{+0.330} (95 institutions), health professions
+$+0.319$ \ci{+0.159}{+0.451} (116). Two qualifiers apply. $T$ uses nominal division wages without price adjustment, and its
+division medians often tie (8 and 7 distinct values of 9). $T$ largely records where the institution is: its
+Spearman correlation with the index that places every graduate in the institution's own division is $+0.95$ in
+education and $+0.67$ in health professions; net of that index the mean partial correlation of $G$ with $T$ is $+0.287$
+(exploratory, no interval). With the family prestige of \scr{61} in place of $G$ the correlation is $-0.010$
+\ci{-0.223}{+0.199}.
+
+\paragraph{T7: destination location.} On the PSEO fixed cohorts, the share $R_L$ of coupling at y5 that survives
+partialling out a destination wage index $W$ (PSEO Flows division shares times ACS division median wages of
+full-time full-year bachelor's-or-higher workers aged 23--35), and the share of the career rise it removes, alone and with the out-of-state share $O$.
+Location-robust if the lower bound of $R_L$ is at least 0.75; location-dominated if its upper bound is below 0.50.
+\emph{Result: location-robust.} $R_L=1.014$ \ci{0.877}{1.151} (MDE 0.196; 39 fields): raw y5 coupling $+0.308$,
+net of $W$ $+0.313$. The within-cohort slope goes from $+0.0304$ to $+0.0241$ net of $W$ and $+0.0211$ net of $W$ and
+$O$, so 0.21 to 0.31 of it moves with destination wages and the out-of-state share (no verdict specified). $W$ nets
+only differences between the nine divisions, not location within them, and the check covers raw coupling on the
+PSEO panel only: the Scorecard estimates were not re-estimated net of destination location.
+
+\paragraph{T8: between- and within-sector coupling.} On the \scr{61} cells, coupling with and without the
+sector-wage-mix index (Flows sector shares times ACS national sector median wages of full-time full-year
+bachelor's-or-higher workers aged 23--35), reported as
+a between-sector share with its interval and no verdict. \emph{Result.} Between-sector share $0.212$
+\ci{0.081}{0.343} (MDE 0.187): raw coupling $+0.410$ \ci{+0.294}{+0.525}, within-sector $+0.323$ \ci{+0.226}{+0.419}
+(21 families, 1,312 cells). It counts as employers' valuation only if employers ration access to sectors, which
+these data cannot show.
+
+\paragraph{Claim map.} A1 fixes which claim each verdict governs; Table~\ref{tab:T-verdicts} applies it. T0
+governs whether $F$ is named academic prestige or placement position; T1$'$ governs the single-index reading; T2$'$
+governs the consistency claim about the academy's own choice; T3$'$ governs the source of the rise; T4 governs
+whether the within-band premium is called reputation in the learning sense; T5, T6 and T7 govern the map's
+invariance, the quantity clause of Proposition~5 and whether construct claims about pay remain after destination
+location is netted out; T8's between-sector share is to be reported with every construct statement about pay (the
+main text reports it with the main ones; Table~\ref{tab:T-verdicts}). No verdict licenses a claim about the mechanism below the name: none separates employers'
+information from the content of department standing.
+
+\paragraph{Candidate tests not specified.} Some implications were not tested because their outcome is largely
+known or their design is contaminated:
+\begin{itemize}
+\item a school-level umbrella test with a leave-own-field sibling mean (the engineering and business remainders are
+known, and Wapman's domains are not organisational schools: chemical and biomedical engineering sit in its Natural
+Sciences domain);
+\item a school-level umbrella test with the Wapman domain rank (it shares $F$'s edges and sampling error);
+\item a status measure that leaves out the field's own domain (nearly collinear with $G$, whose
+selectivity-controlled slope is known);
+\item a mechanism test that would separate $\omega_f$ from $\kappa_f$ through fields whose $F$ loading rises with
+experience (the per-field slopes of the $F$ loading were computed in \texttt{scripts/52}).
+\end{itemize}
+Others are feasible and uncontaminated but lower in priority:
+\begin{itemize}
+\item range restriction (the spread of $G$ among the institutions offering a field as a moderator of coupling);
+\item growth in within-program dispersion as a measure of the pay-setting regime that uses neither prestige nor
+licensing codes;
+\item exit mediation within nursing and education, beyond T6's secondary exit share;
+\item convergent validity of $F$ against a direct reputational survey \citep{nrc1995research}.
+\end{itemize}
+
+% -------------------------------------------------------------------------------------
+\subsection{What the model cannot do}\label{si:theory:limits}
+
+\begin{enumerate}
+\item \emph{It is post hoc.} The parameters $\chi$, $\beta_f$, $\kappa_f$, $\omega_f$, $\Gamma$ and $\pi_f$ are free,
+and several of them ($\kappa_f$ small for most fields, $\omega_i\approx1$ or $\phi_G\approx0$) are inferred from the
+results they organise. No result is implied for every parameter value. Only tests T0--T8 test the model, and they
+share data with results already seen.
+\item \emph{It predicts no magnitudes.} It says nothing about the size of $+0.43\to+0.14$, the 66--90\% UK
+survival, or a remainder of about 0.8\% of pay per SD.
+\item \emph{It does not identify the mechanism below the name.} After entry, a department term requires only
+content; information and content are separable only through the speed of learning about individuals, which these
+data do not measure. Learning speeds estimated in other populations would, if they applied here, make a small
+remainder mean little content, but that is a conditional statement, not a finding of this paper.
+\item \emph{Growth is a reduced-form slot.} Networks, skills, promotion ladders, migration and sorting into steeper
+careers all enter $\Gamma$ or $\ell_t$. Aggregate data cannot tell them apart, nor rule out very slow learning.
+\item \emph{Selection and value added are bundled.} Both enter $x$ and $y$. The model justifies the valuation
+reading of coupling but licenses no causal statement about what institutions or departments add.
+\item \emph{It uses a single index per audience and a linear-Gaussian form.} It collapses subfield prestige and
+sector-specific employer beliefs, cannot represent premia concentrated at the top, and treats medians as means of
+log pay.
+\item \emph{Reputations are static.} Calendar and cohort drift and entry-condition effects are outside the model;
+accommodating them would need dynamic collective reputations \citep{tirole1996theory}.
+\item \emph{Scheduled fields.} By design, the wage indicator fails there. Whether employers' ordering of the
+institutions whose graduates become nurses, doctors or teachers agrees with the academy's can be learned only from
+quantities (T6), and read as employers' valuation only if employers ration jobs.
+\item \emph{The UK.} The UK $G$ rests on ORCID edges whose external validity is 0.74--0.92, and the UK has no
+department axis, so UK construct claims are weaker than US ones.
+\item \emph{The construct defence rests on assumptions.} H0--H4, A-orth and M1--M4 can be made plausible but not
+verified pair by pair. T0 and T1, the audits that could show the reading of $F$ wrong, qualified it ($F$ is partly production and not one
+index); T7 and T8 bound what the reading of pay includes.
+\end{enumerate}
 
 % =====================================================================================
 \clearpage

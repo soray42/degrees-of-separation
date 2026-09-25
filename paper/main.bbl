@@ -1,4 +1,4 @@
-\begin{thebibliography}{99}
+\begin{thebibliography}{105}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -275,6 +275,12 @@ James~H. Fowler, Bernard Grofman, and Natalie Masuoka.
 \newblock \emph{PS: Political Science \& Politics}, 40\penalty0 (4):\penalty0 729--739, 2007.
 \newblock \doi{10.1017/s104909650707117x}.
 
+\bibitem[Gibbons and Waldman(1999)]{gibbons1999theory}
+Robert Gibbons and Michael Waldman.
+\newblock A theory of wage and promotion dynamics inside firms.
+\newblock \emph{The Quarterly Journal of Economics}, 114\penalty0 (4):\penalty0 1321--1358, 1999.
+\newblock \doi{10.1162/003355399556287}.
+
 \bibitem[Gr{\"o}mping(2007)]{gromping2007estimators}
 Ulrike Gr{\"o}mping.
 \newblock Estimators of relative importance in linear regression based on variance decomposition.
@@ -367,6 +373,18 @@ Yifeng Li.
 \newblock URL \url{https://doi.org/10.5281/zenodo.19651302}.
 \newblock Version 20260419.
 
+\bibitem[Long et~al.(1979)Long, Allison, and McGinnis]{long1979entrance}
+J.~Scott Long, Paul~D. Allison, and Robert McGinnis.
+\newblock Entrance into the academic career.
+\newblock \emph{American Sociological Review}, 44\penalty0 (5):\penalty0 816--830, 1979.
+\newblock \doi{10.2307/2094529}.
+
+\bibitem[MacLeod and Urquiola(2015)]{macleod2015reputation}
+W.~Bentley MacLeod and Miguel Urquiola.
+\newblock Reputation and school competition.
+\newblock \emph{American Economic Review}, 105\penalty0 (11):\penalty0 3471--3488, 2015.
+\newblock \doi{10.1257/aer.20130332}.
+
 \bibitem[MacLeod et~al.(2017)MacLeod, Riehl, Saavedra, and Urquiola]{macleod2017big}
 W.~Bentley MacLeod, Evan Riehl, Juan~E. Saavedra, and Miguel Urquiola.
 \newblock The big sort: College reputation and labor market outcomes.
@@ -447,6 +465,12 @@ Emily Oster.
 \newblock \emph{Journal of Business \& Economic Statistics}, 37\penalty0 (2):\penalty0 187--204, 2019.
 \newblock \doi{10.1080/07350015.2016.1227711}.
 
+\bibitem[Podolny(1993)]{podolny1993status}
+Joel~M. Podolny.
+\newblock A status-based model of market competition.
+\newblock \emph{American Journal of Sociology}, 98\penalty0 (4):\penalty0 829--872, 1993.
+\newblock \doi{10.1086/230091}.
+
 \bibitem[Quadlin et~al.(2021)Quadlin, Cohen, and VanHeuvelen]{quadlin2021same}
 Natasha Quadlin, Emma~D. Cohen, and Tom VanHeuvelen.
 \newblock Same major, same economic returns? {C}ollege selectivity and earnings inequality in young adulthood.
@@ -507,6 +531,12 @@ C.~Spearman.
 \newblock Correlation calculated from faulty data.
 \newblock \emph{British Journal of Psychology}, 3\penalty0 (3):\penalty0 271--295, 1910.
 \newblock \doi{10.1111/j.2044-8295.1910.tb00206.x}.
+
+\bibitem[Tadelis(1999)]{tadelis1999name}
+Steven Tadelis.
+\newblock What's in a name? {R}eputation as a tradeable asset.
+\newblock \emph{American Economic Review}, 89\penalty0 (3):\penalty0 548--563, 1999.
+\newblock \doi{10.1257/aer.89.3.548}.
 
 \bibitem[Tervi{\"o}(2011)]{tervio2011divisions}
 Marko Tervi{\"o}.
@@ -593,6 +623,12 @@ Douglas~A. Webber.
 \newblock The lifetime earnings premia of different majors: Correcting for selection based on cognitive, noncognitive, and unobserved factors.
 \newblock \emph{Labour Economics}, 28:\penalty0 14--23, 2014.
 \newblock \doi{10.1016/j.labeco.2014.03.009}.
+
+\bibitem[Weinstein(2018)]{weinstein2018employer}
+Russell Weinstein.
+\newblock Employer screening costs, recruiting strategies, and labor market outcomes: An equilibrium analysis of on-campus recruiting.
+\newblock \emph{Labour Economics}, 55:\penalty0 282--299, 2018.
+\newblock \doi{10.1016/j.labeco.2018.10.007}.
 
 \bibitem[Witteveen and Attewell(2017)]{witteveen2017earnings}
 Dirk Witteveen and Paul Attewell.

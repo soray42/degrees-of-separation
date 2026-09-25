@@ -282,6 +282,15 @@ Engineering caveats are in the finding text (not omitted).
 | 62 | UK LEO | academia-wide UK prestige; prior-attainment bands; fixed-cohort career time | ● 85–90% survives attainment control; +0.026/yr |
 | 63 | Hierarchical model + power | cell-level random slopes; licensure moderators; MDE/TOST for nulls | ⧗ licensing moderation not separable from field type; nulls underpowered |
 | 64 | Licensing battery | strict/broad/multilevel; adjusted and CV R²; signed partial r; selectivity | ○ gradient robust in sign; nursing 'little', not 'none' |
+| 65 | Coupling dynamics | 17-cell cohort × horizon surface (PSEO V4.14.1); APC bounds; recession/COVID entry; state unemployment × status | ○ rises along both axes (+0.031/yr within cohort, +0.015/yr across windows); entry-shock tests null/opposite; curvature identified only under piecewise-linear periods |
+| 66 | Employer-learning loadings | loadings of G, F, SAT, Pell by horizon (US), G vs selectivity by YAG (UK) | ∅ no status-loading decay; nearly guaranteed for programme means under rational expectations (weak evidence) |
+| 67 | Graduate-school timing | ACS graduate-degree share by field; PhD production (SED) and coverage controls; y5→y10 segment | ⧗ rise survives each pre-set check, but a proportional grad-study confound cannot be excluded (power 0.17–0.31) |
+| 68 | Era-matched selectivity | historical Scorecard SAT/ADM/Pell matched to entry cohorts | ○ level and within-institution slope unchanged; career slope net of entry-year selectivity 0.39 of raw, > 0 |
+| 69 | Local field demand | ACS field × state earnings in the within-institution design | ∅ department slope unchanged (Δ +0.0000) |
+| 72 | UK robustness | log-pay gradients; sex/POLAR4 standardisation; validity bounds for UK G | ○ survival in pay terms 73% (66% with sex/POLAR4) vs 85% on ranks |
+| 73 | Earnings reliability | median sampling noise propagated into τ, I², three-level model | ○ I² 0.69 → 0.51; field ordering survives (0.95) |
+| 74 | CS admission routes | direct-admit / capped / open coding of CS programmes (official pages) | ∅ no detectable difference (weak test) |
+| 75 | Theory tests T0–T8 | construct audits (production, single index, location, sectors) and model predictions | ⧗ F partly production (R_DC 0.84, R_⊥ 0.60); not one index; pay location-robust; UK within-band premium rises; specified before running, not publicly registered |
 
 ---
 
@@ -293,11 +302,19 @@ where pay is set by setting. The Phase 1 re-checks narrowed the claims: most of 
 institutional selectivity/brand, discipline structure is borderline, and the career-time rise is general
 and brand-loaded.
 
-**Working headline:** graduate pay lines up with where a university sits in the academic hierarchy, and more
-so as careers progress, but almost entirely through institution-wide status; the department's own academic
-standing adds little (a small remainder, clearest in computer science). In the UK this status premium mostly
-survives a direct control for graduates' prior attainment. Fields whose graduates work in licensed or
-public-sector settings are only weakly coupled — a descriptive boundary condition, not an identified mechanism.
+**Phase 3 (2026-09-25).** Paper rewritten for EPJ Data Science with a theory spine (scripts 65–75): the two
+indicators are read as revealed valuations of two audiences — the academy (net-placement order of hiring;
+a valuation only under volume neutrality and vertical sorting) and employers (programme pay, selection
+included). Claims are layered: *relational* (agreement of the two orderings), *construct* (stated with the
+assumptions that can fail and the audits T0/T1/T7/T8), *mechanism* (not claimed: information vs content not
+identified). The theory was written after most results; tests T0–T8 were specified before running but not
+publicly registered.
+
+**Working headline:** where the academy's and the market's orderings of the same institutions agree, they
+agree at the institution's name, mostly in what both share with the selectivity of its intake; below the name
+they agree little (about 0.8% of pay per SD of department rank, up to about 3% under the lower-bound
+reliability), clearly only in computer science. Agreement grows with years since graduation in the US and UK
+(a graduate-study timing confound cannot be excluded) and is weak where pay is set by schedule.
 
 **Pending → [`ROADMAP.md`](ROADMAP.md)** (public data only).
 
