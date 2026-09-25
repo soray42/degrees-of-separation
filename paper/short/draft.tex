@@ -1,0 +1,331 @@
+\documentclass[11pt]{article}
+% =====================================================================================
+% draft.tex -- short draft of "Degrees of Separation" (author: Sora Yng), assembled 2026-09-25 from
+% sections/intro.tex, theory_core.tex, sections/data_results.tex and sections/discussion.tex (edited here into one
+% text of about five pages), with theory_appendix.tex as the appendix. Revised the same day after a review of 46
+% findings (verified against paper/main.tex, paper/si.tex, THEORY_NOTES.md and the appendix before applying). This
+% file supersedes the section files. Every number in the main text is copied from paper/main.tex, paper/si.tex,
+% THEORY_NOTES.md or a repo-root *_RESULT.md; none is new. "About two fifths" is 1 - 0.598 (T0), rounded.
+% Citation keys: ../refs_merged.bib, plus refs_short.bib (each entry there verified against api.crossref.org).
+% Compile in paper/short/ with: latexmk -pdf draft.tex
+% =====================================================================================
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage[round]{natbib}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black}
+
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{4}
+\setlength{\emergencystretch}{3em}
+
+\newcommand{\ci}[2]{$[#1,\allowbreak\,#2]$}
+\newtheorem{thyprop}{Proposition}
+
+\title{Academic and employer reputations agree mostly at the university level}
+\author{Sora Yng}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Do the academic and the graduate labour markets rank university $\times$ field programmes alike, and at which level
+do they agree? We measure a programme's academic reputation by its department's rank in faculty hiring and compare
+it with its graduates' pay in public data on 52 US fields and 33 UK subjects. Within a university, a department
+one standard deviation higher in its field's hiring rank goes with about 0.8\% higher pay (up to about 3\% corrected
+for error in the rank); the 95\% interval reaches zero, and the university-wide rank predicts pay at least as well.
+Across universities the two rankings agree (mean rank correlation $+0.42$), mostly in what both share
+with intake selectivity. In the UK, most agreement survives a control for graduates' prior attainment, but what
+survives tracks intake selectivity at least as closely as the hiring rank. Agreement rises with years since
+graduation and is weak in UK subjects paid on national scales. Where the two markets' rankings agree, they agree
+mostly at the university level.
+\end{abstract}
+
+% =====================================================================================
+\section{Introduction}\label{sec:intro}
+
+A student who applies to a university and a field chooses a programme: economics at one university, nursing at
+another. Much of what that choice promises is reputation. Admission cutoffs estimate what entry is worth:
+\citet{hoekstra2009effect} and \citet{anelli2020returns} compare applicants just above and just below the cutoff of
+one university, and \citet{kirkeboen2016field} use the cutoffs that ration entry to fields. Before such a return can
+be split into a university part and a department part, two descriptive facts must hold. Department standing must vary
+apart from university standing, and graduates' pay must track that variation. We measure both.
+
+The question matters because subject rankings compare departments, and rankings move applications
+\citep{bowman2009getting, luca2013salience}. Strong research departments might teach different curricula, draw
+recruiters or be known to employers by name. If so, their graduates' pay should track the department's standing
+beyond the university's. If not, a subject ranking that mostly restates the university's rank may steer applicants
+between universities while appearing to compare programmes.
+
+A university $\times$ field programme sells in two markets under one name, and its reputation in each is that
+market's expectation of the quality of what it buys \citep{tadelis1999name, macleod2015reputation}. Hiring committees
+buy its doctoral graduates as faculty, and the net direction of their hires orders departments in a steep hierarchy
+\citep{clauset2015systematic}. We read that ordering, under the model's assumptions, as \emph{academic reputation},
+measured by the field rank $F$ and university-wide rank $G$ of \citet{wapman2022quantifying}. Employers buy its
+bachelor's graduates, and what they pay reveals \emph{employer reputation}, mixed with what they later learn about
+graduates and with who enrols. Students' admission choices reveal a third ranking, intake selectivity.
+
+Among students admitted to similar colleges, the payoff to the more selective one is small on average
+\citep{dale2002estimating, dale2014estimating}. The causal payoff to elite colleges concentrates in top jobs and
+incomes \citep{zimmerman2019elite, chetty2023diversifying}, and the pay gradient in selectivity differs by field
+\citep{bloem2024understanding}. \citet{macleod2017big} show that employers price a college's reputation, measured by
+its graduates' admission scores, and that the premium falls when individual skill becomes observable. We add a
+reputation revealed in a different market, faculty hiring, and ask whether it varies below the university and whether
+graduates' pay follows it there.
+
+We measure agreement by the rank correlation (\emph{coupling}), across the universities that teach a field, between a
+department's field rank and its graduates' median earnings. Within a university, a department one standard deviation
+higher in $F$ goes with 0.84\% higher four-year pay \ci{0.00}{1.64}, and $G$ predicts pay at least as well as $F$.
+Across universities the rankings agree: mean coupling is $+0.419$ \ci{+0.355}{+0.482} over 52 US fields, mostly in
+what both share with intake selectivity. Designs that compare more and less selective universities
+\citep{dale2002estimating, anelli2020returns} largely vary university-level standing, on which, in US and UK public
+data, the two markets mostly agree. The analysis is descriptive. The model of Section~\ref{sec:thy} was written after
+most results were known; its tests, T0--T8, were specified before the analysis but after most other results had been
+seen, and not publicly registered (T1's benchmark calibration was fixed after the literal one degenerated).
+
+% =====================================================================================
+\section{One name, two markets}\label{sec:thy}
+
+\paragraph{Setup.} Assumptions and proofs are in Appendix~\ref{app:thy}. The unit is the programme $(i,f)$,
+over the institutions $\mathcal I_f$ with a bachelor's programme and a ranked doctoral department in field $f$.
+Comparisons are across institutions within a field, so the model says nothing about the choice of field. In
+deviations from field means,
+\begin{equation}\label{eq:thy-latent}
+s_{if}=\alpha_fa_i+r_{if},\qquad \theta_{if}=\beta_fx_i+y_{if},\qquad x_i=\xi_i+v_i,
+\end{equation}
+where $s$ is the academy's valuation of the department and $\theta$ the mean productivity of the programme's
+graduates, selection included. The university-wide terms are $a_i$ ($\mathrm{Var}\,a=1$) and intake ability $\xi_i$,
+as the admission criterion measures it; $v_i\perp\xi_i$ is the part of graduate quality that measured intake does not
+predict: unmeasured ability, value added, peer and resource effects. The field-specific terms $r_{if}$ and $y_{if}$
+have correlation $\kappa_f$, and $\beta_f$ prices $x$. We assume (A-orth) that $r$ and $y$ are uncorrelated with
+every university-wide variable.
+
+\paragraph{Two reputations and a third ranking.} \emph{Academic reputation} is the position that the net direction
+of faculty hiring reveals, not a modelled belief about doctoral quality. In a gravity model of hires, the SpringRank
+score behind $F$ \citep{wapman2022quantifying, debacco2018physical} converges, to first order and up to scale, to
+$s^*=s+\pi/(2\beta)$, with $\pi$ a department's log ratio of doctorates produced to faculty hired
+(Proposition~\ref{prop:thy-springrank}). Reading $s^*$ as $s$ requires volume neutrality (H0), which T0 audits.
+\emph{Employer reputation} is the graduate market's mean belief $V_{if}(t)$ about the productivity of the programme's
+graduates $t$ years after graduation. If employers compete and learn from graduates' records (M1--M4;
+Lemma~\ref{lem:thy-wage}), log median pay is
+\begin{equation}\label{eq:thy-wage}
+m_{if}(t)=\mu_f(t)+V_{if}(t)+\beta_fg_i(t),\qquad V_{if}(t)=(1-\lambda_t)R_{if}+\lambda_t\theta_{if},
+\end{equation}
+with entry reputation $R=V(0)$, weight $\lambda_t$ on graduates' own records, and growth $g_i(t)$ with $g_i(0)=0$
+\citep{farber1996learning}. Observed pay is thus employer reputation plus growth, net of the field mean. A
+university's record pools all its graduates, so where employers see them often, $R\approx\theta$ at the university level
+(Lemma~\ref{lem:thy-umbrella}). Mean intake orders programmes as students do if they all rank programmes alike and
+programmes admit by measured ability (S1; Lemma~\ref{lem:thy-students}), which self-selection on gains
+\citep{kirkeboen2016field} breaks. Both countries' selectivity indices are university-level; our programme-level
+intake control is the UK attainment band.
+
+\begin{thyprop}[What agreement measures]\label{prop:thy-agree}
+Under A0, classical errors ($F=s^*+e_F$, $Y=m+e_Y$, $S=\xi+e_S$), A-orth and Lemmas~\ref{lem:thy-umbrella}
+and~\ref{lem:thy-wage}, the Spearman coupling $\rho_f(t)$ increases with
+$\sqrt{\mathrm{rel}_F\mathrm{rel}_Y}\,\mathrm{Corr}\{s^*,m(t)\}$, and
+\begin{equation}\label{eq:thy-decomp}
+\mathrm{Cov}(s^*,m)=\underbrace{\frac{\mathrm{Cov}(s^*,\xi)\,\mathrm{Cov}(\xi,m)}{\mathrm{Var}\,\xi}}_{\text{through measured intake}}
++\underbrace{\alpha_f\mathrm{Cov}(a^{\perp\xi},m^U)}_{\text{university, beyond measured intake}}
++\underbrace{\Lambda_{ft}\kappa_f\sigma_r\sigma_y}_{\text{field-specific}}
++\underbrace{\frac{\mathrm{Cov}(\pi^{\perp\xi},m)}{2\beta}}_{\text{production}},
+\end{equation}
+with $m^U$ the university-wide part of pay and $\Lambda_{ft}=\omega_f+(1-\omega_f)\lambda_t$. The partial covariance
+given $S$ is the last three terms plus $(1-\mathrm{rel}_S)$ times the first.
+\end{thyprop}
+
+The first term is not selection alone: peer quality and resources that rise with intake also load on $\xi$
+\citep{dale2002estimating}. A control for $S$ removes the part of agreement that runs through measured intake, less a
+share $(1-\mathrm{rel}_S)$ left by error in $S$, whatever its cause, including students' sorting on reputation
+\citep{macleod2015reputation}.
+
+\begin{thyprop}[University or department]\label{prop:thy-level}
+Let $c_X=\rho(X,Y)$ and $\cos\vartheta=\rho(F,G)$, and on standardised ranks let $\mathrm{sr}_F$ be the correlation
+of $Y$ with the residual of $F$ on $G$. Then $c_F=c_G\cos\vartheta+\mathrm{sr}_F\sin\vartheta$, and $F$
+out-predicts $G$ if and only if $\mathrm{sr}_F>c_G\tan(\vartheta/2)$. If $G=a$ and H0 holds, $\mathrm{sr}_F$ prices
+only the field-specific term, attenuated by a reliability below $\mathrm{rel}_F$.
+\end{thyprop}
+
+The field-specific term includes department standing and selection into the major \citep{bleemer2022will}. A small
+$\mathrm{sr}_F$ means either that departments carry little that employers price or that employers do not attribute it
+to departments; these data cannot tell which (Appendix~\ref{app:thy:p2}).
+
+% =====================================================================================
+\section{Data and measurement}\label{sec:data}
+
+\begin{figure}[!tbp]
+\centering
+\includegraphics[width=0.64\linewidth]{../../outputs/figures/paper_fig2.pdf}
+\caption{US coupling after university-level controls (Scorecard four-year pay; $F$ and $G$ are labelled
+``department'' and ``academia-wide prestige''). (a) Mean coupling as controls are added (44 fields; grey: single
+fields). (b) Within-institution slope of log pay per SD of $F$, from field fixed effects to the main specification.
+(c) Mean Shapley shares of $R^2$, with and without (hatched) institution-wide earnings. (d) $c_F-c_G$: raw,
+corrected for error in $F$, and net of selectivity. 95\% institution-bootstrap intervals.}\label{fig:status}
+\end{figure}
+
+The academic ranking is the published SpringRank hiring rank of \citet{wapman2022quantifying}, from a census of
+faculty at 368 PhD-granting US institutions in 2011--2020 \citep{wapman2022data}. We use its field rank $F_{if}$ and
+university-wide rank $G_i$, signed so that higher means higher standing. The pay ranking uses the median earnings $Y$
+of each programme's bachelor's graduates. US sources are College Scorecard medians four years after completion (3,444
+programmes in 52 fields; \citealp{scorecard}) and PSEO medians one, five and ten years after graduation for fixed
+cohorts (39 fields; \citealp{pseo, pseo2026}). Scorecard medians cover only completers who received federal (Title
+IV) aid and who work and are not enrolled. PSEO (unemployment-insurance wage records) and UK LEO (tax records) lack
+the aid restriction; PSEO orders fields' coupling much as Scorecard does (Spearman $+0.68$, 57 fields), but the
+within-institution slope rests on Scorecard alone. LEO medians are also released by graduates' prior-attainment band
+(33 subjects, 134 providers; \citealp{dfe_leo_provider}). The UK has no field rank; its $G$ is a SpringRank of 11,987
+PhD-to-faculty moves in ORCID-derived records \citep{li2026orcid}. Intake selectivity is mean SAT and admission rate
+in the US, and the share of graduates with 360 or more UCAS points in the UK.
+
+Partial coupling correlates the rank residuals of $F$ and $Y$ on the ranks of the controls. The reliability of $F$
+lies between 0.81 and 0.96. Brackets are 95\% intervals that resample or cluster by institution (PSEO: two-way field
+and institution clusters; UK: subjects, then providers).\footnote{The canonical sample is the 52 fields with at least
+15 matched institutions; heterogeneity, reliability and $F$-against-$G$ statistics use the 57 with at least 8. Other
+samples: the control ladder, 44 fields estimable at every step; the within-institution slope and Shapley shares, 47
+with SAT data; the career analysis, 39 in the balanced PSEO panel; the field-map check, the 23 largest. UK: 33
+subjects with at least 15 providers, 28 for same-band comparisons.} SI~S$n$ refers to the supplementary information
+of the full-length paper. Two tests qualify what $F$ measures. T0 finds that $F$ partly reflects doctoral production:
+residualised on production, $F$ keeps 0.598 \ci{0.471}{0.725} of its coupling, a lower bound because the
+residualisation also removes net export that valuation itself produces. At most about two fifths of coupling thus
+runs through production; the within-institution slope has not been re-estimated net of it. T1 finds that $F$ does not
+order departments alike as placers and as hirers of PhDs, so we read it as a net-placement position, not one index of
+doctoral quality.
+
+% =====================================================================================
+\section{Results}\label{sec:results}
+
+\subsection{The two rankings agree, to a degree that varies by field}\label{sec:res-map}
+
+Across the 52 US fields, mean coupling of $F$ with four-year pay is $+0.419$ \ci{+0.355}{+0.482} (SI~S3). It lies
+more than 1.96 bootstrap standard errors above zero in 39 fields and below zero in none, from $+0.71$ in computer
+science to $+0.07$ in nursing. The field map follows how closely each field's pay tracks mean SAT (true-score
+correlation $+0.94$, 23 fields), as it would if fields differed only in the scale at which they price one
+university-level index (Corollary~\ref{cor:thy-onefactor}; a consistency check, not a test). It therefore cannot
+separate a department gradient in pay from a gradient in university status.
+
+\subsection{Agreement sits at the university level and is largely shared with intake selectivity}\label{sec:res-name}
+
+Mean SAT and admission rate alone lower mean US coupling from $+0.43$ to $+0.14$ (47 fields); Pell share, control and
+state earnings level alone lower it to $+0.31$ (Fig.~\ref{fig:status}a). In per-field rank regressions, selectivity's
+mean Shapley share of $R^2$ is 0.173, against 0.076 for $F$, 0.086 for $G$ and 0.201 for institution-wide earnings,
+which contain the field's own graduates (Fig.~\ref{fig:status}c).
+
+Before any control, $G$ couples with pay slightly more strongly than $F$ does: $c_F-c_G=-0.049$ \ci{-0.085}{-0.011}
+(57 fields; Fig.~\ref{fig:status}d). At the across-field means, $\mathrm{sr}_F$ is 0.077 against a threshold of 0.156
+(field by field they average 0.055 and 0.141), and $F$ out-predicts $G$ in only 15 of 57 fields
+(Proposition~\ref{prop:thy-level}). Corrected for error in $F$, the difference is $-0.005$ \ci{-0.043}{+0.044} at the
+lower-bound reliability; under either correction, and net of selectivity, $F$ does not detectably out-predict $G$,
+though a small advantage is not excluded.
+
+Within universities, the department's part of the agreement is small. With field fixed effects alone, one
+within-field standard deviation (SD) of $F$ goes with $+0.084$ log points of four-year pay; institution fixed effects
+lower this to $+0.013$ (Fig.~\ref{fig:status}b). The main specification adds field-specific slopes on mean SAT,
+admission rate, Pell share and $G$; one SD of $F$ then goes with $+0.0084$ log points \ci{+0.0000}{+0.0164}, about
+0.84\% (2,889 programmes; \ci{-0.0012}{+0.0180} under the two-way variance; about zero with one- and five-year
+medians, which describe other cohorts). The upper 95\% limit is 1.6--1.8\% per SD of the observed rank. The controls
+absorb most of $F$, and the part they leave has a reliability of about 0.3 at the lower bound; corrected for it, the
+slope is about 3\% ($+0.0297$), so the department's part is diluted, not shown to be absent. Because US selectivity
+is measured for the university, the slope also carries any sorting of stronger students into a university's
+higher-ranked departments, of unknown sign; a control for the programme's own Pell share does not lower it, and
+comparing majors that restrict entry with open majors is too weak to separate the two (SI~S4). Only computer science
+has an individually clear remainder, $+0.050$ log points per SD \ci{+0.012}{+0.096}, pooled over horizons (128
+programmes; the sample lacks 21 of the 50 highest-ranked departments, among them the University of California
+campuses).
+
+\subsection{In the UK, most agreement survives a control for graduates' prior attainment}\label{sec:res-uk}
+
+The UK data add pay by graduates' own prior attainment, but no field rank, so they bear on the university level only.
+Coupling of $G$ with five-year pay averages $+0.486$ \ci{+0.398}{+0.559} across 33 subjects. Among graduates of the
+same attainment band coupling is $+0.227$, against $+0.342$ for all graduates of the same providers, so 66\%
+\ci{51}{79} survives (28 subjects; 87\% \ci{74}{100} on 27 subjects after correcting for noise in band medians). The
+band comparison controls graduates' own attainment, whereas institution-mean selectivity also removes peer and
+resource effects: net of institution-level selectivity instead, UK coupling keeps 26\% ($+0.131$), a fall comparable
+to the US one. If the UK $G$ is measured with little error, what remains within bands tracks intake selectivity at
+least as closely as $G$. Selectivity keeps a same-band partial coupling of $+0.252$ \ci{+0.172}{+0.310} net of $G$,
+while $G$ net of selectivity, itself a status measure, is $+0.033$, not distinguishable from zero (28 subjects). At a
+validity of 0.74, however, the data allow $G$'s same-band partial to reach $+0.26$.
+
+\subsection{Agreement rises with years since graduation and is weak under national pay scales}\label{sec:res-time}
+
+Within fixed US graduation cohorts, coupling rises by $+0.031$ \ci{+0.021}{+0.041} per year since graduation (39
+fields; PSEO), and UK coupling rises by about as much. The rise mixes career time with calendar time, and about three
+fifths of the US rise is shared with entry-year selectivity. Graduate study is not excluded: if graduates of
+higher-status universities more often leave the earnings data to study and return with higher pay, coupling rises
+mechanically. With coverage and the university's research-doctorate rate as controls the slope falls from $+0.0305$
+to $+0.0103$ per year, though that rate tracks $G$; coverage alone removes about a fifth, and a fifth to a third of
+the rise moves with where graduates work (T7). Within the model, a rise at well-known universities needs earnings
+growth, falling pay variance unrelated to $F$, or learning about departments, which is small since $\mathrm{sr}_F$ is
+(Proposition~\ref{prop:thy-time}); outside it, graduate study, coverage and migration can produce the same rise.
+
+Coupling is weak in UK subjects paid largely on national scales: nursing, medicine and teaching couple at $+0.120$,
+against $+0.523$ for the other subjects (difference $-0.404$ \ci{-0.566}{-0.238}). Allied health, much of it also
+paid on national bands, is an exception at $+0.570$, as is US special education ($+0.55$). A schedule that only
+rescales market pay leaves correlations unchanged (Proposition~\ref{prop:thy-time}), so weak coupling reflects
+noisier medians, schedule variance unrelated to status or weaker market agreement; these data do not separate them.
+
+% =====================================================================================
+\section{Discussion}\label{sec:discussion}
+
+For a student choosing among university $\times$ field programmes, a department's academic reputation predicts little
+of graduates' pay beyond the university's rank and intake: about 0.8\% per SD, with an upper 95\% limit of
+1.6--1.8\%, or about 3\% once corrected for error in the rank. Computer science may be the exception. Subject
+rankings built on academic standing may share this limit: $F$ plays that part here, and \citet{britton2022how} find a
+similar pattern for UK league tables, none of whose subject ratings correlates positively and significantly with
+returns net of intake.
+
+Agreement is not a return: the university terms in (\ref{eq:thy-decomp}) can be pure common causes. At an
+admission cutoff, the model splits the effect of admission to programme $p$ over a fallback $p'$ in the same field
+into
+\begin{equation}\label{eq:thy-cutoff}
+\tau(t)=\Delta\delta+(1-\lambda_t)(\Delta R-\Delta\delta)+\beta_f\Delta g(t)
+\end{equation}
+(Corollary~\ref{cor:thy-cutoff}): value added, a reputation rent that employers pay even for a pure signal and that
+learning erodes \citep{altonji2001employer, arcidiacono2010beyond, macleod2017big}, and growth. Cutoff data can
+answer two questions. First, in data like those of \citet{anelli2020returns}, does the admission effect decline with years
+since graduation, a rent that employers learn away, or rise through growth? The profile of $\tau(t)$ separates the two
+(Corollary~\ref{cor:thy-cutoff}(iii)); rising cross-sectional coupling does not. Second, across many programme
+cutoffs, does the effect differ with the fallback's department-rank gap, among fallbacks at universities of similar
+standing?
+
+One university's cutoff answers only the first: its rejected applicants go elsewhere, so it contrasts universities,
+and the changed field choice through which part of Anelli's premium runs is a channel within that contrast. The
+second needs ranked application lists, which identify each fallback \citep{kirkeboen2016field} and reveal students'
+own ordering of programmes \citep{avery2013revealed}, and a department rank where cutoffs exist. $F$ exists only for
+the US, which lacks programme cutoffs, but a hiring rank can be built from ORCID-derived moves, as our UK $G$ was.
+Because $F$ and $G$ correlate 0.786 on average, the department-rank gap varies little given the university-rank gap,
+so many cutoffs are needed. Projected on the target-minus-fallback gaps in the two reputations and in peer ability,
+cutoff estimates of $\tau$ would show how much of a return goes with the university's standing and how much with the
+department's; the model has no channel from academic standing to pay, so these loadings describe association across
+cutoffs, not causal channels (Appendix~\ref{app:thy:design}). Earnings must span a decade or more: first-year medians
+are distorted by graduate study and coverage, and the rent should erode while growth may rise. Which reputation
+students themselves follow when they choose a programme is the next study's question.
+
+\paragraph{Limitations.} The analysis uses public aggregates and does not separate value added, selection and
+employer screening, nor say why agreement below the university is weak. It assumes, without testing, that pay equals
+expected productivity. Programme medians miss the upper tail, where elite returns concentrate
+\citep{zimmerman2019elite, chetty2023diversifying}, and PSEO lacks most of the top quartile of ranked institutions.
+Pay is not netted of where graduates work: only raw five-year PSEO coupling was checked net of the wage level of
+graduates' destination census divisions (unchanged, T7); the Scorecard ladder, partial couplings and
+within-institution slope were not, and location within divisions is never netted. Selectivity is measured for the
+university, not the programme, and whatever the proxies miss stays in every partial coupling. About a fifth of pay
+coupling runs between employer sectors, which reflects employers' valuation only if employers ration access to
+sectors. The UK hierarchy rests on self-reported ORCID careers of uncertain validity. The model's tests share data
+with results already seen, and two of them are inconclusive for lack of power.
+
+\bibliographystyle{plainnat}
+\bibliography{../refs_merged,refs_short}
+
+\clearpage
+\appendix
+\input{theory_appendix}
+
+\end{document}

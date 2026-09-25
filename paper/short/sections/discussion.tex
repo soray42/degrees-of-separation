@@ -1,0 +1,74 @@
+% NOTE (2026-09-25): superseded by ../draft.tex, which was revised after a 46-item review; this file is kept as a source only.
+% =====================================================================================
+% sections/discussion.tex -- Discussion, next steps and Limitations of the short draft of "Degrees of Separation"
+% (author: Sora Yng). Written 2026-09-25 for \input; no preamble. Terminology follows theory_core.tex.
+% Every number is copied from paper/main.tex (Results, Table "ladder", Limitations) or theory_core.tex, which copies
+% main.tex, si.tex and THEORY_TESTS_RESULT.md; none is new. Citation keys: ../refs_merged.bib, plus anelli2020returns
+% from refs_short.bib (verified against Crossref, DOI 10.1093/jeea/jvz070).
+% =====================================================================================
+\providecommand{\ci}[2]{$[#1,\allowbreak\,#2]$}
+
+\section{Discussion and next steps}\label{sec:discussion}
+
+\paragraph{For students choosing a programme.} Where the academic and the graduate labour markets order the same
+programmes alike, they agree at the university's name. Most of that agreement is shared with the ordering of intakes
+that admission produces: SAT and admission rate take mean US coupling from $+0.43$ to $+0.14$. Below the name the
+two markets agree little, clearly only in computer science. Within a university, a department one standard deviation
+higher in $F$ goes with about 0.8\% higher four-year pay ($+0.0084$ log points, \ci{+0.0000}{+0.0164}). For a
+student choosing among university $\times$ field programmes, a department's academic reputation thus adds little to
+what the name and the intake already say about graduates' pay. It is a weak guide rather than an empty one, because
+error in $F$ dilutes the department part, which may reach about 3\% under the lower-bound reliability. How strongly
+the name shows in pay depends on the field, and coupling is weak where pay follows national scales. None of this
+says what a programme would add to a given student's pay.
+
+\paragraph{For rankings.} The same bound applies to subject rankings built on academic standing. In our data the
+field rank $F$ plays that part, and it predicts graduates' pay better than $G$ in only 15 of 57 fields.
+\citet{britton2022how} report a similar pattern for UK league-table ratings net of intake, which suggests that it is
+not specific to a hiring-based measure. Because rankings move applications \citep{bowman2009getting,
+luca2013salience}, a subject ranking that mostly restates the name may steer applicants between names while
+appearing to compare programmes. Rankings by graduates' pay order intakes as well as programmes, because a
+programme's median includes whom it admits \citep{dale2002estimating}. Under national pay scales they reveal little
+about employers' valuation.
+
+\paragraph{From agreement to returns.} Agreement between orderings is not a return, since the name term in coupling
+can be a pure common cause (Section~\ref{sec:thy}). Much of the premium of selective colleges reflects whom they
+admit \citep{dale2002estimating, dale2014estimating}, and their causal effects concentrate in the upper tail that
+medians miss \citep{zimmerman2019elite, chetty2023diversifying}. The open question is whether an elite-university
+return belongs to the university's name or to the programme. Admission cutoffs could answer it, because applicants
+just either side of a programme's cutoff differ in admission but barely in the score that ranks them. The design
+therefore holds intake ability fixed at the margin, where our aggregates can only partial out noisy proxies of it.
+Cutoff designs have estimated returns to a flagship state university \citep{hoekstra2009effect}, to a highly
+selective university \citep{anelli2020returns}, and to fields relative to applicants' next-best choice
+\citep{kirkeboen2016field}. \citet{anelli2020returns} also finds that part of the elite enrolment premium runs
+through the different fields its students choose. At the university $\times$ field level the same logic splits a
+return in two. Applicants whose next-best option is the same field at another university identify a contrast between
+universities within the field. Applicants whose next-best option is another field at the same university identify a
+contrast between fields that holds the name fixed. Across many contrasts of the first kind, the part of the return
+that follows the universities' gap in $G$, field by field, belongs to the name. The part that follows the
+departments' gap in $F$ beyond it belongs to the programme. This is the causal counterpart of our comparison of $F$
+with $G$, local to applicants at the cutoff.
+
+\paragraph{What the design needs.} For each applicant, the design needs the admission score, the cutoff and offer of
+each programme applied to, and the ranked list of programmes, which identifies the next-best option. The ranked
+lists would also measure students' ordering of programmes from their own choices \citep{avery2013revealed}, at the
+university $\times$ field level where our selectivity measures stop at the university. It also needs enrolment,
+field switches, completion, and earnings from tax or social-security records, with their whole distribution and
+where graduates work. It needs these earnings for a decade or more: first-year pay cannot be read as employer
+reputation here, and within fixed cohorts US coupling rises by $+0.031$ per year \ci{+0.021}{+0.041}. Cutoffs must
+bind in enough programmes per university and per field to compare them. Finally, the same departments need an
+academic reputation, which outside the United States would have to be built from faculty-hiring records, as we built
+the UK hierarchy \citep{li2026orcid}.
+
+\subsection{Limitations}\label{sec:limits}
+
+The analysis is descriptive and uses only public aggregates. It does not separate value added, selection and
+employer screening, does not measure beliefs about prestige, and cannot say why agreement below the name is weak.
+Programme medians miss the tails, and Scorecard medians cover only Title~IV-aided completers who work and are not
+enrolled. Selectivity is measured for the university, not the programme, and whatever the proxies miss stays in
+every partial coupling. $F$ is a net-placement position that is partly doctoral production, a share the audit bounds
+only from above. Its reliability can only be bracketed between 0.81 and 0.96. Only one check nets pay of destination
+location, and only between census divisions. About a fifth of pay coupling runs between employer sectors, which
+reflects employers' valuation only if employers ration access to sectors. The UK hierarchy rests on self-reported
+ORCID careers of uncertain validity. The theory was written after most results were known; it organises them, and
+they are not evidence for it. Its nine tests were specified before the analysis; not publicly registered. They share
+data with results already seen, and two of them are inconclusive for lack of power.

@@ -1,0 +1,105 @@
+% NOTE (2026-09-25): superseded by ../draft.tex, which was revised after a 46-item review; this file is kept as a source only.
+% =====================================================================================
+% sections/intro.tex -- title, abstract and Introduction of the short draft of "Degrees of Separation".
+% Author: Sora Yng. Written 2026-09-25. Meant to be \input right after \begin{document}; it sets the title and
+% calls \maketitle, so the including file should not call \maketitle again.
+% Numbers: every number is copied from paper/main.tex (Introduction; Results, sec:map to sec:boundary;
+% Table tab:ladder); none is new.
+%   +0.419 [+0.355, +0.482], 52 fields ........ main.tex, "The two orderings agree" (sec:map)
+%   +0.43 -> +0.14 ............................ main.tex, control ladder (sec:status; Table tab:ladder, 44 fields)
+%   0.84% per SD, interval 0 to 1.6%, ~3% ..... main.tex, within institutions (+0.0084 [+0.0000, +0.0164]) and
+%                                               reliability-corrected remainder (up to about 3%)
+%   66% [51, 79], 28 UK subjects .............. main.tex, UK prior-attainment control (sec:uk)
+%   +0.031 [+0.021, +0.041]; +0.026 .......... main.tex, career time (sec:career; 39 US fields, 33 UK subjects)
+%   three fifths shared with selectivity ...... main.tex, sec:career (0.39 of the raw slope remains)
+%   +0.120 [-0.033, +0.258] vs +0.523 ......... main.tex, sec:boundary
+%   about a fifth between employer sectors .... main.tex, T8 (0.21 [0.08, 0.34])
+% Citations: keys in ../refs_merged.bib, plus anelli2020returns in refs_short.bib (checked again against
+% api.crossref.org/works/10.1093/jeea/jvz070 on 2026-09-25: title, author, journal, 18(6), 2824-2868 match).
+% The theory section is referred to as Section~\ref{sec:theory}.
+% =====================================================================================
+\providecommand{\ci}[2]{$[#1,\allowbreak\,#2]$}
+
+\title{Academic and employer reputation agree at the university level, much less at the department}
+\author{Sora Yng}
+\date{}
+\maketitle
+
+\begin{abstract}
+When students choose a university and a field, which reputation do they buy? A university $\times$ field programme
+is valued in two markets; we read its academic reputation from faculty hiring and its employer reputation from
+graduates' pay. Using public data on 52 US fields and 33 UK subjects, we ask where the two rankings agree. Within
+fields they agree, but the agreement sits at the university level. Most of it is shared with intake selectivity:
+controls for selectivity and institutional traits lower mean US agreement from $+0.43$ to $+0.14$. Within a
+university, one standard deviation of a department's field rank goes with about 0.8\% higher pay, an interval
+reaching zero; only computer science is clear on its own. Agreement rises with years since graduation and is weak
+where pay follows national scales. The design is descriptive; for students, the reputation both markets recognise is
+mostly the university's.
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+
+A student who applies to a university and a field chooses a programme: economics at one university, nursing at
+another. Much of what that choice promises is reputation, and reputation is valued by others. The returns to such
+choices are now estimated programme by programme. \citet{anelli2020returns} compares applicants just above and just
+below the admission cutoff of a highly selective private university, and \citet{kirkeboen2016field} use the cutoffs
+that ration entry to fields. These designs estimate what admission is worth, not which level of the programme
+carries the reputation that others value: the university's name or the department.
+
+A programme's reputation in a market is that market's expectation of the quality of what it buys from the programme
+\citep{tadelis1999name, macleod2015reputation}. A university $\times$ field programme sells in two markets under one
+name. In the academic labour market, hiring committees buy its doctoral graduates as faculty. The net direction of
+their hires orders departments in a steep hierarchy \citep{clauset2015systematic}. We read that ordering as academic
+reputation, measured by the field rank $F$ and university-wide rank $G$ of \citet{wapman2022quantifying}. In the
+graduate labour market, employers buy its bachelor's graduates. What they pay reveals employer reputation, mixed
+with what they later learn about graduates' own productivity and with who enrols; we measure it by programme median
+earnings. Students, a third party, reveal a third ranking through their admission choices: intake selectivity.
+
+Research on the returns to college has mostly measured standing by selectivity, rankings or brand. Among students
+admitted to similar colleges, the payoff to the more selective one is small on average \citep{dale2002estimating,
+dale2014estimating}. The causal payoff to elite colleges concentrates in top jobs and incomes
+\citep{zimmerman2019elite, chetty2023diversifying}. The pay gradient in selectivity differs by field, nearly flat in
+nursing and teacher education and steep in computer science and economics \citep{bloem2024understanding}. In the
+United Kingdom, net of intake attainment, no subject's league-table rating correlates positively and significantly
+with returns \citep{britton2022how}. Whether the academy's own ranking of a department agrees with employers'
+valuation of its graduates, and at which level, has not to our knowledge been measured.
+
+We measure that agreement as coupling: the Spearman correlation, across the universities that teach a field, between
+a department's field rank and its graduates' median earnings. We map it for 52 US fields on College Scorecard
+earnings \citep{scorecard}, with Census PSEO as a second source \citep{pseo, pseo2026}. For 33 UK subjects we set a
+university-wide hiring rank from ORCID-derived career records \citep{li2026orcid} against LEO earnings, which are
+also released by graduates' prior attainment \citep{dfe_leo_provider}. All inputs are public, and the analysis is
+descriptive. A short model (Section~\ref{sec:theory}) states when hiring reveals academic reputation and pay reveals
+employer reputation, and what coupling then measures. We wrote it after most results were known. Its only content
+not fitted to them is nine tests, T0--T8, specified before the analysis; not publicly registered.
+
+Within fields the two rankings agree: across 52 US fields mean coupling is $+0.419$ \ci{+0.355}{+0.482}. The
+agreement sits at the university level, and most of it is shared with intake selectivity. Controls for selectivity,
+Pell share, public or private control and state earnings level lower mean coupling from $+0.43$ to $+0.14$. The
+field rank does not detectably out-predict the university-wide rank. Within universities, one standard deviation of
+field rank goes with about 0.8\% higher four-year pay (95\% interval 0 to 1.6\%). Corrected for error in the ranks
+it is up to about 3\%, so the department part is diluted, not shown absent. It is clear on its own only in computer
+science. In the UK data, which have no department rank, 66\% \ci{51}{79} of coupling remains among graduates of the
+same prior-attainment band.
+
+Within fixed US graduation cohorts, coupling rises by $+0.031$ per year since graduation \ci{+0.021}{+0.041}, and UK
+coupling rises by about as much. The rise mixes career time with calendar time, and about three fifths of the US
+rise is shared with selectivity. Agreement is weak where pay follows national scales: UK nursing, medicine and
+teaching couple at $+0.120$ \ci{-0.033}{+0.258}, against $+0.523$ for the other subjects. Where a schedule sets pay,
+weak coupling is not evidence that employers rank universities differently.
+
+Nothing here shows that attending a programme raises pay, since the design does not separate value added, selection
+and employer screening. The field rank is academic reputation only under the model's assumptions, and an audit finds
+that it partly reflects doctoral production. On the pay side, about a fifth of coupling runs between employer
+sectors, which reflects employers' valuation only if they ration access to sectors. Nor do we identify why agreement
+below the university is weak. Departments may carry little that employers price, or employers may attribute little
+to departments; no test here separates the two.
+
+For research on the returns to college, the results locate the reputation at stake. Admission to a programme confers
+a university's name and a department's standing. The academy and employers rank the name alike, largely through who
+enrols, and the department's standing only faintly. Designs that compare attending more and less selective
+universities \citep{dale2002estimating, anelli2020returns} therefore act on the margin where the two markets agree.
+For a student, a department's field rank says little about graduates' pay beyond the university's rank and intake,
+except perhaps in computer science. Whether a higher-ranked university or department raises pay is a causal question
+these data cannot answer. It needs admission-based variation \citep{hoekstra2009effect, kirkeboen2016field,
+anelli2020returns}; this paper supplies the descriptive map such work can start from.

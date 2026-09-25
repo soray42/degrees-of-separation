@@ -1,0 +1,141 @@
+% =====================================================================================
+% theory_core.tex -- theory core of the short draft of "Degrees of Separation" (author: Sora Yng).
+% Written 2026-09-25; revised the same day after two referee reports (notes at the end of theory_appendix.tex).
+% Condensed and restated from paper/main.tex Section 3, paper/si.tex Section S11 and THEORY_NOTES.md. Every number
+% is copied from paper/main.tex, paper/si.tex, THEORY_NOTES.md or a repo-root *_RESULT.md; none is new. Proofs,
+% the table of revealed rankings and the ledger of results: theory_appendix.tex (label app:thy).
+% Needs amsmath, array, booktabs and natbib. Bibliography: ../refs_merged.bib plus refs_short.bib (entries there
+% verified against Crossref). The environment and macro below are defined only if absent.
+% Revised again 2026-09-25 for consistency with draft.tex (first-order SpringRank limit; T0 as a lower bound; T1;
+% graduate study, coverage and location in the career rise; national-scale exceptions). draft.tex does not \input
+% this file; it carries its own condensed Section 2.
+% =====================================================================================
+\makeatletter
+\@ifundefined{thyprop}{\newtheorem{thyprop}{Proposition}}{}
+\makeatother
+\providecommand{\ci}[2]{$[#1,\allowbreak\,#2]$}
+
+\section{One name, two markets}\label{sec:thy}
+
+A university's name is valued in two markets: by the academic labour market, through the doctorates its
+departments place (\emph{academic reputation}), and by the graduate labour market, through what employers pay its
+bachelor's graduates (\emph{employer reputation}). We ask whether the two valuations agree
+for a university $\times$ field programme and, for a study with admission-based variation, which one students follow
+and which one predicts the causal return. \citet{anelli2020returns} estimates it at the admission
+cutoff of a highly selective private university, partly through changed field choice, with degree completion,
+on-time graduation and peer quality among the channels. Written after the descriptive
+results, the model organises them and is tested only by checks T0--T8 (Appendix~\ref{app:thy}; specified before
+the analysis; not publicly registered).
+
+\paragraph{Primitives.} The unit is the programme $(i,f)$, over institutions $\mathcal I_f$ with a bachelor's
+programme and a ranked doctoral department in field $f$. The two reputations value different
+products sold under one name: doctorates and bachelor's graduates. Comparisons are across institutions
+within a field: the field effect $\mu_f(t)$ is differenced out, so the model says nothing about the choice of field,
+and $F$, a within-field rank, has no cross-field content. In deviations from field means,
+\begin{equation}\label{eq:thy-latent}
+s_{if}=\alpha_fa_i+r_{if},\qquad \theta_{if}=\beta_fx_i+y_{if},\qquad x_i=\xi_i+v_i,
+\end{equation}
+where $s$ is the academy's valuation of the department and $\theta$ the mean productivity of the programme's
+graduates, selection included. University-wide are $a_i$ ($\mathrm{Var}\,a=1$), intake ability $\xi_i$ on the
+dimension the admission criterion measures, and $v_i\perp\xi_i$, the part of graduate quality that measured intake
+does not predict (unmeasured ability, value added, peer and resource effects);
+$r_{if}$ and $y_{if}$ are field-specific, with $\kappa_f=\mathrm{Corr}_f(r,y)$; $\beta_f$ prices $x$. We assume
+(A-orth) that $r$ and $y$ are uncorrelated with every university-wide variable.
+
+\paragraph{Reputations.} \emph{Academic reputation} is the position revealed by the net direction of faculty hiring,
+not a modelled belief about doctoral quality (Table~\ref{tab:thy-rankings}). In a gravity model of hires, SpringRank, the published $F$
+\citep{wapman2022quantifying,debacco2018physical}, converges, to first order and up to scale, to $s^*=s+\pi/(2\beta)$, with $\pi=\log(p/h)$ its
+production of doctorates relative to hiring and $\beta$ the hierarchy's steepness
+(Proposition~\ref{prop:thy-springrank}). Directions identify only $s^*$; volume neutrality (H0: $\pi$ constant) is
+the normalisation that reads $s^*$ as the valuation $s$. T0 finds $F$ partly production: coupling keeps $0.598$
+\ci{0.471}{0.725} net of production, a lower bound, since residualising also removes net export that valuation
+itself produces. T1 finds that $F$ does not order departments alike as placers and as hirers of PhDs (``not one
+index''; its benchmark calibration was fixed after the literal one degenerated). \emph{Employer reputation} is the market's current valuation
+$V_{if}(t)$, its mean belief about its graduates' productivity $t$ years out. Under
+M1--M4 (Lemma~\ref{lem:thy-wage}) log median pay is
+\begin{equation}\label{eq:thy-wage}
+m_{if}(t)=\mu_f(t)+V_{if}(t)+\beta_fg_i(t),\qquad V_{if}(t)=(1-\lambda_t)R_{if}+\lambda_t\theta_{if},
+\end{equation}
+with entry reputation $R=V(0)$, weight $\lambda_t$ on graduates' own records and growth $g_i(0)=0$; the premium
+decays, $V-\theta=(1-\lambda_t)(R-\theta)$ \citep{farber1996learning}. A name's record pools many graduates, so where
+employers see them often $R\approx\theta$ at the name (Lemma~\ref{lem:thy-umbrella}): pay there ranks
+selection-inclusive expected productivity, and belief and mean productivity cannot be separated. In the
+closest economics usage, a college's reputation is its graduates' mean admission score \citep{macleod2017big}, our
+third, student-revealed ranking; in that vocabulary the two valuations agree mostly through college reputation.
+
+\paragraph{Students.} Student $k$ values programme $p$ at $\mathbb E_k[w_p(a_k)\mid\text{signals}]+\varepsilon_{kp}$
+(signals such as rankings and programme earnings); admission is down to a cutoff, so cutoffs and
+intake are equilibrium outcomes. Intake orders programmes as students do under a common ranking without idiosyncratic
+tastes (S1; Lemma~\ref{lem:thy-students}), which the self-selection in \citet{kirkeboen2016field} contradicts,
+and at the programme level only where admission is by programme, as in the UK; US students choose a major after entry, and our
+US selectivity is university-level. Whether students follow academic reputation, employer reputation, peer ability
+or value added is the next study's question, a university $\times$ field counterpart of
+\citet{abdulkadiroglu2020parents}.
+
+\begin{thyprop}[What agreement measures]\label{prop:thy-agree}
+Under A0, classical errors ($F=s^*+e_F$, $Y=m+e_Y$, $S=\xi+e_S$), A-orth and Lemmas~\ref{lem:thy-umbrella}
+and~\ref{lem:thy-wage}, the normal-score correlation of $F$ and $Y(t)$ is
+$\sqrt{\mathrm{rel}_F\mathrm{rel}_Y}\,\mathrm{Corr}\{s^*,m(t)\}$, which the Spearman coupling $\rho_f(t)$ increases
+with, and
+\begin{equation}\label{eq:thy-decomp}
+\mathrm{Cov}(s^*,m)=\underbrace{\frac{\mathrm{Cov}(s^*,\xi)\,\mathrm{Cov}(\xi,m)}{\mathrm{Var}\,\xi}}_{\text{through measured intake}}
++\underbrace{\alpha_f\mathrm{Cov}(a^{\perp\xi},m^U)}_{\text{university, beyond measured intake}}
++\underbrace{\Lambda_{ft}\kappa_f\sigma_r\sigma_y}_{\text{field-specific}}
++\underbrace{\frac{\mathrm{Cov}(\pi^{\perp\xi},m)}{2\beta}}_{\text{production}},
+\end{equation}
+with $m^U$ the university-wide part of pay and $\Lambda_{ft}=\omega_f+(1-\omega_f)\lambda_t$. The partial covariance
+given $S$ is the last three terms plus $(1-\mathrm{rel}_S)$ times the first.
+\end{thyprop}
+
+The first term is not selection: peer quality and resources that rise with intake load on $\xi$
+\citep{dale2002estimating}, and at the programme mean own and peer ability coincide. Selectivity is a common
+component, a confounder if intake is fixed and a mediator if students sort on reputation
+\citep{macleod2015reputation}. Most US agreement goes with institution-level
+selectivity and composition: Pell share, control and the state earnings level take mean coupling from $+0.43$ to
+$+0.31$, and the admission rate and average SAT to $+0.14$ (44 fields); the split depends on the order of entry, and
+selectivity's Shapley share of $R^2$ is 0.173, against 0.076 for $F$. The UK controls graduates' own
+prior attainment instead, whereas institution-mean SAT also removes peer and resource effects: coupling of $G$ keeps
+66\% \ci{51}{79} among same-band graduates, 85\% \ci{80}{90} with band-standardised earnings, and 73\% \ci{67}{78}
+of its log-earnings gradient ($+0.100$ per SD).
+
+\begin{thyprop}[University or department]\label{prop:thy-level}
+Let $c_X=\rho(X,Y)$ and $\cos\vartheta=\rho(F,G)$, and on standardised ranks let $\mathrm{sr}_F$ be the
+correlation of $Y$ with the residual of $F$ on $G$. Then $c_F=c_G\cos\vartheta+\mathrm{sr}_F\sin\vartheta$, and $F$ out-predicts $G$ if
+and only if $\mathrm{sr}_F>c_G\tan(\vartheta/2)$. If $G=a$ and H0 holds, $\mathrm{sr}_F$ prices only the
+field-specific term, attenuated by a reliability below $\mathrm{rel}_F$.
+\end{thyprop}
+
+At the across-field means the threshold is $0.156$ against
+$\mathrm{sr}_F=0.077$, exceeded in 15 of 57 fields. Within institutions, one SD of department prestige goes with
+0.84\% higher four-year pay \ci{0.00}{1.64} (about zero with one- and five-year medians; up to about 3\% under the
+lower-bound reliability), which need not be departmental, since $y_{if}$ also carries selection into the major
+\citep{bleemer2022will}. We make no claim about why agreement below the name is weak.
+
+\paragraph{At an admission cutoff.} Individually, the same model (Corollary~\ref{cor:thy-cutoff}) splits the effect
+of admission to $p$ over the fallback $p'$ in the same field into
+\begin{equation}\label{eq:thy-cutoff}
+\tau(t)=\Delta\delta+(1-\lambda_t)(\Delta R-\Delta\delta)+\beta_f\Delta g(t),
+\end{equation}
+value added $\Delta\delta$ plus a reputation rent that learning erodes, at known names
+$(1-\lambda_t)\beta_f\Delta\bar a$, the gap in mean ability, paid even if pure signal. Across fields add
+$\Delta\mu_f(t)$; fallbacks differ across students, so the comparison is between programmes
+\citep{hastings2013some,kirkeboen2016field}. Aggregates cannot test employer learning
+(Proposition~\ref{prop:thy-time}); the time profile of $\tau(t)$ can. The design (Appendix~\ref{app:thy:design})
+projects cutoff estimates of $\tau$ on target-minus-fallback gaps in the two reputations and peer ability.
+
+\paragraph{Scope.} At known names, the rise of US coupling within fixed cohorts ($+0.031$ per year \ci{+0.021}{+0.041})
+needs growth, falling pay variance unrelated to $F$, or learning about departments, small since $\mathrm{sr}_F$ is
+(Proposition~\ref{prop:thy-time}); outside the model, graduate study, coverage and migration can produce the same
+rise (with coverage and the research-doctorate rate as controls it is $+0.0103$ against $+0.0305$ per year, though
+that rate tracks $G$; a fifth to a third moves with where graduates work, T7). Pay is not netted of location within
+destination census divisions, and the Scorecard estimates are not netted of destination location at all.
+Schedules that only rescale market pay leave correlations unchanged, so weak coupling under national scales (UK
+nursing, medicine and teaching $+0.120$ against $+0.523$) comes from noisier medians, schedule variance unrelated to
+status or weaker market agreement, not from the scaling; UK allied health ($+0.570$) and US special education
+($+0.55$) couple strongly despite schedules. If fields differ only in the scale at which they price a common
+university-level index, the field maps of coupling and selectivity pricing coincide
+(Corollary~\ref{cor:thy-onefactor}; true-score $r=+0.94$, a consistency check). The model assumes, and the data do
+not test, that pay equals expected productivity (M1); aggregates license no claim that attending raises pay or
+that employers read rankings. Medians miss the upper tail where elite returns concentrate
+\citep{chetty2023diversifying,zimmerman2019elite}, though net of selectivity and parental income $G$'s association
+with the top 1\% share does not detectably exceed that with median pay (242 universities).
