@@ -1,7 +1,7 @@
 \documentclass[11pt]{article}
 % Degrees of separation -- main text for EPJ Data Science.
-% Every number below is copied from a result write-up of a seeded script in the repository (scripts 01--64; see SI
-% and paper/CLAIMS_LEDGER.md), from the interim tables those scripts write, or from code run on those tables:
+% Every number below is copied from a result write-up of a seeded script in the repository (scripts 01--75; the SI
+% names the source of each), from the interim tables those scripts write, or from code run on those tables:
 % scripts/70_paper_figures.py (figures; with --si-checks, the numbers marked "SI check").
 \usepackage[margin=1in]{geometry}
 \usepackage[T1]{fontenc}
@@ -39,29 +39,24 @@
 \maketitle
 
 \begin{abstract}
-The academy ranks its own departments through faculty hiring: which departments place their PhDs as
-faculty at which others. We ask whether this hierarchy carries information about the earnings of
-bachelor's graduates, field by field. Using public data only, we measure within-field coupling, the
-rank correlation across institutions between a department's position in the US faculty-hiring
-hierarchy and its graduates' median earnings, for 52 US fields (College Scorecard, with Census PSEO as a
-second, overlapping source) and, with a UK hiring hierarchy built from ORCID-derived records, for 33 UK
-subjects (DfE LEO). The analysis is descriptive. Coupling is positive and varies across fields, but most of
-it is shared with institution-level status. Controls for selectivity, Pell share, control and state lower
-mean US coupling from $+0.43$ to $+0.14$. Within institutions, once each field's earnings slopes on
-selectivity and academia-wide prestige are allowed for, one standard deviation of department prestige goes
-with about 1\% higher pay (0.84\%, 95\% interval 0.00--1.64\%, for four-year earnings; up to about 3\% after
-correcting for measurement error at the lower reliability bound), and field prestige predicts pay no better
-than academia-wide prestige. In the UK, 66--90\% of coupling survives a direct control for graduates' prior
-attainment, and what survives tracks intake selectivity rather than hiring-network prestige. Within fixed
-graduation cohorts, coupling rises by $+0.031$ per year in the US and $+0.026$ in the UK, a change that mixes
-career and calendar time (in the US the career-time part lies between $+0.014$ and $+0.032$ per year if
-calendar and cohort effects are non-negative); in a weakly identified US decomposition the rise loads on
-academia-wide rather than field prestige. Coupling is weak in UK subjects paid on national scales (nursing,
-medicine, teaching: $+0.12$ against $+0.52$), a pattern known from UK returns, and across US fields the
-prestige--pay association net of geography falls with the share of graduates in strictly licensed
-occupations, a contrast between discipline families that public data cannot separate from field type or
-employer sector. The academy's departmental hierarchy adds little labour-market information beyond
-institution-wide status.
+The academy ranks its own departments through faculty hiring. We ask whether this hierarchy carries information
+about bachelor's graduates' earnings, field by field. Using public data only, we measure within-field
+coupling, the rank correlation across institutions between a department's position in the US faculty-hiring
+hierarchy and its graduates' median earnings, for 52 US fields (College Scorecard, and Census PSEO as an overlapping
+second source) and, with a UK hiring hierarchy built from ORCID-derived records, for 33 UK subjects (DfE
+LEO). The analysis is descriptive. Coupling is positive and varies across fields, but most of it is shared with
+institution-level status: controls for selectivity, Pell share, control and state lower mean US coupling from
+$+0.43$ to $+0.14$. Within institutions, net of each field's earnings slopes on selectivity and academia-wide
+prestige, one standard deviation of department prestige goes with 0.8\% higher four-year pay, a remainder whose
+95\% interval reaches zero. It is individually clear only in computer science, on a sample without the University
+of California campuses and several flagship public departments. Field prestige predicts pay no better than
+academia-wide prestige. In the UK most of the prestige ordering of pay survives a direct control for graduates'
+prior attainment. Within fixed graduation cohorts coupling rises by about 0.03 per year in both countries. In the
+US it also rises across cohorts, so its career-time part can be bounded only under sign assumptions; about three
+fifths of the within-cohort rise is shared with selectivity; and net of selectivity measured on recent entrants,
+a dating that favours this result, the loading of pay on academia-wide status does not decline within cohorts.
+Coupling is weak in UK subjects paid on national scales. The academy's departmental hierarchy adds little
+labour-market information beyond institution-wide status.
 \end{abstract}
 
 \noindent\textbf{Keywords:} faculty hiring networks; academic prestige; graduate earnings; college
@@ -70,304 +65,258 @@ selectivity; field of study; administrative data; career dynamics; science of sc
 % =====================================================================================
 \section{Introduction}\label{sec:intro}
 
-The academy ranks its own departments. Each time a department hires a professor it reveals which
-doctoral programmes it trusts to train faculty, and aggregated over a decade these choices form a steep
-hierarchy in which a few institutions train most of the faculty in their field
-\citep{clauset2015systematic, wapman2022quantifying}. The resulting prestige ordering is estimated from
-peers' hiring decisions, not from admissions statistics, reputation surveys or composite rankings, and
-it exists field by field across the US academy. We ask whether this hierarchy carries information about how
-the academy's bachelor's graduates fare outside it. Within a field, do graduates of departments higher
-in the hiring hierarchy earn more? If they do, does the association belong to the department or to the
-institution in which the department sits?
+The academy ranks its own departments. Each time a department hires a professor it reveals which doctoral
+programmes it trusts to train faculty, and aggregated over a decade these choices form a steep hierarchy in which
+a few institutions train most of the faculty in their field \citep{clauset2015systematic, wapman2022quantifying}.
+The ordering comes from peers' hiring decisions, not from admissions statistics, reputation surveys or composite
+rankings, and it exists field by field. We ask whether it carries information about how the academy's bachelor's
+graduates fare outside it: within a field, do graduates of departments higher in the hiring hierarchy earn more,
+and does the association belong to the department or to the institution around it?
 
-The question matters for two literatures. For the science of science, the faculty-hiring hierarchy is
-a carefully measured status ordering, built from a census of hires, and position in it shapes productivity, the
-spread of ideas and who becomes faculty \citep{way2019productivity, morgan2018prestige,
-morgan2022socioeconomic, zhang2022labor}. Whether the ordering is also legible outside academia, where
-nearly all bachelor's graduates work, has not, to our knowledge, been measured. For the economics and sociology of higher
-education, the question is a sharper version of an old one. Earnings rise with institutional
-selectivity and brand, and much of that gradient is attributed to who enrols
-\citep{dale2002estimating, dale2014estimating, mountjoy2021returns}. The size of the status gradient in pay
-differs by field of study \citep{eide2016where, quadlin2021same, hastings2013some, bloem2024understanding}, and in
-the United Kingdom an institution's academic standing adds little information about graduates' returns
-beyond the selectivity of its intake \citep{hussain2009university, britton2022how}. In employer-learning
-models the weight employers place on an easily observed credential falls as they learn about
-productivity, relative to hard-to-observe correlates of productivity \citep{farber1996learning,
-altonji2001employer}, while studies of elite hiring find employers screening on pedigree
-\citep{rivera2015pedigree}. A department-level, peer-defined prestige axis lets us ask how much of the
-status gradient in pay belongs to the department, and how the gradient changes over careers.
+The question matters for two literatures. For the science of science, the hiring hierarchy is a carefully
+measured status ordering, and position in it shapes productivity, the spread of ideas and who becomes faculty
+\citep{way2019productivity, morgan2018prestige, morgan2022socioeconomic, zhang2022labor}; whether it is also
+legible outside academia, where nearly all bachelor's graduates work, has not, to our knowledge, been measured.
+For the economics and sociology of higher education, it sharpens an old question. Earnings rise with
+institutional selectivity and brand, and much of that gradient is attributed to who enrols
+\citep{dale2002estimating, dale2014estimating, mountjoy2021returns}; the gradient differs by field of study
+\citep{eide2016where, quadlin2021same, hastings2013some, bloem2024understanding}; and in the United Kingdom an
+institution's academic standing adds little information about graduates' returns beyond the selectivity of its
+intake \citep{britton2022how}. A department-level, peer-defined prestige axis asks how much of the status gradient
+in pay belongs to the department, and how the gradient changes over careers, where employer-learning models
+\citep{farber1996learning} predict that the weight on an easily observed credential falls once a hard-to-observe
+correlate of productivity is held fixed \citep{altonji2001employer}.
 
-We measure within-field coupling: the Spearman rank correlation, across the institutions that teach a
-field, between a department's position in the US faculty-hiring hierarchy \citep{wapman2022quantifying}
-and the median earnings of its bachelor's graduates. We map coupling across 52 US fields on College
-Scorecard earnings \citep{scorecard} and repeat it on Census Post-Secondary Employment Outcomes (PSEO)
-\citep{pseo}, a second earnings source that covers many of the same institutions. For the United Kingdom
-we build an academia-wide hiring hierarchy from ORCID-derived records of PhD-to-faculty moves
-\citep{orcid} and set it against the Department for Education's Longitudinal Education Outcomes (LEO)
-earnings for 33 subjects, which are also released by graduates' prior attainment. All inputs are
-public, and every result is descriptive.
+We measure within-field coupling: the Spearman rank correlation, across the institutions that teach a field,
+between a department's position in the US faculty-hiring hierarchy \citep{wapman2022quantifying} and the median
+earnings of its bachelor's graduates. We map it across 52 US fields on College Scorecard earnings
+\citep{scorecard}, repeat it on Census Post-Secondary Employment Outcomes (PSEO) \citep{pseo, pseo2026}, and, for
+the United Kingdom, build an academia-wide hiring hierarchy from ORCID-derived records of PhD-to-faculty moves
+\citep{li2026orcid} and set it against Longitudinal Education Outcomes (LEO) earnings, which are also released by
+graduates' prior attainment \citep{dfe_leo_provider}. All inputs are public, and every result is descriptive.
 
-Four findings hold. First, coupling is positive, varies across fields, and has a similar field ordering on
-the two US earnings sources. Second, most of it is shared with institution-level status. Controls for
-institutional selectivity, Pell share, control and state lower mean US coupling from $+0.43$ to $+0.14$;
-within institutions, one within-field standard deviation (SD) of department prestige goes with about 1\%
-higher four-year earnings (0.84\%, 95\% interval 0.00--1.64\%) once each field's slopes on selectivity and
-academia-wide prestige are allowed for; and a field's own prestige ordering predicts pay no better than the
-academia-wide ordering. Third, in the UK 66--90\% of coupling survives a direct control for graduates' own
-prior attainment, and what survives tracks intake selectivity rather than hiring-network prestige. Fourth,
-within fixed graduation cohorts coupling rises, by $+0.031$ per year in the US and $+0.026$ per year in the
-UK. How much of the US rise is career time rather than calendar time can only be bounded, part of it may
-reflect the timing of graduate training, and in a weakly identified decomposition it loads on the
-academia-wide ordering, which tracks selectivity, rather than on field prestige. At the other end, the
-prestige--pay association is weak in UK subjects on national pay scales and falls across US fields with the
-share of graduates in strictly licensed occupations, contrasts between discipline families that public data
-cannot separate from field type or employer sector.
+Four findings hold. First, coupling is positive, varies across fields and has a similar field ordering on the
+two US earnings sources. Second, most of it is shared with institution-level status: controls for selectivity,
+Pell share, control and state lower mean US coupling from $+0.43$ to $+0.14$; within institutions one
+within-field standard deviation (SD) of department prestige goes with 0.8\% higher pay, a remainder whose interval
+reaches zero; and a field's own prestige ordering predicts pay no better than the academia-wide ordering. Third,
+in the UK most of the coupling survives a direct control for graduates' prior attainment; among graduates of the
+same attainment band, what survives tracks intake selectivity at least as closely as hiring-network prestige if
+the UK hierarchy is measured with little error. Fourth, within fixed graduation cohorts coupling rises with years
+since graduation in both countries; in the US it also rises across cohorts, so its career-time part can only be
+bounded, and much of the within-cohort rise is shared with selectivity. Coupling is weak in UK subjects on
+national pay scales and falls across US fields with the share of graduates in strictly licensed occupations,
+contrasts between discipline families that public data cannot separate from field type or employer sector.
 
-Much of this is known in kind. That the status gradient in pay differs across fields is documented by
-\citet{bloem2024understanding} on an earlier College Scorecard release and by \citet{britton2022how} on UK
-administrative data; that academic quality adds little beyond selectivity is reported for the UK by
-\citet{britton2022how} and \citet{hussain2009university}; and the direction of the career-time result is
-known from descriptive work \citep{thomas2005postbaccalaureate, macleod2017big}, although causal designs
-find small or fading premia \citep{bordon2020employer, mountjoy2021returns}. Our cross-field map and our UK
-attainment check reproduce these patterns with a different prestige axis. What is new is (i) the
-faculty-hiring hierarchy as the prestige axis, which separates a department's standing in its field (field
-prestige, $F$) from its institution's standing in the academy as a whole (academia-wide prestige, $G$);
-(ii) with it, a within-institution test of whether departments of higher standing inside the same
-institution have better-paid graduates, which is the test the question of the title requires; (iii)
-fixed-cohort estimates, in two countries, of how coupling changes with years since graduation; and (iv) two
-measurement contributions for data science: a bracket on the sampling reliability of the published
-SpringRank ranks, built from the suppressed public edge list, and an academia-wide UK hiring hierarchy built
-from ORCID-derived records.
+Much of this is known in kind (Section~\ref{sec:background}). What is new is (i) the faculty-hiring hierarchy as
+the prestige axis, which separates a department's standing in its field (field prestige, $F$) from its
+institution's standing in the academy as a whole (academia-wide prestige, $G$), and with it a within-institution
+test of whether higher-standing departments inside the same institution have better-paid graduates; (ii)
+fixed-cohort estimates, in two countries, of how coupling changes with years since graduation, new in design and
+scope rather than in direction \citep{thomas2005postbaccalaureate, macleod2017big}, which in the US load on
+academia-wide rather than field prestige in a weakly identified decomposition; and (iii) measurement: a bracket on
+the sampling reliability of the published ranks, a check against noise in the program medians, and a UK
+academia-wide hiring hierarchy. The US field map is a replication in kind: its ordering is close to the known
+ordering of fields by how steeply pay follows selectivity \citep{bloem2024understanding}, and similar on a second,
+overlapping earnings source.
 
-For the academy's departmental hierarchy, the answer is mostly negative. The hierarchy tracks graduate
-pay, but largely through the institutional status it shares with selectivity. Beyond institution-level
-status the department ordering goes with a small remainder, about 1\% of pay per SD within institutions,
-which is individually clear only in computer science; whether it varies across fields is fragile, and
-public data cannot attribute it to department standing or to program-level selection.
-Section~\ref{sec:background} positions the study, Section~\ref{sec:data} describes data and measurement,
-Section~\ref{sec:results} reports the results, Sections~\ref{sec:discussion} and~\ref{sec:limits} discuss
-them and their limits, and Section~\ref{sec:methods} states the main estimators. Further methods are in the
-Supplementary Information (SI).
+For the academy's departmental hierarchy the answer is mostly negative: it tracks graduate pay largely through
+the institutional status it shares with selectivity, and beyond that goes with a small remainder, borderline on
+average and individually clear only in computer science, which public data cannot attribute to department
+standing or to program-level selection. The computer-science estimate describes a sample that lacks the
+University of California campuses and Caltech, which have no recent SAT average, and several flagship public
+departments lost in the name join, Georgia Tech, Purdue, Ohio State and the University of Washington among them
+(Section~\ref{sec:status}). Further methods and all robustness detail are in the Supplementary Information (SI).
 
 % =====================================================================================
 \section{Background and positioning}\label{sec:background}
 
-\paragraph{Returns to college quality and selection.} Once application behaviour absorbs selection, the
-average earnings payoff to a more selective college is small, with larger returns for disadvantaged
-students \citep{dale2002estimating, dale2014estimating}. Regression-discontinuity designs find sizeable
-effects in some settings \citep{hoekstra2009effect}, and selection-corrected models still find large
-payoffs to highly selective colleges \citep{brewer1999does, witteveen2017earnings}. Single quality
-proxies are noisy and understate the return \citetext{\citealp{black2006estimating}; see also \citealp{black2004robust}},
-returns differ across the earnings distribution \citep{andrews2016quantile}, raw earnings differences between Texas
-colleges shrink sharply once selection is controlled \citep{cunha2014measuring}, and selectivity predicts
-value added poorly within students' choice sets \citep{mountjoy2021returns}. The payoff to elite
-colleges is concentrated in the upper tail of outcomes \citep{zimmerman2019elite, chetty2023diversifying},
-where elite social networks inside colleges also matter \citep{michelman2022old}. Most of this work
-measures institutional standing by selectivity, rankings, brand or value added, in earnings or in learning
-\citep{riehl2019learning}. The closest use of an academic measure is \citet{hussain2009university}: in UK
-graduate surveys an institution's research rating predicts wages (about 4\% per SD with controls), but it
-correlates 0.87 with entry tariff and turns negative, imprecisely, when entered alongside other quality
-measures.
+\paragraph{College quality and selection.} Once application behaviour absorbs selection, the average earnings
+payoff to a more selective college is small, with larger returns for disadvantaged students
+\citep{dale2002estimating, dale2014estimating}; other designs find sizeable effects in some settings
+\citep{hoekstra2009effect, brewer1999does, witteveen2017earnings}. Single quality proxies are noisy
+\citep{black2006estimating}, matching estimates depend on common support \citep{black2004robust}, returns differ
+across the earnings distribution \citep{andrews2016quantile}, raw differences shrink once selection is controlled
+\citep{cunha2014measuring}, and the payoff to elite colleges concentrates in the upper tail
+\citep{zimmerman2019elite, chetty2023diversifying}. Most of this work measures standing by selectivity, rankings, brand or value added
+\citep{riehl2019learning, mountjoy2021returns}. The closest academic measure is \citet{hussain2009university}:
+in UK graduate surveys an institution's research rating predicts wages but correlates 0.87 with entry tariff and
+turns negative, imprecisely, alongside other quality measures.
 
-\paragraph{Field of study and status by field.} Returns to field of study are large and heterogeneous.
-In Norway, admission cutoffs reveal widely different payoffs across fields net of institution quality
-\citep{kirkeboen2016field}, and US studies document large lifetime and trajectory differences by major
-\citep{altonji2012heterogeneity, altonji2016analysis, webber2014lifetime, kim2015field,
-andrews2024returns}. The size of the institutional-status gradient in pay also varies by field. Earnings gaps across
-selectivity levels are largest for business and smallest for science majors \citep{eide2016where};
-after matching on US survey data, only business and social-science majors show a selectivity premium
-\citep{quadlin2021same}; and Chilean returns to admission are large for highly selective degrees and for
-health, science and social-science degrees \citep{hastings2013some}. Closest to us in the US,
-\citet{bloem2024understanding} show descriptively on an earlier release of College Scorecard field-of-study
-data, our earnings source, that median pay barely varies with admit rate in nursing, teacher education,
-social work and criminal justice but varies strongly with it in computer science, finance, economics,
-political science and marketing; cross-classified models on Scorecard earnings find selectivity matters
-more outside STEM \citep{muse2024college}. Our data reproduce their ordering of these fields, though not
-the flatness: the within-field rank correlation of selectivity (minus the admit rate) with four-year
-earnings is $+0.62$ to $+0.77$ in their five steep fields and $+0.25$ to $+0.37$ in the three flat fields
-we cover (\texttt{scripts/55}). In the UK, returns by institution and subject were earlier estimated on
-survey data, where much of the variation across courses is attributed to selection
-\citep{walker2011differences, walker2018university}, and are now estimated on administrative LEO records
+\paragraph{Field of study and status by field.} Returns to field are large and heterogeneous
+\citep{kirkeboen2016field, altonji2012heterogeneity, altonji2016analysis, webber2014lifetime, kim2015field,
+andrews2024returns}, and so is the status gradient within field \citep{eide2016where, quadlin2021same,
+hastings2013some}. Closest to us, \citet{bloem2024understanding} show on an earlier Scorecard release that median
+pay barely varies with admit rate in nursing, teacher education, social work and criminal justice but varies
+strongly in computer science, finance, economics, political science and marketing; cross-classified models find
+selectivity matters more outside STEM \citep{muse2024college}. UK returns by institution and subject were
+estimated on surveys \citep{walker2011differences, walker2018university} and now on administrative LEO records
 \citep{belfield2018impact, britton2019improving, britton2020impact}. The closest design to ours is
-\citet{britton2022how}. Within subject, returns at age 30 track the prior attainment of a degree's intake
-closely in law, business and economics (correlations 0.93, 0.89 and 0.79) and not at all in medicine (0.09)
-or education ($-0.08$), which the authors attribute to careers with centrally regulated wages; net of
-selectivity, no subject's league-table rating, which includes research intensity, correlates positively and
-significantly with returns.
+\citet{britton2022how}: within subject, returns at age 30 track the prior attainment of a degree's intake closely
+in law, business and economics and not at all in medicine or education, which the authors attribute to centrally
+regulated wages, and net of selectivity no subject's league-table rating correlates positively and significantly
+with returns.
 
-\paragraph{Faculty-hiring hierarchies.} In sociology, centrality in the PhD-exchange network reproduces
-84\% of the variance in departments' reputational prestige \citep{burris2004academic}. Across fields,
-hiring networks are steeply hierarchical, with a few institutions training most faculty
-\citep{clauset2015systematic, wapman2022quantifying}. PhD origin is tightly linked to faculty placement
-\citep{fowler2007social, headworth2016credential}, placement records have been used to rank departments
-\citep{amir2008ranking}, and hiring networks divide into clusters with little hiring between them
-\citep{tervio2011divisions}. Position in the hierarchy shapes productivity, the diffusion of ideas and who
-becomes faculty \citep{way2019productivity, morgan2018prestige, morgan2022socioeconomic, zhang2022labor}.
-The hierarchy is estimated with SpringRank, which orders institutions so that most hires flow down the
-ordering \citep{debacco2018physical}. This literature measures standing within academia. To our knowledge it
-has not asked whether position in the hierarchy predicts the pay of the academy's bachelor's graduates in
-the wider labour market, a question made less than obvious by the weak link between research and teaching
-quality \citep{hattie1996relationship}.
+\paragraph{Faculty-hiring hierarchies.} Centrality in PhD-exchange networks tracks departments' reputational
+prestige \citep{burris2004academic}; hiring networks are steeply hierarchical \citep{clauset2015systematic,
+wapman2022quantifying}; PhD origin is tightly linked to placement \citep{fowler2007social, headworth2016credential};
+placement records have been used to rank departments \citep{amir2008ranking}; and networks divide into clusters with
+little hiring between them \citep{tervio2011divisions}. The hierarchy is estimated with SpringRank, which orders
+institutions so that most hires flow down the ordering \citep{debacco2018physical}. This literature measures
+standing within academia; to our knowledge it has not asked whether position in the hierarchy predicts the pay of
+the academy's bachelor's graduates, a question made less than obvious by the weak link between research and
+teaching quality \citep{hattie1996relationship}.
 
-\paragraph{Employer learning and career dynamics.} In employer-learning models the wage weight on an easily
-observed credential falls with experience relative to hard-to-observe correlates of productivity
-\citep{altonji2001employer}, while the unconditional association of schooling with the level of wages need
-not change \citep{farber1996learning}. Employers learn quickly \citep{lange2007speed, arcidiacono2010beyond},
-learning varies by occupation \citep{mansour2012does}, and pay dispersion grows with experience mostly
-because productivity diverges \citep{kahn2014employer}. Prestige premia fade with experience in Chile
-\citep{bordon2020employer}, and university credentials matter less for later promotions in Japan
-\citep{araki2016university}. Descriptive evidence points the other way: US graduates of higher-quality
-colleges have faster earnings growth in their first four years \citep{thomas2005postbaccalaureate}, and
-college reputation correlates with earnings growth in Colombia \citep{macleod2017big}; selective-college
-payoffs are large at both four and ten years after graduation in two US surveys
-\citep{witteveen2017earnings}. Field-specific and entry-condition forces operate as well
-\citep{roksa2010what, oreopoulos2012short, altonji2016cashier, deming2020earnings}. Separating career time
-from calendar time and cohort requires assumptions \citep{fosse2019analyzing, fosse2019bounding}, and
-administrative earnings records lose graduates selectively \citep{foote2026attrition}.
+\paragraph{Employer learning and career dynamics.} In employer-learning models, the wage coefficient on a
+credential that employers see at hiring need not change with experience when a hard-to-observe correlate of
+productivity is left out \citep{farber1996learning}; with that correlate in the model, the credential's coefficient
+falls with experience while the correlate's rises \citep{altonji2001employer}. Employers learn quickly on average
+\citep{lange2007speed}, but the speed varies by occupation \citep{mansour2012does}, and learning about a
+productivity that keeps changing stays imperfect over whole careers \citep{kahn2014employer}; for college
+graduates the loading on test scores is already high at entry and grows little \citep{arcidiacono2010beyond}. Among
+students who applied to and were admitted by similar colleges, the premium to a more selective one is small over
+the career \citep{dale2014estimating} or fades within a few years \citep{mountjoy2021returns}; prestige premia fade
+with experience in Chile \citep{bordon2020employer} and matter less for later promotions in Japan
+\citep{araki2016university}, while US graduates of higher-quality colleges have faster early earnings growth
+\citep{thomas2005postbaccalaureate} and college reputation correlates with earnings growth in Colombia
+\citep{macleod2017big}. Entry conditions and field-specific forces shape careers too \citep{oreopoulos2012short,
+roksa2010what, altonji2016cashier, deming2020earnings}; separating career time from calendar time and cohort
+requires assumptions \citep{fosse2019analyzing, fosse2019bounding}, and administrative earnings records lose
+graduates selectively \citep{foote2026attrition}.
 
-\paragraph{What is known and what is new.} Known: small average returns to selectivity net of selection,
-elite effects in the tails, fast employer learning, and returns to status that vary by field in the US,
-Chile and the UK, with little pay gradient in UK medicine and education, where wages are set centrally
-\citep{britton2022how}, and in US nursing, teacher education and social work \citep{bloem2024understanding}.
-Our cross-field map and our UK check, which uses a coarser, band-level attainment control than
-\citet{britton2022how}, are replications in kind; what is new is listed at the end of
-Section~\ref{sec:intro}. Licensing, pay schedules and employer sector enter only in
-Section~\ref{sec:boundary}, as candidate readings of where coupling is weak.
+\paragraph{What is known and what is new.} Known: small average returns to selectivity net of selection, elite
+effects in the tails, fast average employer learning, a college-quality earnings gradient that grows early in
+careers, and status gradients that vary by field, with little gradient where wages are set centrally
+\citep{britton2022how, bloem2024understanding}. Our field map and UK check, which uses a coarser, band-level
+attainment control than \citet{britton2022how}, are replications in kind (Section~\ref{sec:intro}). Licensing and
+pay schedules enter only in Section~\ref{sec:boundary}, as candidate readings of where coupling is weak.
 
 % =====================================================================================
 \section{Data and measurement}\label{sec:data}
 
-Table~\ref{tab:data} lists every source with its unit, the sample used and its known limitations. All
-inputs are public; versions, URLs and access dates are recorded in the repository (\SI{1}).
+Table~\ref{tab:data} lists each source with its unit, the sample used and its known limitations; versions, URLs
+and access dates are recorded in the repository (\SI{1}).
 
 \subsection{Prestige: the faculty-hiring hierarchy}\label{sec:prestige}
 
-We use the published prestige ranks of \citet{wapman2022quantifying}, estimated with SpringRank from a
-census of faculty at 368 PhD-granting US institutions, 2011--2020 \citep{wapman2022data} (the published
-academia-wide ranks have 371 rows, 369 of them named). For institution $i$ and field $f$, field
-(department) prestige $F_{if}$ is minus the published field rank, and academia-wide prestige $G_i$ is minus
-the published rank in the network that pools hires across all fields. Both are fixed across earnings
-horizons, so any change over careers is on the earnings side. $G$ is sometimes read as institutional brand;
-we use that word only as an interpretation, because $G$ also tracks selectivity. Across 242 US universities
-its Spearman correlation with average SAT is $+0.68$, and across 133 UK providers the UK analogue correlates
-$+0.71$ with intake selectivity. $F$ and $G$ are themselves close: within the field-by-cohort cells of the
-PSEO panel their Spearman correlation averages 0.83 (range 0.55--0.95).
+We use the published prestige ranks of \citet{wapman2022quantifying}, estimated with SpringRank from a census of
+faculty at 368 PhD-granting US institutions, 2011--2020 \citep{wapman2022data}. For institution $i$ and field
+$f$, field (department) prestige $F_{if}$ is minus the published field rank, and academia-wide prestige $G_i$ is
+minus the rank in the network that pools hires across all fields. Both are fixed across earnings horizons and
+describe hires of 2011--2020. $G$ tracks selectivity: across the 242 universities of the Opportunity Insights
+sample its Spearman correlation with average SAT is $+0.68$, and the UK analogue correlates $+0.71$ with intake
+selectivity across 133 providers. Within the field-by-cohort cells of the PSEO panel $F$ and $G$ correlate 0.83 on
+average. $F$ partly tracks doctoral output: residualising it on log research doctorates and the net export ratio
+of hires keeps 0.60 \ci{0.47}{0.73} of mean coupling, an upper bound on the production share (post hoc,
+self-attested registration; \SI{2}).
 
-The public release omits institution pairs linked by a single hire (the smallest edge weight in the
-public edge list is two). In the 40 fields with published hire counts, the public field-level edges
-carry a median 15\% of the field's US-doctorate faculty (self-hires excluded), against 67\% for the
-academia-wide network, so a SpringRank rebuilt from public edges reproduces the published field ranks
-only partly (median Spearman 0.73, range 0.32--0.87; academia-wide 0.908). We therefore use the
-published ranks, whose sampling reliability public data can only bracket (Section~\ref{sec:methods}).
-Measured on public edges, the split-half reliability of $F$ averages 0.81 across 57 fields (range
-0.56--0.95), a lower bound; extrapolated to the number of hires behind the published ranks it is 0.96. The
-reliability of $G$ is 0.99 on the fields' samples (0.96 across the whole academia-wide network; \SI{2}).
-Where reliability matters, results are reported at both ends of the bracket.
+The public release omits institution pairs linked by a single hire, so a SpringRank rebuilt from public edges
+reproduces the published field ranks only partly (median Spearman 0.73; academia-wide 0.908). We therefore use the
+published ranks and bracket their sampling reliability: the split-half reliability of
+$F$ on public edges averages 0.81 across 57 fields \citep[stepped up with the Spearman--Brown
+formula;][]{spearman1910correlation, brown1910some}, a lower bound, and 0.96 when extrapolated to the number of
+hires behind the published ranks; that of $G$ is 0.99 (\SI{2}). Where reliability matters, results are reported at
+both ends.
 
 \subsection{Earnings and placement}\label{sec:earnings}
 
-\paragraph{US: College Scorecard.} The canonical outcome is the median earnings of Title IV--aided
-bachelor's completers four years after completion, from the Field-of-Study file released in June 2026
-\citep{scorecard}, aggregated over each field's four-digit CIP codes through a curated map of 66 fields
-(\SI{1}). Matching to the published ranks gives 3,444 institution-by-field cells in the 52 fields with
-at least 15 matched institutions (median 48 institutions per field, range 15--173; \texttt{scripts/55}), the canonical
-sample, and 3,500 cells in the 57 fields with at least 8, which we use for the heterogeneity statistics, the
-reliability bracket, the comparison of $F$ with $G$ and the cross-source comparison. Scorecard covers the
-ranked institutions about evenly across academia-wide prestige quartiles (74.2\%, 65.6\%, 71.7\% and
-65.6\% on the 66-field map, top to bottom; \SI{1}). Institutional covariates come from the Scorecard
-``most recent'' institution file (2026 build): average SAT, admission rate, Pell share, control,
-institution-wide median earnings ten years after entry, and the earnings level of the institution's state.
-These describe recent entering classes, not the cohorts whose earnings we observe
-(Section~\ref{sec:limits}). No public US file measures the entry attainment of a program's own students;
-the Field-of-Study file has 178 columns and none carries SAT or ACT information. One-year and five-year
-medians from the same release refer to other graduating cohorts and are used only as replications.
+\paragraph{US: College Scorecard.} The canonical outcome is the median earnings of Title IV--aided bachelor's
+completers four years after completion, from the Field-of-Study file released in June 2026 \citep{scorecard},
+which excludes completers enrolled or not working in the measurement year, aggregated over each field's four-digit
+CIP codes through a curated map of 66 fields. Matching to the published ranks by normalised institution name
+gives 3,444 institution-by-field cells in the 52 fields with at least 15 matched institutions (median 48, range
+15--173), the canonical sample, and 3,500 cells in the 57 fields with at least 8, used for heterogeneity,
+reliability and cross-source statistics. Scorecard covers 66--74\% of the ranked institutions in each
+academia-wide prestige quartile (SI check, \SI{1}), but the name join loses institutions whose Scorecard names
+carry campus qualifiers (Georgia Tech, Purdue and Ohio State among them). Institutional covariates (average SAT,
+admission rate, Pell share, control, institution-wide earnings and the state earnings level) come from the ``most recent'' institution file, which describes recent entering
+classes; its SAT average is missing for test-blind institutions (the University of California campuses and
+Caltech among them), and for three key statistics we re-date the controls to the graduates' entry years with the
+historical files. No public US file measures the entry attainment of a program's own students. One- and
+five-year medians refer to other cohorts; they serve as replications and enter averages over the three horizons.
 
-\paragraph{US: PSEO.} PSEO reports unemployment-insurance wage earnings of graduates, in constant 2023
-dollars, one, five and ten years after graduation (y1, y5, y10) by three-year graduation cohort
-\citep{pseo}. We use release V4.13.0 (2025Q4; 952 institutions) as canonical and the August 2026 release
-V4.14.1 (2026Q2; 1,117 institutions) as a re-check. For career time we build fixed cohorts (graduates of
-2001--03, 2004--06, 2007--09 and 2010--12) and keep, within each field and cohort, the institutions
-observed at all three horizons, with at least 15 per cell: 106 institutions, 142 field-by-cohort cells
-and 39 fields on V4.13.0, and 116, 145 and 40 on V4.14.1. PSEO partners are mostly public institutions:
-only 20 of the 93 top-quartile ranked institutions have a usable five-year cell on V4.13.0 (26 on
-V4.14.1), so the prestige range is truncated at the top. PSEO Flows give the employed graduates of each
-institution-by-CIP-2 cell by employer sector. We define a market share $M$ (information, finance and
-professional services; NAICS 51, 52, 54) and a setting share $S$ (education, health care and public
-administration; NAICS 61, 62, 92), and a family prestige $P$, the completions-weighted mean of within-field
-prestige percentiles over the ranked fields of each CIP-2 family.
+\paragraph{US: PSEO.} PSEO reports unemployment-insurance wage earnings of graduates with earnings above a
+full-time minimum-wage threshold, in constant 2023 dollars, one, five and ten years after graduation (y1, y5, y10)
+by three-year graduation cohort. Release V4.13.0 (2025Q4) is canonical; the August 2026 release V4.14.1 (2026Q2),
+on which the later analyses run, is a re-check. For career time we keep, within each field and cohort (graduates
+of 2001--03 to 2010--12), the institutions observed at all three horizons, at least 15 per cell: 106 institutions,
+142 field-by-cohort cells and 39 fields on V4.13.0 (116, 145 and 40 on V4.14.1). A window-by-horizon surface adds
+later cohorts: 17 cells, from 2001--03 to 2019--21 at y1, to 2016--18 at y5 and to 2010--12 at y10. PSEO partners
+are mostly public: only 20 of the 93 top-quartile ranked institutions have a usable five-year cell on V4.13.0 (26
+on V4.14.1). PSEO Flows give each institution-by-CIP-2 cell's employed graduates by employer sector (\SI{7}).
 
-\paragraph{UK: LEO and an academia-wide hiring hierarchy.} The DfE provider-level LEO file (``Graduate
-outcomes (LEO): provider level data'', 2022-23 release) reports median earnings by provider, CAH2 subject,
-graduating cohort and year after graduation (YAG 1, 3, 5), and separately by prior-attainment (UCAS tariff)
-band. We use the cohorts 2013/14 to 2016/17 and the 33 subjects with at least 15 providers. For prestige
-we run SpringRank on 11,987 PhD-to-faculty moves between institutions in Great Britain in the ORCID-derived
-academic mobility edges (Zenodo, doi:10.5281/zenodo.19651302, version 20260419), which are built from ORCID
-public records \citep{orcid} with organisations resolved to ROR identifiers; institutions are matched to
-providers through the ROR data dump v2.8 (Zenodo record 20512981). The network has 551 institutions; 149
-match LEO providers and 134 form the primary sample (network degree at least 5; \SI{1}). The resulting
-academia-wide ordering places Russell Group members at a mean percentile of 0.86 against 0.43 for other
-providers (AUC 0.93); its split-half correlation is 0.85 for half-networks and its reliability 0.92 for the
-full network (Spearman--Brown). These are internal checks. Its external validity is less certain: in the
-US, an academia-wide ranking rebuilt from ORCID records agreed with the census-based published ranks at
-Spearman 0.74, against 0.91 for SpringRank on the public census edges (legacy \texttt{scripts/10}--11;
-\SI{2}). Field-tagged UK networks are too sparse (47 to 504 edges per usable field) to serve as the main
-axis, so the UK analysis has no department axis. Intake selectivity is the institution's share of graduates
-who entered with at least 360 tariff points.
+\paragraph{UK: LEO and an academia-wide hiring hierarchy.} The DfE provider-level LEO file reports median
+earnings by provider, CAH2 subject, graduating cohort and year after graduation (YAG 1, 3, 5), separately by
+prior-attainment band, sex and POLAR4 quintile (one characteristic at a time) \citep{dfe_leo_provider}. We use
+the cohorts 2013/14 to 2016/17 and the 33 subjects with at least 15 providers. For prestige we run SpringRank on
+11,987 PhD-to-faculty moves between institutions in Great Britain in the ORCID-derived academic mobility edges
+\citep{li2026orcid, orcid}, matched to providers through the ROR data dump \citep{ror2026data}: 134 providers form
+the primary sample (\SI{1}). Russell Group members sit at a mean percentile of 0.86 against 0.43 for other
+providers, and the split-half reliability is 0.92. Validity is less certain: in the US, an academia-wide ranking
+rebuilt from the ORCID-derived edges agreed with the published ranks at Spearman 0.74 (\SI{2}). Field-tagged UK
+networks are too sparse to use, so the UK analysis has no department axis. Intake selectivity is the
+institution's share of graduates who entered with at least 360 tariff points.
 
-\paragraph{Other sources.} Opportunity Insights college-level outcomes \citep{chetty2020income} give,
-for 242 PhD-granting universities linked to single-college units, median earnings and the share of
-former students in the top 1\% of their cohort's earnings, with parental income and selectivity. The
-2023 American Community Survey 1-year public-use microdata (U.S. Census Bureau) give field-level shares of
-degree holders in licensed occupations and in government or non-profit employment.
+\paragraph{Other sources.} Opportunity Insights college tables \citep{chetty2020income} give tail outcomes for 242
+PhD-granting universities. The 2023 American Community Survey public-use microdata \citep{census_acs2023_pums} give
+field-level licensed and sector shares, graduate-degree shares and field-by-state earnings. The Survey of Earned
+Doctorates \citep{ncses_sed_bacc} gives research doctorates by baccalaureate institution, state unemployment rates come
+from the Bureau of Labor Statistics \citep{fred_laus}, and admission rules for computer-science majors were coded
+from official university pages (Table~\ref{tab:data}).
 
 \subsection{Coupling and inference}\label{sec:coupling}
 
-Coupling is $\rho_f=\mathrm{Spearman}_i(F_{if},Y_{if})$ across the institutions $i$ that teach field
-$f$, with $Y$ median earnings. As a rank statistic within field it ignores pay differences between fields
-and asks only whether the prestige and pay orderings coincide; it does not measure how large the pay
-differences between high- and low-prestige institutions are. Earlier drafts reported the gap $1-\rho_f$,
-which carries the same information. Partial couplings correlate the rank residuals of $F$ and $Y$ after
-regressing both on the ranks of the controls. A field is flagged as reliable when its earnings carry
-cross-institution signal beyond cohort sampling noise (signal fraction at least 0.5 under a noise model
-calibrated to cohort sizes), when the bootstrap interval of $\rho_f$ does not overlap the band that
-sampling noise alone would produce under perfect agreement, and when it has at least 10 institutions; 20 of
-the 52 canonical fields pass. We use the flag as a check, not a filter, because the signal fraction is
-miscalibrated for some fields (\SI{3}).
+Coupling is $\rho_f=\mathrm{Spearman}_i(F_{if},Y_{if})$ across the institutions $i$ that teach field $f$, with $Y$
+median earnings: a rank statistic that asks whether the prestige and pay orderings coincide, not how large the pay
+differences are. Partial couplings correlate the rank residuals of $F$ and $Y$ after regressing both on the ranks
+of the controls. The main text rests on three estimands: coupling and partial coupling averaged over fields; the
+within-institution slope $\beta$ of log earnings on department prestige (Eq.~\ref{eq:fe}), a pay difference; and
+the per-year change of coupling within fixed graduation cohorts. A field is flagged reliable when its earnings
+carry cross-institution signal beyond sampling noise, its interval excludes the band that noise alone would
+produce under perfect agreement, and it has at least 10 institutions; 20 of the 52 canonical fields pass, and the
+flag is a check, not a filter (\SI{3}).
 
-Fields share institutions, so cross-field statistics are not independent, and each interval answers a
-stated question. Means across fields on Scorecard use a joint institution bootstrap that resamples
-institutions once per draw for every field; these intervals are conditional on the observed fields. PSEO
-career-time statistics are about fields in general and use the two-way (field, institution) cluster
-variance, which treats both fields and institutions as sampled; beside it we report the crossed
-field-by-institution bootstrap, which is conservative for these statistics (under a within-cell null its
-variance is 3.0--3.7 times the true sampling variance). UK intervals resample subjects and then providers
-within subject. Field-level moderators are tested by field-label permutation, which treats fields as
-exchangeable, and also with a bootstrap that resamples whole CIP-2 families, shown in angle brackets.
-Brackets are 95\% intervals throughout. The canonical specification was fixed before the manuscript was
-drafted, after the analyses had been run; alternatives are collected in a specification curve
-\citep{simonsohn2020specification} in \SI{4}, and \SI{9} lists every hypothesis the analyses examined. Every
-number comes from a seeded script in the repository or, where marked ``SI check'', from code run on the
-repository's tables; the SI maps each number to its source.
+Fields share institutions, so cross-field statistics are not independent. Means across fields on Scorecard use a
+joint institution bootstrap, conditional on the observed fields; PSEO statistics use the two-way (field,
+institution) cluster variance \citep{cameron2011robust}, with the conservative crossed field-by-institution
+bootstrap beside it; within-institution slopes use an institution cluster bootstrap; UK intervals resample
+subjects and then providers; tests clustered by state use the wild cluster bootstrap \citep{cameron2008bootstrap,
+webb2023reworking}; field-level moderators are tested by field-label permutation and by resampling whole CIP-2
+families. Brackets are 95\% intervals. Where interval types disagree, an association counts as present only if its
+interval excludes zero under the most conservative variance reported for it. Four statements fail that rule and
+are reported as not established (\SI{9} lists their intervals): the within-institution slope, with 2026 or with
+entry-year selectivity controls; the gap between the growth of the $G$ and $F$ loadings; and the UK per-cell
+partial of $G$ net of selectivity on all-graduate medians. The canonical specification was fixed after the main
+analyses had been run and before drafting; alternatives form a specification curve
+\citep{simonsohn2020specification} (\SI{4}). The analyses added later (scripts 65--69 and 72--75) wrote their tests
+and reading rules into the script before estimation, a self-reported timing; the SI lists the amendments made
+after a first run, and \SI{9} every hypothesis examined in scripts 52--75, including the verdicts of all nine
+registered tests of script 75, of which only two enter the text, with the power or interval of the main nulls.
+Every number comes from a seeded script or, where marked ``SI check'', from code run on the repository's tables.
 
 \begin{table}[!tbp]
 \centering
 \caption{Data sources and samples. All sources are public; provenance is recorded in
 \texttt{data/raw/SOURCES.md} of the repository.}\label{tab:data}
-\footnotesize
-\renewcommand{\arraystretch}{0.95}
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{3.5cm}@{}}
+\scriptsize
+\renewcommand{\arraystretch}{0.92}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{3.8cm}@{}}
 \toprule
 Source & Unit and release & Sample used here & Role & Known limitation \\
 \midrule
-Faculty-hiring ranks \citep{wapman2022data} & institution $\times$ field; published field and academia-wide SpringRank ranks, 2011--2020 & 66 mapped fields; 57 with $\ge 8$ and 52 with $\ge 15$ matched institutions & $F$, $G$ & public edges omit single-hire pairs; reliability of $F$ bracketed (0.81--0.96) \\
-College Scorecard, Field of Study \citep{scorecard} & institution $\times$ CIP-4, bachelor's; median earnings 4 years after completion (1, 5 years as replications); June 2026 & 3,444 cells, 52 fields & $Y$ (canonical) & Title IV completers; medians only; no program-level entry attainment \\
-College Scorecard, institution file \citep{scorecard} & institution; ``most recent'' file, 2026 build & 46--47 fields with SAT data; 52 with admission rate & selectivity, Pell share, control, institution earnings, state level & institution-level; describes recent entering classes, not the earnings cohorts \\
-PSEO earnings, V4.13.0 and V4.14.1 \citep{pseo} & institution $\times$ CIP-4 $\times$ 3-year cohort; p25, p50, p75 at y1, y5, y10 & fixed cohorts 2001--2012: 106 (116) institutions, 39 (40) fields & second source; career time & public-skewed; 20 (26) of 93 top-quartile institutions; UI-covered jobs \\
-PSEO Flows \citep{pseo} & institution $\times$ CIP-2 $\times$ employer sector & 1,312 cells at 108 ranked institutions; 4,773 cells at 348 institutions with SAT; 21 families & placement shares $M$, $S$ & noise-protected counts; employer industry, not occupation \\
-DfE LEO provider file, 2022-23 release & provider $\times$ CAH2 $\times$ cohort $\times$ YAG; also by prior-attainment band & 33 subjects, 134 providers, cohorts 2013/14--2016/17, YAG 1/3/5 & UK earnings & medians; small cells suppressed; coarse bands \\
-ORCID-derived mobility edges (Zenodo, doi:\allowbreak\,10.5281/\allowbreak zenodo.\allowbreak 19651302), from ORCID \citep{orcid}; ROR v2.8 & PhD-to-faculty moves within Great Britain & 11,987 moves, 551 institutions & UK $G$ & registry self-report; academia-wide only \\
-Opportunity Insights college tables \citep{chetty2020income} & college; outcomes by parent income & 242 PhD-granting universities & tail outcomes & pools all fields of a college \\
-ACS PUMS 2023, 1-year (U.S. Census Bureau) & person & field-level shares & licensed and public or non-profit employment shares & shares include graduate-degree holders \\
+Faculty-hiring ranks \citep{wapman2022data} & institution $\times$ field; published SpringRank ranks, 2011--2020 & 66 fields; 52 with $\ge 15$ institutions & $F$, $G$ & single-hire pairs not public; reliability of $F$ bracketed \\
+College Scorecard, Field of Study \citep{scorecard} & institution $\times$ CIP-4; bachelor's median earnings at 4 years (1, 5 as replications); June 2026 & 3,444 cells, 52 fields & $Y$ (canonical) & Title IV completers; medians; no program-level entry attainment \\
+College Scorecard, institution files \citep{scorecard} & ``most recent'' (2026) and historical files (2001--02 to 2016--17) & 46--47 fields with SAT data & selectivity, Pell, control, state & institution-level; entry year inferred \\
+PSEO earnings \citep{pseo, pseo2026} & institution $\times$ CIP-4 $\times$ 3-year cohort; p25, p50, p75 at y1, y5, y10; V4.13.0, V4.14.1 & fixed cohorts 2001--2012; 17-cell surface, 24 fields & second source; career time & public-skewed; 20 (26) of 93 top-quartile institutions \\
+PSEO Flows \citep{pseo, pseo2026} & institution $\times$ CIP-2 $\times$ employer sector & 1,312 cells, 108 institutions & placement & noisy counts; industry, not occupation \\
+DfE LEO provider file \citep{dfe_leo_provider} & provider $\times$ CAH2 $\times$ cohort $\times$ YAG; by prior attainment, sex, POLAR4 & 33 subjects, 134 providers & UK earnings & marginal breakdowns only; coarse bands \\
+ORCID-derived mobility edges \citep{li2026orcid}; ROR \citep{ror2026data} & PhD-to-faculty moves within Great Britain & 11,987 moves, 551 institutions & UK $G$ & self-reported careers; academia-wide only \\
+Opportunity Insights \citep{chetty2020income} & college; outcomes by parent income; Barron's 2009 index & 242 universities & tail outcomes & pools a college's fields \\
+ACS PUMS 2023 \citep{census_acs2023_pums} & person & field and field $\times$ state aggregates & shares; local demand & state of residence \\
+Survey of Earned Doctorates \citep{ncses_sed_bacc}; IPEDS \citep{nces_ipeds} & baccalaureate institution & PSEO panel institutions & doctorate rate & institution-wide \\
+BLS LAUS \citep{fred_laus}; admissions pages & state $\times$ year; CS program & 18 states; 88 of 128 programs & entry conditions; entry route & residence state; 2026 policy \\
+Occupational prestige \citep{hughes2024occupational}; NY Fed data by major \citep{nyfed2026labor} & field & 32--52 fields & placement check & field level only \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -375,243 +324,151 @@ ACS PUMS 2023, 1-year (U.S. Census Bureau) & person & field-level shares & licen
 % =====================================================================================
 \section{Results}\label{sec:results}
 
-We report the four findings in turn and then the fields where coupling is weak.
-Table~\ref{tab:ladder} collects the selectivity controls for both countries and
-Table~\ref{tab:career} the career-time estimates.
+We report the four findings in turn and then the fields where coupling is weak. Table~\ref{tab:ladder} collects the
+controls for institution-level status and Table~\ref{tab:career} the career-time estimates.
 
 \subsection{Coupling is positive, heterogeneous and similar on two earnings sources}\label{sec:map}
 
-Graduate pay tracks the hiring hierarchy in most fields. Across the 52 canonical fields, mean coupling
-is $+0.419$ \ci{+0.355}{+0.482}, and 39 of the 52 fields have coupling more than 1.96 bootstrap standard
-errors above zero, none below (Fig.~\ref{fig:map}). Coupling varies across fields by more than institution
-sampling alone would produce. In a three-level meta-analytic model of Fisher-$z$ coupling on 57 fields
-\citep{konstantopoulos2011fixed, cheung2014modeling}, Cochran's $Q=183.2$ on 56 degrees of freedom and
-$I^2=0.69$ (0.67 with the Bonett--Wright variance for Spearman correlations). These statistics count
-institution sampling only. Noise in the program medians that institution resampling does not capture,
-which plausibly differs by field, is counted as heterogeneity, so part of the spread may be field-varying
-measurement quality rather than field-varying coupling (\SI{3}).
+Graduate pay tracks the hiring hierarchy in most fields. Across the 52 canonical fields mean coupling is $+0.419$
+\ci{+0.355}{+0.482}, and 39 fields have coupling more than 1.96 bootstrap standard errors above zero, none below
+(Fig.~\ref{fig:map}). Coupling varies across fields by more than institution sampling produces: in a three-level
+meta-analytic model of Fisher-$z$ coupling on 57 fields \citep{konstantopoulos2011fixed, cheung2014modeling},
+Cochran's $Q=183.2$ on 56 degrees of freedom and $I^2=0.69$ \citep{higgins2002quantifying}. Part of this spread is
+noise in the program medians; a secondary analysis, not yet independently verified, that propagates it lowers
+$I^2$ to 0.51 and keeps the field ordering (\SI{3}). Part of the remaining variation is a measurement confound:
+coupling rises with the number of institutions that teach a field (Spearman 0.43, 57 fields), and a discipline
+(CIP-2) variance component, detected without adjustment, is borderline once field size is a covariate
+(permutation $p$ from 0.028 to 0.046; \SI{3}). The grouping of fields into disciplines is therefore a descriptive
+map.
 
-Part of the variation is a measurement confound. Coupling rises with the number of institutions that
-offer a field (Spearman between $z_f$ and $n_f$ $=0.43$, $p<0.001$, 57 fields), which may reflect range
-restriction and noisier estimates in small fields as much as anything about the fields themselves. The
-grouping of fields into disciplines is therefore a descriptive map, not a statement about variance
-shares. Shrunken CIP-2 family means are lowest for health (0.27), natural resources (0.28), the arts
-(0.28) and the biological sciences (0.32), and highest for computer and information sciences (0.62; one
-field, computer science), mathematics and statistics (0.60), the social sciences (0.56) and parks,
-recreation and kinesiology (0.55). A CIP-2 variance component is detected without adjustment
-(likelihood ratio 7.68, size-preserving label permutation $p=0.005$) but is borderline once field size
-is a covariate (likelihood ratio 3.41; $p$ from 0.028 to 0.046 across four null distributions), and its
-profile interval then reaches zero (\SI{3}).
-
-The field ordering is similar on a second earnings source. Coupling computed from PSEO five-year earnings
-correlates with Scorecard coupling across fields at $+0.68$ (two-way interval \ci{+0.54}{+0.82}; 57
-fields, V4.13.0) and at $+0.74$ \ci{+0.61}{+0.87} on the V4.14.1 release (127 matched institutions). This
-is robustness to the earnings measure rather than an independent replication: both couplings use the same
-$F$, 61\% of the PSEO institution-by-field rows used on V4.14.1 also enter the Scorecard couplings, and
-institution noise shared by the two sources could raise the correlation, which we cannot separate. Pooled
-over all 1,535 matched institution-by-field cells, the two sources' earnings levels correlate at $+0.94$
-(Spearman), but that figure includes pay differences between fields; within fields the mean Spearman is
-$+0.68$ (median $+0.73$, range $+0.19$ to $+0.95$; 48 fields with at least 8 matched cells; SI check,
-\SI{3}).
-
-Median pay is not an idiosyncratic stand-in for where graduates go. In PSEO Flows, within CIP-2
-families, the rank correlation of family prestige $P$ with the share of employed graduates in market
-sectors is $+0.40$ \ci{+0.32}{+0.47}, about the same as wage coupling on the same cells, $+0.41$
-\ci{+0.31}{+0.49} (1,312 institution-by-family cells at 108 institutions, 21 families; difference $+0.01$
-\ci{-0.08}{+0.10}). On the 1,178 cells at 93 institutions with Scorecard covariates, where the raw values
-are $+0.40$ and $+0.42$, both fall to about $+0.1$ net of selectivity (placement $+0.13$
-\ci{+0.04}{+0.22}, wages $+0.10$ \ci{-0.00}{+0.21}). Across fields, graduates' earnings also track non-wage
-measures of placement such as occupational prestige, although that check validates earnings as a placement
-measure across fields, not within them (\SI{10}).
+The field ordering is similar on a second earnings source: coupling from PSEO five-year earnings correlates with
+Scorecard coupling across fields at $+0.68$ (two-way interval \ci{+0.54}{+0.82}; 57 fields, V4.13.0) and $+0.74$
+\ci{+0.61}{+0.87} on V4.14.1. This is robustness to the earnings measure, not an independent replication: both use
+the same $F$, and 61\% of the PSEO rows used on V4.14.1 also enter the Scorecard couplings. Pay also tracks where
+graduates go: within CIP-2 families in PSEO Flows, family prestige orders the share of employed graduates in market
+sectors about as closely as it orders pay ($+0.40$ \ci{+0.32}{+0.47} against $+0.41$ \ci{+0.31}{+0.49}; 1,312
+cells; \SI{10}).
 
 \begin{figure}[p]
 \centering
 \paperfig{paper_fig1}
-\caption{Coupling between department prestige and bachelor's earnings, by US field. Rows are the 52 fields
-with at least 15 matched institutions, sorted by raw coupling $\rho_f$, the Spearman correlation across
-institutions between published field prestige $F$ \citep{wapman2022quantifying} and College Scorecard
-median earnings four years after completion. Circles: raw $\rho_f$, coloured by CIP-2 family and sized by
-the number of institutions. Open squares: partial coupling net of the broad selectivity set (institution
-average SAT, admission rate, Pell share, control and state earnings level; 46 fields). Diamonds: the same
-net of academia-wide prestige $G$ as well (44 fields). Field intervals are $\pm1.96$ joint
-institution-bootstrap standard errors, cut at $\pm1$. The top row gives the means across fields with
-joint institution-bootstrap 95\% intervals (conditional on the observed fields); vertical lines mark the
-three means (dashed: raw; dotted: net of selectivity; dash-dot: net of selectivity and $G$). Bold labels
-mark the 20 fields that pass the reliability flag.}\label{fig:map}
+\caption{Coupling by US field: the Spearman correlation $\rho_f$ across institutions between published field
+prestige $F$ \citep{wapman2022quantifying} and Scorecard median earnings four years after completion, for the 52
+fields with at least 15 matched institutions. Circles: raw $\rho_f$, coloured by CIP-2 family, sized by
+institutions. Squares: net of the broad selectivity set (46 fields); diamonds: net of $G$ as well (44 fields).
+Intervals: $\pm1.96$ joint institution-bootstrap SE, cut at $\pm1$; top row: means with 95\% intervals. Bold
+labels: the 20 fields flagged reliable (Section~\ref{sec:coupling}); the flag does not certify
+precision.}\label{fig:map}
 \end{figure}
 
 \subsection{Most of the coupling is shared with institution-level status}\label{sec:status}
 
-Controlling for institution-level status removes most of the coupling. What remains is small, borderline
-on average and concentrated in a few fields. The estimand is the information in $F$ about pay net of
-institution-level status proxies; it is not a return. In the framework of \citet{dale2002estimating},
-institutional average SAT is a candidate quality treatment as well as a selection proxy, so partialling it
-out removes selection together with any college effect correlated with it. The drop therefore measures what
+Controlling for institution-level status removes most of the coupling, and what remains is small and borderline
+on average. The estimand is the information in $F$ about pay net of institution-level status proxies, not a
+return. Average SAT is a candidate quality treatment as well as a selection proxy \citep{dale2002estimating}, so
+partialling it out removes selection together with any college effect correlated with it: the drop measures what
 cannot be separated from institutional status with public data, not what selectivity causes.
 
-\paragraph{The control ladder.} On a common sample of 44 fields with SAT data, mean coupling falls from
-$+0.43$ raw to $+0.31$ with Pell share, control and the state earnings level, to $+0.24$ with the
-admission rate and to $+0.14$ with average SAT (Fig.~\ref{fig:status}a); adding institution-wide earnings
-takes it to $+0.12$ (Table~\ref{tab:ladder}, panel A), although that control partly contains the outcome,
-because institution-wide earnings include the field's own graduates. On the 46 fields estimable in the
-broad specification (SAT, admission rate, Pell share, control and state earnings level) the mean partial
-coupling is $+0.141$ \ci{+0.075}{+0.208}, against $+0.43$ raw on the same institutions. Selectivity
-itself couples with field earnings more strongly than department prestige does: on the 47 fields of the
-SAT sample, the mean of $\rho(\mathrm{SAT},Y)$ is $+0.57$ and that of $\rho(F,Y)$ is $+0.43$. Adding
-academia-wide prestige $G$ to the broad set leaves $+0.059$ \ci{+0.003}{+0.114} (44 fields;
-Fig.~\ref{fig:status}a, last step): the part of the department ordering that neither selectivity nor the
-academia-wide ordering tracks. Whether this remainder excludes zero depends on the specification. Across ten
-specifications that net out selectivity and $G$, the interval excludes zero in four; point estimates range
-from $+0.041$ to $+0.140$, and no upper bound exceeds $+0.25$. Averaged over the four-, one- and five-year
-Scorecard horizons on the 2,422 programs released at all three, it is $+0.052$ \ci{+0.003}{+0.100} (39
-fields).
+\paragraph{The control ladder.} On a common sample of 44 fields, mean coupling falls from $+0.43$ raw to $+0.31$
+with Pell share, control and the state earnings level, to $+0.24$ with the admission rate and to $+0.14$ with
+average SAT (Fig.~\ref{fig:status}a; Table~\ref{tab:ladder}). On the 46 fields estimable with the broad set (SAT,
+admission rate, Pell share, control and state earnings level) the mean partial coupling is $+0.141$
+\ci{+0.075}{+0.208}, and 11 fields stay more than 1.96 standard errors above zero. Dating the controls to the falls
+in which the earnings cohort entered (2014--15) leaves the broad partial where it was (difference $+0.005$
+\ci{-0.031}{+0.041} on the same 2,787 programs, two-way; \SI{4}). Adding $G$ to the broad set leaves $+0.059$
+\ci{+0.003}{+0.114} (44 fields), the part of the department ordering that neither selectivity nor the academia-wide
+ordering tracks; across ten specifications that net out selectivity and $G$, its interval excludes zero in four.
 
-\paragraph{Within institutions.} Institution fixed effects absorb each institution's average earnings
-level across its fields, and with it the institution-wide parts of selectivity, $G$ and location. They do
-not absorb field-specific local labour demand or differences in who enrols in a given major, so the
-remaining slope compares departments of different standing inside the same institution without separating
-department standing from program-level selection. The slope of log four-year earnings on department
-prestige falls from $+0.084$ (SE 0.006) to $+0.013$ (SE 0.004) per within-field SD when institution fixed
-effects are added (3,416 programs, 198 institutions). Fixed effects do not remove field-specific slopes on
-institution-level selectivity, so we add field-specific slopes on SAT, admission rate, Pell share and $G$
-(Eq.~\ref{eq:fe}). The department slope is then $+0.0084$ \ci{+0.0000}{+0.0164} in log earnings (2,889
-programs, 168 institutions, 47 fields; institution cluster bootstrap), against $+0.0851$ with field fixed
-effects only on the same programs. About a tenth of the cross-institution slope is left: one SD of
-department prestige goes with 0.84\% higher four-year pay. Its interval reaches zero only at the edge
-(2.5\% of 999 bootstrap draws are at or below zero), and it survives field-specific cubic slopes in $G$
-($+0.0093$ \ci{+0.0002}{+0.0176}) and a field-specific slope on the state earnings level ($+0.0097$
-\ci{+0.0009}{+0.0171}), the only location control available.
+\paragraph{Within institutions.} Institution fixed effects absorb each institution's average earnings level
+across its fields, and with it the institution-wide parts of selectivity, $G$ and location. The slope of log
+four-year earnings on department prestige falls from $+0.084$ (SE 0.006) to $+0.013$ per within-field SD when they
+are added (3,416 programs, 198 institutions; Fig.~\ref{fig:status}b). With field-specific slopes on SAT, admission
+rate, Pell share and $G$ (Eq.~\ref{eq:fe}) it is $+0.0084$ \ci{+0.0000}{+0.0164} (2,889 programs, 168
+institutions, 47 fields; institution cluster bootstrap; \ci{-0.0012}{+0.0180} under the two-way variance): one SD
+of department prestige goes with 0.84\% higher four-year pay, with an upper 95\% limit of 1.6--1.8\% and a lower
+limit at or below zero. With one- and five-year medians, which describe other cohorts, the slope is about zero
+($-0.0024$ and $+0.0023$); averaged over the three horizons it is $+0.0048$ \ci{-0.0024}{+0.0120} with programs
+weighted equally and $+0.0108$ \ci{+0.0035}{+0.0181} weighted by graduates. The point estimate barely moves with
+selectivity dated to entry years ($+0.0081$ against $+0.0090$ on the same 2,801 programs), with cubic
+field-specific slopes in $G$ ($+0.0093$) or with a field-by-state earnings control for local demand (change
+$+0.0000$ \ci{-0.0007}{+0.0008}), but that control is weak: it describes the institution's state and passes little
+through to program earnings (\SI{4}). Controlling for program composition does not lower the slope either: on the
+1,294 programs that release a Pell share (141 institutions, 26 fields), a field-specific control for it moves the
+slope from $+0.0118$ to $+0.0137$ \ci{+0.0027}{+0.0238} (change $+0.0019$ \ci{-0.0022}{+0.0053}). A hint of
+composition within programs comes from one of several comparisons: with that control the slope is $+0.0009$
+\ci{-0.0123}{+0.0128} for aided graduates without a Pell grant (difference from all aided graduates $+0.0129$
+\ci{+0.0008}{+0.0243}), but $+0.0102$ \ci{-0.0024}{+0.0222} for Pell recipients (difference $+0.0035$
+\ci{-0.0079}{+0.0152}), and in the partial-correlation design the two subgroups look alike ($+0.049$ and $+0.048$,
+24 fields; \SI{4}).
 
-The four-year outcome gives the largest remainder. With one-year earnings the main-specification slope is
-$-0.0024$ \ci{-0.0150}{+0.0101} (2,681 programs) and with five-year earnings $+0.0023$ \ci{-0.0069}{+0.0119}
-(2,549 programs), against $+0.0123$ and $+0.0111$ with four-year earnings on the same programs; 3 of 14
-paired horizon differences exclude zero, all with a smaller remainder at one or five years. The horizons
-describe different graduating cohorts, not career time. Averaged over the three horizons on the 2,422
-programs released at all three (163 institutions, 42 fields), the slope is $+0.0048$ \ci{-0.0024}{+0.0120}
-with each program weighted equally and $+0.0108$ \ci{+0.0035}{+0.0181} with programs weighted by the number
-of graduates behind each median; the weighting changes it by $+0.0060$ \ci{+0.0005}{+0.0112}. The unweighted
-estimate describes the average program; the weighted one describes the average graduate and gives noisy
-small-program medians less weight. Together they put the remainder at 0.5--1.1\% of pay per SD
-(Table~\ref{tab:ladder}, panel B; Fig.~\ref{fig:status}b); corrected for measurement error in department
-prestige it could be larger (below).
+\paragraph{Department prestige against its competitors.} In per-field rank regressions on 47 fields, the mean
+Shapley share of $R^2$ \citep{budescu1993dominance, gromping2007estimators, shorrocks2013decomposition} is 0.076
+for $F$, against 0.173 for selectivity, 0.086 for $G$ and 0.201 for institution-wide earnings, which contain the
+field's own graduates (Fig.~\ref{fig:status}c). Before any control, $G$ couples with field earnings slightly more
+strongly than $F$ (mean $c_F-c_G=-0.049$ \ci{-0.085}{-0.011}, 57 fields), but $F$ is measured with more error.
+Corrected for reliability \citep{spearman1904proof}, the difference is $-0.005$ \ci{-0.043}{+0.044} at the
+lower-bound and $-0.042$ \ci{-0.077}{-0.001} at the extrapolated reliability, and net of selectivity it is $+0.00$
+\ci{-0.05}{+0.05} (Fig.~\ref{fig:status}d). Field prestige thus predicts pay no better than academia-wide prestige
+under every correction; whether it predicts pay worse depends on its reliability.
 
-\paragraph{Department prestige against its competitors.} In per-field rank regressions on 47 fields, the
-mean Shapley shares of $R^2$ are 0.076 for $F$, 0.173 for selectivity (SAT and admission rate), 0.086
-for $G$ and 0.201 for institution-wide earnings (Fig.~\ref{fig:status}c); institution-wide earnings contain
-the field's own graduates and lead partly by construction, and without them the first three shares are
-0.092, 0.257 and 0.107. $F$ is the largest block in 2 fields and institution-wide earnings in 28; the
-difference between the shares of $F$ and $G$ is $-0.010$ \ci{-0.026}{+0.005}. Before any control, the
-academia-wide ordering couples with field earnings slightly more strongly than the field's own ordering: the
-mean of $c_F-c_G$, where $c_F$ and $c_G$ are the couplings of $F$ and $G$ with the same field earnings, is
-$-0.049$ \ci{-0.085}{-0.011} (57 fields). $F$ is measured with more error than $G$. Correcting both for
-their reliability \citep{spearman1904proof} shrinks the difference to $-0.005$ \ci{-0.043}{+0.044} at the
-public-edge lower bound and to $-0.042$ \ci{-0.077}{-0.001} at the extrapolated reliability
-(Fig.~\ref{fig:status}d). Net of selectivity the two are tied ($+0.00$ \ci{-0.05}{+0.05}, 46 fields). Field
-prestige thus predicts pay no better than academia-wide prestige under every correction; whether it predicts
-pay worse depends on its reliability, which public data cannot pin down.
+\paragraph{Where the remainder sits.} Only computer science, one of three fields named in advance as
+high-coupling, has an individually clear remainder: $+0.050$ \ci{+0.012}{+0.096} per SD pooled over horizons (128
+programs; \ci{+0.007}{+0.114} correcting for the three fields). Whether per-field slopes differ at all depends on
+whether each field's earnings gradient in $G$ may be curved, and the concentration in computer science and
+engineering was read off the results (\SI{4}). The computer-science sample lacks 21 of the 50 highest-ranked
+departments: the six University of California campuses and Caltech, which have no fall-2024 SAT average; 11 lost
+in the name join, among them Georgia Tech, Purdue, Ohio State and the University of Washington; and 3 without a
+one- or five-year median. Entry-year SAT averages exist for the University of California campuses and Caltech, and
+a join by institution identifier would restore most of the others, but neither re-estimate was run, so the
+computer-science result describes this sample only. A test of whether the slope differs between programs that
+restrict entry to the major and programs that students can declare is too weak to separate selection into the
+major from department standing (80\% power only against a difference of 0.187; \SI{4}).
 
-\paragraph{Where the remainder sits.} Within institutions, per-field slopes differ when field-specific
-slopes on selectivity and $G$ are linear (wild-cluster heterogeneity test $p\le 0.001$ over 47 fields;
-$p=0.006$ with leverage-corrected residuals), and their ordering reproduces across random halves of
-institutions (split-half reliability $+0.25$, permutation $p=0.02$; $p=0.06$ against a simulated null).
-The heterogeneity is fragile: with field-specific cubic slopes in $G$, the test on the 23
-best-estimated fields gives $p=0.09$--$0.24$ and the split-half reliability falls to $+0.05$. The one
-field whose remainder is individually clear is computer science, one of three fields named in advance as
-high-coupling: $+0.050$ \ci{+0.012}{+0.096} per SD pooled over horizons (128 programs), with a 98.33\%
-interval, which corrects for the three fields named in advance, of \ci{+0.007}{+0.114}; with four-year
-earnings it stays positive under both nonlinear variants ($+0.047$ \ci{+0.010}{+0.084} and $+0.051$
-\ci{+0.012}{+0.087}). Several engineering and business fields are positive, but none passes a
-multiple-testing correction across the 42 fields with percentile-bootstrap $p$-values. Two groupings were
-read off the per-field results, and both are post hoc. The nine computer-science and engineering fields
-average $+0.0284$ \ci{+0.0129}{+0.0432} against $-0.0006$ for the other 33; weighted by precision the group
-mean is $+0.0134$ \ci{-0.0007}{+0.0271}, and random sets of nine field labels reach the equal-weight
-contrast in 4.2\% of draws (11.9\% with precision weights). The five business fields average $+0.0198$
-\ci{+0.0027}{+0.0354}, about as much; they exceed the remaining 28 fields by $+0.0242$ \ci{-0.0028}{+0.0462}
-with equal weights and by $+0.0273$ \ci{+0.0094}{+0.0437} with precision weights, and random sets of five
-labels reach the business contrast in 21.1\% of draws (7.9\% with precision weights). Refitted without the
-nine computer-science and engineering fields, the pooled graduate-weighted slope is $+0.0079$
-\ci{-0.0017}{+0.0161}. A coefficient-stability bound puts the selection on unobserved variables needed to
-erase the within-institution slope at 0.20 to 1.34 times the selection on the observed controls, below the
-benchmark of 1 in three of four settings (\SI{4}).
-
-\paragraph{The cross-field ordering.} The ordering of fields survives adjustment in part: broad partial
-couplings still rank fields like raw couplings beyond shared estimation noise (Spearman $+0.63$ against a
-null mean of $+0.29$, $p=0.006$; 46 fields). But the ordering is nearly collinear with how steeply each
-field's earnings follow institutional selectivity. Across the 23 fields with at least 60 SAT-reporting
-institutions, raw coupling and the selectivity gradient $\rho(\mathrm{SAT},Y)$ have a true-score
-correlation of $+0.94$. With institution-level proxies standing in for the quality of a program's own
-students, a field-specific department reading and a field-specific selectivity-gradient reading predict
-the same ordering, and public data cannot separate them (\SI{4}).
-
-\paragraph{The upper tail.} Medians could miss status that matters in the upper tail of outcomes, where
-elite-college effects concentrate \citep{chetty2023diversifying}. College-level outcomes from Opportunity
-Insights show slightly tighter coupling toward the top without controls, and no extra tail loading once
-selectivity and parental income are held fixed. Across 242 PhD-granting universities, $G$ tracks the share
-of former students reaching the top 1\% of their cohort's earnings ($\rho=+0.66$ \ci{+0.58}{+0.74}) about
-as closely as their median earnings ($+0.62$ \ci{+0.54}{+0.69}); raw, the top-5\% share exceeds the median
-by $+0.04$ \ci{+0.01}{+0.08} and the top-1\% share by $+0.05$ \ci{-0.01}{+0.11}. Net of selectivity and
-parental income, $G$'s partial correlation is $+0.12$ \ci{-0.00}{+0.26} with the top-1\% share and $+0.15$
-\ci{+0.01}{+0.29} with the median (difference $-0.02$ \ci{-0.13}{+0.10}). A tail premium confined to the
-roughly 80 most selective colleges cannot be resolved at this sample size (Barron's tiers 1--2, $n=80$: top
-1\% minus median $+0.22$ \ci{+0.07}{+0.38} raw, $+0.18$ \ci{-0.07}{+0.40} controlled). These outcomes pool
-all of a college's fields, and $G$ tracks the institution's average field prestige at $+0.91$, so they
-cannot compare $F$ with $G$ (\SI{8}).
-
-\paragraph{Measurement error and the two readings.} Two things bias the remainder toward zero. The residual
-prestige measure is noisy, which attenuates it, and partialling $G$ also removes some genuinely
-field-specific variation, because $G$ pools the same hires, the field's own included. Disattenuating with
-the reliability bracket gives a mean partial coupling of $+0.159$ \ci{+0.052}{+0.266} at the lower-bound
-reliability (34 of 44 fields identifiable) and $+0.064$ \ci{-0.002}{+0.129} at the extrapolated one, against
-$+0.419$ raw; the within-institution slope becomes $+0.0297$ or $+0.0098$, against $+0.0851$ without
-institution fixed effects. Two readings remain. Under the first, the academy's field-specific hierarchy
-carries labour-market information of its own. Under the second, within-field coupling is the field's
-gradient in institutional status plus whatever student quality institution-level measures miss. The bulk of
-the coupling goes with institution-level status, as the second reading predicts. For the remainder the two
-predict the same pattern: under the second, selection of stronger students into separately admitted or
-capped majors within an institution, such as separately admitted engineering or business programs or
-capped computer-science majors (restricted majors can admit students on their grades;
-\citealp{bleemer2022will}), would also concentrate a premium in computer science, engineering and
-business. Public data cannot tell the two apart.
+\paragraph{Two readings.} The residual prestige measure is noisy, and partialling $G$ removes some genuinely
+field-specific variation, so the remainder is biased toward zero: disattenuated with the reliability bracket, the
+within-institution slope is $+0.0098$ to $+0.0297$. A coefficient-stability bound \citep{oster2019unobservable}
+puts the selection on unobservables needed to erase it at 0.20--0.67 times the selection on the observed controls
+($R_{\max}=1$), below the usual benchmark of 1 (\SI{4}). Under one reading, the academy's field-specific hierarchy carries labour-market information
+of its own; under the other, coupling is the field's gradient in institutional status plus student quality that
+institution-level measures miss, for example selection into majors that admit on grades \citep{bleemer2022will}.
+The bulk of the coupling fits the second; for the remainder, including the Pell/non-Pell contrast, the two predict
+the same pattern. The cross-field ordering does not separate them either: partial couplings still rank fields like raw
+couplings beyond shared estimation noise, but raw coupling and how steeply each field's earnings follow SAT have a
+true-score correlation of $+0.94$ (23 fields; \SI{4}), so both readings predict the same ordering. Nor does the
+upper tail: across 242 PhD-granting universities, net of selectivity and parental
+income, $G$'s association with the share of former students in the top 1\% does not detectably exceed its
+association with median earnings (\SI{8}).
 
 \begin{figure}[!tbp]
 \centering
 \paperfig{paper_fig2}
-\caption{What remains of US coupling after institution-level status (College Scorecard, bachelor's median
-earnings four years after completion). (a) Within-field coupling of department prestige $F$ as controls are
-added from left to right; grey lines are fields, the black line their mean (44 fields estimable at every
-step), the bar the joint institution-bootstrap 95\% interval of the final mean. The ladder in
-Table~\ref{tab:ladder} ends instead with institution-wide earnings ($+0.12$). (b) Within-institution slope,
-as the change in log earnings per within-field SD of $F$, from field fixed effects only to the main
-specification (institution fixed effects and field-specific slopes on SAT, admission rate, Pell share and
-$G$); 95\% institution-cluster bootstrap intervals, except the grey no-fixed-effects point ($\pm1.96$
-institution-clustered SE) and the black field-fixed-effects point (point estimate only). (c) Mean Shapley
-shares of $R^2$ in per-field rank regressions of earnings on department prestige, selectivity (SAT and
-admission rate), $G$ and institution-wide earnings (solid bars) and without the institution-earnings block
-(hatched); 47 fields. (d) Mean difference $c_F-c_G$ between the couplings of field earnings with $F$ and
-with $G$: uncorrected; with both couplings corrected for measurement error at the lower-bound or the
-extrapolated reliability of $F$ (that of $G$ is about 1 in both); net of the broad selectivity set; and $F$
-net of selectivity and $G$ minus $G$ net of selectivity and $F$. Intervals in (c) and (d): joint
-institution bootstrap, 95\%.}\label{fig:status}
+\caption{What remains of US coupling after institution-level status (Scorecard, four-year earnings). (a)
+Coupling of $F$ as controls are added: fields (grey), mean (black; 44 fields). (b) Within-institution slope per
+within-field SD of $F$, from field fixed effects to the main specification (Eq.~\ref{eq:fe}); black: 2,889
+programs; grey: all 3,416. (c) Mean Shapley shares of $R^2$ in per-field rank regressions (47 fields), with and
+without (hatched) institution-wide earnings. (d) Mean $c_F-c_G$: uncorrected, corrected for error in $F$ at either
+reliability, and net of selectivity. 95\% institution-bootstrap intervals.}\label{fig:status}
 \end{figure}
 
 \begin{table}[!tbp]
 \centering
-\caption{Coupling under institution-level controls. Panels A and B: US, College Scorecard median
-earnings four years after completion unless stated, published field prestige $F$. Panel C: UK, LEO median
-earnings five years after graduation (cohorts 2013/14--2016/17), academia-wide UK hiring prestige $G$.
-$k$ = fields (subjects). Intervals (95\%): joint institution bootstrap, conditional on the observed fields
-(A); institution cluster bootstrap (B); two-stage bootstrap over subjects and providers (C). Ladder:
-point estimates on a common sample.}\label{tab:ladder}
+\caption{Coupling under institution-level controls. Panels A and B: US, College Scorecard median earnings four
+years after completion unless stated, published field prestige $F$. Panel C: UK, LEO median earnings five years
+after graduation (cohorts 2013/14--2016/17), academia-wide UK hiring prestige $G$. $k$ = fields (subjects).
+Intervals (95\%): joint institution bootstrap, conditional on the observed fields (A); institution cluster
+bootstrap (B); two-stage bootstrap over subjects and providers (C); $^{\dagger}$: two-way (field, institution) or
+(subject, provider) cluster variance.}\label{tab:ladder}
 \footnotesize
-\renewcommand{\arraystretch}{0.95}
+\renewcommand{\arraystretch}{0.9}
 \begin{tabular}{@{}>{\raggedright\arraybackslash}p{8.1cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{4.5cm}@{}}
 \toprule
 Specification & $k$ / sample & Estimate [95\% interval] \\
 \midrule
 \multicolumn{3}{@{}l}{\emph{A. US: mean within-field coupling of $F$ with earnings}} \\
 Raw, canonical sample & 52 & $+0.419$ \ci{+0.355}{+0.482} \\
-Ladder: raw $\to$ + Pell share, control, state level $\to$ + admission rate $\to$ + SAT $\to$ + institution-wide earnings & 44 & $+0.43\to+0.31\to+0.24\to+0.14\to+0.12$ \\
+Ladder (point estimates, common sample): raw $\to$ + Pell share, control, state level $\to$ + admission rate $\to$ + SAT $\to$ + institution-wide earnings & 44 & $+0.43\to+0.31\to+0.24\to+0.14\to+0.12$ \\
 Broad set (SAT, admission rate, Pell share, control, state level) & 46 & $+0.141$ \ci{+0.075}{+0.208} \\
+\quad broad set dated to entry years (falls 2014--15) / 2026 file, same programs$^{\dagger}$ & 45; 2,787 programs & $+0.134$ \ci{+0.065}{+0.203} / $+0.129$ \ci{+0.062}{+0.197} \\
 Broad set + $G$ (field-specific remainder) & 44 & $+0.059$ \ci{+0.003}{+0.114} \\
 Broad set + $G$ + institution-wide earnings & 44 & $+0.047$ \ci{-0.011}{+0.106} \\
 Broad set + $G$, mean of 4-, 1- and 5-year earnings & 39 & $+0.052$ \ci{+0.003}{+0.100} \\
@@ -619,25 +476,27 @@ Broad set + $G$, mean of 4-, 1- and 5-year earnings & 39 & $+0.052$ \ci{+0.003}{
 \multicolumn{3}{@{}l}{\emph{B. US: within-institution slope, change in log earnings per within-field SD of $F$}} \\
 Field fixed effects only & 3,416 programs & $+0.084$ (SE 0.006) \\
 + institution fixed effects & 3,416 programs & $+0.0129$ \ci{+0.0048}{+0.0212} \\
-+ institution fixed effects, SAT sample & 2,889 programs & $+0.0139$ \ci{+0.0053}{+0.0227} \\
-\quad + field-specific slopes on SAT and $G$ & 2,889 programs & $+0.0118$ \ci{+0.0037}{+0.0205} \\
 \quad + field-specific slopes on SAT, admission rate, Pell share, $G$ (main) & 2,889 programs & $+0.0084$ \ci{+0.0000}{+0.0164} \\
 \quad same programs, field fixed effects only & 2,889 programs & $+0.0851$ (point) \\
-\quad main + field-specific cubic in $G$ & 2,889 programs & $+0.0093$ \ci{+0.0002}{+0.0176} \\
+\quad same programs, field-specific slopes on SAT and $G$ only & 2,889 programs & $+0.0118$ \ci{+0.0037}{+0.0205} \\
+\quad main + field-specific local demand (ACS field $\times$ state earnings) & 2,889 programs & $+0.0084$ \ci{+0.0002}{+0.0165} \\
+\quad main, selectivity dated to entry years / 2026 file$^{\dagger}$ & 2,801 programs & $+0.0081$ \ci{+0.0005}{+0.0158} / $+0.0090$ \ci{-0.0008}{+0.0187} \\
 \quad main, 1-year earnings (4-year on the same programs $+0.0123$) & 2,681 programs & $-0.0024$ \ci{-0.0150}{+0.0101} \\
 \quad main, 5-year earnings (4-year on the same programs $+0.0111$) & 2,549 programs & $+0.0023$ \ci{-0.0069}{+0.0119} \\
-\quad main, mean of 4-, 1-, 5-year earnings: unweighted & 2,422 programs & $+0.0048$ \ci{-0.0024}{+0.0120} \\
-\quad main, mean of 4-, 1-, 5-year earnings: weighted by cohort size & 2,422 programs & $+0.0108$ \ci{+0.0035}{+0.0181} \\
+\quad main, mean of 4-, 1-, 5-year earnings: unweighted / weighted by graduates & 2,422 programs & $+0.0048$ \ci{-0.0024}{+0.0120} / $+0.0108$ \ci{+0.0035}{+0.0181} \\
+\quad main + field-specific program Pell share, composition sample & 1,294 programs & $+0.0137$ \ci{+0.0027}{+0.0238} \\
+\quad same, Pell-recipient / other aided graduates' median as outcome & 1,294 programs & $+0.0102$ \ci{-0.0024}{+0.0222} / $+0.0009$ \ci{-0.0123}{+0.0128} \\
 \midrule
 \multicolumn{3}{@{}l}{\emph{C. UK: coupling of $G$ with earnings and prior attainment}} \\
 Raw & 33 & $+0.486$ \ci{+0.398}{+0.559} \\
 Raw, composition sample & 32 & $+0.497$ \ci{+0.406}{+0.571} \\
 \quad standardised for band mix, within-provider gradients (85\% \ci{80}{90} survives) & 32 & $+0.425$ \ci{+0.335}{+0.497} \\
 \quad standardised for band mix, national band medians (floor; 62\% \ci{56}{69}) & 32 & $+0.310$ \ci{+0.234}{+0.374} \\
-\quad partial on institution intake selectivity (26\% \ci{17}{38}) & 32 & $+0.131$ \ci{+0.078}{+0.188} \\
+\quad log-earnings gradient per SD of $G$, raw $\to$ within-provider standardised (73\% \ci{67}{78})$^{\dagger}$ & 32 & $+0.100\to+0.073$ \ci{+0.051}{+0.095} \\
+\quad partial on institution intake selectivity (26\% \ci{17}{38}; two-way \ci{+0.034}{+0.229}) & 32 & $+0.131$ \ci{+0.078}{+0.188} \\
 Within prior-attainment band & 28 & $+0.227$ \ci{+0.160}{+0.279} \\
-\quad all graduates, same providers (66\% \ci{51}{79} survives; noise-corrected 87\% \ci{74}{100}) & 28 & $+0.342$ \ci{+0.255}{+0.398} \\
-\quad within band: $G$ net of intake selectivity & 28 & $+0.033$ \ci{-0.027}{+0.098} \\
+\quad all graduates, same providers (66\% \ci{51}{79} survives; noise-corrected on 27 subjects 87\% \ci{74}{100}, against 70\% uncorrected there) & 28 & $+0.342$ \ci{+0.255}{+0.398} \\
+\quad within band: $G$ net of intake selectivity$^{\dagger}$ & 28 & $+0.033$ \ci{-0.047}{+0.112} \\
 \quad within band: intake selectivity net of $G$ & 28 & $+0.252$ \ci{+0.172}{+0.310} \\
 \bottomrule
 \end{tabular}
@@ -645,444 +504,284 @@ Within prior-attainment band & 28 & $+0.227$ \ci{+0.160}{+0.279} \\
 
 \subsection{UK: most coupling survives a direct prior-attainment control}\label{sec:uk}
 
-The UK data add what the US data lack: earnings by graduates' own prior attainment. They have no department
+The UK data add what the US data lack, earnings by graduates' own prior attainment, but they have no department
 axis, so they bear on institution-level status against student attainment, not on the department question.
-Most UK coupling survives a control for attainment, and what survives tracks intake selectivity, not
-hiring-network prestige.
 
-UK coupling of $G$ with LEO earnings five years after graduation averages $+0.486$ \ci{+0.398}{+0.559}
-across 33 subjects, similar to US coupling of academia-wide prestige with Scorecard earnings ($+0.450$, 57
-fields; \SI{4}). We control for prior attainment in three ways (Table~\ref{tab:ladder}, panel C;
-Fig.~\ref{fig:uk}). First, among same-band graduates across providers, coupling is $+0.227$
-\ci{+0.160}{+0.279} against $+0.342$ \ci{+0.255}{+0.398} for all graduates of the same providers (28
-subjects), so 66\% \ci{51}{79} survives. Band medians rest on fewer graduates (adjacent-cohort test--retest
-reliability 0.48 against 0.74 for all-graduate medians), which pulls within-band coupling toward zero;
-correcting for that noise gives 87\% \ci{74}{100} (27 subjects). Second, standardising each provider's
-earnings for its mix of attainment bands, with the band gradient measured within providers, leaves $+0.425$
-\ci{+0.335}{+0.497} of $+0.497$ \ci{+0.406}{+0.571} on the same cells: 85\% \ci{80}{90} survives (32
-subjects), and 90\% \ci{84}{94} with a freely estimated gradient on the providers where it is identified.
-Third, standardising with national subject-by-band medians leaves 62\% \ci{56}{69}. This over-corrects.
-High-band graduates concentrate at high-paying institutions, so national band gaps mix attainment with
-institution: the log earnings gap between the 360-point band and the 240--299-point band is $+0.209$
-nationally against $+0.058$ within providers. We read 62\% as a floor. The bands are coarse and sorting
-within a band is not controlled, which biases every share upward. The shares are ratios of rank
-correlations: they say how much of the prestige ordering of pay survives the control, not how much of the
-earnings gap between high- and low-$G$ providers survives, which these rank statistics do not measure.
+UK coupling of $G$ with LEO earnings five years after graduation averages $+0.486$ \ci{+0.398}{+0.559} across 33
+subjects, similar to the US coupling of $G$ with Scorecard earnings ($+0.450$, 57 fields). Most of it survives a
+control for attainment (Table~\ref{tab:ladder}, panel C; Fig.~\ref{fig:uk}). Among same-band graduates across
+providers coupling is $+0.227$ against $+0.342$ for all graduates of the same providers (28 subjects), so 66\%
+\ci{51}{79} survives, and 87\% \ci{74}{100} once the lower reliability of band medians is corrected for (27
+subjects). Standardising each provider's earnings for its band mix, with band gradients measured within providers,
+leaves 85\% \ci{80}{90} (32 subjects). These shares describe orderings; in pay terms less survives, 73\%
+\ci{67}{78} of the log-earnings gradient in $G$. Coarse bands, sorting within a band, and within-provider gradients
+identified from students admitted despite a lower band all push the shares up (\SI{5}).
 
-What survives is intake selectivity. Among same-band graduates, the institution's intake selectivity
-couples with earnings at $+0.326$ \ci{+0.243}{+0.387}; $G$ adds $+0.033$ \ci{-0.027}{+0.098} beyond it,
-while selectivity keeps $+0.252$ \ci{+0.172}{+0.310} beyond $G$ (28 subjects). On all-graduate medians,
-partialling out selectivity leaves $+0.131$ \ci{+0.078}{+0.188}, 26\% \ci{17}{38} of the raw coupling
-(32 subjects), a fall comparable to the US one from $+0.43$ to $+0.14$ under different controls. This is
-the pattern \citet{britton2022how} report with a composite league-table rating, found again with a
-hiring-network axis. Within bands, the selectivity measure can also pick up finer sorting of students,
-so the result does not separate institutional status from selection within bands. The UK $G$ may also
-measure standing less validly than the US ranks (Section~\ref{sec:earnings}); validity error in $G$ would
-shift weight in these partial correlations from $G$ to the correlated selectivity measure, so the $+0.033$
-may understate what $G$ carries.
-
-Subjects differ; the differences survive the attainment control but shrink and reorder once intake
-selectivity is partialled out. The between-subject SD of true coupling is 0.16 for all graduates
-($I^2=0.84$) and 0.17 after within-provider standardisation ($I^2=0.83$; 32 subjects), and the subject
-ordering barely moves (Spearman $+0.94$ \ci{+0.89}{+0.98}); without the three pay-scale subjects of
-Section~\ref{sec:boundary} the SD is 0.12 for all graduates and 0.14 after standardisation. But subjects
-whose pay couples strongly with $G$ are the subjects whose pay couples strongly with intake selectivity
-(Spearman across subjects $+0.92$ \ci{+0.71}{+0.95}). Net of selectivity, less variation remains and it is
-ordered differently (SD 0.09; Spearman with the raw ordering $+0.31$ \ci{+0.06}{+0.66}). As in the US, the
-subject ordering cannot be separated from subject-specific selectivity gradients. Finally, on the 16
-subjects where a field-tagged UK prestige axis is usable, $G$ couples with pay more strongly than the field
-axis in all 16 (mean $+0.639$ against $+0.417$ on the same providers). The field-tagged axis rests on far
-fewer hires, so this shows that field prestige is no better than $G$, not that it is worse in truth.
+Among graduates of the same attainment band, what survives tracks intake selectivity at least as closely as
+hiring-network prestige if $G$ is measured with little error: $G$ adds $+0.033$ beyond selectivity (two-way
+\ci{-0.047}{+0.112}), and selectivity keeps $+0.252$ \ci{+0.172}{+0.310} beyond $G$. On all-graduate medians $G$
+keeps more: net of selectivity $+0.131$ \ci{+0.078}{+0.188}, 26\% of the raw coupling, a fall comparable to the US
+one. This is the pattern \citet{britton2022how} report with a composite league-table rating, found again with a
+hiring-network axis. The UK $G$ may measure standing with error: at a validity of 0.74 the data allow a same-band
+partial up to $+0.26$ (\SI{5}). Subjects differ, and the differences survive the attainment control, but subjects
+whose pay couples strongly with $G$ are those whose pay couples strongly with intake selectivity (Spearman $+0.92$
+\ci{+0.71}{+0.95}); as in the US, the subject ordering cannot be separated from subject-specific selectivity
+gradients (\SI{5}).
 
 \begin{figure}[!tbp]
 \centering
 \paperfig{paper_fig3}
-\caption{UK: coupling and graduates' prior attainment. LEO median earnings five years after graduation,
-cohorts 2013/14--2016/17; academia-wide UK hiring prestige $G$ from ORCID-derived PhD-to-faculty moves. (a)
-Coupling by CAH2 subject for all graduates (filled) and after standardising each provider's earnings for
-its prior-attainment mix with within-provider band gradients (open), on the composition sample of 32
-subjects (providers with attainment-mix data); the top row gives the means with two-stage 95\% intervals.
-Because the sample differs, subject values for all graduates differ from Fig.~\ref{fig:boundary}b and the
-``Raw'' column of the per-subject table in \SI{5}, which use all 134 providers (for example, education and
-teaching $+0.097$ here and $+0.220$ there). Orange diamonds mark the three subjects largely on national pay scales (filled
-label symbol) and allied health (open label symbol). (b) Share of coupling that survives each
-prior-attainment control, with 95\% two-stage bootstrap intervals: same-band against all graduates of the
-same providers; the same with the band-noise correction; within-provider standardisation; a free
-within-provider band gradient (subset of providers); national band medians, which over-correct (hatched).
-(c) Coupling of $G$ and of intake selectivity (the institution's share of graduates with at least 360 UCAS
-points) with earnings, and each net of the other ($A\,|\,B$: partial correlation of $A$ net of $B$), for
-same-band graduates (28 subjects); for all graduates of the same providers, $\rho(G)$, $\rho$(selectivity)
-and $G$ net of selectivity.}\label{fig:uk}
+\caption{UK: coupling and prior attainment (LEO five-year earnings, cohorts 2013/14--2016/17). (a) Coupling of
+$G$ by subject, all graduates (filled) and standardised for attainment mix (open), on the 32-subject composition
+sample, whose values differ from those on all providers (Fig.~\ref{fig:boundary}b). (b) Share of coupling surviving
+each attainment control. (c) Coupling of $G$ and of intake selectivity with earnings, and each net of the other,
+for same-band (triangles) and all graduates (circles). Two-stage bootstrap 95\% intervals; two-way intervals of
+$G\,|\,$selectivity: \ci{-0.047}{+0.112} and \ci{-0.003}{+0.195}.}\label{fig:uk}
 \end{figure}
 
 \subsection{Coupling rises with years since graduation}\label{sec:career}
 
-Within fixed graduation cohorts, coupling rises with years since graduation in both countries. In the US the
-rise appears in the loading on academia-wide prestige $G$; the loading on field prestige $F$ does not grow.
+Within fixed graduation cohorts, coupling rises with years since graduation in both countries. In the US it also
+rises across graduation cohorts, much of the within-cohort rise is shared with selectivity, and in a weakly
+identified decomposition it appears in the loading on academia-wide prestige $G$, not on field prestige $F$.
 
-\paragraph{US.} On the balanced PSEO panel, mean coupling rises from $+0.173$ one year after graduation to
-$+0.310$ at five years and $+0.451$ at ten (39 fields, V4.13.0; Fig.~\ref{fig:career}a,
-Table~\ref{tab:career}). The mean per-field slope is $+0.031$ per year (two-way interval
-\ci{+0.021}{+0.041}; crossed bootstrap \ci{+0.018}{+0.041}); coupling of $G$ rises from $+0.151$ to
-$+0.474$, by $+0.036$ per year (two-stage interval \ci{+0.027}{+0.043}). The rise is positive in each of the
-four cohorts and in both segments (y1 to y5 $+0.034$ \ci{+0.015}{+0.053}; y5 to y10 $+0.028$
-\ci{+0.020}{+0.037}), so it does not rest on the first-year point. Several fields have negative first-year
-coupling, most of all kinesiology and music ($-0.35$), environmental sciences ($-0.19$) and anthropology,
-social work and geography ($-0.15$). This is consistent with, though not a measurement of, graduates of
-higher-prestige institutions more often being in graduate school at y1 (\SI{10}).
+\paragraph{US within cohorts.} On the balanced PSEO panel, mean coupling rises from $+0.173$ one year after
+graduation to $+0.310$ at five years and $+0.451$ at ten (39 fields, V4.13.0; Fig.~\ref{fig:career}a). The mean
+per-field slope is $+0.031$ per year (two-way interval \ci{+0.021}{+0.041}; $+0.030$ on V4.14.1,
+Table~\ref{tab:career}). It is positive in each of the four cohorts and in both segments, so it does not rest on
+the first-year point, and correcting the program medians for sampling noise does not shrink it (exploratory;
+\SI{6}).
 
-A within-cohort change mixes career time with calendar time. Comparing cohort $c$ at y10 with cohort $c+9$
-at y1, which fall in about the same calendar years, gives $+0.014$ per year (two-way \ci{+0.007}{+0.022}),
-and the drift across cohorts at y1 is $+0.017$ \ci{+0.010}{+0.025}. Under a linear age--period--cohort
-reading, the within-cohort change, the calendar-matched contrast and the drift identify $a+b$, $a-g$ and
-$b+g$, where $a$, $b$ and $g$ are career, calendar and cohort effects (Section~\ref{sec:methods}). If
-calendar and cohort effects are both non-negative, the career-time part of the rise lies between $+0.014$
-and $+0.032$ per year \citep{fosse2019bounding}. Without that assumption it is not identified, and the
-assumption carries weight: a zero career-time effect would need a calendar trend of about $+0.032$ per year
-together with a cohort trend of about $-0.014$ per year, which we cannot rule out over the years the panel
-spans, 2002 to 2022, which include the Great Recession and the pandemic (the y10 earnings of the 2010--12
-cohort fall in 2020--22). The calendar-matched contrast is similar across the four cohort pairs ($+0.009$ to
-$+0.016$ per year), but the pairs share calendar years. The August 2026 release changes no statement
-($+0.030$ per year, two-way \ci{+0.020}{+0.041}, 40 fields; bound $[+0.015, +0.032]$), but this is a weak
-test, because the new release barely changes the fixed-cohort panel.
+\paragraph{Cohorts and calendar time.} A within-cohort change mixes career time with calendar time. On the 17-cell
+surface of graduation windows by horizon (24 fields whose institutions are present in every cell; V4.14.1),
+coupling rises both within windows ($\theta_h=+0.031$ \ci{+0.019}{+0.043} per year since graduation) and across
+windows at a fixed horizon ($\theta_c=+0.015$ \ci{+0.008}{+0.023}; Fig.~\ref{fig:career}b). Linear career ($a$),
+calendar ($b$) and cohort ($g$) trends are not identified, since $\theta_h=a+b$ and $\theta_c=b+g$; if calendar and
+cohort trends are both non-negative, the career-time slope lies in $[\theta_h-\theta_c,\theta_h]=[+0.015,+0.031]$
+per year \citep{fosse2019bounding}, and the calendar-matched contrast on the balanced panel gives nearly the same
+bound (Table~\ref{tab:career}). A zero career-time slope would need a calendar trend of about $+0.031$ and a cohort trend
+of about $-0.015$ per year. The bound also assumes that graduate study does not depress the early medians of
+higher-status institutions more than others'; under that confound both ends are biased upward. Prestige is
+measured once, from 2011--2020 hires, so any drift as cohorts approach that period enters $b$ or $g$. Two tests of
+entry conditions fixed before estimation, aggregate analogues of \citet{oreopoulos2012short}, are not informative
+(\SI{6}).
 
-Two checks bear on selection into the earnings data. Higher-prestige institutions have a smaller share
-of graduates with PSEO earnings at y1 (mean within-cell Spearman $-0.165$); partialling coverage out of
-coupling removes 0.19 \ci{0.09}{0.29} of the slope, while restricting to high-coverage institutions
-removes none \citep[cf.][]{foote2026attrition}. Coverage counts graduates with covered earnings; neither
-check addresses the mix of later degrees among those covered. We detect no difference between high- and
-low-coupling fields. Fields with high baseline coupling (Scorecard coupling at least 0.45 and passing the
-reliability flag; 14 fields) rise by $+0.008$ per year more than the others (two-way \ci{-0.010}{+0.026}),
-and across fields the slope is unrelated to baseline coupling (Spearman $+0.02$, $p=0.89$). The data exclude
-a difference as large as the all-field slope but not one half that size (one-sided bound $+0.022$ per year;
-power 42\% against half the slope; \SI{9}).
+\paragraph{Selection into the data, graduate study and location.} Higher-prestige institutions have a smaller
+share of graduates with PSEO earnings at y1; partialling coverage out removes about a fifth of the slope
+(Table~\ref{tab:career}; \citealp[cf.][]{foote2026attrition}). Graduate study could raise coupling mechanically
+if graduates of higher-status institutions more often enter graduate programmes, drop out of the earnings sample
+while studying and return with higher pay. With coverage and the institution's research-doctorate rate per bachelor's graduate as controls, the
+rise is $+0.0103$ \ci{+0.0027}{+0.0178} per year, against $+0.0305$ raw on the same 144 cells; but the doctorate
+rate is institution-wide and tracks $G$ (within-cell Spearman $+0.71$), so the removed share mixes timing with a
+status gradient. At the field level the mechanism is neither shown nor excluded (power 0.31). About one fifth to
+one third of the rise moves with the wage level of the census divisions where graduates work and with the
+out-of-state share (post hoc, self-attested registration). The rise survives every available proxy; its size does
+not (\SI{6}).
 
-\paragraph{Graduate training.} Graduates of higher-status institutions may more often go on to doctoral,
-medical, law or business programmes. That would lower their covered earnings early and add
-graduate-degree returns later, raising coupling within a cohort without any change in how the bachelor's
-labour market treats status; because the propensity would be institution-wide, it would also load on $G$
-and hold $b_G$ near zero at y1 (below). An exploratory field-level check points that way for the late
-segment. Across the 27 fields with a graduate-degree share (New York Fed college labour-market data, legacy
-\texttt{scripts/35b}), the y5-to-y10 change in coupling correlates with that share at Spearman $+0.53$
-($p=0.005$; field bootstrap \ci{+0.08}{+0.84}) and the whole slope at $+0.30$ \ci{-0.17}{+0.73}. The 11
-fields where fewer than 40\% of graduates take a graduate degree rise by $+0.021$ per year ($+0.015$ in the
-late segment) against $+0.031$ ($+0.037$) in the 8 fields where half or more do: the rise is present in
-mostly terminal-bachelor's fields, but smaller. The growth of $b_G$ does not track the share (Spearman
-$-0.05$ \ci{-0.47}{+0.40}) and is about the same in the two groups ($+0.037$ and $+0.038$ per year). These
-are SI-check computations on the field table of \texttt{scripts/52}: correlations across fields that ignore
-shared institutions and have no two-way interval. PSEO cannot separate the returns to later degrees from
-career dynamics in the bachelor's labour market.
+\paragraph{Selectivity and status loadings.} Net of SAT and admission rate dated to the cohorts' entry years, the
+within-cohort slope is $+0.011$ \ci{+0.003}{+0.020} per year, 0.39 of the raw $+0.029$ on the same 109 cells
+(V4.14.1): about three fifths of the rise is shared with selectivity. The loading of pay on $G$ net of selectivity
+(SAT, admission rate, Pell share, control and state, and $F$ in the rank regression) does not decline within
+cohorts: its slope is $+0.016$ \ci{-0.011}{+0.044} per year in the rank regression, which excludes a decline
+steeper than 30\% of the uncontrolled rise, and $+0.014$ \ci{+0.003}{+0.024} as a partial correlation (37 fields,
+V4.14.1). This test takes selectivity from the 2026 file, whose admission rates rank the PSEO institutions only
+loosely like those of their entry years (Spearman 0.45--0.47; SAT 0.88--0.90). Mismeasured selectivity leaves part
+of itself in $G$, whose loading can then rise, so the dating favours finding no decline. Entry-year SAT averages
+and admission rates exist for these cohorts (Pell shares do not), but the loading test was not re-run with them.
+Selectivity is also public and learnable from earlier cohorts, so individual employer learning need not produce an
+aggregate decline.
+In the UK, $G$'s loading net of selectivity is flat ($+0.008$ \ci{-0.006}{+0.022}, two-way) while the selectivity
+loading rises ($+0.024$ \ci{+0.011}{+0.037}); their difference includes zero, and with a negative UK cross-cohort
+drift these are not career-time statements. Neither country shows the decline that employer learning predicts once
+the correlate is held fixed \citep{altonji2001employer}, consistent with little post-entry learning about college
+graduates \citep{arcidiacono2010beyond} but not a test of it.
 
-\paragraph{Academia-wide against field prestige.} In a standardised rank regression of earnings on $F$ and
-$G$ within each field-by-cohort cell, the field-prestige coefficient $b_F$ stays flat ($+0.189$, $+0.176$
-and $+0.177$ at y1, y5 and y10), while the academia-wide coefficient $b_G$ grows from $-0.013$ at y1 to
-$+0.328$ at y10 (Fig.~\ref{fig:career}c). Per year, $b_G$ rises by $d_G=+0.038$ (two-way
-\ci{+0.021}{+0.055}) and $b_F$ by $d_F=-0.001$ \ci{-0.016}{+0.013}; the difference $d_G-d_F$ is $+0.039$
-\ci{+0.009}{+0.069} ($z=2.57$) on V4.13.0 and $+0.035$ \ci{+0.007}{+0.063} ($z=2.45$) on V4.14.1, and above
-zero under the two-way variance in all five data variants we checked ($z$ from 2.45 to 2.65). The evidence is
-moderate, not decisive. In a calibration on permuted data the two-way variance of $d_G-d_F$ is 1.04 times the
-true sampling variance on average but 0.54 to 1.71 times on single datasets; the conservative crossed
-bootstrap reaches zero (\ci{-0.003}{+0.070} on V4.14.1); the five variants are nested versions of almost the
-same panel; and the two-way standard replaced the crossed bootstrap during the analysis, after the calibration
-showed the latter's variance to be 3.0 to 3.7 times the true sampling variance (an earlier revision of
-\texttt{scripts/59} had rated the difference clear only with fields held fixed; \SI{6}). The decomposition is
-also weakly identified: within cells $F$ and $G$ correlate 0.83 and $G$ is measured more reliably, so least
-squares shifts shared signal toward $G$ by an amount public data do not identify, and we have not re-estimated
-the loadings with $F$ corrected for measurement error. At y1 the association runs through $F$ ($b_F=+0.189$,
-two-way \ci{+0.062}{+0.317}; $b_G=-0.013$ \ci{-0.160}{+0.134}). If $F$ were only a noisier copy of $G$, $G$
-would take the larger coefficient at every horizon, so the first-year pattern is consistent with more than one
-component; but y1 is also the horizon most affected by coverage and graduate study. The regression does not
-say what the growing $G$-tracked component is: institutional reputation, selectivity ($G$ correlates $+0.68$
-with average SAT), resources, location or the timing of graduate training.
+\paragraph{Academia-wide against field prestige.} In a standardised rank regression of earnings on $F$ and $G$
+within each field-by-cohort cell, $b_F$ stays flat ($+0.189$ at y1, $+0.177$ at y10) while $b_G$ grows from
+$-0.013$ to $+0.328$ (Fig.~\ref{fig:career}d). Their slope difference $d_G-d_F$ is $+0.039$ \ci{+0.009}{+0.069}
+under the two-way variance (V4.13.0), but the conservative crossed bootstrap reaches zero, and the decomposition is
+weakly identified: within cells $F$ and $G$ correlate 0.83, and $G$ is measured more reliably. In a pooled form of
+the regression, and net of selectivity, $G$'s lead over $F$ is not distinguishable from zero (\SI{6}). What the
+growing $G$-tracked component is (residual selectivity, reputation, resources, location or the timing of graduate
+study) is not identified.
 
-\paragraph{Quantiles.} Coupling of the 25th percentile of earnings is below median coupling by $-0.067$
-(two-way \ci{-0.092}{-0.042}; V4.13.0, mean over horizons). Coupling of the 75th percentile minus median
-coupling is $+0.027$ (two-way \ci{+0.001}{+0.053} on V4.13.0 and \ci{+0.000}{+0.054} on V4.14.1); the
-crossed intervals include zero on both releases and the institution-clustered permutation at y10 gives
-$p=0.34$--$0.37$, so we do not claim a difference. The robust pattern is at the bottom: the lower quartile
-is less ordered by prestige than the median. PSEO quartiles are within-program quantiles, not the elite
-tail.
+\paragraph{UK.} On fixed LEO cohorts (33 subjects), coupling rises from $+0.379$ at YAG1 to $+0.484$ at YAG5,
+$+0.026$ per year \ci{+0.014}{+0.037} (Fig.~\ref{fig:career}c), in all four cohorts and both segments, and by
+$+0.028$ \ci{+0.016}{+0.038} after within-provider standardisation for prior attainment. The calendar-matched
+contrast ($+0.031$ \ci{+0.021}{+0.042}) exceeds the within-cohort change on the same providers ($+0.025$), so the
+sign assumption of the US bound holds only within sampling error, and offsetting calendar and cohort effects
+cannot be excluded (\SI{5}).
 
-\paragraph{UK.} On fixed LEO cohorts (2013/14 to 2016/17, providers observed at YAG 1, 3 and 5; 33
-subjects), coupling rises from $+0.379$ at YAG1 to $+0.484$ at YAG5, $+0.026$ per year
-\ci{+0.014}{+0.037} (permutation $p=0.001$; Fig.~\ref{fig:career}b). It is positive in all four cohorts
-and in both segments (YAG1 to YAG3 $+0.029$ \ci{+0.007}{+0.047}; YAG3 to YAG5 $+0.023$
-\ci{+0.009}{+0.039}), and it survives the prior-attainment controls: $+0.028$ \ci{+0.016}{+0.038} per year
-after within-provider standardisation and $+0.017$ \ci{+0.002}{+0.031} within bands, the latter
-attenuated by band-median noise. A coverage control lowers it to $+0.017$ \ci{+0.005}{+0.027}. The
-calendar-matched contrast (cohort $c$ at YAG5 against cohort $c+4$ at YAG1, the same tax year) is
-$+0.031$ \ci{+0.021}{+0.042}, the within-cohort change on the same providers $+0.025$
-\ci{+0.015}{+0.036}, and the cross-cohort drift at YAG1 $-0.006$ \ci{-0.015}{+0.003}. These point
-estimates imply that calendar and cohort effects sum to slightly below zero, so the sign assumption of the
-US bound holds here only within sampling error, and offsetting calendar and cohort effects cannot be
-excluded. The pandemic and furlough tax years 2020/21 and 2021/22 fall both in the YAG5 cells of the fixed
-cohorts and in the YAG1 cells of the calendar contrast.
-
-\paragraph{Reading.} The direction agrees with descriptive US and Colombian evidence
-\citep{thomas2005postbaccalaureate, macleod2017big}. It measures a different estimand from causal estimates
-of small or fading premia \citep{bordon2020employer, mountjoy2021returns} and does not contradict them: a
-descriptive status gradient can rise while a selection-corrected premium fades. Coupling is unconditional,
-and no public program-level measure of student ability exists, so these data cannot test employer learning
-(Section~\ref{sec:discussion}). A rising association between status and pay fits a growing return to
-status; it also fits graduates of higher-status institutions sorting into careers with steeper earnings
-profiles \citep{binder2016career, rivera2015pedigree}, and the timing of graduate training. One descriptive
-pointer: on the fixed 2010--12 PSEO cohort, the prestige ordering of market-sector placement is already
-present at y1 ($\rho(P,M)=+0.28$, $+0.38$ at y10), while wage coupling rises from $+0.21$ to $+0.51$ (point
-estimates, one cohort). In this cohort, sorting by status into sectors is visible before most of the growth
-in the pay gradient.
+\paragraph{Reading.} The direction agrees with descriptive evidence \citep{thomas2005postbaccalaureate,
+macleod2017big}. Designs that compare students admitted to the same colleges find a selectivity premium that is
+small over the career or fades within a few years \citep{dale2014estimating, mountjoy2021returns}; a descriptive
+gradient can rise while such a premium fades. Given that and the three fifths shared with selectivity, the most
+parsimonious reading is residual selection: growing pay returns to pre-college differences that status and
+selectivity proxy. Holding both fixed, institutions with more Pell students lose their early relative position
+(\SI{6}), which growing returns to family advantage, or graduate study, would produce. A rising association also
+fits a growing return to status, sorting into careers with steeper earnings profiles \citep{binder2016career,
+rivera2015pedigree}, and the timing of graduate study. Aggregate data cannot separate these readings.
 
 \begin{figure}[!tbp]
 \centering
 \paperfig{paper_fig4}
-\caption{Coupling and years since graduation on fixed cohorts. (a) US: mean within-field coupling of
-department prestige $F$ and of academia-wide prestige $G$ with PSEO median earnings one, five and ten
-years after graduation; balanced fixed cohorts of 2001--03 to 2010--12 graduates (39 fields, release
-V4.13.0); bars are crossed field-by-institution bootstrap 95\% intervals. $F$'s coupling rises about as
-steeply as $G$'s partly through its overlap with $G$ (within-cell Spearman 0.83); panel (c) separates the
-two. (b) UK: mean coupling of academia-wide UK prestige $G$ with LEO median earnings one, three and five
-years after graduation, for all graduates (33 subjects), after standardising for prior-attainment mix (32)
-and within prior-attainment bands (27); balanced fixed cohorts 2013/14--2016/17; bars are two-stage
-subject-and-provider bootstrap 95\% intervals. (c) US: mean standardised rank-regression coefficients of
-earnings on $F$ ($b_F$) and $G$ ($b_G$) by horizon, same panel as (a); bars are two-way (field, institution)
-cluster 95\% intervals; $d_F$ and $d_G$ are their slopes per year. Slopes and their intervals are in
-Table~\ref{tab:career}. Within-cohort changes mix career time with calendar time
-(Section~\ref{sec:career}).}\label{fig:career}
+\caption{Coupling and years since graduation. (a) US: mean coupling of $F$ and $G$ with PSEO medians at one, five
+and ten years, fixed cohorts 2001--03 to 2010--12 (39 fields, V4.13.0). (b) US: coupling of $F$ in 17
+graduation-window $\times$ horizon cells (24 fields, V4.14.1); shading: earnings in 2008--10 or 2020--22. (c) UK:
+coupling of $G$, fixed LEO cohorts 2013/14--2016/17: all graduates, standardised for attainment mix, within bands.
+(d) US: rank-regression loadings on $F$ and $G$, panel of (a); weakly identified. Within-cohort changes mix career
+and calendar time. 95\% intervals, types stated in each panel.}\label{fig:career}
 \end{figure}
 
 \begin{table}[!tbp]
 \centering
-\caption{Career-time summary. US: PSEO bachelor's graduates, balanced fixed cohorts 2001--03 to
-2010--12, field prestige $F$; per-field slopes averaged over fields; two-way (field, institution) cluster
-intervals unless marked. UK: LEO, balanced fixed cohorts 2013/14--2016/17, academia-wide prestige $G$;
-two-stage bootstrap over subjects and providers. Slopes are changes in coupling per year since
-graduation. 95\% intervals.}\label{tab:career}
-\footnotesize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.3cm}lll@{}}
+\caption{Career-time summary. US: PSEO release V4.14.1, on which every row is available (the canonical V4.13.0
+gives slopes within 0.004 per year of these; \SI{6}); bachelor's graduates, field prestige $F$, per-field slopes
+averaged over fields, two-way (field, institution) cluster intervals unless marked; balanced fixed cohorts 2001--03
+to 2010--12 unless the row states another sample. UK: LEO, balanced fixed cohorts 2013/14--2016/17, academia-wide
+prestige $G$; two-stage bootstrap over subjects and providers. Slopes are changes in coupling (or in a loading) per
+year since graduation. 95\% intervals.}\label{tab:career}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.2cm}>{\raggedright\arraybackslash}p{5.6cm}>{\raggedright\arraybackslash}p{3.6cm}@{}}
 \toprule
-Quantity & US, V4.13.0 (39 fields) & US, V4.14.1 (40 fields)$^{a}$ & UK (33 subjects) \\
+Quantity & US, V4.14.1 (40 fields)$^{a}$ & UK (33 subjects) \\
 \midrule
-Coupling at first / middle / last horizon & $+0.173$ / $+0.310$ / $+0.451$ & $+0.159$ / $+0.294$ / $+0.433$ & $+0.379$ / $+0.438$ / $+0.484$ \\
-Within-cohort slope & $+0.031$ \ci{+0.021}{+0.041} & $+0.030$ \ci{+0.020}{+0.041} & $+0.026$ \ci{+0.014}{+0.037} \\
-\quad crossed bootstrap (conservative) & \ci{+0.018}{+0.041} & \ci{+0.018}{+0.043} & --- \\
-Slope of $G$ coupling, two-stage interval & $+0.036$ \ci{+0.027}{+0.043} & --- & (as above) \\
-Early segment (y1--y5; YAG1--3) & $+0.034$ \ci{+0.015}{+0.053} & $+0.034$ \ci{+0.016}{+0.052} & $+0.029$ \ci{+0.007}{+0.047} \\
-Late segment (y5--y10; YAG3--5) & $+0.028$ \ci{+0.020}{+0.037} & $+0.028$ \ci{+0.018}{+0.037} & $+0.023$ \ci{+0.009}{+0.039} \\
-Calendar-matched contrast & $+0.014$ \ci{+0.007}{+0.022} & $+0.015$ \ci{+0.007}{+0.023} & $+0.031$ \ci{+0.021}{+0.042} \\
-Cross-cohort drift at entry & $+0.017$ \ci{+0.010}{+0.025} & $+0.018$ \ci{+0.010}{+0.025} & $-0.006$ \ci{-0.015}{+0.003} \\
-Career-time bound if calendar, cohort effects $\ge 0$ & $[+0.014, +0.032]$ & $[+0.015, +0.032]$ & --- \\
-Coverage control: share of slope removed (US); slope net of coverage (UK) & $0.192$ \ci{0.089}{0.294} & $0.195$ \ci{0.097}{0.293} & $+0.017$ \ci{+0.005}{+0.027} \\
-Prior-attainment standardised slope & --- & --- & $+0.028$ \ci{+0.016}{+0.038} \\
-High-coupling minus other fields & $+0.008$ \ci{-0.010}{+0.026} & $+0.006$ \ci{-0.011}{+0.024} & --- \\
-Slope of $b_G$ ($d_G$) & $+0.038$ \ci{+0.021}{+0.055} & $+0.035$ \ci{+0.019}{+0.052} & --- \\
-Slope of $b_F$ ($d_F$) & $-0.001$ \ci{-0.016}{+0.013} & $+0.000$ \ci{-0.013}{+0.014} & --- \\
-$d_G-d_F$ (two-way $z$: 2.57; 2.45) & $+0.039$ \ci{+0.009}{+0.069} & $+0.035$ \ci{+0.007}{+0.063} & --- \\
-\quad crossed bootstrap (conservative) & \ci{-0.000}{+0.078} & \ci{-0.003}{+0.070} & --- \\
-$b_F$ at y1 & $+0.189$ \ci{+0.062}{+0.317} & $+0.157$ \ci{+0.050}{+0.264} & --- \\
-$b_G$ at y1 / y10 & $-0.013$ / $+0.328$ & $+0.009$ / $+0.327$ & --- \\
-p25 minus p50 coupling (mean over horizons) & $-0.067$ \ci{-0.092}{-0.042} & $-0.066$ \ci{-0.091}{-0.042} & --- \\
+Coupling at first / middle / last horizon & $+0.159$ / $+0.294$ / $+0.433$ & $+0.379$ / $+0.438$ / $+0.484$ \\
+Within-cohort slope (crossed bootstrap) & $+0.030$ \ci{+0.020}{+0.041} (\ci{+0.018}{+0.043}) & $+0.026$ \ci{+0.014}{+0.037} \\
+Calendar-matched contrast; US without earnings years 2008--10, 2020--22 (38 fields) & $+0.015$ \ci{+0.007}{+0.023}; $+0.014$ \ci{+0.005}{+0.024} & $+0.031$ \ci{+0.021}{+0.042} \\
+Cross-cohort drift at entry & $+0.018$ \ci{+0.010}{+0.025} & $-0.006$ \ci{-0.015}{+0.003} \\
+Career-time bound if calendar, cohort effects $\ge 0$$^{b}$ & $[+0.015, +0.032]$ & --- \\
+17-cell surface (24 fields): $\theta_h$ / $\theta_c$ & $+0.031$ \ci{+0.019}{+0.043} / $+0.015$ \ci{+0.008}{+0.023} & --- \\
+Coverage control: share of slope removed (US); slope net of coverage (UK) & $0.195$ \ci{0.097}{0.293} & $+0.017$ \ci{+0.005}{+0.027} \\
+Slope net of coverage and research-doctorate rate (144 cells; raw $+0.0305$) & $+0.0103$ \ci{+0.0027}{+0.0178} & --- \\
+Slope net of entry-year SAT and admission rate (39 fields, 109 cells; raw $+0.0289$) & $+0.0112$ \ci{+0.0026}{+0.0198} & --- \\
+Prior-attainment standardised slope; with $G$ corrected for validity 0.74 & --- & $+0.028$ \ci{+0.016}{+0.038}; $+0.035$ \ci{+0.019}{+0.051}$^{c}$ \\
+Slope of $b_G$ ($d_G$) / of $b_F$ ($d_F$) & $+0.035$ \ci{+0.019}{+0.052} / $+0.000$ \ci{-0.013}{+0.014} & --- \\
+$d_G-d_F$ (crossed bootstrap) & $+0.035$ \ci{+0.007}{+0.063} (\ci{-0.003}{+0.070}) & --- \\
+Loading on $G$ net of selectivity (2026 controls): rank regression / partial correlation (37 fields) & $+0.016$ \ci{-0.011}{+0.044} / $+0.014$ \ci{+0.003}{+0.024} & $+0.008$ \ci{-0.006}{+0.022}$^{c}$ \\
 \bottomrule
 \end{tabular}
 
 \smallskip
-\begin{minipage}{0.97\textwidth}\footnotesize
-$^{a}$ The calendar-matched contrast, the drift and the bound use the 39 fields with triple-matched
-institutions. The p75-minus-p50 difference is not distinguishable from zero and is reported in \SI{6}. The
-slope of $G$ coupling is from \texttt{scripts/52}, which reports only a two-stage interval.
+\begin{minipage}{0.97\textwidth}\scriptsize
+$^{a}$ The calendar-matched contrast, the drift and the bound use the 39 fields with triple-matched institutions;
+rows naming another sample use it. $^{b}$ Both ends would be biased upward if graduate study depressed the early
+medians of higher-status institutions more than others'. $^{c}$ Two-way (subject, provider) interval.
 \end{minipage}
 \end{table}
 
 \subsection{Where coupling is weak: national pay scales and strictly licensed occupations}\label{sec:boundary}
 
-The prestige--pay association is weak in UK subjects paid on national scales and, across US fields, falls
-with the share of graduates in strictly licensed occupations. We treat both as boundary conditions of the
-main finding: contrasts between discipline families that public data cannot tie to how pay is set. Special
-education, whose graduates mostly teach on K-12 salary schedules, is a clear counter-case.
+\paragraph{UK.} Nursing and midwifery, medicine and dentistry, and education and teaching, three subjects whose
+graduates are largely paid on national scales, couple at $+0.120$ \ci{-0.033}{+0.258} against $+0.523$
+\ci{+0.439}{+0.585} for the other 30 subjects (difference $-0.404$ \ci{-0.566}{-0.238}; exact subject-label
+permutation $p=0.0009$; Fig.~\ref{fig:boundary}b), and the contrast survives standardisation for prior attainment
+(\SI{5}). Allied health, much of it also paid on national bands, is an exception at $+0.570$. The pattern and its
+reading as centrally regulated pay are \citeauthor{britton2022how}'s \citeyearpar{britton2022how}; we add nursing
+and a hiring-network axis.
 
-\paragraph{UK.} Nursing and midwifery, medicine and dentistry, and education and teaching, three subjects
-whose graduates are largely paid on national scales, couple at $+0.120$ \ci{-0.033}{+0.258} against
-$+0.523$ \ci{+0.439}{+0.585} for the other 30 subjects (difference $-0.404$ \ci{-0.566}{-0.238}; exact
-subject-label permutation $p=0.0009$; Fig.~\ref{fig:boundary}b). After within-provider standardisation for
-prior attainment the contrast is $+0.053$ against $+0.463$ ($p=0.0014$) on the 32-subject composition
-sample, where the unstandardised means are $+0.057$ and $+0.543$. Allied health, much of it also paid on
-national bands, is an exception at $+0.570$; adding it to the group shrinks the difference to $-0.289$
-\ci{-0.497}{-0.037} ($p=0.008$). Teaching also differs over time, rising from $+0.012$ at YAG1 to $+0.211$
-at YAG5. The pattern, and its reading as centrally regulated pay for medicine and education, is
-\citeauthor{britton2022how}'s \citeyearpar{britton2022how}; we add nursing and a hiring-network axis.
-
-\paragraph{US.} Net of geography, how strongly department prestige is associated with pay falls with the
-share of a field's full-time workers with a bachelor's degree or more who are in strictly licensed
-occupations (health practitioners, school teachers, lawyers, architects and psychologists; ACS 2023): the
-Spearman correlation across fields is $-0.53$ to $-0.48$ over two institution samples and three geography
-codings (Fig.~\ref{fig:boundary}a). Its interval excludes zero in all 6 versions when fields are resampled,
-but in only 3 of 6 (the full institution sample) when whole CIP-2 families are resampled, and the
-association rests on the ordering of discipline families. The 15 lowest strict shares among the 40 fields
-of the selectivity sample all belong to engineering, computer science, statistics or business, families
-whose geography-netted association is high (family means $+0.52$ to $+0.65$). Only three fields have a
-strict share above 0.5: nursing (0.77), whose partial correlation net of region fixed effects is $+0.28$
-\ci{+0.08}{+0.46}; communication disorders (0.61); and special education (0.61), whose graduates mostly teach on
-district salary schedules and whose field couples strongly (raw $+0.55$; net of geography $+0.59$ to $+0.66$;
-19 institutions), against the licensing reading. For raw coupling the rank association is weaker
-($-0.29$ \ci{-0.56}{+0.04} \cic{-0.59}{+0.06}; 40 fields). It is not detected within CIP-2 families ($-0.11$ to
-$+0.19$), a low-power test because only 15--21\% of the share's rank variance lies within families, nor with a
-broad licensure share that adds licensed engineers, accountants, health technicians and counsellors
-($-0.22$ to $-0.07$). It keeps its sign net of selectivity ($-0.42$ \ci{-0.68}{-0.10} \cic{-0.75}{-0.02}), but
-licensed fields also have flatter selectivity gradients, so the pattern cannot distinguish a looser
-department ordering from a flatter status gradient in general; and a field's government-or-non-profit
-employment share predicts it at least as well ($-0.62$ to $-0.44$), so licensure and employer sector are not
-separated.
-
-Within fields, in a hierarchical model of program earnings with field-specific slopes on selectivity and
-$G$, a field whose strict share is one SD higher (rank form) has a flatter prestige slope, $-0.088$
-\ci{-0.147}{-0.049} in normal-score units against an average slope of $+0.083$ (field-label permutation
-$p=0.003$, a test that ignores CIP-2 clustering). The moderation survives controls for institution-wide
-earnings and institution effects but cannot be separated from field type: with an indicator for
-engineering, computer science, mathematics and business fields as a second moderator it is $-0.065$
-($p=0.094$), and within the 23 other fields $-0.038$ \ci{-0.127}{+0.043}. Neither the broad share ($-0.008$
-\ci{-0.052}{+0.058}) nor an ex-ante licensed-field indicator ($+0.056$, $p=0.57$; 3 licensed fields) moderates
-the slope in the same specification (\SI{7}). Once selectivity is netted as well as geography, nursing's
-association is about zero ($-0.07$ \ci{-0.28}{+0.15}), like biology's ($-0.07$) and like that of most fields
-(35 of 46 intervals include zero).
-
-\paragraph{Employer sector in PSEO Flows.} Across institution-by-family cells, the slope of log earnings on
-standardised SAT is lower by $0.016$ \ci{0.010}{0.022} for each 10 percentage points of graduates working in
-education, health care and public administration (4,773 cells, 348 institutions); department prestige and $G$
-show no robust flattening ($-0.004$ \ci{-0.012}{+0.004} and $-0.006$ \ci{-0.015}{+0.003}). Whether the SAT
-flattening goes with this setting share or with the market share depends on the design, that is, on which
-cohorts' shares are set against which cohorts' pay: shares measured at y5 load on the market share (setting
-share given market share $-0.004$ \ci{-0.010}{+0.002}; market given setting $+0.009$ \ci{+0.002}{+0.016}), y1
-shares pooled over cohorts load on the setting share, and each cohort's own y1 shares set against its own y5
-pay load on the market share or on neither (\SI{7}). The attribution is not identified.
-
-Pay set by the setting, such as a teacher salary schedule \citep{biasi2021labor}, an employer's pay scale
-or a reimbursement rate, is a reading consistent with these contrasts and with
-\citeauthor{britton2022how}'s interpretation of UK medicine and education; whether licensure itself raises
-wages is contested \citep{kleiner2013analyzing, redbird2017new}. These data do not isolate either reading.
-Fields with a higher licensed share also do not show less cross-institution pay dispersion (correlation
-$+0.02$ \ci{-0.30}{+0.32}, 45 fields; legacy \texttt{scripts/35c}), an interval too wide to say whether pay
-varies less across institutions in these fields.
+\paragraph{US.} Across US fields the prestige--pay association net of geography falls with the share of a field's
+graduates in strictly licensed occupations (health practitioners, school teachers, lawyers, architects and
+psychologists; ACS 2023): Spearman $-0.53$ to $-0.48$ over two institution samples and three geography codings
+(Fig.~\ref{fig:boundary}a). It is a contrast between discipline families (engineering, computer science,
+statistics and business at the low-share end), and it is fragile: under resampling of whole CIP-2 families its
+interval excludes zero in only 3 of 6 versions, it is not detected within families or with a broad licensure
+share, a government-or-non-profit employment share predicts it at least as well, and special education, whose
+graduates mostly teach on district salary schedules, couples strongly. Pay set by the setting, such as a teacher
+salary schedule \citep{biasi2021labor} or a pay scale, is a reading consistent with these contrasts; whether
+licensure itself raises wages is contested \citep{kleiner2013analyzing, redbird2017new}, and these data isolate
+neither reading (\SI{7}).
 
 \begin{figure}[!tbp]
 \centering
 \paperfig{paper_fig5}
-\caption{Where coupling is weak. (a) US: partial correlation of department prestige $F$ with College
-Scorecard four-year earnings net of BEA-region fixed effects (full institution sample, one of the six
-sample-by-geography versions in Section~\ref{sec:boundary}; 95\% intervals), against the share of a
-field's full-time workers with a bachelor's degree or more who are in strictly licensed occupations
-(health diagnosing and treating practitioners, preschool to secondary and special-education teachers,
-lawyers and judges, architects, psychologists; ACS 2023). One point per field, coloured by CIP-2 family and sized by the number
-of institutions; computer science, accounting, biology, special education, nursing and communication
-disorders are labelled. Top: the Spearman correlation across fields with its field-bootstrap interval and
-its CIP-2 family-bootstrap interval, the within-family association (37 fields), and the association with the
-broad licensure share (interval \ci{-0.50}{+0.13}). The association is a contrast between families, is not
-detected within them, and is not detected with the broad share. (b) UK: coupling of academia-wide prestige
-$G$ with LEO earnings five years after graduation, all graduates, full sample of 33 subjects: the three
-subjects largely on national pay scales (nursing and midwifery, medicine and dentistry, education and
-teaching; filled diamonds) and the other 30 (allied health, also largely on national pay bands, open
-diamond); group means with 95\% two-stage bootstrap intervals. After within-provider standardisation for
-prior-attainment mix, on the 32-subject composition sample of Fig.~\ref{fig:uk}a (3 and 29 subjects), the
-group means are $+0.053$ and $+0.463$ ($p=0.0014$; unstandardised on that sample $+0.057$ and $+0.543$).}\label{fig:boundary}
+\caption{Where coupling is weak. (a) US: partial correlation of $F$ with Scorecard four-year earnings net of
+BEA-region effects (one of six sample-by-geography versions) against the field's share of full-time bachelor's
+holders in strictly licensed occupations (ACS 2023); one point per field, coloured by CIP-2 family, sized by
+institutions. (b) UK: coupling of $G$ with LEO five-year earnings (33 subjects) in the three pay-scale subjects,
+allied health and the others; group means. 95\% intervals.}\label{fig:boundary}
 \end{figure}
 
 % =====================================================================================
 \section{Discussion}\label{sec:discussion}
 
-\paragraph{For the science of science.} The faculty-hiring hierarchy is a reliable measure of standing
-inside the academy, the academia-wide ordering especially, and it does track the pay of the academy's
-bachelor's graduates. Outside academia, however, the information it carries about their pay is mostly
-institution-level status. Within institutions, one SD of department prestige goes with about 1\% higher pay
-once each field's slopes on selectivity and academia-wide prestige are allowed for (0.84\%, 95\% interval
-0.0--1.6\%, for four-year earnings; 0.5--1.1\% averaged over horizons; up to about 3\% after correcting for
-measurement error at the lower reliability bound; Section~\ref{sec:status}); a field's own ordering
-predicts pay no better than the academia-wide ordering in either country; and in the UK the academia-wide
-ordering adds little beyond intake selectivity (Section~\ref{sec:uk}). The two orderings are nested, since
-$G$ pools the same hiring data over all fields, so ``institution-level status'' here is the part of the
-academy's hierarchy shared across an institution's departments. Graduate pay lines up mostly with that
-shared part, and only a little with what distinguishes a department from its neighbours in the same
-institution: about 1\% of pay per SD, individually clear only in computer science. Any study that uses
-hiring-network prestige as a proxy for the training quality or labour-market standing of a program should
-expect it to behave mostly as a measure of institutional status. The one field-specific exception we can
-establish, computer science, is a single field, and its premium fits selection into the major as well as
-department standing.
+\paragraph{For the science of science.} The faculty-hiring hierarchy is a reliable measure of standing inside the
+academy, the academia-wide ordering especially, and it does track the pay of the academy's bachelor's graduates.
+Outside academia, however, the information it carries about their pay is mostly institution-level status. Within
+institutions one SD of department prestige goes with 0.8\% higher four-year pay, with an interval that reaches zero
+(about zero with one- or five-year earnings; up to about 3\% corrected for measurement error at the lower
+reliability bound); a field's own ordering predicts pay no better than the academia-wide ordering; and in the UK,
+among graduates of the same attainment band, the academia-wide ordering adds no detectable amount beyond intake
+selectivity. Because $G$ pools the same hiring data over all fields, ``institution-level status'' here is the part
+of the hierarchy shared across an institution's departments. Studies that use hiring-network prestige as a proxy
+for a program's training quality or labour-market standing should expect it to behave mostly as a measure of
+institutional status. The one field-specific exception, computer science, fits selection into the major as well as
+department standing, and it is measured without the University of California campuses and several flagship
+public departments.
 
-\paragraph{For the college-quality literature.} A peer-defined, hiring-network axis reproduces the UK
-finding that academic quality adds little beyond selectivity \citep{hussain2009university,
-britton2022how}, and extends it to about 50 US fields on College Scorecard, with the raw field ordering
-reproduced on PSEO. The cross-field ordering of coupling is real, but it is nearly collinear with how
-steeply each field's pay follows institutional selectivity (true-score correlation $+0.94$ in the US;
-Spearman $+0.92$ across UK subjects); \citet{bloem2024understanding} show on an earlier Scorecard release
-that this selectivity gradient itself varies across fields. At the resolution of public data, ``the status
-gradient in pay differs by field'' and ``the department-prestige gradient in pay differs by field'' cannot
-be told apart. The within-institution design narrows the gap between them to a small remainder, which is
-the quantity that future data must resolve.
+\paragraph{For the college-quality literature.} A hiring-network axis shows the pattern \citet{britton2022how}
+report: most of the prestige ordering of pay goes with selectivity (US $+0.43$ to $+0.14$ across about 50 fields;
+UK $+0.50$ to $+0.13$ on 32 subjects), and what remains beyond selectivity and academia-wide status is small.
+Unlike their league-table result, 11 of 46 US fields keep a partial coupling more than 1.96 standard errors above
+zero net of selectivity alone. The cross-field ordering of coupling is nearly collinear with how steeply each
+field's pay follows institutional selectivity, a gradient that itself varies across fields
+\citep{bloem2024understanding}. At the resolution of public data, ``the status gradient in pay differs by field''
+and ``the department-prestige gradient in pay differs by field'' cannot be told apart; the within-institution
+design narrows the gap between them to a small remainder.
 
-\paragraph{Career time.} Within fixed cohorts, coupling rises by about $+0.03$ per year in two countries,
-with different earnings sources, prestige measures and horizons; in the US, in a weakly identified
-decomposition, the rise appears in the loading on the academia-wide ordering, which tracks selectivity.
-Employer-learning models do not predict that an unconditional association of a credential with pay falls:
-in them the weight on an easily observed credential falls relative to hard-to-observe correlates of
-productivity \citep{altonji2001employer}, while the unconditional association of schooling with wage levels
-need not change \citep{farber1996learning}. A rising unconditional coupling fits learning if $G$ carries
-productivity information that employers do not observe at entry. It also fits sorting into career tracks with
-steeper earnings profiles, with which the one-cohort PSEO Flows sequence is consistent, a growing return to
-status, and the timing of graduate training, for which the field-level check in Section~\ref{sec:career}
-gives some support in the late segment. The data do not distinguish these. What they do establish is
-descriptive: in the US the rise appears in every cohort and in both segments, it survives a coverage control
-in both countries and a prior-attainment control in the UK, and in the US its career-time part lies between
-$+0.014$ and $+0.032$ per year if calendar and cohort effects are non-negative. Whether it differs between
-high- and low-coupling fields is not detected, by a test that can exclude only large differences.
+\paragraph{Career time.} Within fixed cohorts, coupling rises by about $+0.03$ per year in two countries with
+different earnings sources, prestige measures and horizons. In the US it also rises across cohorts, so the
+career-time part is bounded, $[+0.015, +0.031]$ per year, only under a sign assumption and if graduate study does
+not depress the early medians of higher-status institutions more than others'; about three fifths of the
+within-cohort rise is shared with selectivity; and what remains appears, in a weakly identified decomposition, in
+the loading on the academia-wide ordering. Net of selectivity the status loading does not decline within cohorts
+in either country; in the US selectivity is measured on recent entrants, a dating that favours this result. Set
+against small or fading causal selectivity premia \citep{dale2014estimating, mountjoy2021returns}, the most
+parsimonious reading is residual selection, growing returns to pre-college differences that status and selectivity proxy; the pattern
+also fits employers who know at hiring most of what status and selectivity signal, sorting into steeper careers,
+a growing return to status and the timing of graduate study. The data do not distinguish these.
 
-\paragraph{What would decide the open questions.} Four kinds of data would separate department standing
-from program-level selection. First, program-level entry attainment: no public US file has it, and it
-would test whether the computer-science, engineering and business remainders survive students' own
-attainment, as the UK band data allow for institutions. Second, changes in department standing over time:
-pairing published department ratings from different assessment rounds (such as the National Research
-Council assessments of 1995 and 2010) with PSEO graduation cohorts would allow a within-department design
-that asks whether pay follows a department's standing when its institution's selectivity is held fixed.
-Third, the admission route into majors: whether an institution admits students directly into computer
-science, engineering or business, or caps entry, can be coded from public admissions pages; under selection
-the premium should sit where entry to the major is selective, and under department standing it should not
-depend on the route. Fourth, linked student records with entry scores, major and earnings would allow
-comparisons of students with the same attainment across departments of different standing; they are the
-decisive design and are not public. For career time, graduate-degree attainment by institution and field,
-and selectivity measured for the entry years of each earnings cohort, would test the graduate-training
-reading and let the academia-wide loading be split from selectivity.
+\paragraph{What would decide the open questions.} Four kinds of data would separate department standing from
+program-level selection: program-level entry attainment, which no public US file has; changes in department
+standing over time, pairing department ratings from different assessment rounds \citep{nrc1995research,
+nrc2011data} with PSEO cohorts; admission routes into majors for a larger sample, including engineering, business
+and the top departments now lost to the name join or the missing SAT average; and linked student records with
+entry scores, major and earnings, the decisive design, which are not public. Two re-estimates are feasible with the
+public files already used: the within-institution and computer-science analyses with a join by institution
+identifier and entry-year SAT averages, and the status-loading test with entry-year SAT averages and admission
+rates. For career time, graduate enrolment by institution, field and cohort would test the graduate-study reading
+directly.
 
 % =====================================================================================
 \section{Limitations}\label{sec:limits}
 
-Each of the following limits a specific claim. \emph{Medians and coverage.} Scorecard earnings are medians
-for Title IV--aided completers, a selected subset of graduates at elite private institutions, which may
-weaken measured coupling at the top of the hierarchy; PSEO, which covers all graduates with UI-covered
-earnings, lacks most top-quartile private institutions (20 of 93 in the top quartile) and cannot check this.
-Neither source sees the upper tail within a program, and the Opportunity Insights check cannot resolve the
-roughly 80 most selective colleges. \emph{Selectivity proxies.} Selectivity is measured at the institution
-level and from the ``most recent'' Scorecard institution file: average SAT (of submitters only, in a partly
-test-optional era) and admission rates of recent entering classes, while the earnings describe completers who
-entered about a decade earlier (Scorecard) or in the late 1990s and 2000s (PSEO). Historical institution files
-matched to each cohort's entry years would remove this mismatch; we have not used them. Whatever the controls
-miss stays in every partial coupling, is correlated with prestige and weighs more in fields with steeper
-selectivity gradients. \emph{Location.} No control captures field-specific local demand beyond a
-field-specific slope on the state earnings level. \emph{Earnings reliability.} How reliably program medians
-measure a program's pay plausibly differs by field (Section~\ref{sec:map}), and this is not corrected.
-\emph{Timing.} The career-time estimates cannot separate career dynamics from calendar time without a sign
-assumption, or from the timing and returns of graduate degrees. \emph{Prestige reliability and validity.} The
-reliability of the published field ranks can only be bracketed (0.81--0.96), so the size of the department
-remainder is uncertain: disattenuated, it ranges from $+0.064$ to $+0.159$ in partial coupling and from
-$+0.0098$ to $+0.0297$ in the within-institution slope; the UK hierarchy rests on self-reported ORCID careers.
-\emph{Rank statistics.} Coupling and the UK survival shares describe orderings, not the size of pay
-differences; low coupling in UK pay-scale subjects may reflect little cross-provider pay variation as much as
-a flat status gradient. \emph{Descriptive design.} Nothing here separates value added, selection and employer
-screening; the attenuation of coupling under controls measures overlap, not mechanism. \emph{Field-level
-inference.} Moderators measured once per field rest on 40--50 fields and, when families are resampled, on
-about 18 CIP-2 families. \emph{Power of the nulls.} The nulls reported here are statements of what the data
-cannot detect, not evidence of absence; for example, the high- against low-coupling career contrast has 42\%
-power against half the all-field slope. \SI{9} gives the power and bounds of every null, including three
-field-level nulls from earlier analyses of this project (a within-occupation dispersion law, occupational
-concentration and disciplinary kinship). \emph{Beliefs.} Students' and employers' beliefs about prestige are
-not measured. \emph{Specification.} The canonical specification (published ranks, four-year Scorecard medians,
-fields with at least 15 institutions) was fixed before the manuscript was drafted, after the analyses had been
-run; \SI{4} shows how the main statistics move with the alternatives, and \SI{9} lists the hypotheses examined.
+Each of the following limits a specific claim. \emph{Medians and coverage.} Scorecard medians describe Title
+IV--aided completers who work and are not enrolled; PSEO lacks most of the top prestige quartile, and neither
+source sees the upper tail within a program. \emph{Sample.} The name join and the missing fall-2024 SAT averages of
+test-blind institutions remove 18 of the 50 highest-ranked computer-science departments from the four-year
+within-institution analyses (21 from the pooled-horizon computer-science sample), among them the University of
+California campuses, Caltech, Georgia Tech, Purdue, Ohio State and the University of Washington; these analyses
+were not re-run with a join by institution identifier or with entry-year SAT averages. \emph{Selectivity
+proxies.} Selectivity is institution-level; re-dating it to entry years moves none of the three primary statistics
+detectably (only the Pell-share step of the ladder), but cannot show that the proxies capture student quality, and
+whatever they miss stays in every partial coupling. The status loadings, the $+0.059$ remainder and the $+0.94$ use
+2026 controls; for the status loadings that dating favours the reported absence of a decline. \emph{Location.} The
+local-demand control describes the institution's state, passes little through to program earnings and mixes
+demand with who lives there. \emph{Earnings reliability.} The noise propagation is
+secondary, not yet independently verified, and its error model is approximate. \emph{Timing.} Career dynamics are
+not separable from calendar time without a sign assumption, or from the timing and returns of graduate degrees,
+which could bias both ends of the bound upward. \emph{Prestige.} The reliability of the published field ranks can
+only be bracketed (0.81--0.96), so the size of the remainder is uncertain ($+0.0098$ to $+0.0297$ disattenuated);
+$F$ partly tracks doctoral production; and the UK hierarchy rests on self-reported ORCID careers of uncertain
+validity. \emph{Rank statistics.} Coupling and the UK survival shares describe orderings; low coupling in UK
+pay-scale subjects may reflect little cross-provider pay variation. \emph{Descriptive design.} Nothing here
+separates value added, selection and employer screening, and the employer-learning analogue uses institution
+aggregates and a public correlate. \emph{Field-level inference.} Moderators measured once per field rest on 40--50
+fields and about 18 CIP-2 families. \emph{Power.} Nulls are statements of what the data cannot detect; \SI{9} gives
+the power or interval of the main nulls. \emph{Beliefs} about prestige are not measured. \emph{Specification.} The
+canonical specification was fixed after the main analyses had been run; \SI{4} shows how the main statistics move
+with the alternatives.
 
 % =====================================================================================
 \section{Methods}\label{sec:methods}
@@ -1091,64 +790,63 @@ run; \SI{4} shows how the main statistics move with the alternatives, and \SI{9}
 \begin{equation}
 \log Y_{if}=\alpha_i+\gamma_f+\beta\,z(F)_{if}+\sum_{f'} D_{f'}\big(d_{f'}\,z\mathrm{SAT}_i+a_{f'}\,z\mathrm{ADM}_i+p_{f'}\,z\mathrm{Pell}_i+t_{f'}\,zG_i\big)+e_{if},\label{eq:fe}
 \end{equation}
-where $z(\cdot)$ standardises within field, $\alpha_i$ and $\gamma_f$ are institution and field fixed
-effects, and $D_{f'}$ indicates field $f'$. The field-specific slopes let the earnings gradients in
-selectivity, Pell share and $G$ differ by field, so $\beta$ is identified only from departments whose
-standing differs from what their institution's traits imply. Institutions with one field and fields with
-fewer than 15 programs are dropped iteratively. Intervals come from an institution cluster bootstrap with
-999 draws, shared across specifications on the same programs so that differences are paired (\SI{4}).
-
-\paragraph{Reliability bracket.} The published ranks cannot be re-estimated from public data, because the
-public edge list omits institution pairs linked by a single hire, so we bracket their sampling reliability.
-For the lower bound, each person on a public edge is assigned at random to one of two halves, SpringRank is
-estimated on each half, and the Spearman correlation of the two rankings over a field's analysis
-institutions is averaged over 200 seeded splits and stepped up with the Spearman--Brown formula; this treats
-the published rank as if it used only the public hires. For the upper end, the same reliability is
-extrapolated to the number of hires behind the published ranks with $\mathrm{rel}(m)=m/(m+m_0)$, where
-$m_0$ is fitted to the public split-half. Couplings are disattenuated by the square root of the prestige
-reliability; the earnings side is not corrected (\SI{2}).
+where $z(\cdot)$ standardises within field, $\alpha_i$ and $\gamma_f$ are institution and field fixed effects, and
+$D_{f'}$ indicates field $f'$. The field-specific slopes let the earnings gradients in selectivity, Pell share and
+$G$ differ by field, so $\beta$ is identified only from departments whose standing differs from what their
+institution's traits imply. Institutions with one field and fields with fewer than 15 programs are dropped
+iteratively; intervals come from an institution cluster bootstrap with 999 draws shared across specifications, so
+that differences are paired (\SI{4}).
 
 \paragraph{Career-time contrasts.} On institutions observed in all three cells, the within-cohort change
-$(\text{y10}-\text{y1})/9$, the calendar-matched contrast (cohort $c$ at y10 against cohort $c+9$ at y1,
-divided by 9) and the cross-cohort drift at y1 (cohort $c+9$ against cohort $c$, divided by 9) equal
-$a+b$, $a-g$ and $b+g$ in a linear model of coupling with career, calendar and cohort effects $a$, $b$ and
-$g$. The career-time effect $a$ is bounded only under $b,g\ge0$ \citep{fosse2019bounding}; no point estimate
-of it is reported (\SI{6}).
+$(\text{y10}-\text{y1})/9$, the calendar-matched contrast (cohort $c$ at y10 against cohort $c+9$ at y1, over 9) and
+the cross-cohort drift at y1 equal $a+b$, $a-g$ and $b+g$ in a linear model with career, calendar and cohort effects
+$a$, $b$ and $g$; on the 17-cell surface, the within-window and across-window slopes equal $\theta_h=a+b$ and
+$\theta_c=b+g$. Only under $b,g\ge0$ is the career-time effect bounded: $a\in[a-g,\,a+b]$, that is, between the
+calendar-matched contrast and the within-cohort change, or $a\in[\theta_h-\theta_c,\,\theta_h]$ on the surface
+\citep{fosse2019bounding}. No point estimate of $a$ is reported (\SI{6}).
 
-\paragraph{Further details.} The SI documents the data and crosswalks (\SI{1}), the prestige measures (\SI{2}),
-the coupling estimator, its heterogeneity and the cross-source comparison (\SI{3}), the selectivity designs and
-the specification curve (\SI{4}), the UK analysis (\SI{5}), career time and the calibration of its intervals
-(\SI{6}), licensing and employer sector (\SI{7}), tail outcomes (\SI{8}), the power of every null and the
-hypotheses examined (\SI{9}), and earnings as a placement measure (\SI{10}).
+\paragraph{Further details.} The SI documents data and crosswalks (\SI{1}), prestige measures (\SI{2}), the
+coupling estimator and earnings reliability (\SI{3}), the selectivity designs (\SI{4}), the UK analysis (\SI{5}),
+career time (\SI{6}), licensing and employer sector (\SI{7}), tail outcomes (\SI{8}), power and the hypotheses
+examined (\SI{9}), and earnings as a placement measure (\SI{10}).
 
 % =====================================================================================
 \section*{Declarations}
 \sloppy
 
-\paragraph{Availability of data and materials.} All inputs are public: the Wapman et al.\ faculty-hiring
-data \citep{wapman2022data}; College Scorecard field-of-study and institution files \citep{scorecard}; Census
-PSEO earnings and flows \citep{pseo}, releases V4.13.0 (2025Q4) and V4.14.1 (2026Q2); the Department for
-Education's ``Graduate outcomes (LEO): provider level data'' (2022-23 release, Explore Education
-Statistics); the ORCID-derived academic mobility edges (Zenodo, doi:10.5281/zenodo.19651302, version
-20260419), built from ORCID public data \citep{orcid}, with institutions resolved through the ROR data dump
-v2.8 (Zenodo record 20512981); Opportunity Insights college tables \citep{chetty2020income}; and the 2023
-American Community Survey 1-year public-use microdata (U.S. Census Bureau). Provenance for every input
-(URL, version, access date and licence) is recorded in \texttt{data/raw/SOURCES.md} of the repository. No
-input dataset is redistributed; the derived tables are regenerated by the scripts.
+\paragraph{Availability of data and materials.} All inputs are public: the faculty-hiring data
+\citep{wapman2022data}; College Scorecard field-of-study, institution and historical institution files
+\citep{scorecard}; Census PSEO earnings and flows, releases V4.13.0 (2025Q4) and V4.14.1 (2026Q2) \citep{pseo,
+pseo2026}; the Department for Education's ``Graduate outcomes (LEO): provider level data'', 2022-23 release
+\citep{dfe_leo_provider}; the ORCID-derived academic mobility edges \citep[version 20260419, doi:10.5281/zenodo.19651302;][]{li2026orcid},
+built from ORCID public data \citep{orcid}, with institutions resolved through the ROR data dump
+\citep[v2.8, doi:10.5281/zenodo.20512981;][]{ror2026data}; Opportunity Insights college
+tables, including the Barron's 2009 selectivity index \citep{chetty2020income}; the 2023 American Community Survey public-use microdata \citep{census_acs2023_pums};
+the Survey of Earned Doctorates by baccalaureate institution \citep{ncses_sed_bacc} and IPEDS completions and
+directory files \citep{nces_ipeds}; state unemployment rates from the Bureau of Labor Statistics Local Area
+Unemployment Statistics \citep{fred_laus}; occupational prestige ratings \citep{hughes2024occupational,
+condon2022prestige} and the New York Fed college labour-market data by major \citep{nyfed2026labor}; and official
+university admissions pages, saved with their access dates. Provenance for every input (URL, version, access date
+and licence) is recorded in \texttt{data/raw/SOURCES.md} of the repository. No input dataset is redistributed; the
+derived tables are regenerated by the scripts. The hand-coded computer-science admission file (URL, access date and
+verbatim sentence for each program), which no script can regenerate because the pages change, and the small derived
+tables (UK prestige ranks, CIP map) are available from the author.
 
-\paragraph{Code availability.} The numbers in this article come from seeded scripts in the project's
-public repository (scripts 01--64; mainly 32, 35, 52 and 55--64). The figures, and the numbers marked ``SI
-check'' that its header lists, come from \texttt{scripts/70\_paper\_figures.py}; the SI names the source of
-every other number, including two coverage checks computed outside the scripts. The repository is at
-\url{https://github.com/soray42/degrees-of-separation}.
+\paragraph{Code availability.} The numbers in this article come from seeded scripts (scripts 01--75; mainly
+52--75). The figures, and the numbers marked ``SI check'', come from \texttt{scripts/70\_paper\_figures.py} (with
+\texttt{--si-checks}); the SI names the source of every other number. The repository is at
+\url{https://github.com/soray42/degrees-of-separation}. At the time of writing, scripts 67--69 and 72--75 and the
+current versions of scripts 65 and 70 are not yet in the public repository; they will be added, with the digests of
+their pre-specification blocks, in a tagged release.
 
-% The following three statements are to be confirmed by the author before submission.
+% Declarations below: standard sole-author statements; AUTHOR TO CONFIRM before submission.
 \paragraph{Competing interests.} The author declares no competing interests.
 
-\paragraph{Funding.} Not applicable.
+\paragraph{Funding.} This research received no specific grant from any funding agency.
 
-\paragraph{Authors' contributions.} S.Y.\ designed the study, carried out the analysis and wrote the
-manuscript.
+\paragraph{Authors' contributions.} S.Y. is the sole author: conception, data assembly, analysis and writing.
+
+\paragraph{Acknowledgements.} Not applicable.
 
 \bibliographystyle{plainnat}
 \bibliography{refs_merged}

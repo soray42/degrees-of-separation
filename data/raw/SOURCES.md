@@ -308,3 +308,308 @@ use the normalizer in [`src/crosswalks/institutions.py`](../../src/crosswalks/in
   run read the same BLS series from the DBnomics mirror (`api.db.nomics.world`, BLS/la); that vintage differs from
   FRED's by up to 0.9 percentage points in some state-years (e.g. FL 2003-2005, WA 2010-2011) and is not used for
   any reported number.
+
+### 10d. College Scorecard — historical institution files ("All Data Files") and documentation  *(era-matched selectivity; scripts/68)*
+- **Source:** U.S. Department of Education, College Scorecard, "All Data Files" download (data dictionary README:
+  "Released June 10, 2026"). Public, no registration. Stored in `scorecard_hist/`.
+- **URL:** `https://ed-public-download.scorecard.network/downloads/College_Scorecard_Raw_Data_06102026.zip`
+  (linked from `https://collegescorecard.ed.gov/data/`). HTTP Last-Modified Tue, 09 Jun 2026 16:50:50 GMT;
+  Content-Length 469,515,074; the S3 ETag equals the md5 (single-part upload).
+- **Accessed:** 2026-09-24, 20:31:42-20:32:01 UTC with `curl -R` (`download_started.txt`, `download_finished.txt`;
+  `curl.log` is empty); HEAD re-checked 2026-09-24 22:09 UTC (size, Last-Modified and ETag unchanged).
+- **File:** `College_Scorecard_Raw_Data_06102026.zip` (469,515,074 bytes, md5 `38f26ca8776518f77836ddfa1e219de8`).
+  Inner folder `College_Scorecard_Raw_Data_06032026/`: 30 institution files `MERGED<yyyy>_<yy>_PP.csv`
+  (1996_97 to 2025_26), 8 `FieldOfStudyData*_PP.csv`, `Most-Recent-Cohorts-Institution.csv` and
+  `Most-Recent-Cohorts-Field-of-Study.csv` (byte-identical to the copies in `scorecard_inst/` and `scorecard_fos/`:
+  md5 `7d55bf1048b54be24914400ed4d9c293`, `dd5526397f88bb8c2226259c230482da`), `Crosswalks/CW*.xlsx`, `data.yaml`.
+  Not extracted: scripts/68 reads single MERGED members with `usecols` UNITID, SAT_AVG, ADM_RATE, PCTPELL, CONTROL,
+  STABBR (member sizes and CRC-32 in `data/interim/era_selectivity.csv`, section `provenance`).
+- **Documentation** (`https://collegescorecard.ed.gov/files/<name>`, HTTP Last-Modified Fri, 11 Sep 2026 02:33:17 GMT,
+  ETag = md5; accessed 2026-09-24, 20:31-20:33 UTC with `curl -R`, HEAD re-checked 22:09 UTC):
+  `FieldOfStudyDataDocumentation.pdf` (891,575 bytes, md5 `6a273d6bbca8659593a5a1fc85f0a371`; "Version: September
+  2025", 25 pp.), `InstitutionDataDocumentation.pdf` (531,031 bytes, md5 `2a51d6b969e8b1be765e18024e363e04`; "Version:
+  September 2025", 56 pp.), `CollegeScorecardDataDictionary.xlsx` (727,278 bytes, md5
+  `06edabe318ce7686abeb967d7a290e05`).
+- **Definitions used (asserted by scripts/68):** Most-Recent FoS `EARN_MDN_4YR` = "Treasury AY2017-2018, AY2018-2019
+  pooled earnings cohort measured in CY2022, CY2023" (dictionary, FieldOfStudy_Cohort_Map; field-of-study documentation
+  p. 9: "Scorecard combines students into 2-year cohorts"); Most-Recent institution
+  SAT_AVG / ADM_RATE = fall 2024 and PCTPELL = AY 2023-24 (Most_Recent_Inst_Cohort_Map); in the MERGED files, SAT_AVG /
+  ADM_RATE of fall y are in `MERGED<y>_<y+1>` and PCTPELL of AY y-(y+1) in `MERGED<y+1>_<y+2>` (Institution_Cohort_Map);
+  SAT data exist from 2001-02 (institution documentation p. 12) and PCTPELL from `MERGED2008_09`. SAT scores from the
+  2017-18 files on are on the post-March-2016 scale (institution documentation p. 12).
+  *Revision 2026-09-25 (after verification):* the ADM_RATE start is taken from the dictionary, not the documentation
+  (Institution_Cohort_Map: SAT_AVG and ADM_RATE empty for MERGED_2000-01, "Fall 2001, reported in IPEDS DCY2001-02"
+  for MERGED_2001-02); `MERGED2000_01_PP.csv` exists (6,654 rows) but has no SAT_AVG or ADM_RATE values. STABBR is
+  backfilled in every MERGED file ("... unless more recent data are available. Then the most recent data reported to
+  IPEDS (through AcadYr 2025-26, at latest) are included."), so it is not dated; CONTROL is dated ("AcadYr y-(y+1),
+  reported in IPEDS DCY y-(y+1)"). Both asserted by scripts/68. No new files were downloaded for this revision.
+
+### 10e. PSEO Flows — V4.14.1 (2026Q2) release  *(destination geography; scripts/61 and scripts/65; record added 2026-09-25)*
+- **Source:** Census Bureau LEHD Post-Secondary Employment Outcomes — Flows (PSEOF), release **V4.14.1 2026Q2**
+  (same build as §10a; `version_pseo.txt` byte-identical to `pseo_2026q2/version_pseo.txt`). Public use.
+- **URL:** `https://lehd.ces.census.gov/data/pseo/latest_release/all/pseof_all.csv.gz` and
+  `https://lehd.ces.census.gov/data/pseo/latest_release/all/version_pseo.txt`.
+- **Accessed:** 2026-09-23 (UTC; version file 23:17, flows file complete 23:29) with `curl` for scripts/61 →
+  `pseo_flows_2026q2/`. HEAD at download and again on 2026-09-24: Content-Length 195,565,573 bytes, Last-Modified
+  Tue, 25 Aug 2026 21:07:46 GMT; local size equal; `gzip -t` passed (download record in FLOWS_PLACEMENT_RESULT.md).
+- **Files:** `pseof_all.csv.gz` (195,565,573 bytes, md5 `5937a32f1e770419b19a990ccb280354`), `version_pseo.txt`
+  (4,758 bytes, md5 `fccea62fb6db6f95804c5b77a2215510`); md5s recomputed 2026-09-25. Gitignored.
+- **Use:** scripts/61 (flows placement); scripts/65 (out-of-state share of the Test 2 institutions; New England share
+  of y1 employed graduates by window). This subsection records an earlier download that had no entry here; nothing
+  was downloaded for it.
+
+### 10f. Local field demand — geography files for ACS field × state / metro earnings (scripts/69)
+- **Use:** `scripts/69_local_field_demand.py` builds field × state and field × metro earnings levels of young
+  bachelor's holders from the ACS 2023 1-year PUMS already on disk (§9, `data/raw/acs/`) and attaches them to
+  institutions. The three files below map 2020 PUMAs to metropolitan statistical areas and institutions to counties.
+  Stored in `local_demand_geo/`. All public, no registration; U.S. Government works (public domain).
+- **Accessed:** downloaded 2026-09-24 (directory time 22:35 CEST = 20:35 UTC) with `curl -R`, which keeps the server
+  file times shown below; re-downloaded 2026-09-24 23:52 CEST to a scratch directory, byte-identical (same size and
+  md5); HEAD re-checked 2026-09-24 22:42 UTC (HTTP 200; Content-Length and Last-Modified equal to the files on disk).
+- **Files:**
+  - `2020_Census_Tract_to_2020_PUMA.txt` — U.S. Census Bureau, 2020 Census Tract to 2020 PUMA relationship file.
+    URL `https://www2.census.gov/geo/docs/maps-data/data/rel2020/2020_Census_Tract_to_2020_PUMA.txt`
+    (Last-Modified Thu, 18 Aug 2022 12:54:38 GMT). 1,709,076 bytes, md5 `466d01af6c9a04e960fac4f14c321005`.
+    Columns `STATEFP, COUNTYFP, TRACTCE, PUMA5CE`; 85,452 tracts; 2,487 PUMAs in 53 state codes (incl. DC and
+    Puerto Rico).
+  - `list1_2020.xls` — U.S. Census Bureau / OMB, core-based statistical area delineation file, March 2020 (OMB
+    Bulletin 20-01), "List 1: CBSAs, metropolitan divisions and CSAs". URL
+    `https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2020/delineation-files/list1_2020.xls`
+    (Last-Modified Mon, 13 Apr 2020 12:05:35 GMT). 454,656 bytes, md5 `8c7e7feb95afe5bb43d1612d33007bf3`. Header on
+    row 3; 392 metropolitan statistical areas (384 outside Puerto Rico); micropolitan areas are treated as non-metro.
+  - `HD2023.zip` — NCES IPEDS, Institutional Characteristics, Directory information 2023-24 (`HD2023.csv`,
+    4,537,050 bytes uncompressed, CRC-32 959141448). URL `https://nces.ed.gov/ipeds/datacenter/data/HD2023.zip`
+    (Last-Modified Sun, 21 Sep 2025 20:40:56 GMT). 1,110,720 bytes, md5 `a6ffbba5496eed4c5ec3f6b513b8fea9`. Read in
+    place (not extracted); columns used: `UNITID, STABBR, COUNTYCD, CBSA, CBSATYPE` (6,163 institutions). The HD `CBSA`
+    code is used only where the county code is not in the 2020 delineation (the Connecticut planning regions) and the
+    code is a 2020 MSA.
+- **Method notes:** PUMA → MSA by majority of the PUMA's tracts (PUMAs without a majority MSA → the state's non-metro
+  remainder); institution → MSA via its HD2023 county. The md5 values are asserted by scripts/69 at run time.
+
+### 10g. NCSES Survey of Earned Doctorates — doctorates by baccalaureate institution; LEHD schema labels  *(graduate-school timing; scripts/67)*
+- **Source:** National Center for Science and Engineering Statistics (NSF), Survey of Earned Doctorates, public
+  Interactive Data Tool / table builder `https://ncsesdata.nsf.gov/builder/sed` (measure "Doctorate Recipients by
+  Baccalaureate Institution", label as read from the tool's engine). Public, no registration. The builder is a Qlik Sense app; the files were
+  fetched through its engine endpoint `wss://ncsesdata.nsf.gov/app/ba83ce5c-1a4a-4b53-a54d-febd3b048a3f` with an
+  anonymous session (library measure `nTPpz` = `Sum(mRecpBacInst)`, restricted to `Year >= 2000`; hypercube
+  IPEDSUnitID x instName x Year, zero rows suppressed; code: `scripts/67_gradschool_timing.py::sed_fetch`).
+  Stored in `ncses_sed_bacc/`.
+- **Accessed:** 2026-09-24 22:11:30 UTC (recorded in `sed_bacc_origin_query.json`). Re-fetched twice with the
+  same code into session scratch folders (not in the repo): 2026-09-24 22:18:45 UTC and 22:46:32 UTC (the
+  `accessed_utc` of each copy's query record); in both, the rows and totals files are byte-identical to the stored
+  ones (md5 below; checked 2026-09-25, Revision 1 of scripts/67).
+- **Files:** `sed_bacc_origin_unitid_year.csv` (1,329,829 bytes, md5 `ed0fd0147d5ba5ef21146ec9188a4bc1`; 38,378
+  rows `IPEDSUnitID,instName,Year,n`, doctorate years 2000-2024; besides 6-digit IPEDS UnitIDs the column holds
+  "Non-U.S. institution" and "BA institution unknown or not reported"), `sed_bacc_origin_year_totals.csv` (282 bytes,
+  md5 `7e4d5b43e40b4961b0912f29cc2b6c71`; year totals of the same measure, equal to the row sums by year),
+  `sed_bacc_origin_query.json` (478 bytes, md5 `fd8348f7d52a72b3629e485b75746c88`; query record).
+- **Use:** scripts/67 (T2 PhD-rate control): doctorates in years c+5..c+12 by the bachelor's institution of PSEO
+  cohort c, linked to PSEO institutions (8-digit OPEID) through the UnitIDs the College Scorecard institution file
+  lists under that OPEID.
+- **LEHD public-use schema labels** (`https://lehd.ces.census.gov/data/schema/latest/<name>`, schema V4.14.1;
+  HTTP Last-Modified Tue, 25 Aug 2026 17:53:00 GMT; accessed 2026-09-24 22:47:33-22:47:35 UTC with `curl -R`) →
+  `lehd_schema/`: `label_flags_ipeds_count.csv` (160 bytes, md5 `f16e3e69e691afb3d2bbbe0b7f906cd0`; IPEDS count
+  status flags 1 as reported, 2 edited for consistency with PSEO categories, 3 not available, 4 partially missing),
+  `label_agg_level_pseo.csv` (4,659 bytes, md5 `50a79974106b83284d6b990964671a80`; PSEO aggregation levels, e.g. 44 =
+  degree level x cohort x institution, 46/94 = degree level x CIP-2 x cohort x institution, all sectors / by NAICS
+  sector). Used by scripts/67 to label the flag of the PSEO all-programme bachelor's counts and to check the Flows
+  aggregation levels.
+
+### 10h. CS admission-policy pages — official university web pages  *(CS entry policy; scripts/74)*
+- **Use:** `scripts/74_cs_admission_policy.py` codes, for every computer-science program in the scripts/58
+  within-institution CS sample, whether the university admits students directly to CS (or its college), caps entry
+  after matriculation, or lets students declare it (direct_admit / capped / open / unknown). Each coded row quotes a
+  sentence verbatim from a saved official page (catalog / bulletin, department, college, registrar or admissions
+  office of the institution itself); the script verifies every quote, URL, access date and md5 against the saved
+  page at run time. Stored in `cs_admission/`: `cs_admission_coding.csv` (one row per institution; md5
+  `a04edf32aa84b94df27f3a93021e968b` after Revision 1, previously `f0faa71a7c6b873dd2ffe9349640a28e`),
+  `pages_manifest.csv` (URL, final URL after redirects,
+  HTTP code, content type, fetch time UTC, bytes, md5 of every saved page; md5 `ccf4c2ab371c4d6ad5af5c20e6094ffb`)
+  and `pages/` (174 files, 101 cited by the coding).
+- **Revision 1 (2026-09-25):** coding cells changed after an independent consistency check, from the pages already
+  saved (no page was added, re-fetched or changed; manifest and pages unchanged): UNITID 126580 and 240453 policy
+  direct_admit -> open (pages document only first-year college entry; flagged ambiguous); 171100, 178411, 155317,
+  167358, 229115, 131469 and 110671 ambiguous no -> yes (application or request with minimum criteria and no
+  guarantee statement); 155399 note corrected. Each changed row's note says so; the previous values are listed in
+  the script (REV1).
+- **Accessed:** fetched with `curl -L` (browser user agent) on 2026-09-24 (UTC); fetch times per file below. Pages are the universities' own public web pages, kept locally only as
+  provenance for the coding (not redistributed; `data/` is not committed). Pages returning an HTTP error were kept
+  in the manifest with their code and are not cited.
+- **Files** (file | URL | fetched UTC | HTTP | bytes | md5; * = cited by the coding):
+
+| file | URL | fetched (UTC) | HTTP | bytes | md5 |
+|---|---|---|---|---|---|
+| `100663_0732a515.html` * | https://catalog.uab.edu/undergraduate/collegeofartsciences/computerscience/ | 2026-09-24T20:43:18Z | 200 | 233200 | `f393b50d4949565c66016705dffa26c3` |
+| `100751_72c905dc.html` * | https://catalog.ua.edu/undergraduate/engineering/ | 2026-09-24T23:17:29Z | 200 | 41461 | `76c610ea5c4323fd735406ffd7550166` |
+| `100751_80c80f16.html` | https://eng.ua.edu/admissions/transfer-information/ | 2026-09-24T20:43:18Z | 200 | 59111 | `26c5da463c8b74bb17e783d434be5603` |
+| `100858_6029ea26.html` * | https://bulletin.auburn.edu/undergraduate/samuelginncollegeofengineering/ | 2026-09-24T20:34:02Z | 200 | 1203676 | `4222e93af9abbb89876100cd94a4bbf7` |
+| `100858_f6fc70ed.html` | https://bulletin.auburn.edu/undergraduate/samuelginncollegeofengineering/departmentofcomputerscienceandsoftwareengineering/computerscience_major/ | 2026-09-24T20:34:02Z | 200 | 44009 | `49407e652fbabcfbf92a77c780ae3cc5` |
+| `104179_aee59b2c.html` * | https://cs.arizona.edu/undergraduate/bachelor-science | 2026-09-24T22:47:36Z | 200 | 90413 | `60ba9f50b45e8086a48e811e77c7addd` |
+| `104179_f937c2d5.html` | https://cs.arizona.edu/about-advanced-standing | 2026-09-24T20:43:18Z | 403 | 61596 | `ec395ccf71bb0e6e383bd3c4ed9e530e` |
+| `106397_223aa2c8.html` * | https://catalog.uark.edu/undergraduatecatalog/collegesandschools/collegeofengineering/ | 2026-09-24T23:17:28Z | 200 | 84228 | `8f366c4d4174397f3da29b404e0d1f1b` |
+| `110404_26a6c5f1.html` * | https://www.admissions.caltech.edu/why-caltech/academics/majors-minors | 2026-09-24T20:35:37Z | 200 | 243471 | `4f33dd1f909b30d3be660ecd244f31a4` |
+| `110635_04dbd863.html` * | https://eecs.berkeley.edu/resources/undergrads/cs/how-to-declare-cs/ | 2026-09-24T20:44:00Z | 200 | 195861 | `37c018c7964164bfe26a54da37065930` |
+| `110644_b29e8b22.html` | https://cs.ucdavis.edu/undergraduate/changing-majors-double-majors | 2026-09-24T20:44:00Z | 403 | 5489 | `e722bab764062b0bcd48c3f210168b84` |
+| `110653_e632cd95.html` * | https://changeofmajor.uci.edu/school-of-information-and-computer-sciences | 2026-09-24T20:44:00Z | 200 | 53531 | `282a56ce8dd27c8eef9ed67ecc202eb6` |
+| `110662_7683f9a5.html` * | https://www.seasoasa.ucla.edu/change-of-major/ | 2026-09-24T20:44:00Z | 200 | 119508 | `b17e1603344e707b175bbad19d15471a` |
+| `110671_2fa55b0c.html` * | https://student.engr.ucr.edu/policies/major-changes | 2026-09-24T20:44:00Z | 200 | 93170 | `01d0316705d89105aec5deba45648b09` |
+| `110680_fad68201.html` * | https://cse.ucsd.edu/undergraduate/cse-selective-major-process | 2026-09-24T20:44:00Z | 200 | 51910 | `a0e45d3c33a9e8a0c1836591236d7355` |
+| `110705_bc9affa6.html` * | https://engineering.ucsb.edu/undergraduate/academic-advising/change-major-college-engineering | 2026-09-24T20:44:00Z | 200 | 55463 | `9d473931870b450520d09d130db86d6f` |
+| `123961_aaf07b1f.html` * | https://viterbiundergrad.usc.edu/pre-engineering/ | 2026-09-24T23:10:07Z | 200 | 154460 | `0d644e211069d5f80cab3172db013847` |
+| `126580_32f37aa9.html` * | https://eas.uccs.edu/academics/programs/computer-science-bs | 2026-09-24T22:47:37Z | 200 | 73526 | `d4e769a5af6ae5b474b897acdaa5c5ef` |
+| `126775_466fdbf0.html` | https://casa.mines.edu/major-advising/ | 2026-09-24T20:37:31Z | 200 | 610321 | `dc6f8870e722229f4b974bfbf6183131` |
+| `126775_64676339.html` * | https://casa.mines.edu/faqs/ | 2026-09-24T20:37:54Z | 200 | 477293 | `7a2a759bb8e6e54b56235302f7c5c8a8` |
+| `126775_fa3820ab.html` | https://catalog.mines.edu/undergraduate/academics/degrees/bsincomputerscience/ | 2026-09-24T22:00:08Z | 200 | 183951 | `82ebfe0359c19f8ba11d5d629252163a` |
+| `129020_6971d008.html` * | https://request.engr.uconn.edu/ | 2026-09-24T23:05:25Z | 200 | 82476 | `3fa65dbdcfab0be2c54e5943fbaf1a63` |
+| `131159_50fac763.html` * | https://www.american.edu/cas/advising/declaring.cfm | 2026-09-24T20:34:02Z | 200 | 45634 | `0eec3a684063a7a91bc1b177db333967` |
+| `131159_6b9c6c7b.html` | https://www.american.edu/cas/cs/bs-comp.cfm | 2026-09-24T20:34:02Z | 200 | 42635 | `7c46459995382ca65baecfa17371335a` |
+| `131469_44ed8dfc.pdf` * | https://registrar.gwu.edu/sites/g/files/zaxdzs6191/files/2024-09/InternalTransferRequestForm_Aug2024.pdf | 2026-09-24T20:40:20Z | 200 | 616880 | `d474a11984c526220b714c0b9a87330d` |
+| `131469_65fa071f.html` | https://cs.engineering.gwu.edu/incoming-students | 2026-09-24T20:38:41Z | 403 | 4542 | `7da5331301991f839f37441f107fb190` |
+| `131469_c9b0ad4e.html` | https://bulletin.gwu.edu/engineering-applied-science/computer-science/bs/ | 2026-09-24T20:39:15Z | 200 | 47947 | `aee5c6adafd6e26236beef3fdb1acc0b` |
+| `131496_9aca99a7.html` * | https://cs.georgetown.edu/frequently-asked-questions-cs-undergraduate-programs/ | 2026-09-24T20:38:41Z | 200 | 252434 | `4905a854d3b76c61e12f45421504db3a` |
+| `132903_c233e966.html` * | https://www.cs.ucf.edu/bachelor-of-science-in-computer-science/ | 2026-09-24T22:47:35Z | 200 | 83003 | `b797905ee8201f787dd17b4f13391d20` |
+| `133669_50770f0f.html` | https://www.fau.edu/registrar/university-catalog/pre-catalog/admissions/ | 2026-09-24T20:37:31Z | 200 | 156561 | `3fe96900fe293ec399be447878fdd146` |
+| `133669_5952ed7b.html` | https://www.fau.edu/engineering/eecs/undergraduate/computer-science/admiss-reqs | 2026-09-24T20:37:31Z | 200 | 31317 | `cd0219eae0a614c46c44abd07e1bc9de` |
+| `133669_a5f889f2.html` * | https://www.fau.edu/registrar/university-catalog/catalog/engineering.php | 2026-09-24T20:37:43Z | 200 | 1544691 | `4b839a34b0424457146edacc2b469f33` |
+| `133951_e5b3a5d0.html` * | https://catalog.fiu.edu/programs/COMPSC:BS/requirements-uz47h | 2026-09-24T20:37:31Z | 200 | 972980 | `d61cbead4f5c322a19edb771e9bd8bcd` |
+| `134097_4033227c.html` | https://www.cs.fsu.edu/admissions/undergraduate-admissions/ | 2026-09-24T20:38:41Z | 200 | 41503 | `4c20ac887aca6e9b825714f4f49d802a` |
+| `134097_639efb6b.html` | https://admissions.fsu.edu/first-year/academics/majors-faq | 2026-09-24T20:39:15Z | 200 | 65561 | `30022a9f54a76a4adbd6a541f1eaa7fe` |
+| `134097_90cb818a.html` | https://academic-guide.fsu.edu/program-guide/Computer%20Science,%20BS | 2026-09-24T20:38:41Z | 200 | 40546 | `5b28091e58dfda646f2e91e225b63889` |
+| `134097_d15606fe.pdf` * | https://transferstudents.fsu.edu/sites/g/files/upcbnu2136/files/TCC2FSU%20Computer%20Science%20(BS)_4.pdf | 2026-09-24T20:39:15Z | 200 | 399509 | `ca9f3922f7f844205ae8e47cb40ee301` |
+| `134130_6c2966ab.html` * | https://catalog.ufl.edu/UGRD/colleges-schools/UGENG/CPS_BSCS/ | 2026-09-24T23:14:01Z | 200 | 67256 | `12f4eb40869c2b08b4e56d563025e3fa` |
+| `139658_5fd49bf4.html` | https://computerscience.emory.edu/undergraduate/declaring-a-major-minor.html | 2026-09-24T20:37:31Z | 200 | 33609 | `b486fba76a13f19c4e16a2339d360b77` |
+| `139658_9cf38092.html` * | https://computerscience.emory.edu/undergraduate/faqs.html | 2026-09-24T20:37:54Z | 200 | 77817 | `c08f3115ad7faf3315e1d14832a3983d` |
+| `139940_c939ad58.html` * | https://csds.gsu.edu/undergraduate-faqs/ | 2026-09-24T20:38:41Z | 200 | 359208 | `ff5c37fc459dc64d3814bbd395b556af` |
+| `139959_6829f6c5.html` * | https://computing.uga.edu/applying-computer-science-major | 2026-09-24T23:09:29Z | 200 | 76293 | `088de2517b0735abaab6f806d1dfb020` |
+| `144050_422694ac.html` * | https://cs.uchicago.edu/academics/undergraduate/cs-major-faq/ | 2026-09-24T23:05:13Z | 200 | 137412 | `78bc315aedb0f4a65eb70ea851466293` |
+| `145600_51013afb.html` * | https://engineering.uic.edu/undergraduate/intercollege-transfer/ | 2026-09-24T23:15:10Z | 200 | 297626 | `051dd12963d7f42a450f02710f117e92` |
+| `145600_90bbf0c4.html` | https://engineering.uic.edu/undergraduate-admissions/ | 2026-09-24T23:15:10Z | 200 | 314405 | `1ef7ec2bb7d4c4ab98eb61f936e763f9` |
+| `145637_30135f16.html` | https://advising.grainger.illinois.edu/degree-programs/changing-majors | 2026-09-24T21:53:45Z | 200 | 65330 | `443b06cf57b46549bd8482f64e2bcf8a` |
+| `145637_34bffb0b.html` * | https://siebelschool.illinois.edu/academics/undergraduate/degree-program-options/cs-undergraduate-degree-options-faq | 2026-09-24T21:53:45Z | 200 | 81075 | `4d3899f640080233164423649dda8fd9` |
+| `145637_781b61f4.html` | https://grainger.illinois.edu/academics/undergraduate/changing-majors | 2026-09-24T20:45:09Z | 200 | 59342 | `c62d77c887baca3076fa04a91b186501` |
+| `145725_4126541b.html` | https://catalog.iit.edu/undergraduate/colleges/computing/computer-science/bs/ | 2026-09-24T20:40:20Z | 200 | 62942 | `300c9889285ff425d65253f72c307c30` |
+| `145725_5756b068.html` * | https://catalog.iit.edu/undergraduate/academic-policies-procedures/advising-academic-progress/change-major/ | 2026-09-24T22:00:08Z | 200 | 13607 | `5ed16c47f204a43b9dc48f9223c3682c` |
+| `146719_039f05b1.html` | https://catalog.luc.edu/undergraduate/arts-sciences/computer-science/ | 2026-09-24T21:58:48Z | 200 | 216109 | `19119c5b7edab6638e3951670cf6bfb7` |
+| `146719_f19d0bce.html` | https://catalog.luc.edu/undergraduate/arts-sciences/computer-science/computer-science-bs/ | 2026-09-24T20:41:18Z | 200 | 63862 | `366b098f0a9178530312ff6683b26127` |
+| `147767_11f85f4e.html` | https://weinberg.northwestern.edu/undergraduate/major-minor/about-majors/special-admission-majors.html | 2026-09-24T22:52:06Z | 200 | 45101 | `19e775ad7ef40bae5f27db5521cbb679` |
+| `147767_654bd4a2.html` | https://weinberg.northwestern.edu/undergraduate/major-minor/requirements/computer-science-major.html | 2026-09-24T22:04:55Z | 200 | 43935 | `6d59caf8654179fbc3cd23810146e955` |
+| `147767_a8c2d90f.html` | https://www.mccormick.northwestern.edu/computer-science/academics/undergraduate/cs-major/ | 2026-09-24T22:04:16Z | 200 | 57930 | `909978e7d80c82c8f1dfe5705fd42099` |
+| `147767_d5655fa6.html` * | https://www.mccormick.northwestern.edu/computer-science/resources/student/undergraduate.html | 2026-09-24T22:52:04Z | 200 | 38530 | `95826dd28e267234fc063e77b38dba27` |
+| `150136_2e387f36.html` | https://bsu.smartcatalogiq.com/en/2023-2024/undergraduate-catalog/college-of-sciences-and-humanities/computer-science/major-in-computer-science-babs | 2026-09-24T20:34:57Z | 200 | 113089 | `cd2cd3fade26837478edb75c325120a9` |
+| `150136_71d4d7ef.html` | https://www.bsu.edu/academics/collegesanddepartments/computer-science/academic-programs/majors/computer-science-major | 2026-09-24T20:34:02Z | 200 | 122558 | `c4dcbbc67dcf74573304c0db18c9f267` |
+| `150136_7ebd17c3.html` | https://bsu.smartcatalogiq.com/en/2025-2026/undergraduate-catalog/college-of-sciences-and-humanities/computer-science/major-in-computer-science-babs | 2026-09-24T22:00:08Z | 200 | 119872 | `0f182b95df59302c26de506303c245f2` |
+| `151351_3ad9a0b9.html` | https://bulletins.iu.edu/iub/sice/2025-2026/undergraduate/degree-programs/bs-computer-science/luddy-degree-major-req.shtml | 2026-09-24T20:40:20Z | 200 | 18971 | `957fd412ff83c4733aa412e7438588c8` |
+| `151351_e1babc29.html` * | https://bulletins.iu.edu/iub/sice/2025-2026/undergraduate/admission/index.shtml | 2026-09-24T21:58:48Z | 200 | 13316 | `04ef6514698e9ae53fcec4931308e14d` |
+| `151351_f20c68eb.html` | https://luddy.indiana.edu/student_portal/undergraduate/direct-admits.html | 2026-09-24T20:40:20Z | 200 | 59053 | `97854126eced72d7b6a41355f62a6413` |
+| `153603_3bd543cd.html` | https://catalog.iastate.edu/collegeofliberalartsandsciences/computerscience/ | 2026-09-24T20:40:20Z | 200 | 98114 | `031482cfb520e880b39955aa3deff8ee` |
+| `153603_cbcc1407.html` | https://www.cs.iastate.edu/majors-and-minors/computer-science | 2026-09-24T22:00:43Z | 200 | 50617 | `e058533d919a0a0e310c561449d1d6af` |
+| `153658_34ed0d63.html` * | https://catalog.registrar.uiowa.edu/liberal-arts-sciences/computer-science/computer-science-ba/ | 2026-09-24T23:05:14Z | 200 | 336130 | `d940b0148cd130af56a866ae2df00113` |
+| `155317_8b9aa3ba.html` * | https://engr.ku.edu/admission-requirements | 2026-09-24T23:11:57Z | 200 | 83191 | `de8c892aec7d2e0ed7540f12363e216e` |
+| `155399_1ff38b44.html` * | https://www.cs.ksu.edu/academics/undergraduate/computer-science/program-requirements/ | 2026-09-24T20:40:20Z | 200 | 56932 | `6c3ea51791bbcbb14d79b1b732fcce04` |
+| `159647_80cfef37.html` | https://coes.latech.edu/flyers/computer-science/ | 2026-09-24T20:41:18Z | 200 | 49520 | `1b7f43ed7377991b1cb11931296bfc84` |
+| `160658_3798ac06.html` * | https://studentsuccess.louisiana.edu/services/choose-your-major/change-your-major | 2026-09-24T23:05:27Z | 200 | 55488 | `5d50c3c68e36b7546edf32a7d1e3fbec` |
+| `162928_449a7285.html` * | https://www.cs.jhu.edu/academic-programs/undergraduate-studies/undergraduate-academics/advising-manual/ | 2026-09-24T20:40:20Z | 200 | 151608 | `73e846ab05de3d4e9044c351696f4653` |
+| `163268_742d7d34.html` * | https://advising.coeit.umbc.edu/gateway-information/computer-science-gateway/ | 2026-09-24T23:05:16Z | 200 | 170393 | `831d4c998f140bd8a5c669393459395e` |
+| `163286_19d9227a.html` * | https://undergrad.cs.umd.edu/cs-lep-faq-effective-fall-2024 | 2026-09-24T21:53:45Z | 200 | 39990 | `cbb6811ded620079b61ee91bb0f35146` |
+| `163286_329eb5e5.html` | https://undergrad.cs.umd.edu/internal-transfer-applicants | 2026-09-24T20:45:09Z | 200 | 38865 | `82d99a36600afcdeb666038af359ef64` |
+| `164924_2af3a0df.html` * | https://www.bc.edu/bc-web/academics/sites/university-catalog/undergraduate/mcas/computer-science.html | 2026-09-24T22:00:08Z | 200 | 179392 | `2d0b6de170fafa7641dd65bd67c3a260` |
+| `164924_48e18f06.html` | https://www.bc.edu/bc-web/schools/morrissey/departments/computer-science/academics/faq.html | 2026-09-24T20:34:02Z | 200 | 57855 | `6700e8c227e838214252262f1f24fd78` |
+| `164988_038d679f.html` * | https://www.bu.edu/cs/undergraduate/academic-programs/computer-science-major/ | 2026-09-24T20:34:03Z | 200 | 123711 | `ef126797e12bb40bdcc7e30ed87b02b2` |
+| `165015_f6e733ee.html` * | https://www.brandeis.edu/computer-science/undergraduate/advising-faqs.html | 2026-09-24T20:35:37Z | 200 | 151106 | `e1abb89ef41c365be6f53e2c2dcbdc62` |
+| `166027_0c2ef0c2.html` * | https://csadvising.seas.harvard.edu/concentration/declare | 2026-09-24T20:38:41Z | 200 | 26845 | `571604559844b915201ea735e00bcce3` |
+| `166629_1218b782.html` * | https://cics.umass.edu/academics/academic-policies/undergraduate-programs-policies/campus-application-cs-major | 2026-09-24T20:45:09Z | 200 | 69571 | `4812256b2259cb7e2b111f34f0a00327` |
+| `166629_b3f65573.html` | https://www.cics.umass.edu/academics/bs-or-ba-computer-science/joining-major | 2026-09-24T21:53:45Z | 200 | 42190 | `316b3f121d91c0899dd77f7892c20f6c` |
+| `166683_1404114e.html` * | https://mitadmissions.org/help/faq/majors/ | 2026-09-24T22:00:43Z | 200 | 116888 | `98ddd1270aa880ab83342e1194a14622` |
+| `166683_1d80268e.html` | https://www.eecs.mit.edu/academics/undergraduate-programs/curriculum/6-3-computer-science-and-engineering/ | 2026-09-24T20:41:18Z | 200 | 94957 | `8489382320bfe679b6527d64f45a6042` |
+| `167358_7c65af80.html` * | https://www.khoury.northeastern.edu/information-for-overview/current-undergrad/undergraduate-advising-academic-support/academic-policies | 2026-09-24T20:42:01Z | 200 | 126569 | `3cf0b1d65779465f12b940bae9d67210` |
+| `168148_9b390642.html` * | https://students.tufts.edu/registrar/courses-and-calendars/declare-major-or-minor | 2026-09-24T22:54:32Z | 200 | 97314 | `9fcd156a9909e9e5b113d9f77debf8d8` |
+| `170976_1f729441.html` | https://cse.engin.umich.edu/academics/undergraduate/admissions | 2026-09-24T20:45:21Z | 403 | 5746 | `27111afd4689a61c7381c94f059d3a2e` |
+| `170976_346713cc.html` | https://lsa.umich.edu/lsa/academics/majors-minors/computer-science-major.html | 2026-09-24T20:45:09Z | 403 | 5824 | `85d1f23c5ce7ddb2f347d13f3c5c4a91` |
+| `170976_7c2de33a.html` | https://cse.engin.umich.edu/academics/undergraduate/majors/computer-science-lsa-major/ | 2026-09-24T20:45:21Z | 403 | 5839 | `05371e92f09be5e1794212af265207ee` |
+| `170976_8f9ed73d.html` * | https://web.archive.org/web/20260122015529id_/https://lsa.umich.edu/lsa/academics/majors-minors/computer-science-major.html | 2026-09-24T21:55:52Z | 200 | 94583 | `d5eacf811ccb54dadaea95cfed2f4527` |
+| `170976_f379f668.html` | https://teamdynamix.umich.edu/TDClient/154/Portal/KB/ArticleDet?ID=7515 | 2026-09-24T21:53:45Z | 500 | 3377 | `dc5f49716eba19b3ea440744c9f3e7af` |
+| `171100_d95f36af.html` * | https://engineering.msu.edu/admissions/undergraduate | 2026-09-24T20:41:18Z | 200 | 109453 | `f081a70cecaa9e8b1fd40aa112f0abf5` |
+| `171128_3c925f55.html` | https://www.mtu.edu/cs/undergraduate/advising/ | 2026-09-24T21:58:48Z | 200 | 144606 | `0dc66c097bb5ee9f8ac8ee91f37ab34a` |
+| `171128_47da9b04.html` | https://www.mtu.edu/success/academic/changing-majors/changing-majors.html | 2026-09-24T20:41:18Z | 200 | 94086 | `d8b3d11ad31b04c9ccc6e9e3f3d9239c` |
+| `171128_668e322a.html` * | https://www.mtu.edu/registrar/students/major-degree/ | 2026-09-24T22:00:43Z | 200 | 101368 | `63acb51da2a32cd72487fe84a99d3496` |
+| `174066_0725fea2.html` | https://web.archive.org/web/20260115145253id_/https://cse.umn.edu/college/transfer/transfer-within-umn-twin-cities/computer-science-inter-college-transfer-eligibility-and-admission-requirements | 2026-09-24T21:55:30Z | 200 | 123846 | `f32587c9176ec957077718006e20e2e2` |
+| `174066_0e19305b.html` | https://cse.umn.edu/cs/changes-major-admission-criteria | 2026-09-24T20:45:21Z | 403 | 5745 | `5ef234c27bb628c441aa2ee39eb62beb` |
+| `174066_98463718.html` * | https://web.archive.org/web/20250617044704id_/https://cse.umn.edu/cs/changes-major-admission-criteria | 2026-09-24T21:55:30Z | 200 | 125688 | `99929f60ace531120bcc4e5167b1ec75` |
+| `174066_d07558ec.html` | https://cse.umn.edu/college/academic-advising/application-major-information-current-cse-students | 2026-09-24T21:53:45Z | 403 | 5932 | `b3d9a9596a806ea825fae4f540dbcde7` |
+| `174066_d1d0390a.html` | https://cse.umn.edu/cs/ug-admissions-overview | 2026-09-24T20:45:09Z | 403 | 5694 | `eef8203e45b6bed658e82166c2342474` |
+| `174066_ff1452aa.html` | https://cse.umn.edu/college/transfer/transfer-within-umn-twin-cities/computer-science-inter-college-transfer-eligibility-and-admission-requirements | 2026-09-24T21:53:45Z | 403 | 6149 | `c0c36dc3a55a996d7192c2834ede1fd5` |
+| `176080_beb962bd.html` * | https://www.bagley.msstate.edu/academics/admissions/ | 2026-09-24T20:41:18Z | 200 | 113983 | `e7cd60fdf3e68686262667d4c9dd009e` |
+| `178411_c4244a2c.html` * | https://cs.mst.edu/undergraduate-degree/ | 2026-09-24T20:41:18Z | 200 | 162602 | `c2416d131e1897881ff2ee11ab74389f` |
+| `179159_d02f5e7a.html` * | https://catalog.slu.edu/colleges-schools/science-engineering/computer-science/computer-science-bs/ | 2026-09-24T20:42:36Z | 200 | 289998 | `9963d2a8365bcdea71567bf02ef4334d` |
+| `179867_bfdacc76.html` * | https://admissions.washu.edu/how-to-apply/common-questions/ | 2026-09-24T23:19:52Z | 200 | 180153 | `30243a38707019d01bb69d4c0d52e21f` |
+| `180461_7391d048.pdf` | https://catalog.montana.edu/undergraduate/engineering/computer-science/computer-science.pdf | 2026-09-24T22:00:43Z | 200 | 50187 | `4df2db03a111ea0b4d7434ef2ee975ab` |
+| `180461_f5c92faa.html` | https://catalog.montana.edu/undergraduate/engineering/computer-science/ | 2026-09-24T20:42:01Z | 200 | 23170 | `e36ada249a18afc9fb15199e78d58be4` |
+| `181464_1043f0b3.html` * | https://catalog.unl.edu/undergraduate/engineering/ | 2026-09-24T23:17:30Z | 200 | 153014 | `752a3c4a0f85cc8cfa460c9309e04601` |
+| `182670_03284d21.html` * | https://web.cs.dartmouth.edu/undergraduate/undergraduate-programs/declare-your-majorminor | 2026-09-24T20:36:54Z | 200 | 83131 | `20494b340d730216bc9e8d80637dd471` |
+| `185828_720e18e3.html` * | https://computing.njit.edu/general-faq | 2026-09-24T20:42:01Z | 200 | 77204 | `9cc1d3785ae4ec1c5d653fc8338298aa` |
+| `186131_d768ff83.html` * | https://www.cs.princeton.edu/index.php/ugrad/declaring-computer-science | 2026-09-24T20:42:36Z | 200 | 131098 | `7b913ade85ed2b88f806e5916f41a583` |
+| `186371_a27aeb77.html` | https://cs.camden.rutgers.edu/undergraduate/major-requirements/ | 2026-09-24T20:42:36Z | 200 | 56731 | `6d9d88c2fefd20c4d1e349669d5ca18b` |
+| `186867_dc454228.html` | https://www.stevens.edu/change-of-program | 2026-09-24T20:42:36Z | 200 | 146652 | `c017d102549e63ce386413849deb764e` |
+| `187967_8fd001d6.html` | https://www.nmt.edu/academics/compsci/undergrad.php | 2026-09-24T22:00:43Z | 200 | 38727 | `62496ef73a3ba069cd51c68f8936c988` |
+| `190415_dee2fa77.html` * | https://www.cs.cornell.edu/bachelor-science-computer-science/apply | 2026-09-24T20:36:54Z | 200 | 46477 | `976c81d740cf5c75dcf081ef8a8397f9` |
+| `190415_f3cb7d4e.html` | https://www.duffield.cornell.edu/advising/choose-your-academic-pathway/applying-for-a-major-affiliation/ | 2026-09-24T20:36:54Z | 200 | 293892 | `b27f1a6d73ecca0dfc2504924e5091c1` |
+| `191241_8700ece3.html` | https://bulletin.fordham.edu/undergraduate/computer-information-sciences/computer-science-major/ | 2026-09-24T20:39:15Z | 200 | 40872 | `8a0e1e673c014343103209f04f86063d` |
+| `193900_2cc96102.html` * | https://cs.nyu.edu/dynamic/undergraduates/overview/declaring-a-major-or-minor/ | 2026-09-24T20:42:01Z | 200 | 15924 | `8e9b316f3ca3886a7cebba71e141931e` |
+| `194824_611622c8.html` | https://registrar.rpi.edu/services/academic-planning/declaring-or-change-major | 2026-09-24T20:42:36Z | 200 | 18568 | `32a92f05e20c150d32685e40a10607e6` |
+| `194824_6e1e7737.html` * | https://science.rpi.edu/computer-science/programs/undergrad/bs-computerscience/current-students | 2026-09-24T20:42:36Z | 200 | 35834 | `2607d7457ee7545a7a8285d2cdd49b37` |
+| `195003_844fb8d9.html` | https://www.rit.edu/computing/department-computer-science/resources | 2026-09-24T20:42:36Z | 200 | 286849 | `9137647946541c870f82144fc391fe10` |
+| `195003_c08e8796.pdf` | http://www.cs.rit.edu/csdocs/Website/Applying_Double_Major_in_Computer_Science_Secondary.pdf | 2026-09-24T22:53:44Z | 200 | 70598 | `dc66297db61ea6a1ab3181e8c0e0ab62` |
+| `195003_f4a4b207.pdf` * | https://www.cs.rit.edu/csdocs/Website/SelectedPoliciesandGoodThingstoKnow.pdf | 2026-09-24T22:53:41Z | 200 | 194868 | `33c925e9e727d430b0ae8d9d2fb9874b` |
+| `195030_1d6bca03.html` * | https://cs.rochester.edu/undergraduate/bs-requirements.html | 2026-09-24T23:05:20Z | 200 | 49565 | `1df62d9c4b82ed4b1df43dbc21419c8e` |
+| `196413_0a516382.html` * | https://coursecatalog.syracuse.edu/undergraduate/engineering-computer-science/ | 2026-09-24T20:43:18Z | 200 | 881277 | `2d18b95b4a899b1615b790013555391c` |
+| `198419_2512c777.html` * | https://cs.duke.edu/undergraduate/degrees/BS | 2026-09-24T20:36:54Z | 200 | 121709 | `85f6cde2f9c37d55a11e8d15e22ad2dd` |
+| `198464_3c66d2f8.html` * | https://cet.ecu.edu/advising/current-students/major-information/ | 2026-09-24T20:37:43Z | 200 | 136833 | `23e89deaf127a9e47ead981b78e4fd36` |
+| `198464_403be155.html` | https://cet.ecu.edu/csci/undergraduate-programs/bs-in-computer-science/ | 2026-09-24T20:37:43Z | 200 | 133134 | `9d20f578ecf793fbd9ee2c58a27e4ba9` |
+| `199120_64c7cb5a.html` * | https://cs.unc.edu/undergraduate/degrees/undergraduate-program-faq/ | 2026-09-24T23:05:16Z | 200 | 124761 | `266f35ee1fc73ea2a7e282a5df73a4b3` |
+| `199120_95a8d47d.html` | https://catalog.unc.edu/undergraduate/programs-study/computer-science-major-bs/ | 2026-09-24T23:05:17Z | 200 | 123484 | `bc0b9206c0d31593a614099f931ec1be` |
+| `199847_78059e2e.html` * | https://cs.wfu.edu/undergraduate/ | 2026-09-24T23:05:23Z | 200 | 98730 | `3bc5c0a6c39b982283b5aa1d83a3768b` |
+| `201645_6deb440b.html` * | https://case.edu/studentlife/ugadvisingsupport/advising-support/transfer-students/transfer-and-dual-degree-registration-guide/major-declaration-process | 2026-09-24T20:35:37Z | 200 | 54367 | `1c73500572497bdb861543fa781ab28a` |
+| `202134_79296ba5.html` | https://catalog.csuohio.edu/preview_degree_planner.php?catoid=21&poid=4502&print= | 2026-09-24T20:37:31Z | 200 | 12391 | `3af0e9b8a447695412b7ca364fd628f5` |
+| `206084_98036c4b.html` * | https://catalog.utoledo.edu/undergraduate/engineering/admission-requirements/ | 2026-09-24T23:05:25Z | 200 | 19561 | `a4b8361b1be75ee4db594e6002fc938d` |
+| `209542_4a8f5119.html` | https://catalog.oregonstate.edu/college-departments/engineering/school-electrical-engineering-computer-science/computer-science-bs-hbs/ | 2026-09-24T20:42:01Z | 404 | 9792 | `5f4edafba7b31e235bc61366c170c77e` |
+| `209542_7cd77d5e.html` * | https://catalog.oregonstate.edu/college-departments/engineering/ | 2026-09-24T23:17:32Z | 200 | 966620 | `6e62f7c96526864826ac8704c758be0d` |
+| `209551_3f0ca80e.html` * | https://scds.uoregon.edu/undergraduate-programs/admissions | 2026-09-24T23:05:20Z | 200 | 47368 | `ec6d04fcf98c4a0fd7eae701a0b42b03` |
+| `211440_11a4df32.html` | https://www.cmu.edu/admission/admission/transfer-applicants | 2026-09-24T20:35:37Z | 200 | 91191 | `0e610ad64b1331afe9845b1fdf9b4925` |
+| `211440_d74c8c6d.html` * | https://csd.cmu.edu/guidelines-for-internal-transfer-or-dual-degree | 2026-09-24T20:35:37Z | 200 | 45941 | `38b7a65897c0c5b9473be4fe55256f82` |
+| `212054_93efed47.html` * | https://drexel.edu/cci/current-students/undergraduate/change-of-major/ | 2026-09-24T20:36:54Z | 200 | 28910 | `dc6c4a0aafe0f0c22859ec16d9278f30` |
+| `213543_6f8586bd.html` * | https://engineering.lehigh.edu/cse/academics/undergraduate/choosing-right-undergraduate-computing-program-you | 2026-09-24T20:40:21Z | 200 | 44404 | `7b32b27525b6bc49caea99ae02028e18` |
+| `215062_93c7a658.html` * | https://academics.engineering.upenn.edu/ugrad/student-handbook/academic-policies/ | 2026-09-24T23:13:32Z | 200 | 164169 | `f33b524ae5e8592ca0dceb7775f01cbd` |
+| `217156_6afcd7fc.html` | https://cs.brown.edu/degrees/undergrad/concentration-requirements/declaring-the-concentration | 2026-09-24T20:35:37Z | 200 | 24299 | `06b72059add95cdbc6714a0ed852542f` |
+| `217156_a56dd011.html` * | https://cs.brown.edu/degrees/undergrad/concentrating-in-cs/ | 2026-09-24T20:36:05Z | 200 | 19511 | `22533b9a7e48edfc881556a336399ab0` |
+| `217882_b57a5a33.html` * | https://www.clemson.edu/cecas/students/advising/change-major.html | 2026-09-24T20:36:54Z | 200 | 367489 | `3544f53373bb30318127a20b188b219a` |
+| `221999_0fc55ca4.html` * | https://registrar.vanderbilt.edu/intra-university-transfers/engineering-letter.php | 2026-09-24T23:05:22Z | 200 | 14650 | `0bb3084f0981ac0ca4e4ec469cfe2030` |
+| `223232_d2d80f05.html` * | https://catalog.baylor.edu/undergraduate/school-engineering-computer-science/computer-science-bscs-informatics-bsi/bachelor-science-computer-science-bscs/ | 2026-09-24T20:34:57Z | 200 | 320696 | `3224bbed23abf61c27d2cd20237838e3` |
+| `225511_d1ee71fb.html` * | https://www.uh.edu/nsm/students/undergraduate/change-major/index.php | 2026-09-24T23:10:04Z | 200 | 51686 | `becb21b63895ecc72bafa6fcb23f5a05` |
+| `227216_d87cd584.html` * | https://engineering.unt.edu/cse/undergraduate/advising.html | 2026-09-24T23:05:28Z | 200 | 95175 | `5080a3fab0c92ddd468271f592b91d4a` |
+| `227757_2e93f662.html` * | https://ga.rice.edu/undergraduate-students/academic-opportunities/majors-minors-certificates/ | 2026-09-24T20:42:36Z | 200 | 28019 | `3f568be12e56453d2685887262360ea3` |
+| `228246_965e416c.html` | https://www.smu.edu/lyle/undergraduate/bs-computer-science | 2026-09-24T20:43:18Z | 200 | 121480 | `3c347a928c801216170265cfa6d1ea0b` |
+| `228459_09a6c80f.html` * | https://www.cose.txst.edu/cose-majors/admissions-requirements.html | 2026-09-24T20:43:18Z | 200 | 44834 | `180dbbead013501523d568e93791f4a9` |
+| `228769_794a4c86.html` * | https://catalog.uta.edu/engineering/ | 2026-09-24T23:10:08Z | 200 | 181828 | `5ded986a8850def743dd98184e4ab2cc` |
+| `228778_29d0d869.html` * | https://cns.utexas.edu/info-undergraduate-students/academics-advising-policies/internal-transfer | 2026-09-24T21:57:47Z | 200 | 98387 | `9d49002a90a3f51b82867e97a542ec6d` |
+| `228778_58dfbbc3.html` | https://www.cs.utexas.edu/undergraduate-program/admissions/internal-transfers | 2026-09-24T20:45:09Z | 200 | 62870 | `fdc60edab12799abe413c41307713953` |
+| `228778_62e7c0be.html` | https://www.cs.utexas.edu/faq/faq-categories/internal-transferchange-major | 2026-09-24T21:53:45Z | 200 | 45791 | `379c9f2b4cf05f08dd28a92ad95953fc` |
+| `228778_bb3b3cf2.html` | https://www.cs.utexas.edu/faq/68732 | 2026-09-24T20:45:21Z | 200 | 46946 | `f24fadc8f74688117b13a4410cde68a7` |
+| `228787_96f18660.html` * | https://catalog.utdallas.edu/now/undergraduate/programs/ecs | 2026-09-24T23:10:06Z | 200 | 166031 | `5e6066923b660e117da19d6c43c0a072` |
+| `229027_7beea4d0.html` * | https://future.utsa.edu/programs/undergraduate/computer-science/ | 2026-09-24T23:05:23Z | 200 | 177993 | `90579532b8027450f492f8c93bd96464` |
+| `229115_60313127.html` * | https://www.depts.ttu.edu/coe/undergraduate/transfer.php | 2026-09-24T20:43:18Z | 200 | 58460 | `927ecf789e8c7877726e2c1877821189` |
+| `230038_1964469e.html` * | https://catalog.byu.edu/pages/department-1323 | 2026-09-24T20:36:05Z | 200 | 522419 | `4da77270a9d9e2f710fb772b26da330a` |
+| `230038_3f17ae1a.html` | https://cs.byu.edu/education/undergraduate/programs/computer-science/ | 2026-09-24T20:35:37Z | 200 | 110905 | `f8aae8327ed07b35750101f2ff25d3dc` |
+| `230038_8c977ae1.html` | https://catalog.byu.edu/about/limited-enrollment-programs | 2026-09-24T20:35:37Z | 200 | 569744 | `c4ff0f9d9e075c92cd454c10b4da300f` |
+| `230038_aa80208e.html` | https://catalog.byu.edu/departments/1323/overview | 2026-09-24T20:36:05Z | 200 | 504807 | `dd994e260d5367e35a438e9c32f4e399` |
+| `230728_13896e1a.html` * | https://engineering.usu.edu/soc/students/undergraduate/pre-professional-program.php | 2026-09-24T23:05:21Z | 200 | 33975 | `3d1f659ad0d36c0382544d565d395565` |
+| `230764_154bae73.html` * | https://www.cs.utah.edu/undergraduate/current-students/ | 2026-09-24T23:05:24Z | 200 | 111643 | `6bdbe17f6f5c0549ede6b4ae64079453` |
+| `232186_c1ca5444.html` * | https://catalog.gmu.edu/colleges-schools/engineering-computing/school-computing/computer-science/computer-science-bs/ | 2026-09-24T20:38:41Z | 200 | 159721 | `9266db56730e84456fd3775494e50779` |
+| `232982_b6ac68cd.html` | https://catalog.odu.edu/undergraduate/sciences/computer-science/computer-science-bscs/ | 2026-09-24T20:42:01Z | 200 | 220321 | `5207bc3b3faff591a297d3b0558d7803` |
+| `233921_154beea1.html` | https://students.cs.vt.edu/undergraduate-programs/future-students/change-or-add-major-minor.html | 2026-09-24T20:45:09Z | 404 | 608 | `86c2ead6ec018b458fc2f8431b825f81` |
+| `233921_4eec6354.html` | https://eng.vt.edu/undergraduate/resources-support/change-of-major/faqs.html | 2026-09-24T20:45:21Z | 200 | 100835 | `140c2afdf63f6ef4c4dcd6ae0c0ae4dc` |
+| `233921_d36df5e7.html` * | https://students.cs.vt.edu/undergraduate-programs.html | 2026-09-24T20:45:21Z | 200 | 115568 | `3b6428ad2b4da82508c532fefafd034d` |
+| `238032_6e8876f7.html` * | https://www.wvu.edu/academics/programs/computer-science-bscs/ | 2026-09-24T23:06:36Z | 200 | 67555 | `a4ce0d04880d2f55a9f2c5c303608e30` |
+| `239105_616e0281.pdf` * | https://www.marquette.edu/computer-science/documents/20252026.pdf | 2026-09-24T20:41:18Z | 200 | 1272304 | `884cadd7b113000cf01e7cbaf52cf7f9` |
+| `240444_15b59eee.html` * | https://www.cs.wisc.edu/undergraduate/undergraduate-faqs/ | 2026-09-24T20:45:09Z | 200 | 279224 | `36da27a3707626fe2e09d172e92c8e80` |
+| `240453_7521f396.html` * | https://catalog.uwm.edu/engineering-applied-science/computer-science/computer-science-bs/ | 2026-09-24T23:16:27Z | 200 | 96413 | `65a9582a3ca0c7233449956a017622d1` |
+| `243744_d728f6ad.html` * | https://www.cs.stanford.edu/bachelors/how-to-declare | 2026-09-24T20:42:36Z | 200 | 67501 | `0551a17de6bbdd8c952e0cf6350ecd45` |

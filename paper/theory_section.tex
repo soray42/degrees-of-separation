@@ -1,0 +1,257 @@
+% =====================================================================================
+% theory_section.tex -- main-text theory section, for insertion after Background (Section 2).
+% Written 2026-09-25, after the results in Section 4 were seen; revised the same day after an adversarial review
+% (see THEORY_NOTES.md section 10). New references: paper/refs_theory_pending.bib (Crossref-verified); all other
+% keys are in refs_merged.bib. Uses \ci (defined in main.tex). Cross-reference used: sec:results (main.tex).
+% \SItheory names the SI theory appendix (paper/theory_si.tex, label si:theory); on insertion, redefine it as
+% \SI{<n>} with the final SI section number.
+\providecommand{\SItheory}{the SI theory appendix}
+% =====================================================================================
+\section{Two audiences, one name: a model of coupling}\label{sec:theory}
+
+Why should faculty hiring measure academic standing, and program pay the labour market's regard for
+graduates? This section derives both readings from one model, states the assumptions under which each holds and
+what breaks them, and says what $\rho_f$ then measures. We wrote the model after the results of
+Section~\ref{sec:results} were known. It organises them after the fact, and none of them is evidence for it. Its
+out-of-sample content is a set of registered tests that have not been run, listed at the end of this section.
+The proofs, and a sorting of every result by how the model accommodates it, are in \SItheory.
+
+\paragraph{Two audiences, two products, one name.} A university $i$ sells two products of its department in
+field $f$ under one name: doctoral graduates, bought by the field's hiring committees, and bachelor's graduates,
+bought by employers. Following \citet{macleod2015reputation} and \citet{tadelis1999name}, a unit's
+\emph{reputation} with an audience is that audience's expectation of the quality of what it buys from the unit,
+given what it observes. It is a belief held by a named population about a named product. Beliefs are not
+observed, but repeated costly choices reveal the orderings they imply, much as matriculation decisions reveal
+applicants' ranking of colleges \citep{avery2013revealed}. We call such an ordering the audience's
+\emph{valuation}. Write the academy's valuation of department $(i,f)$ as $s_{if}=\alpha_fa_i+r_{if}$ and the mean
+productivity of its bachelor's graduates, selection included, as $\theta_{if}=\mu_f+\beta_fx_i+y_{if}$. Here
+$a_i$ and $x_i$ are institution components, $r_{if}$ and $y_{if}$ are departmental deviations, and $\beta_f$ is
+how strongly field $f$'s labour market rewards the institution component. The two sides are correlated within a
+level ($\mathrm{Corr}(a,x)=\chi$, $\mathrm{Corr}(r,y)=\kappa_f$). We assume that they are uncorrelated across
+levels, for example $\mathrm{Cov}(r,x)=0$; departments that are relatively strong at highly selective
+institutions would break this. Employers see the name and the major on a CV and pay their posterior expectation
+of a graduate's productivity, given what they have seen of the unit's past graduates. Attribution is costly and
+labour markets are segmented, so what counts is how many graduates of a unit a given employer has observed and
+attributed to it. With $n_u$ such graduates, normal learning puts weight
+$\omega_u=n_u\tau_u^2/(n_u\tau_u^2+\sigma^2)$ on the unit's own record ($\tau_u^2$ is the prior variance of unit
+means, $\sigma^2$ that of individual performance). A name pools all of an institution's graduates, so
+$\omega_{\text{name}}\approx1$. A department's record counts only where employers attribute performance to
+departments. The pooling is analogous to umbrella branding \citep{wernerfelt1988umbrella}, read as buyers'
+inference across the products of one brand \citep{choi1998brand,cabral2000stretching} rather than as a firm's
+signalling choice.
+
+\paragraph{Proposition 1 (what the indicators reveal).} \emph{(a) Hiring.} Let $A_{uv}$ count field-$f$ faculty
+at $v$ with a PhD from $u$. Assume vertical sorting net of volume: in every pair of departments that exchanges
+faculty, more hires are expected to flow from the higher-valued to the lower-valued department, and
+production-to-hiring ratios do not set that direction. Then the ordering that minimises upward hires agrees with
+the academy's valuation on every exchanging pair, and on every pair linked by a chain of exchanging pairs that is
+monotone in the valuation; pairs linked by no such chain are not ordered by the data. The sample version
+converges as hires accumulate. This is a consistency property. The substantive assumption is vertical sorting
+net of volume, which is the construct's definition and can fail. Two gaps separate it from the published $F$.
+First, $F$ is SpringRank, not the minimum-violation ordering. Under SpringRank's generative model,
+$\mathbb E A_{uv}=c\exp\{-\tfrac{\beta}{2}(s_u-s_v-1)^2\}$ with a single constant $c$, the direction of exchange
+given the pair total is logistic in $2\beta(s_u-s_v)$, a Bradley--Terry comparison \citep{bradley1952rank}, and
+SpringRank approaches the maximum-likelihood ranks when hierarchy is strong \citep{debacco2018physical}. Under
+vertical sorting alone the two orderings can disagree (\SItheory). Second, when expected flows scale with
+production and hiring, $\mathbb E A_{uv}=p_uh_v\varphi(s_u-s_v)$, the direction of exchange also depends on
+$(p_u/h_u)/(p_v/h_v)$. SpringRank has no degree correction, so at equal valuation it ranks net exporters higher,
+and faculty production is highly unequal \citep{wapman2022quantifying}. $F$ is therefore a department's
+net-placement position. It is the academy's valuation only if production-to-hiring ratios do not set the
+direction of flows (test T0 below).
+
+\emph{(b) Pay.} Suppose employers compete for graduates and pay the posterior expectation of productivity, see
+institution and major at hiring, and set pay freely rather than by a schedule, and that program medians cover the
+graduates who work for them. Then, with the name's mean known to employers ($\omega_{\text{name}}\approx1$; the
+general form is in \SItheory), the program's log median $t$ years after graduation is
+\begin{equation}\label{eq:theory-wage}
+m_{if}(t)=\mu_f(t)+\beta_fx_i+\Lambda_{ft}\,y_{if}+g_{i}(t),\qquad \Lambda_{ft}=\omega_f+(1-\omega_f)\lambda_t .
+\end{equation}
+Here $\lambda_t=b+(1-b)\,t/(t+k)$ is the weight employers put on a graduate's own revealed performance ($b$ for
+what they see at hiring, $k$ for the speed of learning), and $g_i(t)$ is growth that differs across
+institutions, for example through access to firms with internal promotion ladders.
+
+\paragraph{What the two readings license.} Part (a) warrants reading $F$ as \emph{academic prestige}: the
+ordering of departments revealed by where their PhDs are placed, which sociologists call status in a deference
+network \citep{burris2004academic,podolny1993status,sauder2012status}. PhD origin shapes placement beyond
+productivity \citep{long1979entrance}, so this status may partly reinforce itself. The analogy with revealed
+preference is loose. No one chooses between $u$ and $v$; faculty hiring is two-sided matching, shaped by
+candidates' location and dual-career constraints; and PhDs who are not placed are not observed. The reading fails
+where subfield, geography or dual careers steer hiring in ways correlated with standing, and where volume sets
+the direction of flows. Reading $F$ further as a belief about the quality of a department's PhDs requires one
+index to govern both where its PhDs are hired and whom it hires (test T1). Part (b) warrants reading program pay
+as the \emph{labour-market valuation} of a program's graduates. At the name, $\omega\approx1$, so employers'
+belief and the realised mean productivity of the institution's graduates coincide, selection included. Much of
+the premium of selective colleges reflects whom they admit \citep{dale2002estimating,dale2014estimating}, and
+their causal effects concentrate in top-tail outcomes that medians do not register
+\citep{zimmerman2019elite,chetty2023diversifying}. We reserve \emph{employer reputation} for what the design of
+\citet{macleod2017big} identifies: a school-mean premium with graduates' own attainment held fixed. The UK data
+identify it coarsely, since attainment bands are observed there: 66--90\% of coupling survives the attainment
+control, and within a band selectivity keeps $+0.252$ beyond $G$ (test T4 registers how it changes with
+experience). Three further limits apply.
+\begin{itemize}
+\item Raw pay contains local price levels, which lie outside the construct, and access to high-wage labour
+markets. No result here nets out where graduates work (test T7), so every construct claim about pay below is
+``not netted of destination location''.
+\item Placement into better-paid sectors counts as the market's valuation only if employers ration access to
+those sectors. Graduates' preferences, family background and peers can produce the same placement (test T8).
+\item Where pay follows a schedule, the wage stops revealing valuation (Proposition~5).
+\end{itemize}
+
+\paragraph{Proposition 2 (what coupling measures).} Under Proposition~1, with $F=s+e_F$ and zero covariances
+across levels,
+\begin{equation}\label{eq:theory-decomp}
+\mathrm{Cov}\{F_{if},m_{if}(t)\}=\underbrace{\alpha_f\beta_f\,\chi\,\sigma_a\sigma_x}_{\text{name}}
++\underbrace{\Lambda_{ft}\,\kappa_f\,\sigma_r\sigma_y}_{\text{department}}
++\underbrace{\alpha_f\,\mathrm{Cov}\{a_i,g_{i}(t)\}}_{\text{growth}} .
+\end{equation}
+$G$ pools the hires of all fields, so it carries only the name and growth terms. The partial covariance of $F$
+with pay given $G$ isolates the department term only if the cross-level covariances are zero. For Spearman
+correlations computed on the same institutions, the identity $c_F=r_{FG}\,c_G+\sqrt{1-r_{FG}^2}\;\mathrm{sr}_F$
+is exact. Here $c_X$ is the coupling of $X$ with pay, $r_{FG}$ the correlation of $F$ with $G$, and
+$\mathrm{sr}_F$ the semi-partial correlation of pay with the part of $F$ orthogonal to $G$. $F$ out-predicts
+$G$ only if $\mathrm{sr}_F>c_G\tan(\vartheta/2)$, where $\cos\vartheta=r_{FG}$. Three readings follow.
+\begin{itemize}
+\item Coupling measures agreement between two audiences' orderings of the same institutions, not agreement on
+what they value. An academy that values research and a market that values graduates' ability agree whenever the
+two covary across institutions ($\chi>0$). That they do is a primitive of the model, not a result.
+\item If one institution factor dominates, each field's coupling is proportional to its $\beta_f$, and the field
+map is a map of how each field's labour market prices institution-wide status. It would look the same with any
+status index, so its interpretation does not depend on $F$ being academic prestige. The construct reading of $F$
+matters for the claims below the name. Test T5 checks the invariance.
+\item Average SAT and the admission rate are noisy measures of the selection part of $x_i$, the ability of an
+institution's intake \citep{macleod2015reputation,macleod2017big}. Partialling them out removes the part of the
+market's valuation that is measured intake ability. What remains bundles value added, peers, networks, growth
+and unmeasured ability. For the question ``does the academy's standing carry information that the market prices
+beyond intake?'', selectivity is a confound. SAT and admission rate alone take mean coupling from $+0.43$ to
+$+0.14$ (47 fields). Pell share, control and the state earnings level alone take it to $+0.31$, so raw $\rho_f$
+also contains location and composition, which lie outside both constructs.
+\end{itemize}
+
+\paragraph{Proposition 3 (below the name).} The department term of \eqref{eq:theory-decomp} depends on when
+pay is observed. At entry, if employers see nothing of a graduate beyond the credential ($b=0$), it equals
+$\omega_f\kappa_f\sigma_r\sigma_y$. It is then non-zero only if department standing carries information about
+graduates' productivity ($\kappa_f\neq0$) and employers attribute performance to departments ($\omega_f>0$).
+After entry it needs only $\kappa_f\neq0$, because $\Lambda_{ft}\ge\lambda_t$: each graduate's own record prices
+the department deviation whether or not anyone tracks departments. Employer learning is fast.
+\citet{lange2007speed} put $k$ near 3, which gives $\lambda_4\approx0.57$, and for college graduates ability is
+largely revealed at hiring \citep{arcidiacono2010beyond}. A department term of about 1\% of 4-year pay per
+SD of department prestige therefore implies that department standing carries little information about
+graduates' market productivity (small $\kappa_f\sigma_y$). The alternative, that employers cannot see
+departments, fits only if learning about individuals is slow over the horizons observed ($b\approx0$ and
+$k\gtrsim20$), against that evidence. The results do not separate information from content. Over careers,
+learning moves the department loading away from zero if and only if $\kappa_f\neq0$, $\omega_f<1$ and $b<1$; it
+raises the loading only if, in addition, $\kappa_f>0$.
+
+\paragraph{Proposition 4 (experience).} (a) If employers' posterior mean for a unit equals the unit's mean,
+learning about individuals cannot move program-mean pay: the program mean of each graduate's expected
+productivity equals the program's mean productivity at every $t$. This is the result of \citet{farber1996learning}
+that the return to a variable employers see at hiring does not change with experience, applied to program means.
+The loading on a status measure net of selectivity then falls with experience, the signature of
+\citet{altonji2001employer}, only if employers' beliefs about names are imprecise ($\omega_i<1$) and their entry
+prior has a status component that the measure tracks beyond selectivity. (b) A rise in the institution-level
+covariance of pay with status, in log points, requires at least one of four sources:
+\begin{itemize}
+\item growth correlated with status, such as access to firms with internal ladders and campus recruiting
+\citep{gibbons1999theory,rivera2015pedigree,weinstein2018employer}; college reputation correlates with earnings
+growth in \citet{macleod2017big};
+\item learning about names that employers rarely see ($\omega_i<1$), which raises the covariance only if
+employers' prior under-weights status (with a halo, learning lowers it);
+\item migration of graduates of high-status institutions toward high-wage labour markets;
+\item a change in who is observed, for example as graduate students enter the earnings data.
+\end{itemize}
+On standardised scales a loading also rises when the variance of pay unrelated to status shrinks. Fast learning
+implies a concave rise, and a near-linear rise argues against fast learning. Experience profiles are concave,
+however, so status-correlated growth can be concave too, and the shape of the rise does not separate learning
+from growth. Where the rise occurs can (test T3).
+
+\paragraph{Proposition 5 (pay schedules).} Suppose a share $\pi_f$ of a field's graduates is paid on a schedule,
+and let $\bar\tau_{if}$ be the schedule level where program $(i,f)$'s graduates work. Treating the median as the
+mean of log pay, to first order $\mathrm{Cov}(F,m)=(1-\bar\pi_f)\,\mathrm{Cov}_{\text{market}}(F,m)+\bar\pi_f\,
+\mathrm{Cov}(F,\bar\tau)$, plus a sorting term when higher-status programs send fewer graduates into scheduled
+jobs. Under a national schedule the second term is zero at entry, and coupling tends to the sorting term as
+$\bar\pi_f\to1$. Over careers it can grow. If promotion across grades (NHS bands, teachers' leadership ranges)
+or exit from scheduled jobs depends on status, $\bar\tau$ comes to vary with status. Under local schedules,
+coupling runs through where graduates work. In such fields the wage does not measure the market's valuation of
+status, so weak coupling there is not evidence that employers ignore status. The model's content there is a
+prediction about quantities, namely who is hired where and who is promoted, which test T6 checks.
+
+\paragraph{How the results line up.} No result follows from the structure for every admissible parameter value.
+Every result is accommodated after the fact (\SItheory), at different costs.
+\begin{itemize}
+\item \emph{Accommodated by parameter values inferred from these same results.} Field prestige is no better
+than $G$. The identity sets the threshold: at the across-field means, $r_{FG}=0.79$, $c_G=0.45$ and $c_F=0.40$
+give $0.16$ against $\mathrm{sr}_F=0.08$, which requires a small $\kappa_f\Lambda_{ft}$. Agreement concentrates
+in institution-wide status and selectivity and leaves a small departmental remainder. The status loading does not
+decay net of selectivity, which requires $\omega_i\approx1$ or no status component in the prior that $G$ tracks.
+Coupling is low in UK medicine and nursing and flat over their careers, given a schedule share coded from outside
+that cannot be separated from field type. The field map is collinear with selectivity pricing, under an added
+one-factor assumption.
+\item \emph{Accommodated only by added elements.} The rise over careers needs growth, migration, composition or a
+scale effect. Net of $G$, the selectivity loading also rises (UK $+0.024$ per year). That fits learning about
+names, selectivity-correlated growth or a common rise of standardised loadings, and together with the flat status
+loading it is not evidence that employers know names precisely. UK teaching's rise ($+0.050$ per year) needs the
+grade-progression term, which was added after the rise was seen.
+\item \emph{In tension.} At year 1, field prestige carries the association and $G$ does not ($b_F=+0.189$
+\ci{+0.060}{+0.309}, $b_G=-0.013$), and $b_F$ stays flat to year 10. Learning alone produces this for no
+parameter values: $\kappa_f\approx0$ contradicts $b_F>0$, $\kappa_f>0$ with $\omega_f<1$ makes $b_F$ rise, and
+$\omega_f=1$ makes the name loading flat as well. Four readings remain: employers know departments from entry;
+$\lambda_t$ barely changes over these horizons; $F$ tracks a trait other than the department; or year 1 is an
+artefact, since graduate study and falling coverage depress year-1 medians at high-status institutions. Because of
+the last, pay cannot be read as employer reputation at entry on these data. Coupling in US special education and
+UK allied health despite pay schedules is also in tension.
+\item \emph{Outside the model.} The Great Recession entry window, cross-window drift, the elite tail and
+disciplinary kinship.
+\end{itemize}
+
+\paragraph{Registered tests.} Construct readings earn their names through predictions that could fail
+\citep{cronbach1955construct}. We specified nine tests on 25 September 2026, before computing any statistic named
+in them. Several reuse data analysed for other results, and T3 was chosen knowing that the $G$ loading rises.
+The date is self-attested: the digest of the specification detects later edits, not when it was written
+(\SItheory).
+\begin{itemize}
+\item \emph{Construct audits of $F$.} T0 asks whether coupling survives when $F$ is replaced by ranks corrected
+for production and hiring volume. T1 asks whether one index orders departments both by where their PhDs are
+hired and by whom they hire, benchmarked against what SpringRank's own model produces. T2 asks whether, among
+the same bachelor's graduates, the department-specific part of $F$ predicts the rank of the PhD program they
+enter (from ORCID records), against pay, for which the answer is already known; it is a consistency check with one
+new prediction, not a test of the mechanism. A world of network position or placement power predicts T1 and T2 as
+a world of valuation does; only T0 separates placement power.
+\item \emph{Dynamics.} T3 asks whether the rise of the $G$ loading concentrates where employers rarely see an
+institution's graduates (learning) or not (growth). T4 asks whether, among UK graduates with the same prior
+attainment, the premium for a more selective institution falls with years since graduation, as employer
+learning predicts if attainment is unseen.
+\item \emph{Scope.} T5 asks whether the field map is the same with non-academic status indices (faculty
+salaries, instructional spending, endowment). T6 asks whether, in teaching and nursing, status predicts
+placement into regions with higher scheduled pay. T7 asks how much of coupling and of its rise survives the
+wage level of where graduates work, and T8 how much of coupling runs between sectors.
+\end{itemize}
+
+\paragraph{What the model lets us claim.} \emph{Relational claims} need only classical measurement error. The
+academy's hiring order and the market's pay order of the same institutions agree to degree $\rho_f$; the
+agreement lies mostly at the institution's name, grows with years since graduation, and is weak where pay follows
+a schedule. The Spearman-based statements survive any monotone rescaling of either indicator; the
+within-institution estimates are in log pay and do not. \emph{Construct claims} add Proposition~1. Where the
+academy's and the market's orderings agree, they agree at the institution's name, mostly in what both share with
+the selectivity of its intake; below the name they agree little, clearly only in computer science. Within
+institutions, one SD of department prestige goes with about 1\% of pay, and up to about 3\% under the lower-bound
+reliability of $F$, so the department-specific part is diluted, not shown to be absent. These claims are not
+netted of destination location, and they read $F$ as the academy's valuation only under vertical sorting net of
+volume (T0, T1). \emph{Mechanism claims} are not made. Little agreement below the name may mean that department
+standing carries little information about graduates' market productivity, or that employers cannot attribute
+performance to departments and learn slowly about individuals. Evidence on the speed of employer learning
+favours the first, and no registered test separates them. A failed T1 would withdraw only the reading of $F$ as
+a belief about the quality of a department's PhDs, leaving $F$ as the ordering revealed by net placement.
+
+\paragraph{What the model does not claim.}
+\begin{itemize}
+\item \emph{Causal value added.} The components $x$ and $y$ bundle selection, peers and value added, and every
+proposition concerns covariances. Nothing here says what attending an institution or department does to pay.
+\item \emph{That $F$ measures teaching quality, or research quality as such.} $F$ is the academy's revealed
+ordering of departments as producers of researchers, it may be partly self-reinforcing status
+\citep{burris2004academic}, and it may partly reflect production volume.
+\item \emph{That wages equal productivity.} Competitive pricing is an assumption. Monopsony
+\citep{staiger2010there}, rents, compensating differentials and pay schedules break it, and later-horizon pay
+mixes reputation, learned productivity, growth and location.
+\item \emph{That employers read academic rankings.} The name term can be a pure common cause ($\chi$), such as
+resources that attract both researchers and able students.
+\end{itemize}

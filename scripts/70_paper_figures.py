@@ -16,8 +16,9 @@ Figures (drawn at the printed text width, 165 mm, so font sizes are the printed 
               (scripts/55, 56, 58)
   paper_fig3  UK: (a) subject coupling raw vs within-provider standardised, (b) share surviving by method,
               (c) within-band G vs selectivity (scripts/62)
-  paper_fig4  career time: (a) US fixed cohorts y1/y5/y10, (b) UK YAG1/3/5, (c) b_F vs b_G by horizon
-              (scripts/59, which reproduces scripts/52 on V4.13.0; scripts/62)
+  paper_fig4  career time: (a) US fixed cohorts y1/y5/y10, (b) US 17-cell graduation-window x horizon surface,
+              (c) UK YAG1/3/5, (d) b_F vs b_G by horizon (scripts/59, which reproduces scripts/52 on V4.13.0;
+              scripts/65 for panel b; scripts/62)
   paper_fig5  boundary condition: signed partial r(F, earn | geo) vs strict licensure share (scripts/64), and UK
               pay-scale subjects vs others, all graduates, full 33-subject sample (scripts/62)
 
@@ -27,7 +28,7 @@ Inputs (read-only):
   data/interim/pseo_refresh.csv         (scripts/59)      data/interim/uk_leo_summary.csv         (scripts/62)
   data/interim/uk_leo_subject_coupling.csv (scripts/62)   data/interim/licensing_battery.csv      (scripts/64)
   data/interim/acs_occ_anchors.parquet  (scripts/20; the strict licensure share scripts/64 uses)
-  data/interim/career_time_coupling.csv (scripts/52; slope of the G coupling, two-stage CI)
+  data/interim/coupling_dynamics_results.csv (scripts/65; 17-cell surface means and the linear-surface slopes)
 Outputs: outputs/figures/paper_fig{1..5}.pdf and .png
 No random numbers are drawn for the figures. PDF/PNG metadata dates are suppressed so re-runs are byte-identical.
 Run: OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONDONTWRITEBYTECODE=1 \
@@ -40,7 +41,12 @@ Run: OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONDONTWRITEB
   (2) per-field fixed-cohort career slopes (scripts/52, data/interim/career_time_coupling.csv and
       career_time_brand_field.csv) against the field's graduate-degree share (legacy scripts/35b,
       data/interim/er_axis_35b_deferral.csv); field bootstrap with seed 70, 4,000 draws;
-  (3) UK pay-scale contrast on the 32-subject composition sample (scripts/62 subject table).
+  (3) UK pay-scale contrast on the 32-subject composition sample (scripts/62 subject table);
+  (4) Scorecard coverage of the academia-ranked institutions by quartile of the academia-wide rank, re-running the
+      scripts/01 definition (any released bachelor's earnings cell in the mapped fields) on the repository's June 2026
+      Field-of-Study file for scripts/01's 30-field map and for the 66-field map of scripts/28 (FIELDS66), with the
+      matched institution-by-field cell and institution counts, and the number of distinct CIP-4 codes in FIELDS66
+      (src/load_er.load_er_scorecard, src/load_ar.load_ar_wapman; about 340 MB, under a minute).
 """
 from __future__ import annotations
 
@@ -106,6 +112,7 @@ FAM_COL = {"14": "#332288", "11": "#88CCEE", "27": "#44AA99", "40": "#117733", "
            "26": "#CC6677", "51": "#882255", "13": "#AA4499"}
 FAM_ORDER = ["14", "11", "27", "40", "52", "45", "26", "51", "13"]
 OTHER_COL = "#DDDDDD"                  # light enough to differ from Math & Stats (#44AA99) under protan/deutan vision
+OTHER_LINE = "#9A9A9A"                 # interval lines of the "other families" fields (#DDDDDD lines are near-invisible)
 
 
 def fam_colour(c2):
@@ -214,7 +221,7 @@ def fig1(t):
         col = fam_colour(r.cip2)
         if i % 2 == 0:
             ax.axhspan(i - 0.5, i + 0.5, color="#F4F4F4", lw=0, zorder=0)
-        ci(ax, r.rho_raw, r.se_rho_raw, i + dz, color=col, lw=0.9, zorder=2)
+        ci(ax, r.rho_raw, r.se_rho_raw, i + dz, color=col if r.cip2 in FAM_COL else OTHER_LINE, lw=0.9, zorder=2)
         ax.scatter(r.rho_raw, i + dz, s=5 + 0.33 * r.n, color=col, edgecolor="#222222", lw=0.35, zorder=4)
         if np.isfinite(r.rho_full_stlev):       # broad selectivity partial (scripts/55)
             ci(ax, r.rho_full_stlev, r.se_rho_full_stlev, i, color=MGREY, lw=0.6, zorder=2)
@@ -278,7 +285,7 @@ def fig1(t):
                     ms=np.sqrt(5 + 0.33 * nn), label=f"{nn}") for nn in (20, 60, 150)]
     lax.legend(handles=sizes, loc="upper left", bbox_to_anchor=(0.0, 0.44), title="Institutions (n)",
                title_fontproperties=hdr, alignment="left", labelspacing=0.9, fontsize=6.3)
-    lax.text(0.0, 0.27, "Bold labels: fields\npassing the reliability\nflag (20 of 52)",
+    lax.text(0.0, 0.27, "Bold labels: fields that\npass the reliability flag\n(20 of 52; see caption)",
              transform=lax.transAxes, fontsize=6.2, va="top", ha="left", color=DGREY, linespacing=1.3)
     assert int(t.reliable.sum()) == 20
     save(fig, "paper_fig1")
@@ -317,7 +324,7 @@ def fig2(t):
     ax.axhline(0, color=BLACK, lw=0.6)
     ax.set_xticks(x); ax.set_xticklabels(labs, fontsize=6.2)
     ax.set_xlim(-0.3, len(steps) - 0.55)
-    ax.set_ylabel("Partial ρ(F, earnings) within field")
+    ax.set_ylabel("ρ or partial ρ(F, earnings) within field")
     ax.set_ylim(-0.42, 0.95)
     ax.text(0.99, 0.99, f"{len(c)} fields estimable at every step (SAT sample)\n"
             "grey: one field; black: mean across fields;\nbar: bootstrap 95% CI of the mean (last step)",
@@ -353,7 +360,7 @@ def fig2(t):
                        Line2D([], [], marker="s", color=MGREY, mfc="white", mec=MGREY, ms=3.6, lw=0.9,
                               label="3,416 programs,\n198 institutions, 52 fields")],
               loc="upper right", bbox_to_anchor=(1.0, 0.70), fontsize=6.0)
-    ax.text(0.99, 0.40, "FE: fixed effects\n95% institution\ncluster-bootstrap CIs", transform=ax.transAxes,
+    ax.text(0.99, 0.43, "FE: fixed effects; 95% institution\ncluster-bootstrap CIs; grey field-\nFE-only point: ±1.96 SE", transform=ax.transAxes,
             ha="right", va="top", fontsize=6.0, color=DGREY, linespacing=1.25)
     panel_title(ax, "b", "Within-institution slope of F")
 
@@ -379,7 +386,7 @@ def fig2(t):
     ax.set_xticks(range(len(blocks))); ax.set_xticklabels([b[1] for b in blocks], fontsize=6.2)
     ax.set_ylabel("Mean Shapley share of R² across fields")
     ax.set_ylim(0, 0.37)
-    ax.legend(handles=[Patch(facecolor="white", edgecolor="#222222", lw=0.8,
+    ax.legend(handles=[Patch(facecolor=MGREY, edgecolor="#222222", lw=0.8,
                              label=f"solid bars: four blocks (mean R² {hr.hr_r2.mean():.2f})"),
                        Patch(facecolor="white", edgecolor="#222222", hatch="//////", lw=0.8,
                              label="hatched bars: without institution earnings")],
@@ -519,18 +526,22 @@ def fig3():
             (U("share surviving: fe_std / fe_raw"), "standardised, free\ngradient (subset)"),
             (U("share surviving: std / raw_c"), "standardised, national\nmedians (over-corrects)")]
     ys = np.arange(len(rows))[::-1]
+    unadj27 = U("share surviving, unadjusted, same subjects as the attenuation check")
+    assert unadj27[3] == 27 and rows[1][0][3] == 27
+    close(unadj27[0], 0.704, 5e-4, "fig3b unadjusted share on the 27 subjects")
     for yy, ((est, lo, hi, kk, _), lab) in zip(ys, rows):
         floor = "national" in lab           # over-corrects: a floor, not an estimate
         col = MGREY if floor else VERM
         ax.barh(yy, 100 * est, height=0.62, color="white" if floor else col, edgecolor=col,
                 hatch="//////" if floor else None, lw=0.8, alpha=1.0 if floor else 0.85)
         ax.errorbar(100 * est, yy, xerr=[[100 * (est - lo)], [100 * (hi - est)]], color=BLACK, lw=0.9)
-        ax.text(104, yy, f"{100 * est:.0f}% [{100 * lo:.0f}, {100 * hi:.0f}]\n{kk} subjects",
+        extra = f" ({100 * unadj27[0]:.0f}% uncorr.)" if "noise-corrected" in lab else ""
+        ax.text(104, yy, f"{100 * est:.0f}% [{100 * lo:.0f}, {100 * hi:.0f}]\n{kk} subjects{extra}",
                 va="center", fontsize=6.0, linespacing=1.2)
     ax.axvline(100, color=BLACK, lw=0.5, ls=(0, (2, 2)))
     ax.set_yticks(ys); ax.set_yticklabels([r[1] for r in rows], fontsize=6.2)
     ax.tick_params(axis="y", length=0)
-    ax.set_xlim(0, 136)
+    ax.set_xlim(0, 150)
     ax.set_xticks([0, 25, 50, 75, 100])
     ax.set_xlabel("Share surviving (%)")
     panel_title(ax, "b", "Share surviving")
@@ -549,21 +560,21 @@ def fig3():
     ys = np.arange(len(labs))[::-1]
     for yy, b, a in zip(ys, band, allg):
         est, lo, hi, _, _ = b
-        ax.errorbar(est, yy + 0.13, xerr=[[est - lo], [hi - est]], fmt="o", color=VERM, ms=4, lw=1.0)
+        ax.errorbar(est, yy + 0.13, xerr=[[est - lo], [hi - est]], fmt="^", color=VERM, ms=4, lw=1.0)
         if a is not None:
             est, lo, hi, _, _ = a
-            ax.errorbar(est, yy - 0.13, xerr=[[est - lo], [hi - est]], fmt="o", mfc="white", mec=DGREY,
-                        color=DGREY, ms=4, lw=1.0)
+            ax.errorbar(est, yy - 0.13, xerr=[[est - lo], [hi - est]], fmt="o", color=DGREY, ms=4, lw=1.0)
     ax.axvline(0, color=BLACK, lw=0.6)
     ax.set_yticks(ys); ax.set_yticklabels(labs, fontsize=6.3)
     ax.tick_params(axis="y", length=0)
     ax.set_xlim(-0.1, 0.62)
     ax.set_ylim(-1.3, len(labs) + 0.45)
     ax.set_xlabel("Spearman or partial ρ, YAG5 earnings")
-    ax.legend(handles=[Line2D([], [], marker="o", color=VERM, ms=4, lw=1.0,
+    ax.legend(handles=[Line2D([], [], marker="^", color=VERM, ms=4, lw=1.0,
                               label=f"same-band graduates ({band[0][3]} subjects)"),
-                       Line2D([], [], marker="o", color=DGREY, mfc="white", mec=DGREY, ms=4, lw=1.0,
-                              label="all graduates, same providers")],
+                       Line2D([], [], marker="o", color=DGREY, ms=4, lw=1.0,
+                              label="all graduates, same providers"),
+                       Line2D([], [], ls="", label="bars: two-stage bootstrap 95% CI")],
               loc="upper left", fontsize=6.0, borderaxespad=0.1)
     # (selectivity = the institution's share of graduates with >= 360 UCAS points; A | B = partial rho net of B;
     #  both are defined in the caption)
@@ -591,12 +602,15 @@ def fig4():
     U = uk_summary()
     TW = " [two-way field x institution cluster variance]"
     CR = " [crossed bootstrap]"
-    fig = plt.figure(figsize=(WIDTH, 78 * MM), layout="constrained")
-    gs = fig.add_gridspec(1, 3, width_ratios=[11, 6.6, 11])
+    fig = plt.figure(figsize=(WIDTH, 136 * MM), layout="constrained")
+    gs = fig.add_gridspec(2, 2)
     axa = fig.add_subplot(gs[0, 0])
-    axb = fig.add_subplot(gs[0, 1], sharey=axa)
-    axc = fig.add_subplot(gs[0, 2])
+    axs = fig.add_subplot(gs[0, 1], sharey=axa)
+    axb = fig.add_subplot(gs[1, 0])
+    axc = fig.add_subplot(gs[1, 1])
     yrs = {"y1": 1, "y5": 5, "y10": 10}
+    YL = (-0.24, 0.72)
+    YL_AB = (-0.24, 0.95)             # (a) and (b) share this axis; headroom keeps the statistics clear of the bars
 
     # (a) US: mean coupling of F and of G with PSEO p50 earnings, crossed field x institution bootstrap CIs
     for stat, col, mk, off, lab in [("coupling_F", BLUE, "o", -0.14, "department prestige F"),
@@ -610,14 +624,9 @@ def fig4():
                      mfc=col if mk == "o" else "white", mec=col, label=lab)
     k_us = ks.pop()
     sl = prow("career_time", "slope_all" + TW)
-    # slope of the G coupling: scripts/52's table only (two-stage CI; scripts/59 reports no two-way CI for it)
-    ct = pd.read_csv(INTERIM / "career_time_coupling.csv")
-    rg = ct[(ct.record == "summary") & (ct.stat == "drhoG_all")]
-    assert len(rg) == 1 and int(rg.k_fields.iloc[0]) == k_us
-    rg = rg.iloc[0]
-    axa.text(0.03, 0.985, f"within-cohort slope per year, {k_us} fields:\n"
-             f"ρ(F): {fmt(sl[0], 3)} [{fmt(sl[1], 3)}, {fmt(sl[2], 3)}] (two-way)\n"
-             f"ρ(G): {fmt(rg.estimate, 3)} [{fmt(rg.ci_lo, 3)}, {fmt(rg.ci_hi, 3)}] (two-stage)\n"
+    # (the slope of the G coupling has only a two-stage CI in scripts/52's table, so it is not printed)
+    axa.text(0.03, 0.985, f"within-cohort slope of ρ(F) per year, {k_us} fields:\n"
+             f"{fmt(sl[0], 3)} [{fmt(sl[1], 3)}, {fmt(sl[2], 3)}] (two-way)\n"
              f"bars: crossed field × institution bootstrap",
              transform=axa.transAxes, va="top", fontsize=6.0, color=DGREY, linespacing=1.3)
     axa.set_xticks([1, 5, 10]); axa.set_xlim(0, 11)
@@ -625,39 +634,73 @@ def fig4():
     axa.set_ylabel("Mean within-field Spearman ρ(prestige, earnings)")
     axa.axhline(0, color=BLACK, lw=0.6)
     axa.legend(loc="lower right", fontsize=6.2)
-    panel_title(axa, "a", "US, fixed cohorts (PSEO)")
+    axa.set_ylim(*YL_AB)
+    panel_title(axa, "a", f"US, fixed cohorts ({PSEO_LABEL})")
 
-    # (b) UK: rho(G, earnings) at YAG1/3/5 on balanced fixed-cohort panels, two-stage bootstrap CIs
+    # (b) US: the 17-cell graduation-window x horizon surface of scripts/65 (PSEO V4.14.1; institutions present in all
+    # 17 cells of a field; 24 fields), mean over fields of Spearman(F, p50), two-way (field, institution) CIs
+    D = pd.read_csv(INTERIM / "coupling_dynamics_results.csv")
+    cells = D[(D.section == "surface_mean") & D.stat.str.startswith("cell:fixed17:")].copy()
+    cells["win"] = cells.stat.str.split(":").str[2].astype(int)
+    assert len(cells) == 17 and set(cells.k.astype(int)) == {24}, "scripts/65 fixed-17 surface: 17 cells, 24 fields"
+    lin = D[(D.section == "apc") & (D["sample"] == "fixed17:rhoF:r")].set_index("stat")
+    th, tc = lin.loc["M_lin:theta_h"], lin.loc["M_lin:theta_c"]
+    for h, shade, mk, off in [("y1", "#6BAED6", "o", -0.5), ("y5", "#4292C6", "s", 0.0),
+                              ("y10", "#08306B", "^", 0.5)]:
+        c = cells[cells.horizon == h].sort_values("win")
+        e, lo, hi = c.estimate.values, c.ci_lo.values, c.ci_hi.values
+        axs.errorbar(c.win.values + off, e, yerr=[e - lo, hi - e], fmt=mk + "-", color=shade, mec=shade,
+                     mfc=shade, ms=3.6, lw=1.1, label={"y1": "1 year", "y5": "5 years", "y10": "10 years"}[h])
+    for w0 in (2007, 2019):          # windows whose y1 earnings years are 2008-10 and 2020-22
+        axs.axvspan(w0 - 1.3, w0 + 1.3, color=LGREY, alpha=0.45, lw=0, zorder=0)
+    # other cells with earnings in 2008-10 or 2020-22 (y10 of 2010-12; y5 of 2004-06 and 2016-18): open markers
+    for h, w0, shade, mk, off in [("y10", 2010, "#08306B", "^", 0.5), ("y5", 2004, "#4292C6", "s", 0.0),
+                                  ("y5", 2016, "#4292C6", "s", 0.0)]:
+        c = cells[(cells.horizon == h) & (cells.win == w0)]
+        assert len(c) == 1, (h, w0)
+        axs.plot(w0 + off, float(c.estimate.iloc[0]), mk, ms=3.6, mfc="white", mec=shade, mew=0.9, zorder=5)
+    axs.axhline(0, color=BLACK, lw=0.6)
+    axs.set_xticks([2001, 2004, 2007, 2010, 2013, 2016, 2019])
+    axs.set_xticklabels(["01", "04", "07", "10", "13", "16", "19"])
+    axs.set_xlim(1999.3, 2020.7)
+    axs.set_xlabel("Graduation window (first year, 20xx)")
+    axs.tick_params(labelleft=False)
+    axs.text(0.03, 0.985, f"24 fields, same institutions in all 17 cells\n"
+             f"θ$_h$ (within window) {fmt(th.estimate, 3)} [{fmt(th.ci_lo, 3)}, {fmt(th.ci_hi, 3)}]/yr\n"
+             f"θ$_c$ (across windows) {fmt(tc.estimate, 3)} [{fmt(tc.ci_lo, 3)}, {fmt(tc.ci_hi, 3)}]/yr\n"
+             f"bars: two-way field × institution CI",
+             transform=axs.transAxes, va="top", fontsize=6.0, color=DGREY, linespacing=1.3)
+    axs.legend(loc="lower right", fontsize=6.2, title="years since graduation", title_fontsize=6.2, ncol=3,
+               columnspacing=0.8, handletextpad=0.3)
+    panel_title(axs, "b", "US, window × horizon (PSEO V4.14.1)")
+
+    # (c) UK: rho(G, earnings) at YAG1/3/5 on balanced fixed-cohort panels, two-stage bootstrap CIs
     series = [("coupling at YAG{}", "all graduates", "o", "-", VERM, VERM,
                "career slope of rho(G, earnings) per year", -0.12),
               ("within-provider-standardised coupling at YAG{}", "standardised", "s", "--", VERM,
                "white", "career slope, within-provider-standardised", 0.0),
-              ("within-band coupling at YAG{}", "same band", "^", ":", ORANGE, ORANGE,
+              ("within-band coupling at YAG{}", "same band", "^", ":", VERM, VERM,
                "career slope, within prior-attainment band", 0.12)]
-    ks_uk = []
     for q, lab, mk, ls, col, fc, slq, off in series:
         pts = [U(q.format(y)) for y in (1, 3, 5)]
         e = np.array([p[0] for p in pts]); lo = np.array([p[1] for p in pts]); hi = np.array([p[2] for p in pts])
         s_ = U(slq)
         assert len({p[3] for p in pts}) == 1
         axb.errorbar(np.array([1, 3, 5]) + off, e, yerr=[e - lo, hi - e], fmt=mk, ls=ls, color=col, mfc=fc,
-                     mec=col, ms=3.8, lw=1.1, label=f"{lab} ({pts[0][3]}):\n{fmt(s_[0], 3)}/yr")
-        ks_uk.append(pts[0][3])
-    axb.set_xticks([1, 3, 5]); axb.set_xlim(0, 6.2)
+                     mec=col, ms=3.8, lw=1.1, label=f"{lab} ({pts[0][3]} subjects): {fmt(s_[0], 3)} "
+                                                    f"[{fmt(s_[1], 3)}, {fmt(s_[2], 3)}]")
+    axb.set_xticks([1, 3, 5]); axb.set_xlim(0.3, 5.7)
     axb.set_xlabel("Years since graduation")
-    axb.tick_params(labelleft=False)
+    axb.set_ylabel("Mean within-subject Spearman ρ(G, earnings)")
     axb.axhline(0, color=BLACK, lw=0.6)
-    axb.legend(loc="lower right", fontsize=6.0, labelspacing=0.35, handlelength=2.0, borderaxespad=0.1,
-               title="subjects in ( )", title_fontsize=6.0, frameon=True, facecolor="white", edgecolor="none",
-               framealpha=1.0)
+    axb.set_ylim(-0.05, 0.85)
+    axb.legend(loc="upper left", fontsize=6.0, labelspacing=0.35, handlelength=2.2, borderaxespad=0.3,
+               title="career slope per year [95% CI]; bars: two-stage bootstrap", title_fontsize=6.0,
+               alignment="left")
     s0 = U("career slope of rho(G, earnings) per year")
-    axb.text(0.04, 0.985, f"slope, all graduates:\n{fmt(s0[0], 3)}/yr\n[{fmt(s0[1], 3)}, {fmt(s0[2], 3)}]\n"
-             f"bars: two-stage\nbootstrap", transform=axb.transAxes, va="top", fontsize=6.0,
-             color=VERM)
-    panel_title(axb, "b", "UK (LEO)")
-    axa.set_ylim(-0.24, 0.72)
+    panel_title(axb, "c", "UK (LEO), fixed cohorts")
 
-    # (c) US: standardized rank-regression coefficients b_F and b_G per horizon, two-way CIs
+    # (d) US: standardized rank-regression coefficients b_F and b_G per horizon, two-way CIs
     for coef, col, mk, off, lab in [("bF", BLUE, "o", -0.14, "b$_F$ (department prestige)"),
                                     ("bG", VERM, "s", 0.14, "b$_G$ (academia-wide prestige)")]:
         pts = [prow("career_time", f"{coef}_{h}_all" + TW) for h in yrs]
@@ -665,21 +708,23 @@ def fig4():
         axc.errorbar(np.array(list(yrs.values())) + off, e, yerr=[e - lo, hi - e], fmt=mk + "-", color=col,
                      mfc=col if mk == "o" else "white", mec=col, ms=3.8, lw=1.1, label=lab)
     dF, dG, dGF = (prow("career_time", s + TW) for s in ("dbF_all", "dbG_all", "dG_minus_dF_all"))
+    dGFc = prow("career_time", "dG_minus_dF_all" + CR)
     axc.text(0.03, 0.985, f"slopes per year (two-way CI):\n"
              f"d$_F$ (of b$_F$) {fmt(dF[0], 3)} [{fmt(dF[1], 3)}, {fmt(dF[2], 3)}]\n"
              f"d$_G$ (of b$_G$) {fmt(dG[0], 3)} [{fmt(dG[1], 3)}, {fmt(dG[2], 3)}]\n"
              f"d$_G$ − d$_F$ {fmt(dGF[0], 3)} [{fmt(dGF[1], 3)}, {fmt(dGF[2], 3)}]\n"
+             f"   crossed bootstrap [{fmt(dGFc[1], 3)}, {fmt(dGFc[2], 3)}]\n"
              f"bars: two-way CI of b$_F$, b$_G$",
              transform=axc.transAxes, va="top", fontsize=6.0, color=DGREY, linespacing=1.3)
     axc.axhline(0, color=BLACK, lw=0.6)
     axc.set_xticks([1, 5, 10]); axc.set_xlim(0, 11)
-    axc.set_ylim(-0.24, 0.72)
+    axc.set_ylim(*YL)
     axc.set_xlabel("Years since graduation")
     axc.set_ylabel("Rank-regression coefficient (standardised)")
     axc.legend(loc="lower right", fontsize=6.2)
-    panel_title(axc, "c", "US: loading on F and on G")
+    panel_title(axc, "d", f"US: loading on F and on G ({PSEO_LABEL})")
     save(fig, "paper_fig4")
-    return sl, s0, (dF, dG, dGF)
+    return sl, s0, (dF, dG, dGF), (th, tc)
 
 
 # ------------------------------------------------------------------------------------------------------------------
@@ -714,7 +759,7 @@ def fig5(t):
     gs = fig.add_gridspec(1, 2, width_ratios=[2.3, 1.0])
     ax = fig.add_subplot(gs[0, 0])
     for _, r in d.iterrows():
-        ax.plot([r.licensure_strict] * 2, [r.ci_lo, r.ci_hi], color=LGREY, lw=0.7, zorder=1)
+        ax.plot([r.licensure_strict] * 2, [r.ci_lo, r.ci_hi], color="#B0B0B0", lw=0.7, zorder=1)
     for _, r in d.iterrows():
         ax.scatter(r.licensure_strict, r.value, s=5 + 0.33 * r.n, color=fam_colour(r.cip2), edgecolor="#222222",
                    lw=0.35, zorder=3)
@@ -725,11 +770,11 @@ def fig5(t):
         r = d[d.field == f].iloc[0]
         if f == "accounting":        # the low-share cluster is dense: place this label in the clear strip below it
             ax.annotate(r.label, (r.licensure_strict, r.value), xytext=(0.004, 0.205), textcoords="data",
-                        fontsize=6.3, ha="left", va="center", fontweight="bold", path_effects=HALO,
+                        fontsize=6.3, ha="left", va="center", fontweight="normal", path_effects=HALO,
                         arrowprops=dict(arrowstyle="-", lw=0.4, color=DGREY, shrinkA=1, shrinkB=3))
             continue
         ax.annotate(r.label, (r.licensure_strict, r.value), xytext=(dx, dy), textcoords="offset points",
-                    fontsize=6.3, ha=ha, fontweight="bold" if f in ("special_education", "accounting") else "normal",
+                    fontsize=6.3, ha=ha, fontweight="normal",
                     arrowprops=dict(arrowstyle="-", lw=0.4, color=DGREY, shrinkA=0, shrinkB=2), path_effects=HALO)
     ax.axhline(0, color=BLACK, lw=0.6)
     ax.set_xlim(-0.02, 0.84)
@@ -870,6 +915,35 @@ def si_checks():
     print(f"(3) UK composition sample ({len(sc)} subjects): raw_c {sc[core].raw_c.mean():+.3f} (3 pay-scale) vs "
           f"{sc[~core].raw_c.mean():+.3f} ({int((~core).sum())} others); std_wp {sc[core].std_wp.mean():+.3f} vs "
           f"{sc[~core].std_wp.mean():+.3f}")
+    # (4) Scorecard coverage along the academia-wide hierarchy (the scripts/01 definition), matched cells, CIP-4 count
+    from src.load_ar import load_ar_wapman
+    from src.load_er import load_er_scorecard
+    from src.crosswalks.institutions import normalize_institution_name
+    spec28 = importlib.util.spec_from_file_location("s28", ROOT / "scripts" / "28_field_vs_generic_prestige.py")
+    s28 = importlib.util.module_from_spec(spec28)
+    spec28.loader.exec_module(s28)
+    F66 = s28.FIELDS66
+    rk = pd.read_csv(ROOT / "data" / "raw" / "wapman2022" / "ranks.csv")
+    acad = rk[rk.TaxonomyLevel == "Academia"].copy()
+    acad["inst_key"] = acad.InstitutionName.map(normalize_institution_name)
+    acad["pq"] = pd.qcut(acad.Rank, 4, labels=["Q1 (top)", "Q2", "Q3", "Q4 (bottom)"])
+    print(f"(4) Scorecard coverage of the {len(acad)} rows with a published academia-wide rank "
+          f"(quartile sizes {', '.join(str(v) for v in acad.pq.value_counts(sort=False).values)})")
+    for lab, fl in [("scripts/01 30-field map", None), ("66-field map (scripts/28 FIELDS66)", F66)]:
+        scd = load_er_scorecard("undergrad", fields=fl)
+        acad["in_sc"] = acad.inst_key.isin(set(scd.inst_key))
+        g = acad.groupby("pq", observed=True).in_sc.agg(["sum", "count", "mean"])
+        print(f"    {lab}: {scd.field.nunique()} fields; all {int(acad.in_sc.sum())}/{len(acad)} "
+              f"({acad.in_sc.mean() * 100:.1f}%); " + "; ".join(
+                  f"{q} {int(r_['sum'])}/{int(r_['count'])} ({r_['mean'] * 100:.1f}%)" for q, r_ in g.iterrows()))
+        if fl is not None:
+            ar = load_ar_wapman(fields=fl)
+            mm = ar.merge(scd, on=["field", "inst_key"])
+            cnt = mm.groupby("field").inst_key.nunique()
+            print(f"    matched institution-by-field cells {len(mm)} at {mm.inst_key.nunique()} institutions; "
+                  f"fields with n >= 15: {int((cnt >= 15).sum())}, n >= 8: {int((cnt >= 8).sum())}")
+    cip4 = {c for f in F66 for c in f["cip4"]}
+    print(f"    distinct CIP-4 codes in the 66-field map: {len(cip4)} ({len(F66)} fields)")
 
 
 def main():

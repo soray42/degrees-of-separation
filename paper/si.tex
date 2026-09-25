@@ -1,9 +1,8 @@
 \documentclass[11pt]{article}
 % Degrees of separation -- Supplementary Information.
-% Every number is copied from the result write-up of a seeded script in the repository (scripts 01--64),
+% Every number is copied from the result write-up of a seeded script in the repository (scripts 01--75),
 % from its interim tables, or was computed for this SI by code run on those tables
-% (scripts/70_paper_figures.py --si-checks, or, for two coverage checks, code not yet in the repository);
-% the source is named in the text or in the table notes.
+% (scripts/70_paper_figures.py --si-checks); the source is named in the text or in the table notes.
 \usepackage[margin=1in]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -62,10 +61,12 @@ departmental hierarchy}
 
 \noindent This Supplementary Information (SI) gives the methods and the robustness results behind the
 main text. Sections S1--S10 follow the order of the analyses: data and crosswalks (S1), prestige measures
-(S2), the coupling estimator and its heterogeneity (S3), selectivity designs and the specification curve
-(S4), the UK prior-attainment analysis (S5), career time (S6), licensing and employer setting (S7), tail
-outcomes (S8), the power of every reported null (S9) and earnings as a placement measure (S10). Every
-analysis is descriptive. Nothing here identifies value added, selection or employer screening.
+(S2), the coupling estimator, its heterogeneity and the reliability of the earnings medians (S3), selectivity
+designs, selectivity dated to entry years, field-specific local demand, admission routes and the specification
+curve (S4), the UK prior-attainment analysis and its robustness (S5), career time, the graduation-window surface,
+entry conditions, graduate study and status loadings (S6), licensing and employer setting (S7), tail outcomes
+(S8), the power of the reported nulls and the hypotheses examined (S9) and earnings as a placement measure (S10).
+Every analysis is descriptive. Nothing here identifies value added, selection or employer screening.
 
 \tableofcontents
 \bigskip
@@ -98,18 +99,35 @@ intervals from resampling whole CIP-2 families. The interval type is named where
 cross-field means of Scorecard statistics use a joint institution bootstrap (institutions resampled once
 per draw for every field, so dependence between fields that share institutions is kept). Within-institution
 slopes use an institution cluster (pairs) bootstrap. PSEO career-time statistics use the two-way (field,
-institution) cluster variance, with the crossed field-by-institution bootstrap beside it
-(Section~\ref{sec:intervals}). UK statistics resample subjects and then providers within subject. Field-level
-moderators are tested by field-label permutation and by the CIP-2 family bootstrap.
+institution) cluster variance \citep{cameron2011robust}, with the crossed field-by-institution bootstrap beside it
+(Section~\ref{sec:intervals}); several later analyses report the two-way variance for Scorecard statistics as
+well, and say so. UK statistics resample subjects and then providers within subject (two-stage), or use the
+two-way (subject, provider) variance where stated. Tests clustered by state use the wild cluster bootstrap
+\citep{cameron2008bootstrap} with Webb weights \citep{webb2023reworking}. Field-level moderators are tested by
+field-label permutation and by the CIP-2 family bootstrap. A minimum detectable effect (MDE) is the smallest true
+effect with 80\% power in a two-sided 5\% test.
 
-\paragraph{Provenance.} Each number is produced by a seeded script in the repository (\scr{NN}, where NN is
-the script number). Table~\ref{tab:scriptmap} maps the SI sections to the scripts. Numbers marked
-\emph{legacy} come from committed scripts that predate the canonical specification and were not re-run on it.
-Numbers marked \emph{SI check} were computed for this SI by code run on the repository's data and tables:
-most by \texttt{scripts/70\_paper\_figures.py --si-checks} (its header lists them), and the 66-field
-Scorecard coverage column of Table~\ref{tab:coverage} and the count of CIP-4 codes by code that is not yet in
-the repository. The code reproduces published values where they overlap. The repository also holds earlier
-exploratory scripts whose analyses are not reported here.
+\paragraph{Provenance.} Each number is produced by a seeded script (\scr{NN}, where NN is the script number).
+Table~\ref{tab:scriptmap} maps the SI sections to the scripts. At the time of writing, \scr{67}--\scr{69} and
+\scr{72}--\scr{75} and the current versions of \scr{65} and \scr{70} are not yet in the public repository; they will
+be added in a tagged release. Numbers marked \emph{legacy} come from committed scripts that predate the canonical
+specification and were not re-run on it. Numbers marked \emph{SI check} were computed for this SI by
+\texttt{scripts/70\_paper\_figures.py --si-checks}, whose header lists them; they include both Scorecard coverage
+columns of Table~\ref{tab:coverage} and the count of CIP-4 codes, and they reproduce published values where the two
+overlap. The analyses of \scr{65}--\scr{69} and \scr{72}--\scr{75} were added after the main analyses. Each wrote
+its tests, samples and reading rules into its docstring before estimation, a timing that is self-reported (the
+scripts were not committed before their first runs). Changes made after a first run are labelled exploratory or
+post hoc, and the following are listed here: \scr{65} added placebo windows and a $G\times$window-trend version of
+its entry-condition test after a development run; \scr{66} added, after its first run, a guard that replaces a
+two-way variance below its field part by the larger one-way variance (97 of 680 statistics; no verdict changes), two
+sensitivity intervals and the benchmark for the partial forms; \scr{67} added the proportional-mechanism benchmark
+of Section~\ref{sec:gradshare} in its first revision; \scr{68}'s pre-set margin for the within-cohort slope is one
+third of the raw slope, not of the controlled slope its rule text names, and both readings are reported; \scr{73}
+changed its primary correction to the normal-score scale after the per-field reliabilities were computed and before
+any test statistic, and an interrupted first build printed its tests once before the reported run; \scr{74}
+unified its coding rules after the first estimates (Section~\ref{sec:csadmit}); and \scr{75}'s tests were
+registered only by a self-attested digest, written after most results had been seen. The repository also holds
+earlier exploratory and withdrawn analyses (\scr{01}--\scr{51}) that are not reported here.
 
 \begin{table}[!tbp]
 \centering
@@ -119,17 +137,17 @@ exploratory scripts whose analyses are not reported here.
 \toprule
 SI section & Scripts & Outputs \\
 \midrule
-S1 Data and crosswalks & 01, 24, 28, 55, 59, 60, 62 & coverage and matching counts \\
-S2 Prestige measures & 56, 62; legacy 09--11, 15--19 & \texttt{data/interim/prestige\_reliability.csv} \\
-S3 Coupling and heterogeneity & 02/08, 57 & \texttt{outputs/expanded66\_gap\_map.csv}, \texttt{data/interim/icc\_threelevel.csv} \\
-S4 Selectivity designs & 55, 58 & \texttt{data/interim/selectivity\_fields.csv}, \texttt{selectivity\_deep.csv} \\
-S5 UK LEO & 62 & \texttt{data/interim/uk\_leo\_*.csv} \\
-S6 Career time & 52, 59; legacy 32 & \texttt{data/interim/career\_time\_coupling.csv}, \texttt{pseo\_refresh.csv} \\
+S1 Data and crosswalks & 01, 24, 28, 55, 59, 60, 62, 70 & coverage and matching counts \\
+S2 Prestige measures & 56, 62, 75; legacy 09--11, 15--19 & \texttt{data/interim/prestige\_reliability.csv}; \texttt{THEORY\_TESTS} outputs of \scr{75} \\
+S3 Coupling, heterogeneity, earnings reliability & 02/08, 57, 73 & \texttt{outputs/expanded66\_gap\_map.csv}, \texttt{data/interim/icc\_threelevel.csv}, \texttt{earnings\_reliability*.csv} \\
+S4 Selectivity designs & 55, 58, 68, 69, 74 & \texttt{data/interim/selectivity\_fields.csv}, \texttt{selectivity\_deep.csv}, \texttt{era\_selectivity.csv}, \texttt{local\_field\_demand*.csv}, \texttt{cs\_admission\_*.csv} \\
+S5 UK LEO & 62, 72 & \texttt{data/interim/uk\_leo\_*.csv}, \texttt{uk\_robustness\_*.csv} \\
+S6 Career time & 52, 59, 65, 66, 67, 75; legacy 32 & \texttt{data/interim/career\_time\_coupling.csv}, \texttt{pseo\_refresh.csv}, \texttt{coupling\_dynamics\_results.csv}, \texttt{employer\_learning\_loadings.csv}, \texttt{gradschool\_timing.csv} \\
 S7 Licensing and setting & 61, 63, 64; legacy 20, 35c & \texttt{data/interim/licensing\_battery.csv}, \texttt{hierarchical\_power.csv}, \texttt{flows\_placement.csv} \\
 S8 Tail outcomes & 60; 59 (quantiles) & \texttt{data/interim/oi\_tail.csv} \\
 S9 Power of the nulls & 63 (bounds); 50, 51, 52, 53, 58 & \texttt{data/interim/hierarchical\_power.csv} \\
 S10 Placement proxy & 61; legacy 35a, 35b & \texttt{data/interim/er\_axis\_35a\_proxy\_by\_horizon.csv}, \texttt{er\_axis\_35b\_deferral.csv} \\
-Main-text figures; SI checks & 70 & \texttt{outputs/figures/paper\_fig1}--\texttt{5}; printed SI-check values \\
+Main-text figures; SI checks & 70 & \texttt{outputs/figures/paper\_fig1}--\texttt{5}; printed SI-check values (0)--(4) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -142,33 +160,42 @@ All inputs are public. Table~\ref{tab:sources} lists each source with its releas
 documents how the sources are joined, which institutions and fields enter each analysis, and how coverage
 varies along the prestige hierarchy.
 
-\begin{table}[!tbp]
-\centering
+{\footnotesize
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{5.4cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.6cm}@{}}
 \caption{Data sources, releases and roles. Access dates and file checksums are recorded in
-\texttt{data/raw/SOURCES.md} of the repository.}\label{tab:sources}
-\footnotesize
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{5.4cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.6cm}@{}}
+\texttt{data/raw/SOURCES.md} of the repository.}\label{tab:sources}\\
 \toprule
 Source & Release and content used & Role & Sections \\
 \midrule
+\endfirsthead
+\multicolumn{4}{@{}l}{\small Table~\ref{tab:sources} (continued)}\\
+\toprule
+Source & Release and content used & Role & Sections \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
 Faculty-hiring data \citep{wapman2022data} & Zenodo v1 (2022-07-29): published SpringRank ordinal ranks at the field and academia-wide levels (\texttt{ranks.csv}); public edge list; 2011--2020 hires & $F$, $G$; reliability & S1--S4, S6--S8 \\
 College Scorecard, Field of Study \citep{scorecard} & ``Most recent'' files updated 2026-06-10; 227,980 rows, 178 columns; bachelor's rows (\texttt{CREDLEV} 3); medians at 4 years (canonical), 1 and 5 years (replications) & $Y$ (canonical) & S1, S3, S4, S7, S9 \\
-College Scorecard, institution file \citep{scorecard} & ``Most recent'' file, 6,273 institutions; \texttt{SAT\_AVG}, \texttt{ADM\_RATE}, \texttt{PCTPELL}, \texttt{CONTROL}, \texttt{MD\_EARN\_WNE\_P10}, state & selectivity and composition controls & S4, S7 \\
-PSEO earnings \citep{pseo} & V4.13.0 (2025Q4; 952 institutions, 33 partner jurisdictions) canonical; V4.14.1 (2026Q2; 1,117 institutions, 38 jurisdictions) re-check; p25, p50, p75 at y1, y5, y10 by 3-year cohort & replication; career time; quantiles & S1, S3, S6, S10 \\
-PSEO Flows \citep{pseo} & institution $\times$ CIP-2 $\times$ NAICS sector counts of employed graduates (V4.13.0; V4.14.1 as a release check) & placement shares $S$, $M$ & S7, S10 \\
-DfE, ``Graduate outcomes (LEO): provider level data'', 2022-23 release (Explore Education Statistics) & provider $\times$ CAH2 $\times$ cohort $\times$ YAG 1/3/5 medians (tax years 2015/16--2022/23), all graduates and by prior-attainment band & UK earnings & S5, S7 \\
-ORCID-derived academic mobility edges, Zenodo doi:\allowbreak\,10.5281/\allowbreak zenodo.19651302, version 20260419, built from ORCID public data \citep{orcid}; ROR data dump v2.8 (Zenodo record 20512981) & 11,987 PhD-to-faculty moves between institutions in Great Britain; ROR identifiers and name variants & UK prestige & S2, S5 \\
+College Scorecard, institution file \citep{scorecard} & ``Most recent'' file, 6,273 institutions; \texttt{SAT\_AVG}, \texttt{ADM\_RATE}, \texttt{PCTPELL}, \texttt{CONTROL}, \texttt{MD\_EARN\_WNE\_P10}, state & selectivity and composition controls & S4, S6, S7 \\
+College Scorecard, historical institution files \citep{scorecard} & raw-data archive of 10 June 2026, \texttt{MERGED} files 2001--02 to 2016--17, to 2023--24 for exploratory drift checks (read member by member) & selectivity dated to entry years & S4, S6 \\
+PSEO earnings \citep{pseo, pseo2026} & V4.13.0 (2025Q4; 952 institutions, 33 partner jurisdictions) canonical; V4.14.1 (2026Q2; 1,117 institutions, 38 jurisdictions) re-check and the analyses of \scr{65}--\scr{68} and \scr{73}; p25, p50, p75 at y1, y5, y10 by 3-year cohort & replication; career time; quantiles & S1, S3, S6, S10 \\
+PSEO Flows \citep{pseo, pseo2026} & institution $\times$ CIP-2 $\times$ NAICS sector counts of employed graduates (V4.13.0; V4.14.1 as a release check) & placement shares $S$, $M$ & S6, S7, S10 \\
+DfE, ``Graduate outcomes (LEO): provider level data'', 2022-23 release \citep{dfe_leo_provider} & provider $\times$ CAH2 $\times$ cohort $\times$ YAG 1/3/5 medians (tax years 2015/16--2022/23), all graduates and by prior-attainment band, sex and POLAR4 (marginal breakdowns) & UK earnings & S5, S7 \\
+ORCID-derived academic mobility edges \citep{li2026orcid}, built from ORCID public data \citep{orcid}; ROR data dump v2.8 \citep{ror2026data} & 11,987 PhD-to-faculty moves between institutions in Great Britain; ROR identifiers and name variants & UK prestige & S2, S5 \\
 Opportunity Insights college tables \citep{chetty2020income} & Mobility Report Card tables 2, 3, 10, 11 (1980--82 birth cohorts; earnings in 2014) & tail outcomes & S8 \\
-American Community Survey (U.S. Census Bureau) & 2023 1-year public-use microdata & licensed and sector shares by field; sector wages & S7, S9 \\
-Occupational prestige and underemployment by major & Condon occupational prestige ratings; New York Fed college labour-market data & placement validation (legacy) & S10 \\
-\bottomrule
-\end{tabular}
-\end{table}
+American Community Survey \citep{census_acs2023_pums} & 2023 1-year public-use microdata, person files and replicate weights & licensed and sector shares by field; graduate-degree shares; field $\times$ state earnings & S4, S6, S7, S9 \\
+Survey of Earned Doctorates \citep{ncses_sed_bacc}; IPEDS completions \citep{nces_ipeds} & research doctorates by baccalaureate institution and year; bachelor's completions & doctorate rate per graduate & S6 \\
+BLS Local Area Unemployment Statistics \citep{fred_laus} & state $\times$ month unemployment rate, seasonally adjusted & entry conditions & S6 \\
+Official university admissions pages & computer-science entry rules, saved with URL, access date and a verbatim quotation (September 2026) & restricted versus open entry & S4 \\
+Occupational prestige and underemployment by major & occupational prestige ratings of \citet{hughes2024occupational} \citep{condon2022prestige}; New York Fed college labour-market data \citep{nyfed2026labor} & placement validation (legacy) & S10 \\
+\end{longtable}
+}
 
 \subsection{Fields, the CIP map and the canonical US sample}\label{sec:fields}
 
-A curated map assigns 80 four-digit CIP codes to 66 fields of the faculty-hiring taxonomy (\scr{28}; count from the SI
-check). An earlier 54-field map was audited in \scr{24} (legacy): of the 27 taxonomy fields it lacked, 12 were
+A curated map assigns 80 four-digit CIP codes to 66 fields of the faculty-hiring taxonomy (\scr{28}; count from SI
+check (4)). An earlier 54-field map was audited in \scr{24} (legacy): of the 27 taxonomy fields it lacked, 12 were
 crosswalk misses and were recovered, 3 are finer splits of existing fields (cell biology, natural resources,
 information science), and 12 have no clean bachelor's earnings (graduate-only disciplines, or Scorecard cells
 suppressed for small fields). A field's earnings at an institution is the cohort-size-weighted mean of the
@@ -177,10 +204,13 @@ medians of its CIP-4 rows at the bachelor's level (weights are the earnings-coho
 Institutions are matched by a normalised name key between the published ranks and the Scorecard institution
 names; the Scorecard \texttt{UNITID} then joins the institution file. The match gives 3,527
 institution-by-field cells at 227 institutions in the 66 fields, and every cell joins the institution file
-(\scr{55}; the cell and institution counts are reproduced by the SI check). 57 fields have at least 8 matched institutions (3,500 cells); they are
+(\scr{55}, Method; both counts are reproduced by SI check (4)). 57 fields have at least 8 matched institutions (3,500 cells); they are
 used for the heterogeneity, reliability and three-level statistics (\scr{56}, \scr{57}), the cross-source
 comparison (Section~\ref{sec:crosssource}) and three rows of the specification curve. 52 fields have at least
-15 (3,444 cells; median 48 institutions per field, range 15--173; \scr{55} field table). This is the canonical
+15 (3,444 cells; median 48 institutions per field, range 15--173; \scr{55} field table). The name join is
+exact after normalisation, so institutions whose Scorecard names carry a campus or city qualifier that the
+published ranks omit are lost: of the 50 highest-ranked computer-science departments, 9 are lost this way and 2
+more are not matched by the name rules (\scr{74}; Section~\ref{sec:csadmit}). This is the canonical
 sample, fixed before the manuscript was drafted, after the analyses had been run: published field ranks,
 Scorecard four-year medians, the curated CIP-4 map, and fields with at least 15 institutions.
 Section~\ref{sec:speccurve} collects the alternatives.
@@ -227,8 +257,8 @@ All & 256 (69.0\%) & 257 (69.3\%) & 108 (29.1\%) & 131 (35.3\%) & 135 (36.4\%) &
 
 \smallskip
 \begin{minipage}{0.97\textwidth}\footnotesize
-Sources: 30-field Scorecard column, SI check re-running the \scr{01} definition (the shares equal the
-published 74.2, 64.5, 71.7 and 65.6\%); 66-field column, SI check (code not yet in the repository); PSEO
+Sources: both Scorecard columns, SI check (4) re-running the \scr{01} definition (the 30-field shares equal the
+published 74.2, 64.5, 71.7 and 65.6\%); PSEO
 columns, \scr{59} (\texttt{pseo\_refresh.csv}, section \texttt{coverage\_readme\_def}). By the \scr{59} definition (a usable released y5 cell whose field has a published field rank at that
 institution; 369 ranked institutions, quartiles 93/92/92/92) the top-quartile counts are 20 (V4.13.0) and 26
 (V4.14.1), and the bottom-quartile counts 30 and 35.
@@ -258,7 +288,7 @@ aliases: 4 for added institutions (the three Rutgers campuses and the University
 19 for institutions already in V4.13.0, among them Stony Brook, Buffalo, Iowa State, Missouri, Albany,
 Louisiana State, South Carolina and Hawaii. Joined, the 19 would add 2,244 usable y5 cells to the 14,033 in use
 and 1,151 fixed-cohort y10 cells to 6,934. With all 23 aliases the fixed-cohort panel has 137 institutions,
-149 cells and 42 fields, and the all-field career-time slope is $+0.031$ per year (crossed bootstrap
+149 cells and 42 fields, and the all-field within-cohort slope is $+0.031$ per year (crossed bootstrap
 \ci{+0.018}{+0.042}). No career-time statement changes status in any alias variant
 (Section~\ref{sec:refresh}). The aliases are not canonical, because every other script in the analysis uses the canonical join.
 
@@ -305,9 +335,9 @@ four fields (nursing, communication disorders, accounting, civil engineering).
 The paper uses the published ranks, not a SpringRank rebuilt from the public edge list, because the
 public edges reproduce the published field ranks only partly. The published ranks' sampling reliability can
 therefore only be bracketed, and every comparison of the couplings $c_F$ and $c_G$ in \scr{56} is reported at
-both ends of the bracket. Other comparisons of $F$ with $G$ are not reliability-corrected: the career-time
-loadings $d_F$ and $d_G$ (Section~\ref{sec:bfbg}), the horse-race shares (Section~\ref{sec:horse}) and the
-mirror statistic (Section~\ref{sec:fieldspecific}).
+both ends of the bracket, as are the career-time loadings $d_F$ and $d_G$ with $F$ corrected
+(\scr{67}; Section~\ref{sec:bfbg}). The horse-race shares (Section~\ref{sec:horse}) and the mirror statistic
+(Section~\ref{sec:fieldspecific}) are not reliability-corrected.
 
 \subsection{Published ranks and public-edge SpringRank}\label{sec:springrank}
 
@@ -331,7 +361,7 @@ signal.
 Split-half reliability is measured on the public edges. Each person on an edge is assigned to one half with
 probability one half; SpringRank ($\alpha=10^{-3}$) is estimated on each half; the Spearman correlation of the
 halves over the analysis institutions is averaged over 200 seeded splits and stepped up with the
-Spearman--Brown formula. The reliability of $F$ uses the field network on the field's analysis institutions;
+Spearman--Brown formula \citep{spearman1910correlation, brown1910some}. The reliability of $F$ uses the field network on the field's analysis institutions;
 the reliability of $G$ uses the academia-wide network on the same institutions, so range restriction is
 matched. Two scenarios bracket the published rank:
 \begin{itemize}
@@ -413,20 +443,36 @@ PhD placement while $Y$ describes bachelor's graduates, are not measurement erro
 Narrowing the bracket would need person-level hiring records without the single-pair suppression; more earnings
 data would not help, because the unknown is on the prestige side.
 
+\subsection{Does field prestige measure doctoral production?}\label{sec:production}
+
+SpringRank orders departments by the direction of hiring exchange, but departments that produce many PhDs also
+place many, so $F$ may partly measure size or research output. \scr{75} audits this on the public field edges and
+IPEDS 2023 research doctorates \citep{nces_ipeds}. The audit is post hoc: its registration is a self-attested
+digest, not a public deposit before the run, and it was written after most results had been seen. Within fields,
+$F$ correlates on average $+0.441$ \ci{+0.387}{+0.497} with log research doctorates, $+0.405$ \ci{+0.366}{+0.444}
+with the net export ratio of hires, $+0.664$ with the placement rate and $+0.769$ with the published production rank
+(field bootstrap). Replacing $F$ by a degree-corrected rank keeps 0.839 \ci{0.743}{0.936} of mean coupling, and
+residualising $F$ on log doctorates and the export ratio keeps 0.598 \ci{0.471}{0.725} (two-way intervals; 56
+fields, 2,628 cells); the registered reading is ``partly production''. It bounds the production share from above:
+the degree-corrected rank still carries the export ratio, and residualising on the export ratio also removes net
+export that valuation itself produces. For $G$, degree correction barely changes mean coupling ($-0.013$
+\ci{-0.056}{+0.030}). A within-institution slope with the department's own doctoral output as an added control was
+not estimated.
+
 \subsection{The UK academia-wide hiring hierarchy}\label{sec:ukprestige}
 
 UK prestige $G$ is one SpringRank ($\alpha=10^{-3}$) over all 11,987 PhD-to-faculty moves between institutions
-in Great Britain in the ORCID-derived academic mobility edges (Zenodo doi:10.5281/zenodo.19651302, version
-20260419), which are built from ORCID public records \citep{orcid} with organisations resolved to ROR
-identifiers (one edge per person, the first faculty job; 551 institutions keyed by ROR identifier;
-self-hires dropped; \scr{62}). Institutions are matched to LEO providers through the name variants of the ROR
-data dump v2.8 (Zenodo record 20512981): 149 of 171 LEO higher education institutions match, and 134 form the
+in Great Britain in the ORCID-derived academic mobility edges \citep[version 20260419;][]{li2026orcid}, which are
+built from ORCID public records \citep{orcid} with organisations resolved to ROR identifiers (one edge per person,
+the first faculty job; 551 institutions keyed by ROR identifier; self-hires dropped; \scr{62}). Institutions are
+matched to LEO providers through the name variants of the ROR data dump v2.8 \citep{ror2026data}: 149 of 171 LEO
+higher education institutions match, and 134 form the
 primary sample (Section~\ref{sec:ukdata}). The median first-faculty-job year of the edges is 2014. Among the 134
 primary providers, Russell Group members sit at a mean percentile of 0.859 against 0.430 for other providers
 (AUC 0.928; 18 of 23 members in the top quartile). Across 200 person-level bootstrap resamples the median
 Spearman correlation with the full-sample ranking is 0.961 (5th percentile 0.944). Across 100 random splits of
 persons the median correlation between half-network rankings is 0.850, and 0.919 after the Spearman--Brown
-step-up. $G$ built from post-2000 hires only correlates $+0.994$ with $G$. $G$ correlates $+0.714$ across 133
+step-up \citep{spearman1910correlation, brown1910some}. $G$ built from post-2000 hires only correlates $+0.994$ with $G$. $G$ correlates $+0.714$ across 133
 providers with intake selectivity, the institution's share of graduates who entered with at least 360 UCAS
 tariff points.
 
@@ -437,16 +483,19 @@ within-subject Spearman between the two axes $+0.542$). Because the field-tagged
 that it is no better than $G$, not that field prestige is worse in truth.
 
 These checks are internal. Against an external standard the evidence is indirect: in the US, an academia-wide
-ranking rebuilt from ORCID records agreed with the census-based published ranks at $\rho=0.74$
+ranking rebuilt from the ORCID-derived edges agreed with the census-based published ranks at $\rho=0.74$
 (Section~\ref{sec:validation}), so an ORCID-based hierarchy may measure standing less validly than a
 census-based one. Validity error in $G$ would shift weight in the UK partial correlations from $G$ to the
-correlated intake-selectivity measure (Section~\ref{sec:ukselectivity}).
+correlated intake-selectivity measure; Section~\ref{sec:ukrobust} bounds the UK results for validities of 0.74 to
+0.92.
 
 \subsection{Validation history (legacy)}\label{sec:validation}
 
 Earlier scripts validated the prestige pipeline; they predate the canonical specification and are not re-run on
-it. A from-scratch SpringRank on the public edges reproduced the published ranks at $\rho\approx0.77$
-(\scr{09}); an academia-wide ranking rebuilt from ORCID records reproduced the published academia-wide ranks at
+it. Apart from the ORCID agreement of 0.74, which the main text uses only as a validity benchmark for the UK
+hierarchy, no statement in the main text rests on this subsection. A from-scratch SpringRank on the public edges reproduced the published ranks at $\rho\approx0.77$
+(\scr{09}); an academia-wide ranking rebuilt from the ORCID-derived mobility edges \citep{li2026orcid} reproduced
+the published academia-wide ranks at
 $\rho=0.74$, against 0.91 for SpringRank on the public edge list (\scr{10}--\scr{11}); and research-field tags from
 OpenAlex \citep{priem2022openalex} did not improve on degree-text tagging of ORCID careers (mean $\rho$ 0.515 against 0.551; 0.515
 against 0.517 after removing leakage; \scr{15}--\scr{19}). The current bracket (Section~\ref{sec:bracket})
@@ -458,7 +507,8 @@ supersedes these checks for the published ranks.
 
 Coupling varies across fields well beyond sampling error, and it rises with the number of institutions that
 teach a field. A discipline (CIP-2) component is detected without adjustment but is borderline once field size
-is held fixed, so the paper shows the discipline pattern only as a descriptive map (\scr{57}).
+is held fixed (stronger once the noise of the program medians is propagated, Section~\ref{sec:earnrel}), so the
+paper shows the discipline pattern only as a descriptive map (\scr{57}).
 
 \subsection{Estimator}\label{sec:estimator}
 
@@ -487,13 +537,14 @@ reliable subset (for example Table~\ref{tab:speccurve}).
 
 On the Fisher-$z$ scale with sampling variance $1/(n_f-3)$, Cochran's $Q=183.2$ on 56 degrees of freedom
 ($p=2.0\times10^{-15}$) and $I^2=0.694$ across the 57 fields; with the joint-bootstrap error correlations the
-generalised $Q$ is 184.1. With the Bonett--Wright variance for Spearman correlations, $(1+\rho^2/2)/(n_f-3)$,
+generalised $Q$ is 184.1. With the Bonett--Wright variance for Spearman correlations \citep{bonett2000sample}, $(1+\rho^2/2)/(n_f-3)$,
 $I^2$ is 0.666, and with each field's bootstrap interval it is 0.673 (\scr{57}). These variances count
 institution sampling only. Noise in the program medians that institution resampling does not capture (small
 earnings cohorts) attenuates $\rho_f$ by field-specific amounts and is counted as heterogeneity; the
 within-field agreement of the two US earnings sources, which ranges from $+0.19$ to $+0.95$
-(Section~\ref{sec:crosssource}), suggests that earnings reliability does differ by field. With the log median
-earnings-cohort size as a moderator the cluster statistic barely moves ($\text{LR}_c$ 7.84 against 7.68). The
+(Section~\ref{sec:crosssource}), suggests that earnings reliability does differ by field;
+Section~\ref{sec:earnrel} propagates that noise. With the log median earnings-cohort size as a moderator the
+cluster statistic barely moves ($\text{LR}_c$ 7.84 against 7.68). The
 pooled coupling of the three-level model is 0.449. Coupling rises with $n$, the
 number of matched institutions: Spearman$(z,n)=0.43$ ($p=7.5\times10^{-4}$) across 57 fields and 0.45 across the
 reliable 20. The slope of $z$ on $\log n$ is 0.163 (SE 0.043) with a field random effect only and 0.080 (SE
@@ -535,6 +586,75 @@ size-preserving permutation null on the same 57 fields ($p=0.0626$ and $0.0606$ 
 measurement-corrected versions) and are not used. Without a field term, a two-level model loads any field
 heterogeneity onto whatever grouping is supplied: its cluster LR is 68.1, but random partitions of the same
 sizes reach 50.8 at their 95th percentile.
+
+\subsection{Reliability of the earnings medians}\label{sec:earnrel}
+
+Institution resampling counts the sampling of institutions but not the sampling noise of each program's median,
+which plausibly differs by field. \scr{73} propagates that noise (Table~\ref{tab:earnrel}). This analysis is secondary
+and has not yet had an independent verification. Its three tests and reading rules were fixed in its docstring
+before any test statistic was computed; one amendment, the primary correction on the normal-score scale, was made
+after the per-field reliabilities had been computed and before any test statistic, and an interrupted first build
+printed the three tests once before the reported run, which keeps their definitions and reading rules.
+A Scorecard program median rests on a median of 64 earners (10th percentile 22), and its standard error is
+approximated as $\sqrt{\pi/2}\,\sigma/\sqrt{n}$ with $\sigma$ the interquartile range over 1.349; because Scorecard
+releases no within-program spread, each field's median relative interquartile range is borrowed from PSEO
+V4.14.1. The approximate standard error is 5.7\% of the median (10th--90th percentile 2.9--11.0\%). The share of a
+field's cross-institution variance of log earnings that is not sampling noise, its earnings reliability $R_f$,
+has quartiles 0.61, 0.78 and 0.89 across the 57 fields (range 0.21 to 0.99). Couplings are disattenuated on the
+normal-score scale, $r=2\sin(\pi\rho/6)$, by $\sqrt{R_f}$, and the primary variance adds the noise variance of each
+coupling to $1/(n-3)$, which double-counts part of it and is conservative.
+
+Part of the heterogeneity remains: $I^2$ falls from 0.692 to 0.506 on the same scale (ratio 0.731, two-way
+interval \ci{0.445}{1.017}; pre-set reading ``part of $I^2$ remains''), and with disattenuation alone the ratio is
+0.854 \ci{0.670}{1.037}. At the lower end of the interval at most 56\% of $I^2$ is lost. The field ordering survives
+(Spearman of corrected with uncorrected coupling $+0.946$ \ci{+0.893}{+0.999}; rule: estimate and lower bound at
+least 0.80), with a mean absolute rank change of 3.5 of 57 places; mean coupling rises from $+0.401$ to $+0.468$.
+None of the 20 fields classified by \scr{52}'s baseline rule changes band. In \scr{57}'s three-level model the CIP-2
+component is unchanged by the correction ($\tau^2_c$ 0.0178 before and after on this scale) while the
+within-cluster field component falls from 0.0067 to 0.0000 \ci{0.0000}{0.0115}; the cluster test strengthens
+($\text{LR}_c$ 7.74 to 9.73; with $\log n$ as a moderator the label-permutation $p$ goes from 0.031 to 0.015).
+The discipline map therefore does not rest on fields with noisy medians, but it remains descriptive: the field-size
+confound and the modest power of the cluster test (0.48 at a true ICC of 0.50 after correction) are unchanged.
+
+On the PSEO fixed cohorts, where each program's own quartiles are released, the reliability of the medians is
+0.756, 0.736 and 0.740 at y1, y5 and y10 (y10 minus y1 $-0.016$ \ci{-0.066}{+0.035}), so it does not change
+detectably with years since graduation. On the 130 cells (39 fields) with reliability at least 0.3 at every
+horizon, the within-cohort slope is $+0.0305$ per year uncorrected and $+0.0352$ \ci{+0.0221}{+0.0483} disattenuated
+(difference $+0.0047$ \ci{+0.0004}{+0.0091}; exploratory, the gate and a floor on resampled reliabilities were set
+after the per-cell reliabilities were seen). Correcting for earnings noise does not shrink the rise.
+
+\begin{table}[!tbp]
+\centering
+\caption{Earnings-noise reliability of within-field coupling (\scr{73}; secondary, not yet independently verified;
+57 fields; normal-score scale; two-way (field, institution) 95\% intervals with reliabilities held at their
+estimates; three-level rows: profile-likelihood intervals). V0: institution sampling only;
+V1: plus the noise variance of each coupling; V2 (primary): disattenuated coupling with its full variance; V2a:
+disattenuation only.}\label{tab:earnrel}
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.6cm}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{5.2cm}@{}}
+\toprule
+Quantity & Estimate & 95\% interval \\
+\midrule
+$I^2$, V0 / V1 / V2 / V2a & 0.692 / 0.618 / 0.506 / 0.591 & V2: \ci{0.230}{0.783} \\
+Ratio $I^2(\text{V2})/I^2(\text{V0})$ (pre-specified T1) & 0.731 & \ci{0.445}{1.017} \\
+Ratio, disattenuation only (V2a) & 0.854 & \ci{0.670}{1.037} \\
+Ratio, on the 20 reliability-flagged fields & 0.912 & \ci{0.732}{1.092} \\
+Spearman(corrected, uncorrected coupling) (pre-specified T2) & $+0.946$ & \ci{+0.893}{+0.999} \\
+Mean corrected minus mean uncorrected coupling ($\rho$ scale) & $+0.067$ & \ci{+0.040}{+0.094} \\
+Classified fields that change band (pre-specified T3) & 0 of 20 & --- \\
+Cochran $Q$, V2 & 113.4 (56 df) & $p=9.0\times10^{-6}$ \\
+Three-level model, V2: $\tau^2_c$ / $\tau^2_{\text{field}}$ & 0.0178 / 0.0000 & \ci{0.0054}{0.0458} / \ci{0.0000}{0.0115} \\
+PSEO within-cohort slope, gated cells: uncorrected / disattenuated (exploratory) & $+0.0305$ / $+0.0352$ & \ci{+0.0203}{+0.0407} / \ci{+0.0221}{+0.0483} \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\begin{minipage}{0.97\textwidth}\footnotesize
+Exploratory standard-error variants (lognormal; national CIP-4 spread; the program's own PSEO spread; adding the
+documented differential-privacy perturbation of the released medians) give T1 ratios of 0.634 to 0.723 and T2
+correlations of 0.898 to 0.943; one variant moves philosophy, another teacher education, across a band boundary.
+\end{minipage}
+\end{table}
 
 \subsection{Descriptive map}\label{sec:map}
 
@@ -728,7 +848,7 @@ differences in fields with stronger selectivity gradient, so pure selection woul
 ordered like the baseline. Across the 23 large
 fields the baseline and selectivity gradient have a true-score correlation of $+0.94$. In a split-half regression
 across fields (outcome from one half on the baseline and on selectivity gradient from the other; ranks;
-one-sided Freedman--Lane permutation $p$), the broad partial loads on selectivity gradient ($+0.43$, $p=0.005$)
+one-sided Freedman--Lane permutation $p$ \citep{freedman1983nonstochastic}), the broad partial loads on selectivity gradient ($+0.43$, $p=0.005$)
 and not on the baseline ($+0.04$, $p=0.4$). The method is not neutral: in a calibration row whose outcome is the
 baseline itself (true weights 1 and 0), it still gives selectivity gradient $+0.29$ and the baseline $+0.39$,
 because selectivity gradient is measured more reliably (split-half reliability 0.85 against 0.73). What carries
@@ -742,18 +862,27 @@ Netting $G$ as well as selectivity leaves a small, borderline remainder (Table~\
 main field-specific specification, $\rho(F,Y\mid\text{broad}+G)$, has mean $+0.059$ \ci{+0.003}{+0.114} (44
 fields), REML random-effects mean $+0.076$ \ci{+0.031}{+0.121} (fields treated as independent), between-field SD
 $\tau=0.055$ (95\% upper bound 0.116; $Q$ $p=0.38$), and 2 of 44 fields above zero at 1.96 SE against about 1.1
-per tail expected by chance (none after Benjamini--Hochberg correction). Across the 10 specifications that net
+per tail expected by chance (none after Benjamini--Hochberg correction \citep{benjamini1995controlling}). Across the 10 specifications that net
 selectivity and $G$, the interval excludes zero in 4 and includes it in 6; point estimates run from $+0.041$ to
-$+0.140$ and no upper bound exceeds $+0.25$. The minimum detectable mean (80\% power) for the main specification is
+$+0.140$, and upper bounds reach at most $+0.252$. The minimum detectable mean (80\% power) for the main specification is
 0.079. Netting $G$ removes a clear part of the selectivity-adjusted coupling: $-0.080$ \ci{-0.142}{-0.018} on the
 same 44 fields. The mirror statistic, $G$ net of selectivity and $F$, is $+0.065$ \ci{-0.012}{+0.142}, about the
 same as $F$ net of selectivity and $G$ (difference $-0.006$ \ci{-0.120}{+0.109}). Because $G$ is built from the same
 hiring data pooled over fields, partialling it removes some genuinely field-specific variation too.
 
-Program composition does not change the remainder. The program's own Pell share (released for 1,746 of 3,527
-matched programs, mostly large ones) moves the partial by $+0.016$ \ci{-0.013}{+0.046} and the within-institution
-slope by $+0.0019$ \ci{-0.0022}{+0.0053}. Within Pell and within non-Pell graduates the fully controlled partial is
-$+0.049$ \ci{-0.046}{+0.144} and $+0.048$ \ci{-0.032}{+0.128} (24 fields).
+Controlling for the program's own Pell share (released for 1,746 of 3,527 matched programs, mostly large ones)
+moves the partial by $+0.016$ \ci{-0.013}{+0.046} and the within-institution slope by $+0.0019$
+\ci{-0.0022}{+0.0053}, but the slope is not the same for all aided graduates. On the 1,294 programs of the
+composition sample (141 institutions, 26 fields), the within-institution slope with a field-specific Pell-share
+control is $+0.0137$ \ci{+0.0027}{+0.0238} with the all-graduate median as outcome, $+0.0102$ \ci{-0.0024}{+0.0222}
+with the Pell-recipient median and $+0.0009$ \ci{-0.0123}{+0.0128} with the median of aided graduates without a Pell
+grant; the paired difference between the all-graduate and the non-Pell slopes is $+0.0129$ \ci{+0.0008}{+0.0243}
+(one of several comparisons, read as a hint), and between the all-graduate and the Pell-recipient slopes $+0.0035$
+\ci{-0.0079}{+0.0152}. Part of the all-graduate remainder may therefore be composition
+within the aided population, which a linear Pell-share control does not remove, and which fits selection within
+programs as well as department standing. In the partial-correlation design the two subgroups look alike: within
+Pell and within non-Pell graduates the fully controlled partial is $+0.049$ \ci{-0.046}{+0.144} and $+0.048$
+\ci{-0.032}{+0.128} (24 fields).
 
 The partial-correlation design has little power to detect cross-field differences in the remainder. Its
 split-half reliability is $+0.10$ ($p=0.17$), against $+0.47$ ($p=0.002$) for the selectivity-only partial; given
@@ -771,8 +900,9 @@ with $z(\cdot)$ standardised within field. Institution fixed effects absorb each
 the field-by-trait terms let the earnings slopes on selectivity, Pell share and $G$ differ by field, so $\beta$ is
 identified only from departments whose prestige differs from what their institution's traits imply.
 Institution fixed effects remove institution-wide averages only: they do not remove field-specific local
-labour demand or program-level differences in who enrols, and the only field-specific location control is the
-slope on the state earnings level (Table~\ref{tab:speccurve}, panel C).
+labour demand or program-level differences in who enrols. Field-specific slopes on the state earnings level and a
+field-by-state ACS earnings control address location (Table~\ref{tab:speccurve}, panel C;
+Section~\ref{sec:localdemand}).
 Institutions with one field and fields with fewer than 15 programs are dropped iteratively. Standard errors are
 CR1 clustered by institution; intervals come from an institution cluster bootstrap (999 draws) whose draws are
 shared across specifications on the same cells, so differences are paired.
@@ -781,8 +911,13 @@ Without institution fixed effects the pooled slope is $+0.084$ log points per SD
 0.006; 3,416 programs, 198 institutions); with them (specification a) $+0.0129$ \ci{+0.0048}{+0.0212}. With
 field-specific slopes on SAT, admission rate, Pell share and $G$ (main specification; 2,889 programs, 168
 institutions, 47 fields) it is $+0.0084$ \ci{+0.0000}{+0.0164} (2.5\% of draws at or below zero; CR1 SE 0.0039),
-against $+0.0851$ on the same cells with field fixed effects only: about 10\% of that slope remains. The
-alternatives are in Table~\ref{tab:speccurve}, panel C, and Figure~\ref{fig:seldeep} shows the design.
+against $+0.0851$ on the same cells with field fixed effects only: about 10\% of that slope remains. Under the
+two-way (field, institution) variance, which also counts the sampling of fields, the interval is
+\ci{-0.0012}{+0.0180} (\scr{69}); the analytic Cameron--Gelbach--Miller standard error \citep{cameron2011robust} is 0.0048 against 0.0039
+clustered by institution. Net of the institution and field fixed effects and the field-specific slopes, $z(F)$
+keeps a within-institution SD of 0.474 (21.3 rank places; 0.538 after within-institution demeaning alone), 0.446
+in computer science (27.5 rank places). The alternatives are in Table~\ref{tab:speccurve}, panel C, and
+Figure~\ref{fig:seldeep} shows the design.
 
 The per-field slopes $\beta_f$ differ when the field-specific selectivity and $G$ slopes are linear, but the
 difference is fragile.
@@ -827,7 +962,8 @@ $+0.13$ and $+0.11$ ($p=0.07$, $0.10$, $0.07$). The correlation is therefore not
 \subsection{Horse race}\label{sec:horse}
 
 Per field on the SAT sample, the rank of earnings is regressed on standardised ranks of $F$, selectivity (SAT,
-$-$admission rate), $G$ and institution-wide earnings, and $R^2$ is split by Shapley (general dominance) shares.
+$-$admission rate), $G$ and institution-wide earnings, and $R^2$ is split by Shapley (general dominance) shares
+\citep{budescu1993dominance, gromping2007estimators, shorrocks2013decomposition}.
 Across 47 fields the mean shares are 0.076 \ci{0.058}{0.093} for $F$, 0.173 \ci{0.146}{0.199} for selectivity, 0.086
 \ci{0.066}{0.106} for $G$ and 0.201 \ci{0.173}{0.230} for institution-wide earnings (mean $R^2$ 0.536); $F$ is the
 largest block in 2 fields, selectivity in 12, $G$ in 5 and institution-wide earnings in 28. $F$ minus $G$:
@@ -837,8 +973,7 @@ fields, of $G$ over $F$ in 14, and is undetermined in 25 (\scr{58}).
 
 \subsection{Sensitivity: coefficient stability and measurement error}\label{sec:oster}
 
-A coefficient-stability bound in the style of Oster (2019, \emph{Journal of Business \& Economic Statistics}
-37(2):187--204) puts the selection on unobservables needed to erase
+A coefficient-stability bound \citep{oster2019unobservable} puts the selection on unobservables needed to erase
 the main within-institution slope at 0.20 to 1.34 times the selection on the observed controls: 0.20 and 0.67
 with $R_{\max}=1$ (reference models without institution effects and with institution effects only), and 0.40 and
 1.34 with $R_{\max}=0.957$. It is below the usual benchmark of 1 in three of four settings. The bound assumes that
@@ -867,6 +1002,195 @@ average is $+0.0010$ \ci{-0.0082}{+0.0089} unweighted and $+0.0079$ \ci{-0.0017}
 horizon differences, 3 exclude zero, all showing a smaller remainder at one or five years than at four
 (\scr{58}).
 
+\subsection{Selectivity dated to the graduates' entry years}\label{sec:era}
+
+The controls above come from the 2026 ``most recent'' institution file: \texttt{SAT\_AVG} and \texttt{ADM\_RATE} of the
+fall-2024 entering class and the Pell share of 2023--24, a partly test-optional era. The Scorecard four-year earnings
+cohort pools completers of award years 2017--18 and 2018--19, who entered in falls 2014 and 2015 if they finished in
+four years. \scr{68} re-dates the controls with the historical institution files of the June 2026 raw-data archive
+(read member by member): SAT and admission rate as the mean of falls 2014 and 2015, Pell share of 2014--15 and
+2015--16 (``era-matched''), and a wide window of falls 2012--15 for slower completers. A PSEO cohort $c$ (graduates
+of $c$ to $c+2$) entered in falls $c-4$ to $c-2$; SAT and admission rates exist from fall 2001, so the within-cohort
+comparison uses cohorts 2004, 2007 and 2010 (cohort 2001 enters a sensitivity). State is not re-dated (the files
+back-fill it), and control is the same in both files for all common institutions. Three differences were fixed in
+advance: era-matched minus 2026 controls for the broad partial coupling, the main within-institution slope and the
+within-cohort slope of the partial coupling. The reading rule: ``differs'' if the 95\% two-way interval excludes zero;
+``equivalent within $\pm\delta$'' if the 90\% interval lies inside $\pm\delta$; otherwise ``inconclusive''. The
+pre-set margins are 0.05, 0.003 and 0.010 per year; the rule's text defines them as one third of the 2026-control
+estimate, which gives 0.043, 0.0030 and 0.0048 on the same programs or cells, and both readings are reported
+(Table~\ref{tab:era}).
+
+The two sets of controls rank institutions similarly for SAT (Spearman $+0.947$ \ci{+0.921}{+0.963}, 179
+institutions) and Pell share ($+0.913$), less so for admission rates ($+0.823$ \ci{+0.756}{+0.875}); for the PSEO
+entry windows the SAT correlation is 0.88--0.90 and the admission-rate correlation 0.45--0.47, partly because the
+PSEO institutions are a different, public-heavy set (over falls 2001--2008 the admission-rate correlation is
+0.42--0.52 on the PSEO institutions and 0.65--0.72 on the Scorecard institutions). None of the three primary
+differences has an interval that excludes zero. At the pre-set margins the level and the within-cohort slope are
+equivalent and the within-institution slope is inconclusive; at one third of the 2026-control estimate only the
+level is equivalent. The firm within-cohort result is the comparison with the raw slope: net of era-matched SAT and
+admission rate the slope of coupling is 0.39 of the raw slope on the same 109 cells. Along the ladder, the step
+with Pell share, control and state level differs ($-0.040$ \ci{-0.073}{-0.007}): the era-matched Pell share removes
+more of the coupling; the steps with SAT and admission rate do not differ. For 55 of the 105 statistics the two-way
+variance is below one of its one-way parts; with the conservative variance (the largest of the three), the
+era-matched main within-institution interval is \ci{-0.0004}{+0.0167}; no primary reading changes at the pre-set
+margins, and at one third of the 2026-control estimate the level becomes inconclusive as well. Entry-year SAT
+averages exist for 31 institutions that have none in fall 2024 (\scr{68}), among them the University of California
+campuses and Caltech (checked for this SI in the \texttt{MERGED2014\_15} file); on the larger sample these controls allow (3,229 programs, 47 fields) the broad partial
+is $+0.143$ \ci{+0.076}{+0.210}, against $+0.141$ on \scr{55}'s own sample (difference $+0.002$ \ci{-0.040}{+0.044}).
+The within-institution slope, the computer-science remainder, the local-demand check and the admission-route test
+were not re-run on that sample, and the name join was not repaired with institution identifiers, so institutions
+whose Scorecard names carry a campus qualifier stay out of every Scorecard analysis.
+
+\begin{table}[!tbp]
+\centering
+\caption{Selectivity controls dated to the graduates' entry years (E) against the 2026 file (26) (\scr{68}). Two-way
+(field, institution) 95\% intervals; differences paired on the same replicates. Readings: at the pre-set margin, then
+at one third of the 2026-control estimate on the same programs or cells.}\label{tab:era}
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{4.0cm}@{}}
+\toprule
+Statistic (sample) & 2026 controls & Era-matched & E $-$ 26 [95\%] (90\%); reading \\
+\midrule
+Broad partial coupling, mean (45 fields, 2,787 programs; raw $+0.435$) & $+0.129$ \ci{+0.062}{+0.197} & $+0.134$ \ci{+0.065}{+0.203} & $+0.005$ \ci{-0.031}{+0.041} (\ci{-0.025}{+0.035}); equivalent at $\pm0.05$ and $\pm0.043$ \\
+Within-institution slope, main (2,801 programs, 162 institutions, 47 fields) & $+0.0090$ \ci{-0.0008}{+0.0187} & $+0.0081$ \ci{+0.0005}{+0.0158} & $-0.0008$ \ci{-0.0051}{+0.0034} (\ci{-0.0044}{+0.0028}); inconclusive at $\pm0.003$ \\
+Within-cohort slope of coupling net of SAT and admission rate (PSEO V4.14.1, cohorts 2004--2010, 109 cells, 39 fields; raw $+0.0289$) & $+0.0145$ \ci{+0.0058}{+0.0232} & $+0.0112$ \ci{+0.0026}{+0.0198} & $-0.0033$ \ci{-0.0084}{+0.0019} (\ci{-0.0076}{+0.0011}); equivalent at $\pm0.010$, inconclusive at $\pm0.0048$ \\
+Era-matched minus raw within-cohort slope & --- & --- & $-0.0177$ \ci{-0.0255}{-0.0099} \\
+Ladder step Pell share, control, state level & $+0.314$ & $+0.274$ & $-0.040$ \ci{-0.073}{-0.007}; differs \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Field-specific local labour demand}\label{sec:localdemand}
+
+Institution fixed effects absorb each institution's average earnings level but not field-specific local demand,
+which is most plausible for computer science in the Bay Area and Seattle. \scr{69} builds a field-by-state earnings
+component from the 2023 ACS public-use microdata \citep{census_acs2023_pums}: log earnings of full-time, full-year,
+civilian employed holders of a bachelor's as their highest degree, aged 23--35 and not enrolled, by first field of degree (62 ACS categories
+mapped to the project's fields) and state of residence (2,562 populated cells). An additive fit of category and
+state effects plus a cell deviation, with the deviation's variance estimated by Paule--Mandel \citep{paule1982consensus} ($\tau=0.092$ log
+points against a median cell sampling SD of 0.210), gives the empirical-Bayes deviation $U$ of each cell. With
+institution and field fixed effects, adding $U$ is the same as adding the full field-by-state earnings level.
+Intervals combine the two-way (field, institution) variance with the ACS replicate-weight variance. The change in
+the main within-institution slope (T1) and in the computer-science slope (T2) were fixed in advance
+(Table~\ref{tab:localdemand}).
+
+The slope does not move: $+0.0084$ before and after (change $+0.0000$ \ci{-0.0007}{+0.0008}; detectable change at
+80\% power 0.0011, 13\% of the slope; institution cluster bootstrap before \ci{+0.0000}{+0.0164}, after
+\ci{+0.0002}{+0.0165}). The control is not empty: its coefficient is $\delta=+0.127$ \ci{+0.031}{+0.224} log points
+per log point, so within an institution programs in fields that the state pays well earn more. As a pass-through
+it is low: an empirical-Bayes predictor of the field premium a program's graduates face would carry a coefficient
+near one, so $U$, which describes the institution's state of residence (median shrinkage weight 0.16), captures
+little of that premium, and the check concerns state-level, in-state markets. Imposing a coefficient of one ($U$ as
+an offset) leaves the slope at $+0.0087$ (change $+0.0002$ \ci{-0.0066}{+0.0071}). The slope does not
+move because $U$ is almost uncorrelated with residual department prestige within institutions (correlation
+$-0.014$; slope of $U$ on $z(F)$ net of the other regressors $-0.0002$, and the change equals $-\delta$ times that
+slope exactly). Using unshrunk cell means, field-specific shrinkage, field-specific coefficients, $U$ as an offset,
+the state of work instead of residence, a metro-level $U$ (the metro deviations are indistinguishable from noise in
+the one-year ACS, so it equals the state-level $U$), or a leave-field-out occupation-mix index, the change stays
+within $\pm0.0002$ and every interval includes zero. For computer science the remainder moves from $+0.0640$
+\ci{+0.0262}{+0.1004} to $+0.0643$ \ci{+0.0274}{+0.1004} with four-year earnings (change $+0.0004$
+\ci{-0.0017}{+0.0028}, at most about 4\% of the remainder) and from $+0.0495$ to $+0.0498$ averaged over horizons.
+The main sample, which needs an SAT average, holds only 2 California and no Washington computer-science programs;
+in the specification without selectivity slopes (institution and field fixed effects only), which keeps the
+University of California and Washington campuses (10 California and 1 Washington programs), the computer-science
+change is $-0.0020$ \ci{-0.0043}{+0.0002}. Across fields (exploratory), partialling $U$ out of each field's coupling
+moves the mean from $+0.419$ to $+0.415$ and keeps the ordering (Spearman $+0.99$ \ci{+0.95}{+1.00}); whether
+coupling is higher in fields whose earnings vary more across states is uninformative (Spearman $-0.01$
+\ci{-0.38}{+0.35}; detectable correlation 0.55). $U$ describes the state of residence rather than the market the
+graduates enter, mixes demand with who lives in a state, and partly contains the programs' own graduates.
+
+\begin{table}[!tbp]
+\centering
+\caption{Field-specific local demand (\scr{69}). $\beta$: within-institution slope, log points per within-field SD
+of department prestige, main specification (2,889 programs, 168 institutions, 47 fields). Intervals: two-way (field,
+institution) variance plus the ACS replicate variance, except where marked (institution cluster bootstrap of
+\scr{58}, same draws before and after).}\label{tab:localdemand}
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{8.4cm}>{\raggedright\arraybackslash}p{5.6cm}@{}}
+\toprule
+Statistic & Estimate [95\%] \\
+\midrule
+$\beta$ before / after adding $U$ & $+0.0084$ \ci{-0.0012}{+0.0180} / $+0.0084$ \ci{-0.0012}{+0.0181} \\
+\quad institution cluster bootstrap & \ci{+0.0000}{+0.0164} / \ci{+0.0002}{+0.0165} \\
+Change in $\beta$ (pre-specified T1; detectable change 0.0011) & $+0.0000$ \ci{-0.0007}{+0.0008} \\
+Change in $\beta$ with $U$ as an offset (coefficient fixed at 1; exploratory) & $+0.0002$ \ci{-0.0066}{+0.0071} \\
+Coefficient on $U$ & $+0.127$ \ci{+0.031}{+0.224} \\
+Within-institution SD of residual $z(F)$, before / after & 0.474 / 0.474 (21.3 rank places) \\
+Computer science, four-year earnings, before / after (institution bootstrap; 142 programs) & $+0.0640$ \ci{+0.0262}{+0.1004} / $+0.0643$ \ci{+0.0274}{+0.1004} \\
+\quad change (pre-specified T2; detectable change 0.0037; institution bootstrap) & $+0.0004$ \ci{-0.0017}{+0.0028} \\
+Computer science, mean of 4-, 1- and 5-year earnings, change (128 programs; institution bootstrap) & $+0.0003$ \ci{-0.0015}{+0.0021} \\
+Computer science, institution and field effects only, with UC and UW campuses, change (exploratory; institution bootstrap) & $-0.0020$ \ci{-0.0043}{+0.0002} \\
+Mean coupling before / after partialling $U$ (52 fields; exploratory) & $+0.419$ / $+0.415$; ordering Spearman $+0.99$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Admission routes into computer science}\label{sec:csadmit}
+
+If the computer-science remainder reflects selection of stronger students into the major within an institution
+\citep{bleemer2022will}, it should differ between programs that restrict entry and programs that students can
+declare. \scr{74} coded the 128 computer-science programs of the within-institution sample from official university
+pages (catalog, department, college and admissions pages; each code saved with its URL, access date and a verbatim
+sentence): \emph{direct-admit} (entry competitive or space-limited, with a first-year route decided at university
+admission; 5 programs), \emph{capped} (the same without a first-year route; 9), \emph{open} (enrolled students declare
+or enter on fixed published minimums; 74) and \emph{unknown} (no official statement found; 40). 88 programs are
+coded (69\%); 22 codes are flagged ambiguous, so 66 (52\%) are coded without a flag and 58 (45\%) without a flag and
+from a statement at the level of the department or college. The coding describes September 2026 policy; the
+earnings cohorts entered about 2011--2016 if they completed on time, and 6 of the 88 coded pages date their policy.
+Engineering and business were not coded. The coding rules were unified after the first estimates: two programs
+(UCCS and UW--Milwaukee, both already flagged ambiguous) moved from direct-admit to open, and seven codes were newly
+flagged ambiguous, six of them in the analysed sample (Michigan State, Missouri S\&T, Kansas, Northeastern, Texas
+Tech and George Washington, all coded open) and one outside it (UC Riverside). The re-flagging changes the coverage
+counts and the two sensitivities that use the ambiguity flag, not the primary estimate; the move of the two
+programs changes the primary estimate. On the earlier coding the restricted slope was $+0.077$
+\ci{-0.010}{+0.190} (16 programs) and the primary difference $+0.037$ \ci{-0.051}{+0.146}; both codings give
+intervals that include zero.
+
+In the per-field main specification (Table~\ref{tab:csadmit}) with the computer-science slope split by entry group and group-specific
+intercepts, averaged over the four-, one- and five-year medians (2,422 programs), the slope is $+0.060$
+\ci{-0.026}{+0.231} in the 14 restricted programs and $+0.041$ \ci{-0.002}{+0.086} in the 74 open ones; the
+difference is $+0.018$ \ci{-0.070}{+0.192} (institution cluster bootstrap, 991 of 999 replicates usable). The test
+has 80\% power only for a difference of 0.187, 3.8 times the pooled computer-science slope, and 11\% power at the
+pooled slope. The partial-correlation version gives $+0.099$ \ci{-0.396}{+0.607}. Five of six sensitivities include
+zero (ambiguous codes set to unknown $+0.020$ \ci{-0.074}{+0.219}; ambiguous codes flipped $+0.044$
+\ci{-0.013}{+0.107}; university-wide statements set to unknown; policies dated after 2016 set to unknown; four-year
+earnings only); without the group intercepts, which lets a level difference load onto the slopes, it is $+0.066$
+\ci{+0.001}{+0.134}. A slope difference is not what selection must produce: selection into the major would show
+first as a level difference, and it would bias the pooled slope if restricted programs were the more prestigious
+departments, as they are here (mean $z(F)$ $+1.00$ against $+0.12$). In an exploratory check with a common slope and
+group intercepts, the pooled computer-science slope moves from $+0.050$ to $+0.044$ \ci{+0.006}{+0.088}, and restricted
+programs earn $+0.088$ \ci{+0.015}{+0.170} log points more than open programs at the same department prestige, the
+level difference selection would produce but one that local demand for computing, where entry is restricted, would
+produce too. The sample is not representative of computer science: of the 50 highest-ranked computer-science
+departments, 29 are in the primary sample and 3 more in the four-year sample; 7 drop out because the 2026 file has
+no SAT average for them (six University of California campuses and the California Institute of Technology), 9 are
+lost in the name join and 2 are not matched.
+
+\begin{table}[!tbp]
+\centering
+\caption{Computer-science slope by entry route (\scr{74}; 2,422 programs, 128 of them in computer science; slopes in
+log points per within-field SD of department prestige, mean of the 4-, 1- and 5-year medians; institution cluster
+bootstrap 95\% intervals).}\label{tab:csadmit}
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{8.8cm}>{\raggedright\arraybackslash}p{5.2cm}@{}}
+\toprule
+Statistic & Estimate [95\%] \\
+\midrule
+Coverage: coded / without ambiguity flag / without flag and at department or college level & 88 (69\%) / 66 (52\%) / 58 (45\%) of 128 \\
+Slope, restricted entry (direct-admit and capped; 14 programs) & $+0.060$ \ci{-0.026}{+0.231} \\
+Slope, open entry (74 programs) & $+0.041$ \ci{-0.002}{+0.086} \\
+Difference, restricted minus open (pre-specified T1; detectable 0.187; power 11\% at the pooled slope) & $+0.018$ \ci{-0.070}{+0.192} \\
+Partial-correlation version (T2; detectable 0.72) & $+0.099$ \ci{-0.396}{+0.607} \\
+Difference, ambiguous codes set to unknown / flipped & $+0.020$ \ci{-0.074}{+0.219} / $+0.044$ \ci{-0.013}{+0.107} \\
+Difference, policies dated after 2016 set to unknown & $+0.050$ \ci{-0.030}{+0.216} \\
+Difference, four-year earnings only & $+0.037$ \ci{-0.086}{+0.226} \\
+Difference without group intercepts & $+0.066$ \ci{+0.001}{+0.134} \\
+Pooled slope with group intercepts (exploratory; $+0.050$ without them) & $+0.044$ \ci{+0.006}{+0.088} \\
+Restricted-entry intercept, relative to open (exploratory) & $+0.088$ \ci{+0.015}{+0.170} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Specification curve}\label{sec:speccurve}
 
 Table~\ref{tab:speccurve} collects the main statistics under the alternatives the scripts computed for them
@@ -874,17 +1198,20 @@ Table~\ref{tab:speccurve} collects the main statistics under the alternatives th
 after the analyses had been run (Section~\ref{sec:fields}); each other row changes one or more choices. Three
 patterns hold across the curve. Raw coupling stays between $+0.30$ and $+0.47$ on Scorecard. Selectivity controls
 lower it to $+0.09$--$+0.31$, depending on how many controls enter and on the earnings horizon. Once $G$ is also netted, the field-specific component is $+0.04$ to $+0.14$ with four-year or pooled
-earnings ($+0.005$ with five-year earnings alone), and the within-institution slope with field-specific slopes is
-$+0.005$ to $+0.014$ log points per SD with four-year or pooled earnings ($-0.002$ and $+0.002$ with one- and
-five-year earnings alone).
+earnings ($+0.068$ and $+0.005$ with one- and five-year earnings alone), and the within-institution slope with
+field-specific slopes is $+0.005$ to $+0.014$ log points per SD with four-year or pooled earnings ($-0.002$ and
+$+0.002$ with one- and five-year earnings alone). Dating selectivity to the graduates' entry years and controlling
+for field-specific local earnings do not detectably change the point estimates of the broad partial and the
+within-institution slope; the entry-year comparison of the slope is inconclusive at a margin of a third of it.
 
 {\footnotesize
 \setlength{\tabcolsep}{4pt}
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{8.0cm}>{\raggedright\arraybackslash}p{2.3cm}cl@{}}
 \caption{Specification curve. Means across fields (panels A and B) or pooled within-institution slopes (panel
 C) under each specification. Intervals: joint institution bootstrap (A, B), institution cluster bootstrap (C);
---- where the source reports a point estimate or SE only. Sources: \scr{55}, \scr{56}, \scr{58}, \scr{59}; PSEO
-rows \scr{52}, \scr{59}.}\label{tab:speccurve}\\
+$^{\dagger}$: two-way (field, institution) cluster variance; --- where the source reports a point estimate or SE
+only. Sources: \scr{55}, \scr{56}, \scr{58}, \scr{59}, \scr{68}, \scr{69}; PSEO rows \scr{52},
+\scr{59}.}\label{tab:speccurve}\\
 \toprule
 Specification & Sample & Fields & Estimate [95\% CI] \\
 \midrule
@@ -938,6 +1265,10 @@ $F\mid$ broad $+\,G$ + program Pell share, non-Pell median as outcome & composit
 $F\mid$ broad $+\,G$, average of 4-, 1- and 5-yr outcomes & common & 39 & $+0.052$ \ci{+0.003}{+0.100} \\
 $F\mid$ broad $+\,G$, 5-yr outcome (4-yr on the same programs $+0.056$) & 5-yr sample & 41 & $+0.005$ \ci{-0.062}{+0.071} \\
 $F\mid$ broad $+\,G$, 1-yr outcome (4-yr on the same programs $+0.069$) & 1-yr sample & 41 & $+0.068$ \ci{+0.009}{+0.128} \\
+Broad, 2026 file, programs with controls in both eras$^{\dagger}$ & common, 2,787 & 45 & $+0.129$ \ci{+0.062}{+0.197} \\
+Broad, selectivity dated to entry years (falls 2014--15)$^{\dagger}$ & common, 2,787 & 45 & $+0.134$ \ci{+0.065}{+0.203} \\
+Broad, selectivity dated to falls 2012--15 (wide window)$^{\dagger}$ & common, 2,787 & 45 & $+0.139$ \ci{+0.067}{+0.211} \\
+$F\mid U$ (ACS field $\times$ state earnings), raw otherwise$^{\dagger}$ & full & 52 & $+0.415$ \ci{+0.329}{+0.500} \\
 \multicolumn{4}{@{}l}{\emph{C. Within-institution slope, log points per within-field SD of $F$}}\\
 No institution fixed effects (field fixed effects only) & 3,416 programs & 52 & $+0.084$ (SE 0.006) \\
 Field fixed effects only, main-specification programs & 2,889 programs & 47 & $+0.0851$ (point) \\
@@ -951,6 +1282,12 @@ Main + field $\times$ \{state level, private\} & 2,889 programs & 47 & $+0.0097$
 Main + field $\times$ cubic in $G$ & 2,889 programs & 47 & $+0.0093$ \ci{+0.0002}{+0.0176} \\
 Main + field $\times$ cubic in $G$, SAT, ADM & 2,889 programs & 47 & $+0.0091$ \ci{-0.0001}{+0.0185} \\
 Main + field $\times$ program Pell share & 1,294 programs & 26 & $+0.0137$ \ci{+0.0027}{+0.0238} \\
+Main, two-way variance$^{\dagger}$ & 2,889 programs & 47 & $+0.0084$ \ci{-0.0012}{+0.0180} \\
+Main + ACS field $\times$ state earnings $U$ & 2,889 programs & 47 & $+0.0084$ \ci{+0.0002}{+0.0165} \\
+Main + ACS field $\times$ state earnings $U$, by state of work & 2,889 programs & 47 & $+0.0084$ \ci{+0.0013}{+0.0162} \\
+Main, 2026 file, programs with controls in both eras$^{\dagger}$ & 2,801 programs & 47 & $+0.0090$ \ci{-0.0008}{+0.0187} \\
+Main, selectivity dated to entry years (falls 2014--15)$^{\dagger}$ & 2,801 programs & 47 & $+0.0081$ \ci{+0.0005}{+0.0158} \\
+Main, selectivity dated to falls 2012--15$^{\dagger}$ & 2,801 programs & 47 & $+0.0077$ \ci{-0.0001}{+0.0156} \\
 Main, average of 4-, 1- and 5-yr & 2,422 programs & 42 & $+0.0048$ \ci{-0.0024}{+0.0120} \\
 Main, average of horizons, weighted by graduates & 2,422 programs & 42 & $+0.0108$ \ci{+0.0035}{+0.0181} \\
 Main, average of horizons, weighted by 4-yr count & 2,422 programs & 42 & $+0.0114$ \ci{+0.0036}{+0.0193} \\
@@ -987,9 +1324,12 @@ programs at other Scorecard horizons, which describe other cohorts.}\label{fig:s
 % =====================================================================================
 \section{UK LEO: a direct prior-attainment control}\label{sec:uk}
 
-In the UK most of the coupling survives a direct control for graduates' own prior attainment; what survives
-tracks intake selectivity, and academia-wide hiring prestige adds little beyond it (\scr{62};
-Figure~\ref{fig:uk}). This repeats the pattern of \citet{britton2022how} with a hiring-network prestige axis
+In the UK most of the coupling survives a direct control for graduates' own prior attainment; among same-band
+graduates what survives tracks intake selectivity at least as closely as academia-wide hiring prestige, which adds
+no detectable amount beyond it there, while on all-graduate medians $G$ keeps about a quarter of the raw coupling
+net of selectivity (\scr{62}, \scr{72}; Figure~\ref{fig:uk}). Less survives in pay terms than in
+rank terms, and allowing for error in the UK prestige measure leaves the ordering of selectivity ahead of $G$
+undetermined (Section~\ref{sec:ukrobust}). This repeats the pattern of \citet{britton2022how} with a hiring-network prestige axis
 and a coarser, band-level attainment control; it is not a new finding. The UK data have no department axis, so
 they bear on institution-level status against attainment, not on the department question.
 
@@ -999,7 +1339,7 @@ Mean coupling at YAG5 is $+0.486$ \ci{+0.398}{+0.559} across 33 CAH2 subjects (m
 providers per cell at least 15). Intervals come from a two-stage bootstrap: subjects are resampled, and providers
 within subject, with one provider draw shared by all of a subject's cells (cohorts, YAGs and bands of the same
 provider move together); 1,000 replicates. Frequency-weighted rank statistics reproduce resampling exactly. The
-career slope uses a YAG-label permutation (1,000), and contrasts between groups of subjects use an exact
+within-cohort slope uses a YAG-label permutation (1,000), and contrasts between groups of subjects use an exact
 subject-label permutation over all labellings. Table~\ref{tab:uksubjects} gives the per-subject values.
 
 \subsection{Three prior-attainment controls}\label{sec:ukcontrols}
@@ -1029,8 +1369,11 @@ national medians (bands 3 and 5: $+0.047$ against $+0.140$). 62\% is a floor, no
 None of these is a clean bound. Bands are coarse, so sorting within a band is not controlled, which biases every
 figure up; within-provider gradients would understate the attainment effect, and so overstate survival, if
 providers admit lower-band students for strengths the bands do not record. All shares are ratios of rank
-correlations: they describe how much of the prestige ordering of pay survives, not how much of the earnings gap
-between high- and low-$G$ providers survives, which \scr{62} does not estimate.
+correlations: they describe how much of the prestige ordering of pay survives; the pay-term shares are in
+Section~\ref{sec:ukrobust}. Band cells also cover a narrower range of $G$ than all-graduate cells (mean within-cell SD
+of the $G$ percentile 0.174 against 0.248), because a released band median needs enough graduates of that band at
+the provider, so the within-band coupling describes a middle slice of providers; the top band reaches 15 providers
+in only a handful of cells.
 
 \begin{table}[!tbp]
 \centering
@@ -1064,17 +1407,91 @@ What survives the attainment control tracks intake selectivity. On the compositi
 couples with all-graduate pay more strongly than $G$ does ($+0.560$ \ci{+0.454}{+0.642} against $+0.497$). Among
 same-band graduates, selectivity predicts pay ($+0.326$ \ci{+0.243}{+0.387}); $G$ adds $+0.033$ \ci{-0.027}{+0.098}
 beyond it, while selectivity keeps $+0.252$ \ci{+0.172}{+0.310} beyond $G$. On the all-graduate medians of the same
-providers $G$ keeps $+0.096$ \ci{+0.032}{+0.167}. Partialling institution selectivity out of the all-graduate
-coupling leaves $+0.131$ (26\% of raw). Within a band the selectivity measure also picks up residual sorting (a
+providers $G$ keeps $+0.096$ \ci{+0.032}{+0.167}. These are two-stage intervals. The two-way (subject, provider)
+variance of \scr{59}, which allows for providers that recur across subjects, gives wider intervals in every row
+quoted here (\scr{72}): $G$ beyond selectivity within band \ci{-0.047}{+0.112} (detectable partial 0.114), on all-graduate
+medians \ci{-0.003}{+0.195}, the partial on institution selectivity $+0.131$ \ci{+0.034}{+0.229}, and the share
+surviving within-provider standardisation 85\% \ci{79}{92}. Partialling institution selectivity out of the all-graduate
+coupling leaves $+0.131$ (26\% of raw). On the all-graduate medians of the band-cell providers, the pooled partial
+(correlations averaged before partialling, \scr{72}'s primary form) is $+0.131$ \ci{+0.024}{+0.238}, against the
+per-cell mean of $+0.096$ \ci{-0.003}{+0.195}: whether $G$ adds a detectable amount there depends on the estimator,
+while on the 32-subject composition sample it is detected under both variances. Within a band the selectivity measure also picks up residual sorting (a
 300--359-point graduate of a highly selective provider is not the same as one of an unselective provider), and
 selectivity is itself a status measure, so ``$G$ adds little beyond selectivity'' does not mean that status is
 unrelated to pay.
+
+\subsection{Survival in pay terms, sex and POLAR4, and error in $G$}\label{sec:ukrobust}
+
+\scr{72} re-examines three parts of the UK analysis with tests and reading rules fixed in its docstring
+(Table~\ref{tab:ukrobust}; two-way (subject, provider) intervals; a replicate set whose interval ends within two Monte
+Carlo standard errors of zero was re-run with 5,000 replicates and, if still there, is reported as borderline).
+
+\emph{Pay terms.} The survival shares above are ratios of rank correlations. Per SD of the $G$ rank, median earnings
+five years after graduation are $+0.100$ log points \ci{+0.073}{+0.128} higher across providers within a subject and
+cohort (composition sample, 32 subjects). Standardised for prior-attainment mix with within-provider band gradients
+the gradient is $+0.073$ \ci{+0.051}{+0.095}, a pay share of 73\% \ci{67}{78} against a rank share of 85\%
+\ci{79}{92} (difference $-0.126$ \ci{-0.169}{-0.083}); with national band medians, which over-correct, 43\% against
+62\%. The standardisation narrows the pay differences between providers more than it changes their order. Among
+same-band graduates the comparison goes the other way (pay share 76\% \ci{66}{85} against a rank share of 66\%;
+difference $+0.092$ \ci{+0.009}{+0.174}, whose two-stage interval \ci{-0.013}{+0.188} includes zero), as classical
+noise in band medians, which attenuates correlations but not slopes, would produce.
+
+\emph{Sex and POLAR4.} The provider file publishes sex and POLAR4 only as separate breakdowns (one characteristic per
+row), so no joint control can be built. Standardising each breakdown like prior attainment and adding the three
+adjustments lowers the rank share from 85\% to 81\% and the pay share from 73\% to 66\% \ci{60}{72} on the common
+sample (126 cells, 32 subjects); both differences are detected but small ($-0.042$ and $-0.065$). Sex alone changes
+nothing; if POLAR4 and prior attainment are correlated within providers, adding the marginal adjustments counts what
+they share twice, so 66\% leans toward over-correction.
+
+\emph{Error in $G$.} The UK hierarchy's validity is unknown; 0.92 is its split-half reliability and 0.74 the US
+agreement of an ORCID-based ranking with the census-based ranks. Two error models are used: constant validity (M1)
+and constant error variance (M2, under which cells covering a narrower range of $G$ have lower validity). The career
+rise for all graduates can only steepen: $+0.028$ \ci{+0.016}{+0.041} at validity 0.92 and $+0.035$
+\ci{+0.019}{+0.051} at 0.74 under M1, $+0.028$ to $+0.043$ over both models (uncorrected $+0.026$); within bands it is
+$+0.023$ \ci{+0.004}{+0.042} at 0.74 (M1). Among same-band graduates, $G$'s partial correlation with earnings beyond
+intake selectivity is not detected at any validity from 0.70 to 1.00 ($+0.069$ \ci{-0.033}{+0.171} at 0.92, $+0.103$
+\ci{-0.051}{+0.256} at 0.74; M1, pooled correlations), but at low validity the data do not show it to be small: in pay
+terms the upper limit at 0.74 is $+0.120$ log points per SD of true $G$, above the within-band gradient in $G$ alone
+($+0.053$). Whether selectivity leads $G$ (exploratory; no difference test was fixed in advance) depends on validity:
+among same-band graduates the selectivity-minus-$G$ difference in partials is $+0.187$ \ci{+0.026}{+0.348}
+uncorrected, $+0.162$ \ci{-0.020}{+0.343} at 0.92 and $+0.054$ \ci{-0.236}{+0.344} at 0.74; on all-graduate
+earnings it is borderline uncorrected ($+0.1736$ \ci{+0.0027}{+0.3444}, after 5,000 replicates) and the point
+estimates put $G$ ahead at 0.86 or below. The lead of selectivity is thus detected only if $G$ is error-free: at
+0.92 the interval of the difference already includes zero in both samples (all graduates $+0.063$
+\ci{-0.152}{+0.278}), and at 0.86 or below the order is undetermined. Under M1 a
+validity below 0.737 is incompatible with the observed correlations, since $G$ and selectivity correlate $+0.73$
+within cells. An external UK prestige measure would be needed to pin the validity down.
+
+\begin{table}[!tbp]
+\centering
+\caption{UK robustness (\scr{72}): pay-term survival, sex and POLAR4 standardisation, and error in $G$. Two-way
+(subject, provider) 95\% intervals. M1: constant validity $v$; M2: constant error variance. Pre-specified unless
+marked exploratory.}\label{tab:ukrobust}
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{9.4cm}c>{\raggedright\arraybackslash}p{3.3cm}@{}}
+\toprule
+Quantity & $k$ & Estimate [95\%] \\
+\midrule
+Log-earnings gradient per SD of $G$: raw $\to$ within-provider standardised & 32 & $+0.100\to+0.073$ \ci{+0.051}{+0.095} \\
+Pay share minus rank share, within-provider standardisation & 32 & $-0.126$ \ci{-0.169}{-0.083} \\
+Pay share minus rank share, national band medians & 32 & $-0.192$ \ci{-0.260}{-0.124} \\
+Pay share minus rank share, within band & 28 & $+0.092$ \ci{+0.009}{+0.174} \\
+Rank share, prior attainment + sex + POLAR4 minus prior attainment alone & 32 & $-0.042$ \ci{-0.062}{-0.021} \\
+Pay share, prior attainment + sex + POLAR4 minus prior attainment alone & 32 & $-0.065$ \ci{-0.082}{-0.049} \\
+Within-cohort slope, all graduates, $v=0.92$ / $0.74$ (M1) & 33 & $+0.028$ \ci{+0.016}{+0.041} / $+0.035$ \ci{+0.019}{+0.051} \\
+Within-cohort slope, within band, $v=0.74$ (M1); $v=0.86$ (M2, borderline) & 27 & $+0.023$ \ci{+0.004}{+0.042}; $+0.032$ \ci{-0.0005}{+0.0644} \\
+Within band, partial of true $G$ beyond selectivity, $v=0.92$ / $0.74$ (M1) & 28 & $+0.069$ \ci{-0.033}{+0.171} / $+0.103$ \ci{-0.051}{+0.256} \\
+\quad the same in pay terms, log points per SD (exploratory) & 28 & $+0.019$ \ci{-0.006}{+0.043} / $+0.042$ \ci{-0.035}{+0.120} \\
+Within band, selectivity minus $G$ partial, uncorrected / $v=0.92$ / $0.74$ (exploratory) & 28 & $+0.187$ \ci{+0.026}{+0.348} / $+0.162$ \ci{-0.020}{+0.343} / $+0.054$ \ci{-0.236}{+0.344} \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Subject heterogeneity}\label{sec:ukhetero}
 
 How strongly pay tracks $G$ still varies across subjects after the attainment control, but that variation cannot
 be told apart from subject-specific selectivity gradient. The between-subject SD of true couplings
-(DerSimonian--Laird, with provider-bootstrap variances) is 0.16 for all graduates ($I^2=0.84$) and 0.17 after
+(DerSimonian--Laird \citep{dersimonian1986meta}, with provider-bootstrap variances) is 0.16 for all graduates ($I^2=0.84$) and 0.17 after
 within-provider standardisation ($I^2=0.83$; $Q$ $p<0.0001$); the subject ordering hardly changes (Spearman $+0.94$
 \ci{+0.89}{+0.98}). Without the three pay-scale subjects $\tau=0.12$ ($I^2=0.76$) for all graduates and
 $0.14$ ($I^2=0.78$) after standardisation. Within bands $\tau=0.09$ ($I^2=0.52$;
@@ -1097,10 +1514,9 @@ $+0.017$ \ci{+0.005}{+0.027}.
 A calendar-matched contrast compares cohort $c$ at YAG5 with cohort $c+4$ at YAG1, which fall in the same tax
 year: $+0.031$ \ci{+0.021}{+0.042} per year. The within-cohort change on the same triple-matched providers is $+0.025$
 \ci{+0.015}{+0.036} and the cross-cohort drift at YAG1 is $-0.006$ \ci{-0.015}{+0.003}. Under the linear
-age--period--cohort identity of Section~\ref{sec:apc}, a near-zero drift means calendar and cohort effects are small
-\emph{or offsetting}; under the sign assumption (both non-negative) both are about zero, so the career-time part is
-near the within-cohort and calendar-matched values. Without that assumption offsetting effects cannot be ruled
-out. Tax years 2020/21--2021/22 (pandemic, furlough) fall in the YAG5 window of the fixed cohorts and in the YAG1
+age--period--cohort identity of Section~\ref{sec:apc}, the point estimates imply calendar and cohort effects summing
+to slightly below zero ($b+g=-0.006$), so the sign assumption of the US bound holds here only within sampling error;
+offsetting calendar and cohort effects cannot be excluded, and no career-time point value is implied. Tax years 2020/21--2021/22 (pandemic, furlough) fall in the YAG5 window of the fixed cohorts and in the YAG1
 cells of the calendar contrast, and only three horizons and four cohorts are available.
 
 \subsection{Pay-scale subjects}\label{sec:ukpayscale}
@@ -1108,8 +1524,9 @@ cells of the calendar contrast, and only three horizons and four cohorts are ava
 The three subjects named in advance as paid on national scales (nursing and midwifery; medicine and dentistry;
 education and teaching) couple at $+0.120$ \ci{-0.033}{+0.258} against $+0.523$ \ci{+0.439}{+0.585} for the others
 (difference $-0.404$ \ci{-0.566}{-0.238}, exact permutation $p=0.0009$). After within-provider standardisation the
-values are $+0.053$ and $+0.463$ ($p=0.0014$); with a regional earnings-level control $+0.091$ and $+0.561$
-($p=0.0012$). Their career slope averages $-0.007$ \ci{-0.060}{+0.046} per year against $+0.030$ \ci{+0.018}{+0.041}
+values are $+0.053$ and $+0.463$ ($p=0.0014$) on the 32-subject composition sample, where the unstandardised means
+are $+0.057$ and $+0.543$ (SI check (3)); with a regional earnings-level control $+0.091$ and $+0.561$
+($p=0.0012$). Their within-cohort slope averages $-0.007$ \ci{-0.060}{+0.046} per year against $+0.030$ \ci{+0.018}{+0.041}
 (difference $-0.037$ \ci{-0.091}{+0.017}, $p=0.063$); with three subjects this difference is not established.
 Teaching differs from medicine and nursing on the trajectory ($+0.012$ at YAG1, $+0.211$ at YAG5; slope $+0.050$
 \ci{+0.022}{+0.082}). Allied health, many of whose graduates are also paid on national bands, couples at $+0.570$;
@@ -1134,7 +1551,10 @@ $+0.75$ and is not reported in the main text.
 \caption{UK LEO (\scr{62}). (A) Subject coupling with $G$ at YAG5, raw and standardised for prior attainment
 ($\dagger$: pay-scale subjects named in advance). The national-median standardisation over-corrects and is a floor.
 (B) Mean coupling under each control, with 95\% intervals. (C) Fixed cohorts at YAG 1, 3 and 5. (D) Same-band
-graduates compared across providers, by tariff band.}\label{fig:uk}
+graduates compared across providers, by tariff band. In (A) the open circles (all graduates) use all providers while
+the standardised values use the composition sample, so the drawn change for a single subject mixes samples and can
+differ in size or sign from the change on the same sample (compare with the Raw$_c$ column of
+Table~\ref{tab:uksubjects}); the means in (B) are on common samples.}\label{fig:uk}
 \end{figure}
 
 {\scriptsize
@@ -1200,9 +1620,13 @@ Medicine and dentistry$^\dagger$ & 35 & ${+}0.019$ & ${-}0.020$ & ${-}0.015$ & $
 \section{Career time}\label{sec:career}
 
 On fixed PSEO cohorts, coupling rises with years since graduation, in every cohort and in both the early and the
-late segment. How much of the rise is career time rather than calendar time can only be bounded under a stated
-sign assumption. In a weakly identified decomposition the rise appears in the loading on $G$, not on $F$
-(\scr{52}, \scr{59}; Figures~\ref{fig:career} and~\ref{fig:refresh}).
+late segment, and on a surface of graduation windows by horizon it also rises across windows. How much of the rise
+is career time rather than calendar time can only be bounded under a stated sign assumption, and graduate-study
+timing could bias both ends of that bound upward. About three fifths of the within-cohort rise is shared with
+institutional selectivity, a similar share moves with institutions' doctoral output, and net of selectivity
+(2026 controls) the loading on $G$ does not decline within cohorts. In a weakly identified decomposition the rise
+appears in the loading on $G$, not on $F$ (\scr{52}, \scr{59}, \scr{65}--\scr{68}; Figures~\ref{fig:career}
+to~\ref{fig:emplearn}).
 
 \subsection{Design}\label{sec:careerdesign}
 
@@ -1236,7 +1660,135 @@ $+0.032$ per year and a cohort trend of about $-0.014$ per year. The panel's ear
 2010--12 cohort, 2020--22), so a calendar trend of that size cannot be ruled out on substantive grounds. The calendar-matched contrast is 46\% of the within-cohort change, and its
 interval excludes zero under every interval type (Table~\ref{tab:career}). No point estimate of the career-time
 effect is reported without this assumption. By cohort pair the calendar-matched contrast is $+0.0158$, $+0.0153$,
-$+0.0094$ and $+0.0158$ per year (2001--2010 at y10 against 2010--2019 at y1).
+$+0.0094$ and $+0.0158$ per year (2001--2010 at y10 against 2010--2019 at y1). The bound also assumes that
+graduate study does not depress the first-year medians of higher-status institutions more than others': if it
+does, the within-cohort change is biased upward, and so is the calendar-matched contrast, whose y1 cell (cohort
+$c+9$) is as exposed as any y1 cell (Section~\ref{sec:gradshare}); the proxies of that section were not applied to
+the calendar-matched contrast. Prestige is measured once (hires of 2011--2020), so later cohorts and earnings years
+sit closer to its measurement; any drift this causes enters $b$ or $g$ and is covered by the bound only if it is
+non-negative.
+
+\subsection{The graduation-window surface}\label{sec:surface}
+
+The balanced panel follows four cohorts over three horizons. \scr{65} adds the later windows of V4.14.1: seven
+graduation windows at y1 (2001--03 to 2019--21), six at y5 and four at y10, 17 window-by-horizon cells in all
+(Table~\ref{tab:surface}; Figure~\ref{fig:dynamics}). Window $c$ has its earnings in the calendar years $c+1$ to
+$c+3$ at y1, $c+5$ to $c+7$ at y5 and $c+10$ to $c+12$ at y10 (PSEO documentation). To keep the coalition of states
+fixed, the main sample holds, within each field, the institutions present in all 17 cells: 24 fields. A linear
+surface of Fisher-$z$ coupling in years since graduation $h$ and window $c$, fitted by GLS with field random
+intercepts, gives $\theta_h=+0.0309$ \ci{+0.0191}{+0.0426} per year within windows and $\theta_c=+0.0154$
+\ci{+0.0081}{+0.0228} per year across windows at a fixed horizon (correlation scale; two-way intervals). With calendar
+time $t=c+h$, linear career, calendar and cohort trends $a$, $b$, $g$ give $\theta_h=a+b$ and $\theta_c=b+g$ exactly,
+so if $b\ge0$ and $g\ge0$ the career-time slope lies in $[\theta_h-\theta_c,\theta_h]=[+0.0154,+0.0309]$ (lower end
+\ci{+0.0063}{+0.0245}). The same holds for the coupling of $G$ ($\theta_h=+0.0365$, $\theta_c=+0.0188$), on all
+institutions with a coverage control (51 fields: $+0.0231$ and $+0.0111$), and on the 12 of 17 cells whose earnings
+years are all from 2010 on, after Massachusetts entered the LEHD earnings frame ($+0.0270$ \ci{+0.0155}{+0.0384} and
+$+0.0130$ \ci{+0.0056}{+0.0203}). By window, the within-window slope is $+0.036$, $+0.027$, $+0.034$ and
+$+0.025$ per year for 2001--03 to 2010--12 (exploratory).
+
+The surface does not identify curvature. With a free effect for each earnings period (13 periods, 9 of them in one
+cell only) the design has 24 columns of rank 17, saturated in the 17 cell means, and none of the 11 curvature
+contrasts (the age curvature and five cohort and five period second differences) is estimable. They become
+estimable only if the period profile is piecewise linear between knots; under that assumption 3 of 11 marginal
+intervals exclude zero, a joint Wald test is not robust across variance versions (two-way $\chi^2_{11}=35.3$,
+$p<0.001$; conservative covariance $\chi^2_{11}=12.8$, $p=0.30$), and the values move with the knots (the 2013--15
+cohort deviation is $-0.043$ with knots on the y1 earnings windows and $-0.064$ with knots on the y5 windows), while
+the data cannot choose between the period profiles (lack-of-fit $p\ge0.30$ for each). We therefore report no
+curvature. What is identified without a restriction are linear combinations of cell means: the deviation of each
+interior window from its two neighbours at the same horizon, which under an additive model is a cohort plus a period
+second difference (at y1, 3 of 5 intervals exclude zero, with alternating signs from window to window), and five
+cohort-only combinations of the cohort deviations $D_K$ (post hoc; saturated cell means, Fisher $z$): $D_{2004}-D_{2013}$
+$+0.084$ \ci{+0.031}{+0.137}, $D_{2007}-D_{2016}$ $-0.078$ \ci{-0.158}{+0.001}, $D_{2004}+D_{2007}+D_{2010}$ $+0.035$
+\ci{+0.004}{+0.066}, $D_{2007}+D_{2010}+D_{2013}$ $-0.049$ \ci{-0.099}{+0.001} and $D_{2010}+D_{2013}+D_{2016}$ $+0.029$
+\ci{-0.012}{+0.070}; with signs that do not line up, they are not read as a cohort pattern. Whether the 17 cell means lie on a plane is not settled either (two-way
+$\chi^2_{14}=269.1$, $p<0.001$; conservative $\chi^2_{14}=14.7$, $p=0.40$).
+
+The panel holds institutions fixed, which confines it to the longer-standing PSEO states. Before 2010 the LEHD
+earnings frame lacks Massachusetts, which touches the early y1 and y5 cells; none of the four analysed
+Massachusetts institutions is in the fixed samples that span 2010, and New England employs at most 0.73\% of the
+fixed panel's employed first-year graduates (0.79\% of the Test 1 institutions'). Earnings are for attached workers, and selection into attachment may differ
+across windows.
+
+\begin{table}[!tbp]
+\centering
+\caption{Mean coupling of $F$ with median earnings by graduation window and horizon (\scr{65}; PSEO V4.14.1; the 24
+fields whose institutions are present in all 17 cells; two-way (field, institution) 95\% intervals; earnings years in
+parentheses).}\label{tab:surface}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Window & y1 & y5 & y10 \\
+\midrule
+2001--03 & $+0.072$ \ci{-0.098}{+0.243} (2002--04) & $+0.248$ \ci{+0.094}{+0.401} (2006--08) & $+0.385$ \ci{+0.254}{+0.516} (2011--13) \\
+2004--06 & $+0.174$ \ci{+0.015}{+0.333} (2005--07) & $+0.295$ \ci{+0.150}{+0.440} (2009--11) & $+0.450$ \ci{+0.333}{+0.568} (2014--16) \\
+2007--09 & $+0.192$ \ci{+0.038}{+0.347} (2008--10) & $+0.342$ \ci{+0.202}{+0.482} (2012--14) & $+0.473$ \ci{+0.347}{+0.600} (2017--19) \\
+2010--12 & $+0.274$ \ci{+0.124}{+0.425} (2011--13) & $+0.390$ \ci{+0.247}{+0.532} (2015--17) & $+0.509$ \ci{+0.399}{+0.618} (2020--22) \\
+2013--15 & $+0.268$ \ci{+0.123}{+0.413} (2014--16) & $+0.424$ \ci{+0.295}{+0.554} (2018--20) & --- \\
+2016--18 & $+0.390$ \ci{+0.274}{+0.506} (2017--19) & $+0.459$ \ci{+0.341}{+0.577} (2021--23) & --- \\
+2019--21 & $+0.347$ \ci{+0.218}{+0.476} (2020--22) & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Entry conditions}\label{sec:entry}
+
+Graduating into a weak labour market lowers earnings for years, less so for graduates with better predicted
+prospects \citep{oreopoulos2012short}, which predicts higher coupling for cohorts that entered a weak market. Two
+tests of that prediction were fixed in \scr{65}'s docstring before estimation (Table~\ref{tab:entry}); the verdict
+rule is ``supported'' or ``opposite'' when the 95\% interval excludes zero, otherwise ``null'' or ``underpowered'' by
+the minimum detectable effect against a benchmark (0.05 for Test 1; 0.01 per percentage point for Test 2).
+
+\emph{Test 1} compares the window that entered in the Great Recession (graduates of 2007--09, y1 earnings 2008--10)
+with the mean of its neighbours at y1, on institutions present in all three windows: $D=-0.064$
+\ci{-0.114}{-0.014} (36 fields, 92 institutions; institution-clustered cohort-label permutation $p=0.015$), the
+opposite of the prediction by the pre-set rule. Four qualifiers belong with that verdict. The interval covers field
+and institution sampling, not window-to-window variation: the same statistic at the other interior y1 windows is
+$+0.060$, $+0.018$, $-0.022$ and $+0.044$, so the recession window's deviation is the largest of five, a rank that
+cannot give $p$ below 0.20. The unemployment contrast behind it is small and depends on the years used: $-0.42$
+percentage points against its neighbours in the graduation years and $+1.52$ in the first earnings years. The
+statistic is a cohort plus a period second difference; the split into the two ($-0.025$ and $-0.010$) exists only
+under the piecewise-linear period restriction. And earnings before 2010 lack Massachusetts. At y5 and y10 the
+contrast is underpowered ($+0.030$ \ci{-0.008}{+0.068} and $-0.022$ \ci{-0.061}{+0.017}). For the pandemic window
+(2019--21), which has neighbours on one side only, the deviation from the linear extrapolation is $-0.087$
+\ci{-0.161}{-0.013}, but it equals $-2$ times the deviation of the 2016--18 window from its neighbours ($+0.044$
+\ci{+0.007}{+0.081}), so a low 2019--21 window and a high 2016--18 window cannot be told apart.
+
+\emph{Test 2} is an aggregated version of the \citet{oreopoulos2012short} design: within each field and window, the
+rank of an institution's median earnings is regressed, with field-by-window and institution-by-field effects, on
+the unemployment rate of the institution's state averaged over the graduation years ($U$) and on its interaction with
+the centred within-field rank of $G$; the interaction is roughly the change in $G$'s coupling per percentage point of
+$U$. Intervals come from a wild cluster bootstrap by state with Webb weights (9,999 draws; 18 states with fixed
+institutions) \citep{cameron2008bootstrap, webb2023reworking}. The interaction is underpowered at y1 ($-0.0198$
+\ci{-0.0584}{+0.0189}; detectable effect 0.050) and y5 ($-0.0062$ \ci{-0.0404}{+0.0280}) and positive at y10
+($+0.0244$ \ci{+0.0101}{+0.0386}), where the pre-set rule reads ``supported''. That reading is fragile: with $G$-by-field-by-window
+effects, so that only differences between states within a window identify it (a pre-specified sensitivity), it is
+$-0.0072$ \ci{-0.0302}{+0.0159}, and with a $G$-by-linear-window trend (post hoc) $-0.0084$
+\ci{-0.0207}{+0.0038}. $U$ describes the institution's state, while 26--35\% of the panel's employed graduates work
+in another state. Neither test is evidence about how entry conditions move the status gradient.
+
+\begin{table}[!tbp]
+\centering
+\caption{Entry-condition tests (\scr{65}; PSEO V4.14.1). Test 1: two-way (field, institution) 95\% intervals. Test 2:
+wild cluster bootstrap-$t$ intervals by state (the pre-specified basis of the verdict), per percentage point of
+state unemployment. Predicted sign: positive.}\label{tab:entry}
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{7.6cm}c>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{2.4cm}@{}}
+\toprule
+Statistic & $k$ & Estimate [95\%] & Pre-set reading \\
+\midrule
+Test 1: Great Recession window minus neighbours, y1 & 36 & $-0.064$ \ci{-0.114}{-0.014} & opposite (qualified) \\
+\quad same, y5 / y10 & 36 & $+0.030$ / $-0.022$ & underpowered \\
+\quad placebo windows at y1 (2004--06, 2010--12, 2013--15, 2016--18) & 29--41 & $+0.060$, $+0.018$, $-0.022$, $+0.044$ & exploratory \\
+Pandemic window, deviation from extrapolation, y1 ($=-2\times$ the 2016--18 deviation) & 41 & $-0.087$ \ci{-0.161}{-0.013} & opposite (weaker) \\
+Test 2: $G\times U$, y1 & 25 & $-0.0198$ \ci{-0.0584}{+0.0189} & underpowered \\
+Test 2: $G\times U$, y5 & 30 & $-0.0062$ \ci{-0.0404}{+0.0280} & underpowered \\
+Test 2: $G\times U$, y10 & 29 & $+0.0244$ \ci{+0.0101}{+0.0386} & supported \\
+\quad y10 with $G\times$field$\times$window effects (within-window variation only) & 29 & $-0.0072$ \ci{-0.0302}{+0.0159} & sensitivity \\
+\quad y10, all institutions with the coverage share & 41 & $+0.0191$ \ci{+0.0064}{+0.0318} & sensitivity \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Intervals and their calibration}\label{sec:intervals}
 
@@ -1244,7 +1796,7 @@ Four interval types are reported, because the same institutions recur across the
 fields (median 48 cells per institution).
 \begin{itemize}
 \item \emph{Two-way (field, institution) cluster variance} (the standard): $V=V_{\text{field}}+V_{\text{inst}}-V_{\text{field}\times\text{inst}}$,
-following Cameron, Gelbach and Miller (2011, \emph{Journal of Business \& Economic Statistics} 29(2):238--249). $V_{\text{field}}$ is the between-field variance of the per-field values
+following \citet{cameron2011robust}. $V_{\text{field}}$ is the between-field variance of the per-field values
 over the number of fields (jackknife over fields for ratios and the cross-source correlation); $V_{\text{inst}}$ is
 the variance under one institution multinomial draw shared by every cell, with fields fixed; $V_{\text{field}\times\text{inst}}$
 is the variance under an independent institution draw per field. Normal interval; 1,000 replicates per draw type.
@@ -1324,57 +1876,216 @@ all-field slope but not one half that size (Section~\ref{sec:power}). Of the two
 \ci{-0.007}{+0.022} and teacher education's $+0.028$ \ci{-0.011}{+0.065} per year; two fields do not support a group
 statement.
 
-Two designs are not career-time evidence and are shown only for comparison. The PSEO pooled cohort mixes different
+Correcting each cell's program medians for their sampling noise does not shrink the rise
+(Section~\ref{sec:earnrel}): on the 130 cells with reliability at least 0.3 at every horizon the slope goes from
+$+0.0305$ to $+0.0352$ \ci{+0.0221}{+0.0483} per year (exploratory), and the reliability of the medians does not
+change detectably with the horizon. Two designs are not career-time evidence and are shown only for comparison. The PSEO pooled cohort mixes different
 graduation cohorts across horizons ($+0.024$ per year, 49 fields), and the one-, four- and five-year Scorecard
 medians of one release describe different cohorts ($+0.032$ per year, 52 fields; descriptive).
 
-\subsection{Graduate-degree share and the career slope}\label{sec:gradshare}
+\subsection{Graduate study and the within-cohort slope}\label{sec:gradshare}
 
-Graduates of higher-status institutions may more often take doctoral, medical, law or business degrees. That
-would lower their covered earnings early, add graduate-degree returns later and raise coupling within a
-cohort; because the propensity would be institution-wide, it would load on $G$ and keep $b_G$ near zero at y1.
-An exploratory check sets the per-field fixed-cohort slopes of \scr{52} against the field's graduate-degree share
-(New York Fed college labour-market data, legacy \scr{35b}; 27 fields have both). The whole slope correlates with
-the share at Spearman $+0.30$ ($p=0.125$; field bootstrap \ci{-0.17}{+0.73}), the y1-to-y5 segment at $+0.07$
-\ci{-0.35}{+0.51}, and the y5-to-y10 segment at $+0.53$ ($p=0.005$; \ci{+0.08}{+0.84}). The 11 fields with a share
-below 40\% rise by $+0.021$ per year ($+0.015$ in the late segment), the 8 intermediate fields by $+0.034$
-($+0.022$), and the 8 fields with a share of 50\% or more by $+0.031$ ($+0.037$). The rise is therefore present in
-mostly terminal-bachelor's fields but smaller there, and the late segment, the years in which many
-professional and doctoral programmes end, rises most where graduate study is common. The growth of $b_G$, by contrast, does not
-track the share (Spearman $-0.05$ \ci{-0.47}{+0.40}; $d_G$ $+0.037$, $+0.036$ and $+0.038$ per year in the three
-groups), and the growth of $b_F$ does not either ($+0.23$ \ci{-0.19}{+0.62}). These are SI checks
-(\texttt{scripts/70\_paper\_figures.py --si-checks}; field bootstrap with seed 70, 4,000 draws): correlations
-across fields that ignore the institutions fields share and have no two-way interval. A test at the paper's
-interval standard needs the graduate-degree share as a field-level moderator inside \scr{59}. PSEO does not
-record later degrees, so it cannot separate their returns from career dynamics in the bachelor's labour market.
+Graduates of higher-status institutions may more often enter doctoral, law, medical or business programmes. While
+enrolled they have low or no covered earnings, at y1 and, for doctoral students and medical residents, at y5; after
+completion they earn more. Institution medians would then understate coupling early but not late, and coupling
+would rise within a cohort even if the status gradient in pay did not change; because the propensity is
+institution-wide, the rise would also load on $G$. \scr{67} runs five checks fixed in its docstring on the balanced
+V4.14.1 panel (40 fields, 145 cells, 116 institutions; all-field slope $+0.0304$ per year) with two-way intervals
+(Table~\ref{tab:gradschool}; Figure~\ref{fig:gradschool}).
+
+\emph{Field level (T1).} The field's graduate-degree share $g_f$ is the ACS 2023 share of bachelor's holders aged
+30--45 in the field with a master's, professional or doctoral degree (0.20 in marketing to 0.71 in biomedical
+engineering). The within-cohort slope's OLS slope on $g_f$ across 40 fields is $+0.0124$ per unit share (two-way
+\ci{-0.0778}{+0.1025}; permutation $p=0.71$), against $+0.0678$ if every field's rise were proportional to its share;
+the detectable slope is 0.129 and the power against that benchmark 0.31, so the test is underpowered. The share
+describes 30--45-year-olds in 2023 and counts degrees held, not enrolment at y1 or y5.
+
+\emph{Institution level (T2).} Partialling same-horizon coverage removes 0.195 \ci{0.089}{0.301} of the slope
+($+0.0305$ to $+0.0246$ \ci{+0.0153}{+0.0338} on 144 cells). The institution's research-doctorate rate, the number of
+research doctorates awarded in years $c+5$ to $c+12$ to people whose bachelor's institution it is \citep[Survey of
+Earned Doctorates;][]{ncses_sed_bacc}, per bachelor's graduate of cohort $c$ (IPEDS), removes 0.621 \ci{0.415}{0.828}
+(slope $+0.0116$ \ci{+0.0035}{+0.0196}), and both together 0.663 \ci{0.457}{0.869} ($+0.0103$ \ci{+0.0027}{+0.0178}).
+The doctorate rate is not a clean timing variable: within cells it correlates $+0.71$ with $G$ and $+0.62$ with $F$,
+and its own coupling with earnings rises from $+0.12$ at y1 to $+0.46$ at y10, which fits graduate-study timing and
+a status gradient alike. The removed share is therefore not an estimate of the timing effect. Law, medical and
+business enrolment has no public institution-level count and enters only through coverage, which misses study
+while working.
+
+\emph{The late segment where graduate degrees are least common (T3).} In the 20 fields with the lowest shares
+($g_f\le0.434$) the y5-to-y10 slope is $+0.0264$ \ci{+0.0156}{+0.0372}, against $+0.0293$ in the other 20 (difference
+$+0.0030$ \ci{-0.0129}{+0.0188}). This survives the pre-set rule, but it does not separate the mechanism from its
+absence: a late rise fully proportional to the share predicts $+0.0224$ in the lower half and a difference of
+$+0.0110$, both inside the intervals (power to tell them from a uniform rise 0.17 and 0.27). The four business
+fields, where full-time MBA study could still fall at y5, all sit in the lower half and have late slopes of $-0.0055$
+to $+0.0048$.
+
+\emph{Recession and pandemic years (T4).} Without cohort pairs whose contrast cells have earnings in 2008--10 or
+2020--22, the calendar-matched contrast is $+0.0144$ \ci{+0.0049}{+0.0239} (38 fields; $+0.0151$ \ci{+0.0056}{+0.0246}
+dropping the 2007 pair as well), against $+0.0148$ \ci{+0.0066}{+0.0229} on all pairs. This shows only that the lower
+end of the bound does not depend on those years, when graduate enrolment is counter-cyclical; the y1 cell of each
+later cohort is as exposed to graduate study as any y1 cell.
+
+An earlier exploratory check with the New York Fed graduate-degree shares of 27 fields found the late segment
+correlating $+0.53$ with the share (field bootstrap \ci{+0.08}{+0.84}; SI check (2)); T1 and T3, with two-way intervals
+and a proportional benchmark, supersede it. In sum, the rise survives every available proxy for graduate-study
+timing, but its size does not, and none of the proxies excludes that much of it is timing.
+
+\begin{table}[!tbp]
+\centering
+\caption{Graduate study and the within-cohort slope (\scr{67}; PSEO V4.14.1 balanced fixed cohorts; two-way (field,
+institution) 95\% intervals; per year unless stated).}\label{tab:gradschool}
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{8.2cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{2.8cm}@{}}
+\toprule
+Check & Estimate [95\%] & Pre-set reading \\
+\midrule
+T1: slope of the within-cohort slope on the field's graduate-degree share (40 fields; benchmark $+0.0678$) & $+0.0124$ \ci{-0.0778}{+0.1025} & underpowered (power 0.31) \\
+T2: raw slope, coverage-complete panel (144 cells) & $+0.0305$ \ci{+0.0202}{+0.0409} & --- \\
+\quad net of coverage (share removed 0.195) & $+0.0246$ \ci{+0.0153}{+0.0338} & survives \\
+\quad net of the research-doctorate rate (share removed 0.621) & $+0.0116$ \ci{+0.0035}{+0.0196} & survives \\
+\quad net of both (share removed 0.663) & $+0.0103$ \ci{+0.0027}{+0.0178} & survives \\
+T3: y5-to-y10 slope, lower half of fields by share (proportional prediction $+0.0224$) & $+0.0264$ \ci{+0.0156}{+0.0372} & survives; not informative \\
+\quad upper minus lower half (proportional prediction $+0.0110$) & $+0.0030$ \ci{-0.0129}{+0.0188} & --- \\
+T4: calendar-matched contrast without earnings years 2008--10, 2020--22 & $+0.0144$ \ci{+0.0049}{+0.0239} & lower end survives \\
+T5: $d_G$, pooled form, $F$ corrected at extrapolated / lower-bound reliability & $+0.0281$ \ci{+0.0105}{+0.0458} / $+0.0227$ \ci{-0.0075}{+0.0530} & holds / does not \\
+T5: $d_G-d_F$, pooled form, uncorrected / $F$ corrected (extrapolated) & $+0.0219$ \ci{-0.0067}{+0.0504} / $+0.0207$ \ci{-0.0108}{+0.0521} & does not hold \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Destination location}\label{sec:destination}
+
+Graduates of higher-status institutions may move to higher-wage labour markets as their careers progress.
+\scr{75} (post hoc; self-attested registration, written after most results had been seen) nets each cell's
+destination wage level out of coupling on the V4.13.0 fixed-cohort panel: $W$ is the average, over the census
+divisions where the cell's employed graduates work (PSEO Flows, same institution, CIP-2 family and cohort), of the
+ACS log median wage of full-time bachelor's-or-higher workers aged 23--35 in the division, and $O$ is the share
+working outside the institution's state. Five-year coupling is unchanged net of $W$ (ratio $+1.014$
+\ci{+0.877}{+1.151}; 39 fields). The within-cohort slope goes from $+0.0304$ \ci{+0.0201}{+0.0407} to $+0.0241$
+\ci{+0.0141}{+0.0340} net of $W$ and $+0.0211$ \ci{+0.0125}{+0.0297} net of $W$ and $O$, so about one fifth to one third
+of the rise moves with destination location (two-way intervals; no verdict was registered for this share). $W$
+nets only differences between the nine divisions, not location within them.
 
 \subsection{Field prestige against academia-wide prestige}\label{sec:bfbg}
 
 Within each field-by-cohort-by-horizon cell, the standardised rank regression of earnings on $F$ and $G$ gives
 $b_F=(r_{YF}-r_{FG}r_{YG})/(1-r_{FG}^2)$ and $b_G$ symmetrically; the slopes of $b_F$ and $b_G$ over horizons are $dF$
 and $dG$. Averaged over fields, $b_F$ is $+0.189$, $+0.176$ and $+0.177$ and $b_G$ is $-0.013$, $+0.166$ and $+0.328$ at y1, y5 and
-y10 (V4.13.0). The loading on $G$ grows and the loading on $F$ does not, and under the two-way interval the difference
-is distinguishable from zero on both releases ($dG-dF$ in Table~\ref{tab:career}; $z=2.57$ and $2.45$, and 2.45 to
-2.65 across the five data variants). That evidence is moderate: for $dG-dF$ the two-way variance is 1.04 times the
+y10 (V4.13.0). The loading on $G$ grows and the loading on $F$ does not. Under the two-way interval the difference
+excludes zero on both releases ($dG-dF$ in Table~\ref{tab:career}; $z=2.57$ and $2.45$, and 2.45 to 2.65 across the
+five data variants), but the crossed interval reaches zero, so by the rule of the main text (the most conservative
+reported variance decides) it is not established. The two-way evidence is moderate: for $dG-dF$ the two-way variance is 1.04 times the
 true sampling variance on average in the calibration of Section~\ref{sec:intervals} but 0.54 to 1.71 times on single
 datasets, and the five variants are nested versions of almost the same panel. The interval standard also changed
 during the analysis: revision 2 of \scr{59} used the crossed bootstrap and rated the difference clear only with
-fields held fixed; revision 3 adopted the two-way variance after the calibration. At y1 the association runs through
-$F$: $b_F>0$ under the two-way interval on both releases, while $b_G$ is about zero; $b_F>b_G$ in 83 of 142 cells at y1
-and 59 of 142 at y10, and $dG>0$ in 31 of 39 fields against $dF>0$ in 22 of 39.
+fields held fixed; revision 3 adopted the two-way variance after the calibration. At y1, $b_F$ is $+0.189$ on
+V4.13.0 and $+0.157$ on V4.14.1 (two-way \ci{+0.050}{+0.264}, crossed \ci{-0.008}{+0.300}) and $b_G$ is about zero;
+because the crossed interval of $b_F$ at y1 reaches zero on V4.14.1, the y1 pattern is not used to argue for separate
+components. Descriptively, $b_F>b_G$ in 83 of 142 cells at y1 and 59 of 142 at y10, and $dG>0$ in 31 of 39 fields
+against $dF>0$ in 22 of 39.
 
 The decomposition is weakly identified. Within cells, Spearman$(F,G)$ averages 0.83 (range 0.55 to 0.95), and $G$
 pools hiring edges over all fields, so it is measured with less noise than a single field's $F$; with collinear
-predictors of unequal reliability, OLS shifts shared signal toward the better-measured one. If $F$ were only a
-noisier copy of $G$, however, $G$ would take the larger coefficient at every horizon, which the y1 pattern
-contradicts. The data are therefore consistent with at least two components, one tracked better by $F$ with a flat
-weight and one tracked better by $G$ with a growing weight. What the $G$-tracked component is (institution-wide
-reputation, student selectivity, resources or location) is not identified, and neither is how much of the split
-reflects differential measurement error; $b_F$ and $b_G$ have not been re-estimated with $F$ disattenuated at
-the two ends of the reliability bracket. The timing of graduate training is one more candidate for the
-$G$-tracked component (Section~\ref{sec:gradshare}). In 28 of 284,000 resamples of the $F$--$G$ decomposition the $F$ and $G$ ranks were
+predictors of unequal reliability, OLS shifts shared signal toward the better-measured one. What the $G$-tracked
+part of the rise is (institution-wide reputation, residual student selectivity, resources or location), and whether
+it is a component separate from what $F$ tracks, is not identified. The timing of graduate study is one
+more candidate: the institution's research-doctorate rate tracks $G$ (Section~\ref{sec:gradshare}).
+
+How much of the split reflects differential measurement error is only partly answered. \scr{67} (T5, V4.14.1)
+disattenuates the correlations of $F$ with earnings and with $G$ by the reliability of $F$ at the two ends of the
+bracket (Section~\ref{sec:bracket}) and recomputes $b_F$ and $b_G$. In the per-cell form above the corrected
+intervals are undetermined: in some replicates a cell's corrected $F$--$G$ correlation approaches 1 and the
+coefficients explode, so the Monte Carlo error of the interval ends exceeds the interval. In a pooled form, the
+same algebra applied to the across-field means of the corrected correlations at each horizon, $d_G$ stays above zero
+at the extrapolated reliability ($+0.0281$ \ci{+0.0105}{+0.0458}) but not at the public-edge lower bound ($+0.0227$
+\ci{-0.0075}{+0.0530}; uncorrected in this form $+0.0288$ \ci{+0.0123}{+0.0452}). $G$'s lead over $F$ is not
+distinguishable from zero in the pooled form even uncorrected ($+0.0219$ \ci{-0.0067}{+0.0504}), so its absence after
+correction there reflects the form of the estimator, not the correction; the per-cell lead ($+0.0348$
+\ci{+0.0072}{+0.0625} on this panel) has no determinable corrected counterpart. Net of the selectivity set, the
+partial correlation of $G$ with earnings given $F$ rises by $+0.012$ \ci{+0.001}{+0.022} per year and that of $F$
+given $G$ is flat ($-0.003$ \ci{-0.010}{+0.004}; difference $+0.014$ \ci{-0.001}{+0.030}; Section~\ref{sec:emplearn}).
+In 28 of 284,000 resamples of the $F$--$G$ decomposition the $F$ and $G$ ranks were
 perfectly concordant and were redrawn; near-collinear resamples stay in and give the $b_F$ and $b_G$ intervals heavy
 tails.
+
+\subsection{Status loadings net of selectivity: an aggregate employer-learning analogue}\label{sec:emplearn}
+
+In employer-learning models with statistical discrimination, the wage coefficient on a credential employers see at
+hiring need not change with experience when a hard-to-observe correlate of productivity is left out
+\citep{farber1996learning}; with that correlate in the model, the credential's coefficient falls with experience and
+the correlate's rises \citep{altonji2001employer}. Employers learn quickly \citep{lange2007speed}, and for college
+graduates the loading on test scores is already high at entry and grows little \citep{arcidiacono2010beyond}.
+\scr{66} builds an aggregate analogue with tests fixed in its docstring (Table~\ref{tab:emplearn};
+Figure~\ref{fig:emplearn}). The unit is an institution-by-field cell of median earnings, not a person; $G$ stands in
+for the institutional name every employer sees; institutional SAT and admission rate stand in for the average
+ability of the institution's students. Unlike test scores in the individual design, selectivity is public and
+correlated with the name (mean within-cell Spearman with $G$ $+0.65$), so employers can observe it at hiring, and
+it is measured on recent entering classes: the controls come from the 2026 ``most recent'' file (fall-2024 SAT and
+admission rate, 2023--24 Pell share), while the PSEO cohorts entered in 1997--2008. On the PSEO panel institutions the
+admission rates of the entry windows rank institutions only loosely like the 2026 values (Spearman 0.45--0.47; SAT
+0.88--0.90; Section~\ref{sec:era}). Selectivity measured with error leaves part of itself in $G$, and if that part's
+loading rises, the $G$ loading rises with it, which biases the test toward finding no decline. An entry-year
+version of these loadings was not estimated, although \scr{68} builds entry-window SAT averages and admission
+rates for cohorts 2004, 2007 and 2010 (not Pell shares, which the early files lack). Institution-level selectivity is also learnable from earlier cohorts, so
+a decline of the aggregate status loading is not implied even if employers learn about individuals. The signature of learning would be a falling $G$ loading and a rising
+selectivity loading once both are in the model. Within each cell of the fixed cohorts (sample A: PSEO V4.14.1,
+cohorts 2001--2010, y1, y5 and y10, cells with SAT data, 37 fields), earnings ranks are regressed on standardised ranks
+of $G$, $F$, SAT, Pell share, the state earnings level and control, and the loadings' slopes over years since
+graduation are averaged over fields; partial-correlation forms are computed as well.
+
+No decline of the status loading is detected. The slope of $b_G$ is $+0.016$ \ci{-0.011}{+0.044} per year, against
+$+0.037$ \ci{+0.019}{+0.055} without the controls on the same cells; its interval excludes declines steeper than
+$-0.011$ per year, 30\% of the uncontrolled rise. In partial-correlation form the status loading rises ($+0.014$
+\ci{+0.003}{+0.024}), the opposite of the decline. None of nine pre-specified decline tests (other samples, the
+admission rate in place of SAT, the y5-to-y10 segment alone, states in PSEO from 2001, the UK) has an interval below
+zero. The controls shrink the rise of the status loading to 44\% of its uncontrolled size. The selectivity loading
+rises in point estimate ($+0.013$ \ci{-0.006}{+0.032}; partial form $+0.013$ \ci{+0.000}{+0.025}), but the mean
+within-cell $R^2$ also rises (0.318 at y1 to 0.481 at y10), and a common rise of all loadings with the fit would
+account for about half of it; it cannot account for the status loading, which starts near zero ($-0.036$ at y1,
+$+0.108$ at y10). The Pell-share loading falls ($+0.243$ at y1 to $+0.011$ at y10; slope $-0.025$ \ci{-0.040}{-0.010}):
+net of status and selectivity, institutions with more Pell students start with relatively high medians and lose
+that position, which differences in graduate study, or growing returns to family advantage, would produce. Rank-regression replicates in small cells are
+heavy-tailed, so every statistic also has two post hoc intervals (IQR-based and a two-way cluster jackknife); no
+decline is detected, and the partial-form rise excludes zero, under all three.
+
+In the UK, with institutional intake selectivity in the model, the status loading is flat ($+0.008$
+\ci{-0.006}{+0.022}; a decline as large as the raw rise would have been detected) while the selectivity loading
+rises ($+0.024$ \ci{+0.011}{+0.037}); their difference ($-0.016$ \ci{-0.039}{+0.008}) includes zero, the status loading
+grows at least as fast relative to its level ($\times1.60$ against $\times1.24$ from YAG1 to YAG5), and the within-cell
+$R^2$ rises from 0.29 to 0.41, so the UK data do not show a shift of relative weight toward selectivity.
+
+Neither country shows the decline of the credential's loading that the learning model predicts once the correlate
+is held fixed. That is consistent with a market in which most of what status and selectivity signal is already
+reflected in pay at hiring and stays reflected in it, and with \citet{arcidiacono2010beyond}, but the aggregate
+analogue is not a test of their model: it cannot distinguish learning about ability from differences in skill growth, networks or sorting into
+steeper careers, and the within-cohort slopes include calendar time. On triple-matched institutions (exploratory),
+the partial correlation of $G$ net of the selectivity set rises by $+0.0173$ \ci{+0.0073}{+0.0274} per year within
+cohorts and $+0.0122$ \ci{+0.0030}{+0.0215} in the calendar-matched contrast.
+
+\begin{table}[!tbp]
+\centering
+\caption{Status and selectivity loadings over years since graduation (\scr{66}). US: PSEO V4.14.1 fixed cohorts,
+sample A (37 fields); UK: LEO fixed cohorts (33 subjects). Slopes per year; pre-specified two-way 95\% intervals.
+S1: $F$ and $G$ only; S2: $G$, $F$, SAT, Pell share, state level, control.}\label{tab:emplearn}
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{8.0cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.4cm}@{}}
+\toprule
+Statistic & Estimate [95\%] & Pre-set reading \\
+\midrule
+US: slope of $b_G$, S1 (benchmark) & $+0.037$ \ci{+0.019}{+0.055} & --- \\
+US: slope of $b_G$, S2 (decline predicted) & $+0.016$ \ci{-0.011}{+0.044} & underpowered/null (edge) \\
+US: slope of $\rho(G,Y\mid$ selectivity set$)$ & $+0.014$ \ci{+0.003}{+0.024} & opposite \\
+US: slope of $b_{\text{SAT}}$, S2 (rise predicted) & $+0.013$ \ci{-0.006}{+0.032} & null \\
+US: slope of $\rho(G,Y\mid$ set, $F)$ / of $\rho(F,Y\mid$ set, $G)$ & $+0.012$ \ci{+0.001}{+0.022} / $-0.003$ \ci{-0.010}{+0.004} & supported ($G$ rises, $F$ flat) \\
+US: slope of $b_G$, S2, admission rate in place of SAT & $+0.021$ \ci{-0.001}{+0.043} & underpowered/null (edge) \\
+US: slope of $b_G$, S2, y5 to y10 only & $+0.023$ \ci{-0.033}{+0.079} & underpowered/null (edge) \\
+US: slope of $b_{\text{Pell}}$, S2 & $-0.025$ \ci{-0.040}{-0.010} & not a test \\
+UK: slope of $b_G$ given selectivity & $+0.008$ \ci{-0.006}{+0.022} & null \\
+UK: slope of $b_{\text{sel}}$ given $G$ & $+0.024$ \ci{+0.011}{+0.037} & supported \\
+UK: difference of the two slopes & $-0.016$ \ci{-0.039}{+0.008} & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Coverage}\label{sec:careercoverage}
 
@@ -1403,7 +2114,10 @@ $+0.027$ averaged over horizons (a post hoc summary), is marginal and is not cla
 within Monte Carlo error, the crossed interval includes zero at every horizon, and three of four alternative
 aggregations give a two-way interval above zero (n-weighted cells $+0.029$ \ci{+0.006}{+0.053}; cells with $n\ge30$ $+0.038$
 \ci{+0.011}{+0.066}; CIP-4 cells without aggregation $+0.031$ \ci{+0.003}{+0.059}; the last two were proposed after the first
-results). The career-time slope of p75 minus that of p50 is $-0.002$ \ci{-0.007}{+0.003}. PSEO quartiles describe the upper
+results). The fields-conditional institution-clustered quantile-label permutation gives $p=0.019$ (V4.13.0) and
+$0.026$ (V4.14.1) for the average over horizons, but $0.34$--$0.37$ at y10; the claim is withheld because the two-way
+interval is at the edge and the crossed interval includes zero. The within-cohort slope of p75 minus that of p50 is
+$-0.002$ \ci{-0.007}{+0.003}. PSEO quartiles describe the upper
 quarter of a program's graduates, not the elite tail (Section~\ref{sec:tail}). The lower quantiles are plausibly the
 most sensitive to part-year work and graduate enrolment, so the p25 gap may partly reflect labour-market
 attachment rather than pay rates.
@@ -1429,8 +2143,43 @@ and ``2001--2010'' gives the first years of the graduation windows 2001--03 to 2
 \sifig{pseo_refresh}
 \caption{PSEO refresh (\scr{59}). (A) Ranked institutions with a usable released y5 cell by academia-wide quartile,
 by release and alias variant. (B) Career-time statistics by variant; thick bands are two-way intervals, thin lines
-crossed-bootstrap intervals. (C) Quantile coupling minus median coupling on V4.14.1 fixed cohorts, under three
-interval types. (D) Cross-source replication of field coupling (Scorecard four-year against PSEO y5).}\label{fig:refresh}
+crossed-bootstrap intervals; ``integrated'' in the row labels means the 14 high-baseline fields of
+Section~\ref{sec:careerdesign} (a descriptive label drawn by \scr{59}, not a typology). (C) Quantile coupling minus
+median coupling on V4.14.1 fixed cohorts, under three interval types. (D) Cross-source agreement of field coupling
+(Scorecard four-year against PSEO y5; same $F$ and overlapping rows, so not an independent replication, although the
+panel title drawn by \scr{59} says ``replication'').}\label{fig:refresh}
+\end{figure}
+
+\begin{figure}[!p]
+\centering
+\sifig{coupling_dynamics}
+\caption{Graduation-window surface (\scr{65}; PSEO V4.14.1). Mean over fields of Spearman$(F,\text{p50})$ in each
+window-by-horizon cell: (a) institutions present in all 17 cells (24 fields); (b) all institutions, partial on
+same-horizon coverage (31 fields with all 17 cells). Bars: two-way (field, institution) 95\% intervals. Shaded:
+windows whose first-year earnings fall in 2008--10 and 2020--22.}\label{fig:dynamics}
+\end{figure}
+
+\begin{figure}[!p]
+\centering
+\sifig{gradschool_timing}
+\caption{Graduate study and the within-cohort slope (\scr{67}; PSEO V4.14.1). (a) Per-field within-cohort slope against the field's
+graduate-degree share (ACS 2023), with the OLS fit and the proportional benchmark. (b) The institution-level (T2),
+late-segment (T3) and calendar-matched (T4) statistics with two-way 95\% intervals; open diamonds mark what a rise
+proportional to the share would give. (c) $F$ and $G$ loading slopes with $F$ disattenuated (T5; pooled form; the
+per-cell corrected intervals are undetermined and not shown). Codes drawn by \scr{67}: E9, the exploratory power
+check of T3; LB-F and EXT-F, $F$ corrected at the lower-bound and the extrapolated reliability (-FG: $F$ and $G$
+corrected); dF* and dG*, the corrected loading slopes; D\_cal, the calendar-matched contrast; ``strict'', the T4
+variant that also drops the 2007 cohort pair. Some labels in (a) overlap (theatre, marketing).}\label{fig:gradschool}
+\end{figure}
+
+\begin{figure}[!p]
+\centering
+\sifig{employer_learning}
+\caption{Status and selectivity loadings over years since graduation (\scr{66}). (A) US fixed cohorts, S2
+regression: loadings on $G$, $F$, SAT and Pell share, with the $G$ loading of the $F$-and-$G$-only model (dashed).
+(B) US y1/y5 panel, cohorts 2001--2016. (C) UK fixed cohorts, $G$ and intake selectivity. (D) Slopes per year with
+the pre-specified two-way intervals (thick) and the two-way cluster jackknife (thin). The figure uses ``b\_'' labels
+from the script; in the text they are $b_G$, $b_F$, $b_{\text{SAT}}$ and $b_{\text{Pell}}$.}\label{fig:emplearn}
 \end{figure}
 
 {\footnotesize
@@ -1598,7 +2347,7 @@ therefore do not separate licensure from employer sector (\scr{64}).
 Three fields bear on the licence and setting readings. \emph{Special education}, whose graduates mostly teach in K-12 schools
 on district salary schedules (strict share 0.61; government share 0.64, the highest of 52 fields), couples positively:
 baseline $+0.55$, partial $r$ given geography $+0.59$ to $+0.66$, broad selectivity partial $+0.44$ (SE 0.33) and
-within-institution slope with field-specific selectivity slopes $+0.123$ (SE 0.035); the field has 19 institutions. \emph{Accounting} (strict share 0.046) couples strongly
+within-institution slope with field-specific SAT, admission-rate and Pell-share slopes (\scr{55}, specification b) $+0.123$ (SE 0.035; $+0.172$ \ci{+0.020}{+0.265} in the main specification of Table~\ref{tab:fields}); the field has 19 institutions. \emph{Accounting} (strict share 0.046) couples strongly
 (partial $r$ given geography $+0.41$ to $+0.73$; broad selectivity partial $+0.45$ \ci{+0.24}{+0.65}), as the strict gradient
 predicts, and so counters only the binary tag and the broad share. \emph{Social work} (government-or-non-profit share 0.61)
 has partial $r$ given geography $+0.18$ to $+0.46$ and a broad selectivity partial of $+0.18$ (SE 0.15).
@@ -1629,7 +2378,7 @@ slope of $+0.083$. This moderation survives every status control but cannot be s
 \begin{itemize}
 \item The 15 lowest strict shares among the 40 fields all belong to engineering, computer science, statistics or business,
 and the share's Spearman correlation with a dummy for CIP-2 11/14/27/52 (``the bloc'') is $-0.77$. With the dummy as a second
-cross-level moderator (Kennedy residual permutation), the rank-form moderation is $-0.053$ ($p=0.100$) at A4 and $-0.065$
+cross-level moderator (Kennedy residual permutation \citep{kennedy1995randomization}), the rank-form moderation is $-0.053$ ($p=0.100$) at A4 and $-0.065$
 ($p=0.094$) at A4B; the dummy itself is not significant net of the share either ($+0.096$, $p=0.141$ at A4), so the two cannot be
 separated.
 \item Within the 23 non-bloc fields (share 0.08--0.77, including nursing and special education) the moderation is $-0.030$
@@ -1752,7 +2501,8 @@ coupling.
 specification. (b) Raw, adjusted and cross-validated incremental $R^2$ of prestige beyond geography, and of geography beyond
 prestige, against the strict share. (b$'$) Nursing and comparison fields net of geography and net of selectivity. (c) The signed
 gradient under the field and CIP-2 family bootstraps, within families, without engineering, and with the broad share. (d) The
-gradient after selectivity adjustment. (e) UK incremental prestige $R^2$ by subject.}\label{fig:licbattery}
+gradient after selectivity adjustment. (e) UK incremental prestige $R^2$ by subject; cross-validated increments can
+exceed 1 when the geography-only cross-validated $R^2$ is negative (politics, 1.06).}\label{fig:licbattery}
 \end{figure}
 
 \begin{figure}[!p]
@@ -1787,7 +2537,8 @@ measured at y5 (shaded rows) or at y1, pooled or by cohort.}\label{fig:flows2}
 \section{Tail outcomes}\label{sec:tail}
 
 At the college level, academia-wide prestige adds at most a small, borderline association with elite-tail outcomes beyond
-selectivity and parental income, and it is no larger for the top 1\% than for the median (\scr{60}; Table~\ref{tab:oi},
+selectivity and parental income, and it is not detectably larger for the top 1\% than for the median (difference
+$-0.02$ \ci{-0.13}{+0.10}; \scr{60}; Table~\ref{tab:oi},
 Figure~\ref{fig:oi}). Without controls, coupling is slightly tighter toward the top. The analysis cannot resolve a
 premium confined to the most selective colleges.
 
@@ -1866,7 +2617,26 @@ and the top-1\% share by age at measurement (different cohorts, all measured in 
 
 No version of the four field-level nulls has 80\% power against a moderate effect (power 16--42\% across 10 versions).
 Judged by one-sided bounds, two versions exclude a moderate effect, and the kinship null sets no bound at all (\scr{63}).
-Every null in the paper is a statement of what the data cannot detect, reported with its interval.
+The main nulls of the paper are statements of what the data cannot detect, reported with their interval or power
+(Tables~\ref{tab:power} and~\ref{tab:othernulls}). Table~\ref{tab:rule} lists the statements whose reading depends on
+the interval type; by the rule of the main text they are reported as not established.
+
+\begin{table}[!tbp]
+\centering
+\caption{Statements whose interval excludes zero under one reported variance but not under the most conservative
+one; the main text reports them as not established.}\label{tab:rule}
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.2cm}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{4.4cm}@{}}
+\toprule
+Statement (source) & Excludes zero under & Includes or touches zero under \\
+\midrule
+Within-institution slope, main specification, $+0.0084$ (\scr{58}, \scr{69}) & institution bootstrap \ci{+0.0000}{+0.0164} (at the edge) & two-way \ci{-0.0012}{+0.0180} \\
+Within-institution slope, entry-year selectivity, $+0.0081$ (\scr{68}) & two-way \ci{+0.0005}{+0.0158} & conservative \ci{-0.0004}{+0.0167} \\
+$d_G-d_F$, $+0.039$ (V4.13.0) / $+0.035$ (V4.14.1) (\scr{59}) & two-way \ci{+0.009}{+0.069} / \ci{+0.007}{+0.063} & crossed \ci{-0.000}{+0.078} / \ci{-0.003}{+0.070} \\
+UK all-graduate $G$ net of selectivity, per-cell mean, $+0.096$ (\scr{62}, \scr{72}) & two-stage \ci{+0.032}{+0.167} & two-way \ci{-0.003}{+0.195} \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Definitions}\label{sec:powerdefs}
 
@@ -1895,7 +2665,7 @@ B1 dispersion law, all fields & 50 & $-0.113$ (0.435) & $+0.480$ & 0.41 / 0.84 &
 B2 occupation concentration, reliable & 16 & $-0.056$ (0.837) & $-0.670$ & 0.18 / 0.46 & $-0.466$ & 0.466 & large only \\
 B2 occupation concentration, all & 50 & $+0.056$ (0.699) & $-0.463$ & 0.40 / 0.87 & $-0.199$ & 0.325 & informative \\
 B3 kinship Moran's $I$ (flow weights) & 14 & $+0.011$ (0.947) & not reached & 0.30 / 0.52 & not bounded & none & underpowered \\
-B4 career slope, high-baseline minus others & 14 v 25 & $+0.008$ (0.334) & $+0.024$ & 0.42 / 0.94 & $+0.022$ & 0.022 & large only \\
+B4 within-cohort slope, high-baseline minus others & 14 v 25 & $+0.008$ (0.334) & $+0.024$ & 0.42 / 0.94 & $+0.022$ & 0.022 & large only \\
 Cell level: dispersion $\times$ prestige (A1) & 45 & $+0.147$ (0.433) & $+0.525$ & 0.36 / 0.76 & $+0.455$ & 0.455 & large only \\
 Cell level: dispersion $\times$ prestige (A4) & 40 & $+0.098$ (0.712) & $+0.745$ & 0.20 / 0.47 & $+0.536$ & 0.536 & underpowered \\
 Cell level: concentration $\times$ prestige (A1) & 45 & $-0.172$ (0.317) & $-0.480$ & 0.42 / 0.83 & $-0.454$ & 0.454 & large only \\
@@ -1919,7 +2689,7 @@ fields and at the cell level.
 70\% anywhere; no upper bound can be set. An earlier reading of its bootstrap interval as a ``genuine null'' is withdrawn, because that
 interval resampled only the measurement error of $\rho_f$ at fixed values.
 
-\emph{High-baseline minus other fields, career slope} (\scr{52}): the bound $+0.022$ per year excludes a contrast as large as the
+\emph{High-baseline minus other fields, within-cohort slope} (\scr{52}): the bound $+0.022$ per year excludes a contrast as large as the
 all-field slope, not half of it.
 
 None of these nulls rules out the mechanisms they were built to test.
@@ -1928,81 +2698,132 @@ None of these nulls rules out the mechanisms they were built to test.
 
 Table~\ref{tab:othernulls} lists the other statements in the paper whose interval includes zero, with the interval that bounds them.
 
-\begin{table}[!tbp]
-\centering
-\caption{Other nulls reported in the paper, with their intervals or power.}\label{tab:othernulls}
-\footnotesize
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.4cm}>{\raggedright\arraybackslash}p{5.2cm}>{\raggedright\arraybackslash}p{3.8cm}@{}}
+{\footnotesize
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{6.4cm}>{\raggedright\arraybackslash}p{5.2cm}>{\raggedright\arraybackslash}p{3.8cm}@{}}
+\caption{Other nulls reported in the paper, with their intervals or power.}\label{tab:othernulls}\\
 \toprule
 Null & Estimate and interval & What it can exclude \\
 \midrule
-Field vs academia-wide prediction, LB reliability (\scr{56}) & ADV $-0.005$ \ci{-0.043}{+0.044}, 57 fields & $|$ADV$|>0.044$ \\
-Field vs academia-wide, net of selectivity (\scr{55}) & $+0.00$ \ci{-0.05}{+0.05}, 46 fields & $|$ADV$|>0.05$ \\
+\endfirsthead
+\multicolumn{3}{@{}l}{\small Table~\ref{tab:othernulls} (continued)}\\
+\toprule
+Null & Estimate and interval & What it can exclude \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Field vs academia-wide prediction, LB reliability / net of selectivity (\scr{56}, \scr{55}) & $-0.005$ \ci{-0.043}{+0.044}, 57 fields / $+0.00$ \ci{-0.05}{+0.05}, 46 fields & differences beyond $\pm0.05$ \\
 Cross-field heterogeneity of the field-specific component (\scr{58}) & $\tau=0.055$ (upper 0.116), split-half $+0.10$ & 80\% power only for $\tau\ge0.128$ \\
 Mean field-specific component, 6 of 10 specifications (\scr{58}) & e.g.\ $+0.041$ \ci{-0.011}{+0.093} & MDE 0.079; TOST $\pm0.10$ passes in 2 of 10 \\
 Within-institution slope, main, pooled horizons (\scr{58}) & $+0.0048$ \ci{-0.0024}{+0.0120} & slopes above 1.2\% per SD \\
 Heterogeneity of $\beta_f$ with cubic field-specific $G$ gradients, 23 fields (\scr{58}) & $p=0.09$--$0.24$; split-half $+0.05$ & 80\% power for $\tau\ge0.024$ (linear case) \\
-UK: $G$ beyond selectivity, within band (\scr{62}) & $+0.033$ \ci{-0.027}{+0.098}, 28 subjects & partial above $+0.10$ \\
+UK: $G$ beyond selectivity, within band (\scr{62}; two-way interval and validity 0.74, \scr{72}) & $+0.033$ \ci{-0.047}{+0.112}, 28 subjects, MDE 0.114; at validity 0.74 $+0.103$ \ci{-0.051}{+0.256}, MDE 0.219 & partial above $+0.11$; little at low validity \\
 UK: career-slope difference, pay-scale subjects (\scr{62}) & $-0.037$ \ci{-0.091}{+0.017}, 3 subjects & little; three subjects \\
-High-baseline minus other fields, career slope (\scr{59}) & $+0.006$, two-way \ci{-0.011}{+0.024}, V4.14.1 & see Table~\ref{tab:power} (B4) \\
 p75 minus p50 coupling (\scr{59}) & $+0.027$, two-way \ci{+0.000}{+0.054} (V4.14.1), \ci{+0.001}{+0.053} (V4.13.0); crossed intervals include 0 & marginal; not claimed \\
-OI: top 1\% minus median, net of selectivity and parents (\scr{60}) & $-0.02$ \ci{-0.13}{+0.10}, 242 colleges & tail excess above $+0.10$ \\
-OI: Barron's 1--2, net (\scr{60}) & $+0.18$ \ci{-0.07}{+0.40}, 80 colleges & little \\
+OI: $G$ with the top-1\% share; top 1\% minus median; the same in Barron's tiers 1--2 (\scr{60}; net of selectivity and parents) & $+0.12$ \ci{-0.00}{+0.26}; $-0.02$ \ci{-0.13}{+0.10}, 242 colleges; $+0.18$ \ci{-0.07}{+0.40}, 80 colleges & tail excess above $+0.10$; little in the top tiers \\
 Broad licensed share, cell level A4B (\scr{63}) & $-0.008$, field-cluster \ci{-0.052}{+0.058} & moderation beyond $\pm0.06$ per SD \\
-Strict share within non-bloc fields, A4 / A4B (\scr{63}) & $-0.030$ \ci{-0.095}{+0.039} / $-0.038$ \ci{-0.127}{+0.043}, field-cluster & not the full-sample $-0.088$ \\
-Ex-ante licensed tag, A4 / A4B (\scr{63}; 3 licensed fields) & $-0.00$ (SE 0.08), $p=0.971$ / $+0.056$, $p=0.566$ & --- \\
+Strict share within non-bloc fields, A4 / A4B; ex-ante licensed tag, A4 / A4B (\scr{63}; 3 tagged fields) & $-0.030$ \ci{-0.095}{+0.039} / $-0.038$ \ci{-0.127}{+0.043}, field-cluster; tag $-0.00$ (SE 0.08) / $+0.056$ ($p=0.566$) & not the full-sample $-0.088$ \\
 Nursing net of selectivity (\scr{64}) & $-0.07$ \ci{-0.28}{+0.15} & partial above $+0.15$ \\
 Licensed share and within-field wage dispersion (\scr{35c}, legacy) & $+0.02$ \ci{-0.30}{+0.32}, 45 fields & $|r|>0.32$ \\
-\bottomrule
-\end{tabular}
-\end{table}
+Strict share and the geography-netted association within CIP-2 families (\scr{64}) & $-0.11$ to $+0.19$; permutation $p=0.44$--$0.95$ & low power (15--21\% of rank variance within families) \\
+Broad licensure share and the geography-netted association (\scr{64}) & $-0.22$ to $-0.07$; 6 of 6 intervals include 0 (e.g.\ \ci{-0.50}{+0.13}) & associations below about $-0.5$ \\
+PSEO Flows: flattening of the prestige / $G$ / SAT slopes with the setting share (\scr{61}; SAT given market share) & $-0.004$ \ci{-0.012}{+0.004} / $-0.006$ \ci{-0.015}{+0.003} / $-0.004$ \ci{-0.010}{+0.002} & flattening beyond $-0.015$ \\
+Entry-year minus 2026 controls: broad partial / within-institution slope / within-cohort partial slope (\scr{68}; Table~\ref{tab:era}) & $+0.005$ / $-0.0008$ / $-0.0033$; MDE 0.052 / 0.0061 / 0.0074 & equivalent within $\pm0.05$ / inconclusive at $\pm0.003$ / equivalent within $\pm0.010$ \\
+Change with the ACS local-demand control: within-institution slope / computer science (\scr{69}; Table~\ref{tab:localdemand}) & $+0.0000$ \ci{-0.0007}{+0.0008} / $+0.0004$ \ci{-0.0017}{+0.0028} & changes above 13\% / about 4\% of the slope \\
+Computer science, restricted minus open entry, slope (\scr{74}) & $+0.018$ \ci{-0.070}{+0.192}; MDE 0.187; power 11\% at the pooled slope & little \\
+Cross-field ordering and field $\times$ state earnings dispersion (\scr{69}) & $-0.01$ \ci{-0.38}{+0.35}; MDE 0.55 & uninformative \\
+Entry conditions: Great Recession window, y5 / y10; $G\times$ state unemployment, y1 / y5 / y10 within windows (\scr{65}; Table~\ref{tab:entry}) & $+0.030$ / $-0.022$ (MDE 0.054 / 0.056); $-0.0198$ / $-0.0062$ / $-0.0072$ \ci{-0.0302}{+0.0159} (MDE 0.050 / 0.045 / 0.034) & underpowered \\
+Within-cohort slope on the field's graduate-degree share; late-segment rise, upper minus lower half of fields (\scr{67}) & $+0.0124$ \ci{-0.0778}{+0.1025} (MDE 0.129); $+0.0030$ \ci{-0.0129}{+0.0188} & underpowered (power 0.31 and 0.27) \\
+Decline of the status loading net of selectivity, US / UK (\scr{66}; US selectivity from the 2026 file) & $+0.016$ \ci{-0.011}{+0.044} / $+0.008$ \ci{-0.006}{+0.022}, MDE 0.020 & US declines steeper than $-0.011$ per year; UK a decline as large as the raw rise \\
+Rise of the selectivity loading, US (\scr{66}) & $+0.013$ \ci{-0.006}{+0.032}; MDE 0.027 & --- \\
+Strict share and the prestige slope within CIP-2 families, hierarchical model A4B (\scr{63}) & $-0.044$, permutation $p=0.32$ (no interval computed) & low power; see the within-family row above \\
+Reliability of the PSEO medians, y10 minus y1 (\scr{73}; secondary) & $-0.016$ \ci{-0.066}{+0.035} & a fall of more than 0.066 or a rise of more than 0.035 \\
+\end{longtable}
+}
 
 \subsection{Hypotheses examined}\label{sec:hypotheses}
 
-Table~\ref{tab:hypotheses} lists the hypotheses that the analyses behind this paper (\scr{52}--\scr{64}, and the
-exploratory checks marked SI check) examined, with their outcome. It is meant to let readers judge how many
-questions were asked; the canonical specification was fixed after these analyses had been run.
+Table~\ref{tab:hypotheses} lists the hypotheses examined in \scr{52}--\scr{75} and in the exploratory checks
+marked SI check, with their outcome; earlier exploratory and withdrawn analyses (\scr{01}--\scr{51}) remain in the
+repository. It is meant to let readers judge how many questions were asked; the canonical specification was fixed
+after the analyses of \scr{52}--\scr{64} had been run. The rows for \scr{75} give the registered verdicts of all
+nine of its tests (T0--T8). Their registration is self-attested and was not publicly deposited before the run, and
+they were written after most results had been seen; they test a theory that this paper does not develop, and only
+T0 and T7 enter the main text.
 
-\begin{table}[!tbp]
-\centering
+{\scriptsize
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{6.6cm}>{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}p{7.2cm}@{}}
 \caption{Hypotheses examined and their outcome. ``Holds'': the stated interval excludes zero in the stated
-direction; ``not detected'': the interval includes zero (power in Tables~\ref{tab:power} and~\ref{tab:othernulls}).}\label{tab:hypotheses}
-\scriptsize
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{6.6cm}>{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}p{7.2cm}@{}}
+direction; ``not detected'': the interval includes zero (power in Tables~\ref{tab:power} and~\ref{tab:othernulls}).}\label{tab:hypotheses}\\
 \toprule
 Hypothesis & Scripts & Outcome \\
 \midrule
+\endfirsthead
+\multicolumn{3}{@{}l}{\small Table~\ref{tab:hypotheses} (continued)}\\
+\toprule
+Hypothesis & Scripts & Outcome \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
 Coupling varies across fields beyond institution sampling & 57 & holds ($I^2=0.69$) \\
 A CIP-2 (discipline) variance component & 57 & detected unadjusted; borderline net of field size \\
 Field ordering similar on PSEO & 32, 59 & holds ($+0.68$, $+0.74$) \\
 Coupling survives selectivity controls & 55 & in part ($+0.43\to+0.14$) \\
 Field-specific remainder net of selectivity and $G$ & 58 & borderline (4 of 10 specifications exclude 0) \\
-Within-institution department slope & 58 & small; interval reaches 0 at the edge (main); 5 of 6 pooled specifications exclude 0 \\
+Within-institution department slope & 58, 68, 69 & small; not established (interval reaches 0 at the edge; includes 0 under the two-way variance); 5 of 6 pooled specifications exclude 0; point estimate not detectably changed by entry-year selectivity (inconclusive at a third of the slope) or local demand; not lowered by the program's Pell share; smaller for aided graduates without a Pell grant, not for Pell recipients (a hint) \\
 Within-institution slopes differ across fields & 58 & with linear $G$ slopes; not robust to cubic $G$ \\
-Computer-science remainder (named in advance) & 58 & holds, also with the 3-field correction \\
+Computer-science remainder (named in advance) & 58 & holds, also with the 3-field correction, on a sample without 21 of the 50 highest-ranked departments (Section~\ref{sec:csadmit}) \\
 Computer-science/engineering and business groupings (post hoc) & 58 & reported as post hoc \\
 $F$ predicts pay better or worse than $G$ & 56, 55 & no better; ``worse'' depends on reliability \\
 Extra elite-tail loading of $G$ & 60 & not detected net of selectivity and parents; unresolved for the 80 most selective \\
 UK coupling survives prior attainment & 62 & holds (66--90\%) \\
-UK $G$ adds to intake selectivity & 62 & not detected within bands ($+0.033$) \\
+UK $G$ adds to intake selectivity & 62, 72 & not detected within bands ($+0.033$); on all-graduate medians $+0.131$, detected under both variances (per-cell mean on band-cell providers not established) \\
+UK pay-scale subjects couple less than others & 62 & holds ($+0.12$ against $+0.52$; permutation $p=0.0009$) \\
+UK pay-scale subjects have a flatter career slope & 62 & not established ($-0.037$ \ci{-0.091}{+0.017}; three subjects) \\
+UK survival lower with sex and POLAR4 standardised as well & 72 & holds, small (pay share 66\% against 73\%) \\
 Coupling rises with years since graduation (US, UK) & 52, 59, 62 & holds; career-time part bounded under a sign assumption \\
 Rise differs between high- and low-coupling fields & 52, 59 & not detected; excludes large differences only \\
-Rise loads on $G$ more than on $F$ ($d_G-d_F>0$) & 52, 59 & holds under the two-way variance ($z=2.45$--$2.65$); crossed bootstrap at the edge \\
+Rise loads on $G$ more than on $F$ ($d_G-d_F>0$) & 52, 59, 67 & not established: holds under the two-way variance in the per-cell form ($z=2.45$--$2.65$), but the crossed bootstrap is at the edge in four variants and reaches zero on V4.14.1 (lower end $-0.003$); not in a pooled form, with or without correcting $F$ \\
 p75 coupling exceeds p50 coupling & 59 & marginal; not claimed \\
 p25 coupling below p50 coupling & 59 & holds \\
 Coverage accounts for the rise & 52, 59 & removes about a fifth \\
-Rise tracks the field's graduate-degree share & SI check & late segment $+0.53$; whole slope not detected; exploratory \\
+Rise tracks the field's graduate-degree share & 67; SI check & not detected; underpowered (power 0.31) \\
+Rise survives coverage and the research-doctorate rate & 67 & survives; 0.66 of the slope removed, mixing timing and status \\
+Rise present where graduate degrees are least common & 67 & survives; cannot separate a proportional mechanism \\
+Coupling rises across graduation windows at a fixed horizon & 65 & holds ($\theta_c=+0.015$ per year) \\
+Curvature of career, cohort and period profiles & 65 & not identified; none reported \\
+Higher coupling for the Great Recession entry window & 65 & opposite by the pre-set rule, within window-to-window variation \\
+Higher coupling for the pandemic entry window & 65 & opposite (weaker) by the pre-set rule; not separable from a high 2016--18 window \\
+Entry unemployment raises the $G$ coupling & 65 & underpowered at y1, y5; positive at y10 but not within windows \\
+Status loading declines net of selectivity (2026 controls) & 66 & not detected in either country; the 2026 dating of US selectivity favours this outcome, and the test was not re-run with entry-year SAT averages and admission rates \\
+Selectivity loading rises net of status & 66 & not established (US); rises but not relative to status (UK) \\
+Rise survives selectivity dated to entry years & 68 & holds; 0.39 of the raw slope \\
+Results change with selectivity dated to entry years & 68 & not detected; equivalence depends on the margin \\
+Field-specific local demand accounts for the within-institution slope or computer science & 69 & not detected; changes bounded \\
+Earnings noise accounts for the heterogeneity of coupling & 73 & in part; field ordering survives \\
+Classified fields change band after the earnings-noise correction & 73 & not detected (0 of 20) \\
+T0: $F$ measures doctoral production rather than exchange position & 75 & partly production, an upper bound on the production share: $F$ residualised on production keeps 0.60 \ci{0.47}{0.73} of mean coupling \\
+T1: $F$ is one index of standing, the same whether a department places or hires PhDs & 75 & not supported: role consistency $+0.525$ \ci{+0.461}{+0.583} against a registered threshold of 0.80 (contradicted); amended test ``not one index'' under a reading of its benchmark adopted after the literal reading had degenerated; gender audit uninformative by construction \\
+T2: among graduates of the same bachelor's institutions, the doctoral destinations the academy chooses track the department-specific part of $F$ (ORCID records, 7 fields) & 75 & inconclusive: $+0.038$ \ci{-0.090}{+0.166}; MDE 0.183 \\
+T3: the rise of the $G$ loading differs with institutional visibility (log undergraduate enrolment) & 75 & null: $+0.0002$ \ci{-0.0074}{+0.0078} per year; MDE 0.0086 \\
+T4: UK, within attainment bands, the premium to intake selectivity net of $G$ decays with years since graduation & 75 & not supported; registered verdict ``rise'': $+0.0266$ \ci{+0.0157}{+0.0374} per year, concentrated in the middle bands (exploratory split) \\
+T5: the field map of coupling is the same with non-academic status indices (faculty salary, instructional spending, endowment per undergraduate) & 75 & inconclusive: disattenuated correlations $+0.79$ to $+0.88$, lower bounds $+0.41$ to $+0.62$ against a registered 0.70 \\
+T6: where pay follows a schedule (education, nursing), $G$ orders institutions by the scheduled pay level of the census divisions where their graduates work & 75 & supported: $+0.238$ \ci{+0.065}{+0.380}, mainly nursing (education $+0.157$ \ci{-0.058}{+0.330}); the pay index largely records the institution's own division \\
+T7: destination location accounts for the coupling at y5 or its rise & 75 & location-robust at y5 (ratio $+1.01$ \ci{+0.88}{+1.15}); a fifth to a third of the rise moves with destination wages and the out-of-state share (no verdict registered) \\
+T8: share of the family coupling in PSEO Flows that runs between employer sectors & 75 & registered decomposition, no verdict: $+0.212$ \ci{+0.081}{+0.343} \\
+UK survival smaller in pay terms than in rank terms & 72 & holds (73\% against 85\%) \\
+UK $G$ adds to selectivity allowing for error in $G$ & 72 & not detected; not shown to be small at low validity \\
+Computer-science slope differs by entry route & 74 & not detected; underpowered \\
 Strict licensed share and the geography-netted association & 64 & holds between families; 3 of 6 under family resampling; not within families; not with the broad share \\
 Licensed share moderates the within-field slope & 63 & not separable from field type \\
 Setting versus market share in PSEO Flows & 61 & depends on the design; not identified \\
 Placement coupling close to wage coupling & 61 & holds \\
 Within-occupation dispersion law; occupational concentration; kinship & 50, 51, 53 & not detected; underpowered in most versions \\
 Lower pay dispersion in licensed fields & 35c (legacy) & not detected; uninformative \\
-\bottomrule
-\end{tabular}
-\end{table}
+\end{longtable}
+}
 
-\clearpage
 % =====================================================================================
 \section{Earnings as a placement measure}\label{sec:placement}
 
@@ -2057,6 +2878,7 @@ series rises with horizon but the underemployment series falls ($+0.78$ to $+0.6
 
 % =====================================================================================
 \clearpage
+\setlength{\bibsep}{1pt plus 0.3ex}
 \bibliographystyle{plainnat}
 \bibliography{refs_merged}
 

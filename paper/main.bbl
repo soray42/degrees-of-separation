@@ -1,0 +1,616 @@
+\begin{thebibliography}{99}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Altonji and Pierret(2001)]{altonji2001employer}
+Joseph~G. Altonji and Charles~R. Pierret.
+\newblock Employer learning and statistical discrimination.
+\newblock \emph{The Quarterly Journal of Economics}, 116\penalty0 (1):\penalty0 313--350, 2001.
+\newblock \doi{10.1162/003355301556329}.
+
+\bibitem[Altonji et~al.(2012)Altonji, Blom, and Meghir]{altonji2012heterogeneity}
+Joseph~G. Altonji, Erica Blom, and Costas Meghir.
+\newblock Heterogeneity in human capital investments: High school curriculum, college major, and careers.
+\newblock \emph{Annual Review of Economics}, 4\penalty0 (1):\penalty0 185--223, 2012.
+\newblock \doi{10.1146/annurev-economics-080511-110908}.
+
+\bibitem[Altonji et~al.(2016{\natexlab{a}})Altonji, Arcidiacono, and Maurel]{altonji2016analysis}
+Joseph~G. Altonji, Peter Arcidiacono, and Arnaud Maurel.
+\newblock The analysis of field choice in college and graduate school.
+\newblock In \emph{Handbook of the Economics of Education}, volume~5, pages 305--396. Elsevier, 2016{\natexlab{a}}.
+\newblock \doi{10.1016/B978-0-444-63459-7.00007-5}.
+\newblock Also NBER Working Paper 21655 (2015), titled ``The Analysis of Field Choice in College and Graduate School: Determinants and Wage Effects''.
+
+\bibitem[Altonji et~al.(2016{\natexlab{b}})Altonji, Kahn, and Speer]{altonji2016cashier}
+Joseph~G. Altonji, Lisa~B. Kahn, and Jamin~D. Speer.
+\newblock Cashier or consultant? {E}ntry labor market conditions, field of study, and career success.
+\newblock \emph{Journal of Labor Economics}, 34\penalty0 (S1):\penalty0 S361--S401, 2016{\natexlab{b}}.
+\newblock \doi{10.1086/682938}.
+
+\bibitem[Amir and Knauff(2008)]{amir2008ranking}
+Rabah Amir and Malgorzata Knauff.
+\newblock Ranking economics departments worldwide on the basis of {PhD} placement.
+\newblock \emph{The Review of Economics and Statistics}, 90\penalty0 (1):\penalty0 185--190, 2008.
+\newblock \doi{10.1162/rest.90.1.185}.
+
+\bibitem[Andrews et~al.(2016)Andrews, Li, and Lovenheim]{andrews2016quantile}
+Rodney~J. Andrews, Jing Li, and Michael~F. Lovenheim.
+\newblock Quantile treatment effects of college quality on earnings.
+\newblock \emph{Journal of Human Resources}, 51\penalty0 (1):\penalty0 200--238, 2016.
+\newblock \doi{10.3368/jhr.51.1.200}.
+
+\bibitem[Andrews et~al.(2024)Andrews, Imberman, Lovenheim, and Stange]{andrews2024returns}
+Rodney~J. Andrews, Scott~A. Imberman, Michael~F. Lovenheim, and Kevin Stange.
+\newblock The returns to college major choice: Average and distributional effects, career trajectories, and earnings variability.
+\newblock \emph{The Review of Economics and Statistics}, 2024.
+\newblock \doi{10.1162/rest_a_01503}.
+\newblock Published online ahead of print; also NBER Working Paper 30331 (2022).
+
+\bibitem[Araki et~al.(2016)Araki, Kawaguchi, and Onozuka]{araki2016university}
+Shota Araki, Daiji Kawaguchi, and Yuki Onozuka.
+\newblock University prestige, performance evaluation, and promotion: Estimating the employer learning model using personnel datasets.
+\newblock \emph{Labour Economics}, 41:\penalty0 135--148, 2016.
+\newblock \doi{10.1016/j.labeco.2016.05.024}.
+
+\bibitem[Arcidiacono et~al.(2010)Arcidiacono, Bayer, and Hizmo]{arcidiacono2010beyond}
+Peter Arcidiacono, Patrick Bayer, and Aurel Hizmo.
+\newblock Beyond signaling and human capital: Education and the revelation of ability.
+\newblock \emph{American Economic Journal: Applied Economics}, 2\penalty0 (4):\penalty0 76--104, 2010.
+\newblock \doi{10.1257/app.2.4.76}.
+
+\bibitem[Belfield et~al.(2018)Belfield, Britton, Buscha, Dearden, Dickson, van~der Erve, Sibieta, Vignoles, Walker, and Zhu]{belfield2018impact}
+Chris Belfield, Jack Britton, Franz Buscha, Lorraine Dearden, Matt Dickson, Laura van~der Erve, Luke Sibieta, Anna Vignoles, Ian Walker, and Yu~Zhu.
+\newblock The impact of undergraduate degrees on early-career earnings.
+\newblock Research report, Department for Education, 2018.
+\newblock URL \url{https://doi.org/10.1920/re.ifs.2019.0808}.
+\newblock Prepared by the Institute for Fiscal Studies.
+
+\bibitem[Biasi(2021)]{biasi2021labor}
+Barbara Biasi.
+\newblock The labor market for teachers under different pay schemes.
+\newblock \emph{American Economic Journal: Economic Policy}, 13\penalty0 (3):\penalty0 63--102, 2021.
+\newblock \doi{10.1257/pol.20200295}.
+
+\bibitem[Binder et~al.(2016)Binder, Davis, and Bloom]{binder2016career}
+Amy~J. Binder, Daniel~B. Davis, and Nick Bloom.
+\newblock Career funneling: How elite students learn to define and desire ``prestigious'' jobs.
+\newblock \emph{Sociology of Education}, 89\penalty0 (1):\penalty0 20--39, 2016.
+\newblock \doi{10.1177/0038040715610883}.
+
+\bibitem[Black and Smith(2004)]{black2004robust}
+Dan~A. Black and Jeffrey~A. Smith.
+\newblock How robust is the evidence on the effects of college quality? {E}vidence from matching.
+\newblock \emph{Journal of Econometrics}, 121\penalty0 (1--2):\penalty0 99--124, 2004.
+\newblock \doi{10.1016/j.jeconom.2003.10.006}.
+
+\bibitem[Black and Smith(2006)]{black2006estimating}
+Dan~A. Black and Jeffrey~A. Smith.
+\newblock Estimating the returns to college quality with multiple proxies for quality.
+\newblock \emph{Journal of Labor Economics}, 24\penalty0 (3):\penalty0 701--728, 2006.
+\newblock \doi{10.1086/505067}.
+
+\bibitem[Bleemer and Mehta(2022)]{bleemer2022will}
+Zachary Bleemer and Aashish Mehta.
+\newblock Will studying economics make you rich? {A} regression discontinuity analysis of the returns to college major.
+\newblock \emph{American Economic Journal: Applied Economics}, 14\penalty0 (2):\penalty0 1--22, 2022.
+\newblock \doi{10.1257/app.20200447}.
+
+\bibitem[Bloem et~al.(2024)Bloem, Hu, and Hurwitz]{bloem2024understanding}
+Michael~D. Bloem, Xiaowen Hu, and Michael Hurwitz.
+\newblock Understanding variation in post-college earnings: Evidence from the {U.S.} {Department of Education}'s {College Scorecard}.
+\newblock EdWorkingPaper 24-1112, Annenberg Institute at Brown University, 2024.
+\newblock URL \url{https://doi.org/10.26300/9ykq-pg87}.
+
+\bibitem[Bord{\'o}n and Braga(2020)]{bordon2020employer}
+Paola Bord{\'o}n and Breno Braga.
+\newblock Employer learning, statistical discrimination and university prestige.
+\newblock \emph{Economics of Education Review}, 77:\penalty0 101995, 2020.
+\newblock \doi{10.1016/j.econedurev.2020.101995}.
+
+\bibitem[Brewer et~al.(1999)Brewer, Eide, and Ehrenberg]{brewer1999does}
+Dominic~J. Brewer, Eric~R. Eide, and Ronald~G. Ehrenberg.
+\newblock Does it pay to attend an elite private college? {C}ross-cohort evidence on the effects of college type on earnings.
+\newblock \emph{Journal of Human Resources}, 34\penalty0 (1), 1999.
+\newblock \doi{10.2307/146304}.
+
+\bibitem[Britton et~al.(2019)Britton, Dearden, Shephard, and Vignoles]{britton2019improving}
+Jack Britton, Lorraine Dearden, Neil Shephard, and Anna Vignoles.
+\newblock Is improving access to university enough? {S}ocio-economic gaps in the earnings of {English} graduates.
+\newblock \emph{Oxford Bulletin of Economics and Statistics}, 81\penalty0 (2):\penalty0 328--368, 2019.
+\newblock \doi{10.1111/obes.12261}.
+
+\bibitem[Britton et~al.(2020)Britton, Dearden, van~der Erve, and Waltmann]{britton2020impact}
+Jack Britton, Lorraine Dearden, Laura van~der Erve, and Ben Waltmann.
+\newblock The impact of undergraduate degrees on lifetime earnings.
+\newblock Ifs report, Institute for Fiscal Studies, 2020.
+\newblock URL \url{https://doi.org/10.1920/re.ifs.2020.0167}.
+
+\bibitem[Britton et~al.(2022)Britton, van~der Erve, Belfield, Vignoles, Dickson, Zhu, Walker, Dearden, Sibieta, and Buscha]{britton2022how}
+Jack Britton, Laura van~der Erve, Chris Belfield, Anna Vignoles, Matt Dickson, Yu~Zhu, Ian Walker, Lorraine Dearden, Luke Sibieta, and Franz Buscha.
+\newblock How much does degree choice matter?
+\newblock \emph{Labour Economics}, 79:\penalty0 102268, 2022.
+\newblock \doi{10.1016/j.labeco.2022.102268}.
+
+\bibitem[Brown(1910)]{brown1910some}
+William Brown.
+\newblock Some experimental results in the correlation of mental abilities.
+\newblock \emph{British Journal of Psychology}, 3\penalty0 (3):\penalty0 296--322, 1910.
+\newblock \doi{10.1111/j.2044-8295.1910.tb00207.x}.
+
+\bibitem[Budescu(1993)]{budescu1993dominance}
+David~V. Budescu.
+\newblock Dominance analysis: A new approach to the problem of relative importance of predictors in multiple regression.
+\newblock \emph{Psychological Bulletin}, 114\penalty0 (3):\penalty0 542--551, 1993.
+\newblock \doi{10.1037/0033-2909.114.3.542}.
+
+\bibitem[Burris(2004)]{burris2004academic}
+Val Burris.
+\newblock The academic caste system: Prestige hierarchies in {PhD} exchange networks.
+\newblock \emph{American Sociological Review}, 69\penalty0 (2):\penalty0 239--264, 2004.
+\newblock \doi{10.1177/000312240406900205}.
+
+\bibitem[Cameron et~al.(2008)Cameron, Gelbach, and Miller]{cameron2008bootstrap}
+A.~Colin Cameron, Jonah~B. Gelbach, and Douglas~L. Miller.
+\newblock Bootstrap-based improvements for inference with clustered errors.
+\newblock \emph{The Review of Economics and Statistics}, 90\penalty0 (3):\penalty0 414--427, 2008.
+\newblock \doi{10.1162/rest.90.3.414}.
+
+\bibitem[Cameron et~al.(2011)Cameron, Gelbach, and Miller]{cameron2011robust}
+A.~Colin Cameron, Jonah~B. Gelbach, and Douglas~L. Miller.
+\newblock Robust inference with multiway clustering.
+\newblock \emph{Journal of Business \& Economic Statistics}, 29\penalty0 (2):\penalty0 238--249, 2011.
+\newblock \doi{10.1198/jbes.2010.07136}.
+
+\bibitem[Chetty et~al.(2020)Chetty, Friedman, Saez, Turner, and Yagan]{chetty2020income}
+Raj Chetty, John~N. Friedman, Emmanuel Saez, Nicholas Turner, and Danny Yagan.
+\newblock Income segregation and intergenerational mobility across colleges in the {United States}.
+\newblock \emph{The Quarterly Journal of Economics}, 135\penalty0 (3):\penalty0 1567--1633, 2020.
+\newblock \doi{10.1093/qje/qjaa005}.
+
+\bibitem[Chetty et~al.(2026)Chetty, Deming, and Friedman]{chetty2023diversifying}
+Raj Chetty, David~J. Deming, and John~N. Friedman.
+\newblock Diversifying society's leaders? {T}he determinants and causal effects of admission to highly selective private colleges.
+\newblock \emph{The Quarterly Journal of Economics}, 141\penalty0 (1):\penalty0 51--145, 2026.
+\newblock \doi{10.1093/qje/qjaf050}.
+\newblock Earlier version: NBER Working Paper 31492 (2023).
+
+\bibitem[Cheung(2014)]{cheung2014modeling}
+Mike W.-L. Cheung.
+\newblock Modeling dependent effect sizes with three-level meta-analyses: A structural equation modeling approach.
+\newblock \emph{Psychological Methods}, 19\penalty0 (2):\penalty0 211--229, 2014.
+\newblock \doi{10.1037/a0032968}.
+
+\bibitem[Clauset et~al.(2015)Clauset, Arbesman, and Larremore]{clauset2015systematic}
+Aaron Clauset, Samuel Arbesman, and Daniel~B. Larremore.
+\newblock Systematic inequality and hierarchy in faculty hiring networks.
+\newblock \emph{Science Advances}, 1\penalty0 (1):\penalty0 e1400005, 2015.
+\newblock \doi{10.1126/sciadv.1400005}.
+
+\bibitem[Condon and Hughes(2022)]{condon2022prestige}
+David Condon and Bradley Hughes.
+\newblock Occupational prestige ratings data.
+\newblock Harvard Dataverse, version 2.0, 2022.
+\newblock URL \url{https://doi.org/10.7910/DVN/G1E4BF}.
+\newblock Accessed 2026-06-21.
+
+\bibitem[Cunha and Miller(2014)]{cunha2014measuring}
+Jesse~M. Cunha and Trey Miller.
+\newblock Measuring value-added in higher education: Possibilities and limitations in the use of administrative data.
+\newblock \emph{Economics of Education Review}, 42:\penalty0 64--77, 2014.
+\newblock \doi{10.1016/j.econedurev.2014.06.001}.
+
+\bibitem[Dale and Krueger(2002)]{dale2002estimating}
+Stacy~B. Dale and Alan~B. Krueger.
+\newblock Estimating the payoff to attending a more selective college: An application of selection on observables and unobservables.
+\newblock \emph{The Quarterly Journal of Economics}, 117\penalty0 (4):\penalty0 1491--1527, 2002.
+\newblock \doi{10.1162/003355302320935089}.
+
+\bibitem[Dale and Krueger(2014)]{dale2014estimating}
+Stacy~B. Dale and Alan~B. Krueger.
+\newblock Estimating the effects of college characteristics over the career using administrative earnings data.
+\newblock \emph{Journal of Human Resources}, 49\penalty0 (2):\penalty0 323--358, 2014.
+\newblock \doi{10.3368/jhr.49.2.323}.
+
+\bibitem[De~Bacco et~al.(2018)De~Bacco, Larremore, and Moore]{debacco2018physical}
+Caterina De~Bacco, Daniel~B. Larremore, and Cristopher Moore.
+\newblock A physical model for efficient ranking in networks.
+\newblock \emph{Science Advances}, 4\penalty0 (7):\penalty0 eaar8260, 2018.
+\newblock \doi{10.1126/sciadv.aar8260}.
+
+\bibitem[Deming and Noray(2020)]{deming2020earnings}
+David~J. Deming and Kadeem Noray.
+\newblock Earnings dynamics, changing job skills, and {STEM} careers.
+\newblock \emph{The Quarterly Journal of Economics}, 135\penalty0 (4):\penalty0 1965--2005, 2020.
+\newblock \doi{10.1093/qje/qjaa021}.
+
+\bibitem[{Department for Education}(2026)]{dfe_leo_provider}
+{Department for Education}.
+\newblock Graduate outcomes ({LEO}): Provider level data, 2022-23.
+\newblock \url{https://explore-education-statistics.service.gov.uk}, 2026.
+\newblock Accessed 2026-06-22.
+
+\bibitem[Eide et~al.(2016)Eide, Hilmer, and Showalter]{eide2016where}
+Eric~R. Eide, Michael~J. Hilmer, and Mark~H. Showalter.
+\newblock Is it where you go or what you study? {T}he relative influence of college selectivity and college major on earnings.
+\newblock \emph{Contemporary Economic Policy}, 34\penalty0 (1):\penalty0 37--46, 2016.
+\newblock \doi{10.1111/coep.12115}.
+
+\bibitem[Farber and Gibbons(1996)]{farber1996learning}
+Henry~S. Farber and Robert Gibbons.
+\newblock Learning and wage dynamics.
+\newblock \emph{The Quarterly Journal of Economics}, 111\penalty0 (4):\penalty0 1007--1047, 1996.
+\newblock \doi{10.2307/2946706}.
+
+\bibitem[{Federal Reserve Bank of New York}(2026)]{nyfed2026labor}
+{Federal Reserve Bank of New York}.
+\newblock The labor market for recent college graduates.
+\newblock \url{https://www.newyorkfed.org/research/college-labor-market}, 2026.
+\newblock Data by major, updated 2026-02-04.
+
+\bibitem[Foote and Stange(2026)]{foote2026attrition}
+Andrew Foote and Kevin Stange.
+\newblock Attrition from administrative data: Problems and solutions with an application to postsecondary education.
+\newblock \emph{The Review of Economics and Statistics}, 2026.
+\newblock \doi{10.1162/rest.a.1703}.
+\newblock Published online ahead of print; also NBER Working Paper 30232 (2022).
+
+\bibitem[Fosse and Winship(2019{\natexlab{a}})]{fosse2019analyzing}
+Ethan Fosse and Christopher Winship.
+\newblock Analyzing age-period-cohort data: A review and critique.
+\newblock \emph{Annual Review of Sociology}, 45\penalty0 (1):\penalty0 467--492, 2019{\natexlab{a}}.
+\newblock \doi{10.1146/annurev-soc-073018-022616}.
+
+\bibitem[Fosse and Winship(2019{\natexlab{b}})]{fosse2019bounding}
+Ethan Fosse and Christopher Winship.
+\newblock Bounding analyses of age-period-cohort effects.
+\newblock \emph{Demography}, 56\penalty0 (5):\penalty0 1975--2004, 2019{\natexlab{b}}.
+\newblock \doi{10.1007/s13524-019-00801-6}.
+
+\bibitem[Fowler et~al.(2007)Fowler, Grofman, and Masuoka]{fowler2007social}
+James~H. Fowler, Bernard Grofman, and Natalie Masuoka.
+\newblock Social networks in political science: Hiring and placement of {Ph.D.s}, 1960--2002.
+\newblock \emph{PS: Political Science \& Politics}, 40\penalty0 (4):\penalty0 729--739, 2007.
+\newblock \doi{10.1017/s104909650707117x}.
+
+\bibitem[Gr{\"o}mping(2007)]{gromping2007estimators}
+Ulrike Gr{\"o}mping.
+\newblock Estimators of relative importance in linear regression based on variance decomposition.
+\newblock \emph{The American Statistician}, 61\penalty0 (2):\penalty0 139--147, 2007.
+\newblock \doi{10.1198/000313007X188252}.
+
+\bibitem[Hastings et~al.(2013)Hastings, Neilson, and Zimmerman]{hastings2013some}
+Justine~S. Hastings, Christopher~A. Neilson, and Seth~D. Zimmerman.
+\newblock Are some degrees worth more than others? {E}vidence from college admission cutoffs in {Chile}.
+\newblock NBER Working Paper 19241, National Bureau of Economic Research, 2013.
+\newblock URL \url{https://doi.org/10.3386/w19241}.
+
+\bibitem[Hattie and Marsh(1996)]{hattie1996relationship}
+John Hattie and H.~W. Marsh.
+\newblock The relationship between research and teaching: A meta-analysis.
+\newblock \emph{Review of Educational Research}, 66\penalty0 (4):\penalty0 507--542, 1996.
+\newblock \doi{10.3102/00346543066004507}.
+
+\bibitem[Headworth and Freese(2016)]{headworth2016credential}
+Spencer Headworth and Jeremy Freese.
+\newblock Credential privilege or cumulative advantage? {P}restige, productivity, and placement in the academic sociology job market.
+\newblock \emph{Social Forces}, 94\penalty0 (3):\penalty0 1257--1282, 2016.
+\newblock \doi{10.1093/sf/sov102}.
+
+\bibitem[Higgins and Thompson(2002)]{higgins2002quantifying}
+Julian P.~T. Higgins and Simon~G. Thompson.
+\newblock Quantifying heterogeneity in a meta-analysis.
+\newblock \emph{Statistics in Medicine}, 21\penalty0 (11):\penalty0 1539--1558, 2002.
+\newblock \doi{10.1002/sim.1186}.
+
+\bibitem[Hoekstra(2009)]{hoekstra2009effect}
+Mark Hoekstra.
+\newblock The effect of attending the flagship state university on earnings: A discontinuity-based approach.
+\newblock \emph{The Review of Economics and Statistics}, 91\penalty0 (4):\penalty0 717--724, 2009.
+\newblock \doi{10.1162/rest.91.4.717}.
+
+\bibitem[Hughes et~al.(2024)Hughes, Srivastava, Leszko, and Condon]{hughes2024occupational}
+Bradley~T. Hughes, Sanjay Srivastava, Magdalena Leszko, and David~M. Condon.
+\newblock Occupational prestige: The status component of socioeconomic status.
+\newblock \emph{Collabra: Psychology}, 10\penalty0 (1):\penalty0 92882, 2024.
+\newblock \doi{10.1525/collabra.92882}.
+
+\bibitem[Hussain et~al.(2009)Hussain, McNally, and Telhaj]{hussain2009university}
+Iftikhar Hussain, Sandra McNally, and Shqiponja Telhaj.
+\newblock University quality and graduate wages in the {UK}.
+\newblock IZA Discussion Paper 4043, Institute of Labor Economics (IZA), 2009.
+\newblock URL \url{https://docs.iza.org/dp4043.pdf}.
+
+\bibitem[Kahn and Lange(2014)]{kahn2014employer}
+Lisa~B. Kahn and Fabian Lange.
+\newblock Employer learning, productivity, and the earnings distribution: Evidence from performance measures.
+\newblock \emph{The Review of Economic Studies}, 81\penalty0 (4):\penalty0 1575--1613, 2014.
+\newblock \doi{10.1093/restud/rdu021}.
+
+\bibitem[Kim et~al.(2015)Kim, Tamborini, and Sakamoto]{kim2015field}
+ChangHwan Kim, Christopher~R. Tamborini, and Arthur Sakamoto.
+\newblock Field of study in college and lifetime earnings in the {United States}.
+\newblock \emph{Sociology of Education}, 88\penalty0 (4):\penalty0 320--339, 2015.
+\newblock \doi{10.1177/0038040715602132}.
+
+\bibitem[Kirkeb{\o}en et~al.(2016)Kirkeb{\o}en, Leuven, and Mogstad]{kirkeboen2016field}
+Lars~J. Kirkeb{\o}en, Edwin Leuven, and Magne Mogstad.
+\newblock Field of study, earnings, and self-selection.
+\newblock \emph{The Quarterly Journal of Economics}, 131\penalty0 (3):\penalty0 1057--1111, 2016.
+\newblock \doi{10.1093/qje/qjw019}.
+\newblock Erratum: Quarterly Journal of Economics 132(3), 1551--1552 (2017), doi:10.1093/qje/qjx025.
+
+\bibitem[Kleiner and Krueger(2013)]{kleiner2013analyzing}
+Morris~M. Kleiner and Alan~B. Krueger.
+\newblock Analyzing the extent and influence of occupational licensing on the labor market.
+\newblock \emph{Journal of Labor Economics}, 31\penalty0 (S1):\penalty0 S173--S202, 2013.
+\newblock \doi{10.1086/669060}.
+
+\bibitem[Konstantopoulos(2011)]{konstantopoulos2011fixed}
+Spyros Konstantopoulos.
+\newblock Fixed effects and variance components estimation in three-level meta-analysis.
+\newblock \emph{Research Synthesis Methods}, 2\penalty0 (1):\penalty0 61--76, 2011.
+\newblock \doi{10.1002/jrsm.35}.
+
+\bibitem[Lange(2007)]{lange2007speed}
+Fabian Lange.
+\newblock The speed of employer learning.
+\newblock \emph{Journal of Labor Economics}, 25\penalty0 (1):\penalty0 1--35, 2007.
+\newblock \doi{10.1086/508730}.
+
+\bibitem[Li(2026)]{li2026orcid}
+Yifeng Li.
+\newblock {ORCID}-derived academic mobility edges with resolved cities and organizations.
+\newblock Zenodo, 2026.
+\newblock URL \url{https://doi.org/10.5281/zenodo.19651302}.
+\newblock Version 20260419.
+
+\bibitem[MacLeod et~al.(2017)MacLeod, Riehl, Saavedra, and Urquiola]{macleod2017big}
+W.~Bentley MacLeod, Evan Riehl, Juan~E. Saavedra, and Miguel Urquiola.
+\newblock The big sort: College reputation and labor market outcomes.
+\newblock \emph{American Economic Journal: Applied Economics}, 9\penalty0 (3):\penalty0 223--261, 2017.
+\newblock \doi{10.1257/app.20160126}.
+\newblock Earlier version: NBER Working Paper No. 21230, June 2015.
+
+\bibitem[Mansour(2012)]{mansour2012does}
+Hani Mansour.
+\newblock Does employer learning vary by occupation?
+\newblock \emph{Journal of Labor Economics}, 30\penalty0 (2):\penalty0 415--444, 2012.
+\newblock \doi{10.1086/663590}.
+
+\bibitem[Morgan et~al.(2018)Morgan, Economou, Way, and Clauset]{morgan2018prestige}
+Allison~C. Morgan, Dimitrios~J. Economou, Samuel~F. Way, and Aaron Clauset.
+\newblock Prestige drives epistemic inequality in the diffusion of scientific ideas.
+\newblock \emph{EPJ Data Science}, 7\penalty0 (1):\penalty0 40, 2018.
+\newblock \doi{10.1140/epjds/s13688-018-0166-4}.
+
+\bibitem[Morgan et~al.(2022)Morgan, LaBerge, Larremore, Galesic, Brand, and Clauset]{morgan2022socioeconomic}
+Allison~C. Morgan, Nicholas LaBerge, Daniel~B. Larremore, Mirta Galesic, Jennie~E. Brand, and Aaron Clauset.
+\newblock Socioeconomic roots of academic faculty.
+\newblock \emph{Nature Human Behaviour}, 6\penalty0 (12):\penalty0 1625--1633, 2022.
+\newblock \doi{10.1038/s41562-022-01425-4}.
+
+\bibitem[Mountjoy and Hickman(2021)]{mountjoy2021returns}
+Jack Mountjoy and Brent Hickman.
+\newblock The returns to college(s): Relative value-added and match effects in higher education.
+\newblock NBER Working Paper 29276, National Bureau of Economic Research, 2021.
+\newblock URL \url{https://doi.org/10.3386/w29276}.
+
+\bibitem[Muse and Muse(2024)]{muse2024college}
+William~Brian Muse and Iryna Muse.
+\newblock College selectivity, choice of major, and post-college earnings.
+\newblock \emph{Journal of Economic Analysis}, 3\penalty0 (2):\penalty0 33--51, 2024.
+\newblock \doi{10.58567/jea03020003}.
+
+\bibitem[{National Center for Education Statistics}(2026)]{nces_ipeds}
+{National Center for Education Statistics}.
+\newblock Integrated postsecondary education data system ({IPEDS}): Completions and institutional characteristics.
+\newblock \url{https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx}, 2026.
+\newblock Completions C2023 (accessed 2026-06-20) and directory HD2023.
+
+\bibitem[{National Center for Science and Engineering Statistics}(2026)]{ncses_sed_bacc}
+{National Center for Science and Engineering Statistics}.
+\newblock Survey of earned doctorates: Doctorate recipients by baccalaureate institution (interactive data tool).
+\newblock \url{https://ncsesdata.nsf.gov/builder/sed}, 2026.
+\newblock Doctorate years 2000--2024; accessed 2026-09-24.
+
+\bibitem[{National Research Council}(1995)]{nrc1995research}
+{National Research Council}.
+\newblock \emph{Research-Doctorate Programs in the {United States}: Continuity and Change}.
+\newblock National Academies Press, Washington, DC, 1995.
+\newblock \doi{10.17226/4915}.
+
+\bibitem[{National Research Council}(2011)]{nrc2011data}
+{National Research Council}.
+\newblock \emph{A Data-Based Assessment of Research-Doctorate Programs in the {United States}}.
+\newblock National Academies Press, Washington, DC, 2011.
+\newblock \doi{10.17226/12994}.
+
+\bibitem[{ORCID, Inc.}(2026)]{orcid}
+{ORCID, Inc.}
+\newblock {ORCID: Open Researcher and Contributor ID} --- public registry and public {API}.
+\newblock Researcher persistent identifiers with date-stamped employment/education affiliations, 2026.
+\newblock URL \url{https://orcid.org}.
+\newblock Public data as used in the ORCID-derived mobility-edge release of 2026-04-19. Employment/education affiliations include organization (ROR/GRID-disambiguated), role/department, and start/end dates at year granularity.
+
+\bibitem[Oreopoulos et~al.(2012)Oreopoulos, von Wachter, and Heisz]{oreopoulos2012short}
+Philip Oreopoulos, Till von Wachter, and Andrew Heisz.
+\newblock The short- and long-term career effects of graduating in a recession.
+\newblock \emph{American Economic Journal: Applied Economics}, 4\penalty0 (1):\penalty0 1--29, 2012.
+\newblock \doi{10.1257/app.4.1.1}.
+
+\bibitem[Oster(2019)]{oster2019unobservable}
+Emily Oster.
+\newblock Unobservable selection and coefficient stability: Theory and evidence.
+\newblock \emph{Journal of Business \& Economic Statistics}, 37\penalty0 (2):\penalty0 187--204, 2019.
+\newblock \doi{10.1080/07350015.2016.1227711}.
+
+\bibitem[Quadlin et~al.(2021)Quadlin, Cohen, and VanHeuvelen]{quadlin2021same}
+Natasha Quadlin, Emma~D. Cohen, and Tom VanHeuvelen.
+\newblock Same major, same economic returns? {C}ollege selectivity and earnings inequality in young adulthood.
+\newblock \emph{Research in Social Stratification and Mobility}, 75:\penalty0 100647, 2021.
+\newblock \doi{10.1016/j.rssm.2021.100647}.
+
+\bibitem[Redbird(2017)]{redbird2017new}
+Beth Redbird.
+\newblock The new closed shop? {T}he economic and structural effects of occupational licensure.
+\newblock \emph{American Sociological Review}, 82\penalty0 (3):\penalty0 600--624, 2017.
+\newblock \doi{10.1177/0003122417706463}.
+
+\bibitem[{Research Organization Registry}(2026)]{ror2026data}
+{Research Organization Registry}.
+\newblock {ROR} data, version 2.8.
+\newblock Zenodo, 2026.
+\newblock URL \url{https://doi.org/10.5281/zenodo.20512981}.
+\newblock Data dump v2.8, 2026-06-02.
+
+\bibitem[Riehl et~al.(2019)Riehl, Saavedra, and Urquiola]{riehl2019learning}
+Evan Riehl, Juan~E. Saavedra, and Miguel Urquiola.
+\newblock Learning and earning: An approximation to college value added in two dimensions.
+\newblock In \emph{Productivity in Higher Education}, pages 105--132. University of Chicago Press, 2019.
+\newblock \doi{10.7208/chicago/9780226574615.003.0005}.
+
+\bibitem[Rivera(2015)]{rivera2015pedigree}
+Lauren~A. Rivera.
+\newblock \emph{Pedigree: How Elite Students Get Elite Jobs}.
+\newblock Princeton University Press, 2015.
+\newblock \doi{10.1515/9781400865895}.
+
+\bibitem[Roksa and Levey(2010)]{roksa2010what}
+J.~Roksa and T.~Levey.
+\newblock What can you do with that degree? {C}ollege major and occupational status of college graduates over time.
+\newblock \emph{Social Forces}, 89\penalty0 (2):\penalty0 389--415, 2010.
+\newblock \doi{10.1353/sof.2010.0085}.
+
+\bibitem[Shorrocks(2013)]{shorrocks2013decomposition}
+Anthony~F. Shorrocks.
+\newblock Decomposition procedures for distributional analysis: A unified framework based on the {Shapley} value.
+\newblock \emph{The Journal of Economic Inequality}, 11\penalty0 (1):\penalty0 99--126, 2013.
+\newblock \doi{10.1007/s10888-011-9214-z}.
+
+\bibitem[Simonsohn et~al.(2020)Simonsohn, Simmons, and Nelson]{simonsohn2020specification}
+Uri Simonsohn, Joseph~P. Simmons, and Leif~D. Nelson.
+\newblock Specification curve analysis.
+\newblock \emph{Nature Human Behaviour}, 4\penalty0 (11):\penalty0 1208--1214, 2020.
+\newblock \doi{10.1038/s41562-020-0912-z}.
+
+\bibitem[Spearman(1904)]{spearman1904proof}
+C.~Spearman.
+\newblock The proof and measurement of association between two things.
+\newblock \emph{The American Journal of Psychology}, 15\penalty0 (1), 1904.
+\newblock \doi{10.2307/1412159}.
+
+\bibitem[Spearman(1910)]{spearman1910correlation}
+C.~Spearman.
+\newblock Correlation calculated from faulty data.
+\newblock \emph{British Journal of Psychology}, 3\penalty0 (3):\penalty0 271--295, 1910.
+\newblock \doi{10.1111/j.2044-8295.1910.tb00206.x}.
+
+\bibitem[Tervi{\"o}(2011)]{tervio2011divisions}
+Marko Tervi{\"o}.
+\newblock Divisions within academia: Evidence from faculty hiring and placement.
+\newblock \emph{The Review of Economics and Statistics}, 93\penalty0 (3):\penalty0 1053--1062, 2011.
+\newblock \doi{10.1162/rest_a_00108}.
+
+\bibitem[Thomas and Zhang(2005)]{thomas2005postbaccalaureate}
+Scott~L. Thomas and Liang Zhang.
+\newblock Post-baccalaureate wage growth within four years of graduation: The effects of college quality and college major.
+\newblock \emph{Research in Higher Education}, 46\penalty0 (4):\penalty0 437--459, 2005.
+\newblock \doi{10.1007/s11162-005-2969-y}.
+
+\bibitem[{U.S. Bureau of Labor Statistics}(2026)]{fred_laus}
+{U.S. Bureau of Labor Statistics}.
+\newblock Local area unemployment statistics: State unemployment rates, seasonally adjusted.
+\newblock Retrieved from FRED, Federal Reserve Bank of St. Louis, \url{https://fred.stlouisfed.org}, 2026.
+\newblock Series ALUR to WYUR; accessed 2026-09-24.
+
+\bibitem[{U.S. Census Bureau}(2026)]{census_acs2023_pums}
+{U.S. Census Bureau}.
+\newblock American community survey 2023 1-year public use microdata sample ({PUMS}).
+\newblock \url{https://www2.census.gov/programs-surveys/acs/data/pums/2023/1-Year/}, 2026.
+\newblock National person file; accessed 2026-06-20.
+
+\bibitem[{U.S. Census Bureau, Longitudinal Employer-Household Dynamics}(2025)]{pseo}
+{U.S. Census Bureau, Longitudinal Employer-Household Dynamics}.
+\newblock {Post-Secondary Employment Outcomes (PSEO)}.
+\newblock \url{https://lehd.ces.census.gov/data/pseo_experimental.html}, 2025.
+\newblock Release V4.13.0 / 2025Q4; accessed 2026-06.
+
+\bibitem[{U.S. Census Bureau, Longitudinal Employer-Household Dynamics}(2026)]{pseo2026}
+{U.S. Census Bureau, Longitudinal Employer-Household Dynamics}.
+\newblock {Post-Secondary Employment Outcomes (PSEO)}, release {V4.14.1}.
+\newblock \url{https://lehd.ces.census.gov/data/pseo_experimental.html}, 2026.
+\newblock Release V4.14.1 / 2026Q2; accessed 2026-09-23.
+
+\bibitem[{U.S. Department of Education}(2026)]{scorecard}
+{U.S. Department of Education}.
+\newblock {College Scorecard} data: Field of study, institution and historical (all data files) releases of 10 june 2026.
+\newblock \url{https://collegescorecard.ed.gov/data/}, 2026.
+\newblock Accessed 2026-06-20 (Field of Study), 2026-09-23 (Institution) and 2026-09-24 (historical raw-data archive).
+
+\bibitem[Walker and Zhu(2011)]{walker2011differences}
+Ian Walker and Yu~Zhu.
+\newblock Differences by degree: Evidence of the net financial rates of return to undergraduate study for {England} and {Wales}.
+\newblock \emph{Economics of Education Review}, 30\penalty0 (6):\penalty0 1177--1186, 2011.
+\newblock \doi{10.1016/j.econedurev.2011.01.002}.
+
+\bibitem[Walker and Zhu(2018)]{walker2018university}
+Ian Walker and Yu~Zhu.
+\newblock University selectivity and the relative returns to higher education: Evidence from the {UK}.
+\newblock \emph{Labour Economics}, 53:\penalty0 230--249, 2018.
+\newblock \doi{10.1016/j.labeco.2018.05.005}.
+
+\bibitem[Wapman et~al.(2022{\natexlab{a}})Wapman, Zhang, Clauset, and Larremore]{wapman2022data}
+K.~Hunter Wapman, Sam Zhang, Aaron Clauset, and Daniel~B. Larremore.
+\newblock Data for ``{Quantifying hierarchy and dynamics in U.S. faculty hiring and retention}''.
+\newblock Zenodo dataset, version 1, 2022{\natexlab{a}}.
+\newblock URL \url{https://doi.org/10.5281/zenodo.6941651}.
+\newblock Published SpringRank ranks for 81 fields (107 fields in the census), 368 PhD-granting institutions, 2011--2020; CC BY 3.0 US.
+
+\bibitem[Wapman et~al.(2022{\natexlab{b}})Wapman, Zhang, Clauset, and Larremore]{wapman2022quantifying}
+K.~Hunter Wapman, Sam Zhang, Aaron Clauset, and Daniel~B. Larremore.
+\newblock Quantifying hierarchy and dynamics in {US} faculty hiring and retention.
+\newblock \emph{Nature}, 610\penalty0 (7930):\penalty0 120--127, 2022{\natexlab{b}}.
+\newblock \doi{10.1038/s41586-022-05222-x}.
+\newblock Author Correction: Nature 619, E49 (2023), doi:10.1038/s41586-023-06379-9.
+
+\bibitem[Way et~al.(2019)Way, Morgan, Larremore, and Clauset]{way2019productivity}
+Samuel~F. Way, Allison~C. Morgan, Daniel~B. Larremore, and Aaron Clauset.
+\newblock Productivity, prominence, and the effects of academic environment.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 116\penalty0 (22):\penalty0 10729--10733, 2019.
+\newblock \doi{10.1073/pnas.1817431116}.
+
+\bibitem[Webb(2023)]{webb2023reworking}
+Matthew~D. Webb.
+\newblock Reworking wild bootstrap-based inference for clustered errors.
+\newblock \emph{Canadian Journal of Economics}, 56\penalty0 (3):\penalty0 839--858, 2023.
+\newblock \doi{10.1111/caje.12661}.
+
+\bibitem[Webber(2014)]{webber2014lifetime}
+Douglas~A. Webber.
+\newblock The lifetime earnings premia of different majors: Correcting for selection based on cognitive, noncognitive, and unobserved factors.
+\newblock \emph{Labour Economics}, 28:\penalty0 14--23, 2014.
+\newblock \doi{10.1016/j.labeco.2014.03.009}.
+
+\bibitem[Witteveen and Attewell(2017)]{witteveen2017earnings}
+Dirk Witteveen and Paul Attewell.
+\newblock The earnings payoff from attending a selective college.
+\newblock \emph{Social Science Research}, 66:\penalty0 154--169, 2017.
+\newblock \doi{10.1016/j.ssresearch.2017.01.005}.
+
+\bibitem[Zhang et~al.(2022)Zhang, Wapman, Larremore, and Clauset]{zhang2022labor}
+Sam Zhang, K.~Hunter Wapman, Daniel~B. Larremore, and Aaron Clauset.
+\newblock Labor advantages drive the greater productivity of faculty at elite universities.
+\newblock \emph{Science Advances}, 8\penalty0 (46):\penalty0 eabq7056, 2022.
+\newblock \doi{10.1126/sciadv.abq7056}.
+\newblock Code and data: Zenodo, doi:10.5281/zenodo.7126263.
+
+\bibitem[Zimmerman(2019)]{zimmerman2019elite}
+Seth~D. Zimmerman.
+\newblock Elite colleges and upward mobility to top jobs and top incomes.
+\newblock \emph{American Economic Review}, 109\penalty0 (1):\penalty0 1--47, 2019.
+\newblock \doi{10.1257/aer.20171019}.
+
+\end{thebibliography}

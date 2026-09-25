@@ -108,6 +108,23 @@ REVISION NOTE 2 (added after an independent verification of the first full run; 
   The md5 of the PRE-SPECIFICATION block is printed in the write-up; the timing claims above are self-reported (the
   script was not committed before the first estimating run).
 
+REVISION NOTE 3 (second pass after REVISION NOTE 2; nothing above was changed; no estimate changes, only checks,
+  wording and provenance). (1) The model-free age-axis curvature within a window is shown to equal kappa_A plus a
+  period curvature over its earnings years c+1, c+5, c+10, and every estimable function that contains A(5) carries the
+  same total weight on the period effects of the y5 earnings windows (design checks); the write-up lists the
+  restriction-free quantities accordingly. (2) The statement that Massachusetts institutions appear only from the
+  2010-12 window and in none of the fixed samples spanning 2010 is now computed and printed. (3) The Caveats no
+  longer say the script is untracked in git (it was committed after the estimating runs of REVISION NOTE 2).
+  (4) The md5 of the PSEO Flows file read here is printed (its download record is in FLOWS_PLACEMENT_RESULT.md,
+  scripts/61); a provenance subsection for it was appended to data/raw/SOURCES.md and the write-up checks that its
+  md5 is recorded there.
+  (5) The agreement of every WCR p with its WCR-inverted CI (p > 0.05 exactly when the CI contains 0) and the
+  contiguity of the accepted sets are counted and printed. (6) The Method's number of lack-of-fit contrasts of the
+  plane is computed, not typed; the Method names the restriction-free quantities, and the key-numbers rows of the
+  M_APC fits carry the period restriction in their sample label. (7) The period-only combinations that are estimable
+  with free period effects (DP2005 - DP2014, DP2008 - DP2017, sums of three adjacent period deviations) are named
+  and checked, and so is the rank of the listed cohort combinations.
+
 Descriptive and not causal. Seeded; outputs byte-identical on re-run (the FRED files are read from data/raw once
 downloaded; their md5s are printed in the write-up).
 Run: python scripts/65_coupling_dynamics.py
@@ -731,6 +748,42 @@ def design_checks() -> dict:
     assert span_dev_dk == dim_all
     dim_dk = est_dim(np.column_stack([FV[n] for n in names if n.startswith("DK")]))
     dim_ka_dp = est_dim(np.column_stack([FV[n] for n in names if not n.startswith("DK")]))
+    rank_all = int(np.linalg.matrix_rank(Mall))
+    # REVISION NOTE 3: the period-only combinations estimable with free period effects (the analogues of DKCOMBO);
+    # they span the estimable part among the age and period contrasts
+    dpc = [{2005: 1.0, 2014: -1.0}, {2008: 1.0, 2017: -1.0}, {2005: 1.0, 2008: 1.0, 2011: 1.0},
+           {2008: 1.0, 2011: 1.0, 2014: 1.0}, {2011: 1.0, 2014: 1.0, 2017: 1.0}]
+    dpv = [sum(w_ * FV[f"DP{t_}"] for t_, w_ in cmb.items()) for cmb in dpc]
+    assert all(estimable(v, Xfree) for v in dpv)
+    assert int(np.linalg.matrix_rank(np.column_stack(dpv))) == dim_ka_dp
+    dkv = [np.concatenate([dk_combo_vec(c)[:nAK], np.zeros(len(per))]) for c in DKCOMBO.values()]
+    assert int(np.linalg.matrix_rank(np.column_stack(dkv))) == dim_dk
+    # REVISION NOTE 3: the model-free age-axis curvature within window c (Answer 6), z(c,y5) - 5/9 z(c,y1) -
+    # 4/9 z(c,y10), is a cell-mean combination (estimable); in parameters it is kA plus the period curvature
+    # P(c+5) - 5/9 P(c+1) - 4/9 P(c+10). A(5) enters only the y5 cells, whose earnings windows are all single-cell, so
+    # in every row of the design (hence in every estimable function) the A(5) coefficient equals the total coefficient
+    # on the y5 earnings windows' period effects: kA cannot be separated from them.
+    y5per = sorted({int(c) + HY["y5"] for c in CO["y5"]})
+    assert all(nobs[t] == 1 for t in y5per)
+    ia5 = 1 + AGES.index(5)
+    assert all(abs(r[ia5] - sum(r[nAK + per.index(t)] for t in y5per)) < 1e-12 for r in Xfree)
+    # equivalently: A(5) + d together with P(t) - d for every y5 earnings window t leaves every cell mean unchanged
+    d_null = np.zeros(Xfree.shape[1])
+    d_null[ia5] = 1.0
+    for t in y5per:
+        d_null[nAK + per.index(t)] = -1.0
+    assert np.abs(Xfree @ d_null).max() < 1e-12
+    assert abs(np.concatenate([contrast_vec("kA")[:nAK], np.zeros(len(per))]) @ d_null - 1.0) < 1e-12
+    agecurv = {}
+    for c in CO["y10"]:
+        rw = {h: Xfree[CELLS17.index((c, h))] for h in HZ}
+        v = rw["y5"] - 5 / 9 * rw["y1"] - 4 / 9 * rw["y10"]
+        assert estimable(v, Xfree)
+        assert np.allclose(v[:nAK], contrast_vec("kA")[:nAK], atol=1e-12)
+        pv = {per[i]: float(x) for i, x in enumerate(v[nAK:]) if abs(x) > 1e-12}
+        assert set(pv) == {int(c) + 1, int(c) + 5, int(c) + 10}
+        assert abs(pv[int(c) + 5] - 1.0) < 1e-12 and abs(pv[int(c) + 1] + 5 / 9) < 1e-12
+        agecurv[c] = pv
     combo_w = {}
     for name, cmb in DKCOMBO.items():
         v = np.concatenate([dk_combo_vec(cmb)[:nAK], np.zeros(len(per))])
@@ -757,7 +810,9 @@ def design_checks() -> dict:
                 free_cols=Xfree.shape[1], free_rank=int(np.linalg.matrix_rank(Xfree)),
                 pw_cols=Xpw.shape[1], pw_rank=int(np.linalg.matrix_rank(Xpw)), free_est=free_est, pw_est=pw_est,
                 dim_all=dim_all, n_all=len(FV), dim_dk=dim_dk, dim_ka_dp=dim_ka_dp, combo_w=combo_w,
-                n_dev=n_dev, rank_dev=rank_dev, ka_in=ka_in,
+                n_dev=n_dev, rank_dev=rank_dev, ka_in=ka_in, rank_all=rank_all, agecurv=agecurv, y5per=y5per,
+                dp_combos=[" + ".join(f"DP{t_}" for t_ in c_) if len(c_) == 3 else f"DP{min(c_)} - DP{max(c_)}"
+                           for c_ in dpc],
                 N_pw=left_null(Xpw), N_lin=left_null(Xlin), alt=alt)
 
 
@@ -1582,6 +1637,29 @@ def main():
             note=f"division 1 / national y1 employed graduates; {x['n_inst']} of {x['n_ids']} institutions with "
                  f"both rows released")
 
+    # REVISION NOTE 3: Massachusetts institutions (LEHD frame from 2010) by window and in each sample; md5 of the
+    # PSEO Flows files read above
+    ma_keys = set(L.loc[L.state == "MA", "inst_key"])
+    MA = dict(n=len(ma_keys), win={h: sorted(L.loc[(L.state == "MA") & (L.horizon == h), "grad_cohort"].unique())
+                                   for h in HZ},
+              samp={s_: len(ma_keys & set().union(*[set(c_["df"].inst_key) for c_ in CELL if c_["sample"] == s_]))
+                    for s_ in ("fixed17", "gr_y1", "gr_y5", "gr_y10", "covid_y1", "covid_y5", "career", "all")},
+              t2={h: len(ma_keys & set(T2S[h].inst_key)) for h in HZ},
+              nh={h: int(L[(L.state == "MA") & (L.horizon == h)].inst_key.nunique()) for h in HZ})
+    for h in HZ:
+        rec("design", f"Massachusetts institutions with released cells, {h}", float(MA["nh"][h]), horizon=h,
+            note="windows: " + ", ".join(grad_years(c) for c in MA["win"][h]))
+        rec("design", f"Massachusetts institutions in the Test 2 balanced sample, {h}", float(MA["t2"][h]), horizon=h)
+    for s_, n_ in MA["samp"].items():
+        rec("design", f"Massachusetts institutions in sample {s_}", float(n_))
+    FLM = {p_.name: dict(md5=md5(p_), bytes=p_.stat().st_size)
+           for p_ in (PSEOF_NEW, PSEOF_NEW.parent / "version_pseo.txt")}
+    src_txt_ = (ROOT / "data" / "raw" / "SOURCES.md").read_text()
+    for n_, x_ in FLM.items():
+        x_["in_sources"] = x_["md5"] in src_txt_
+        rec("design", f"md5 of data/raw/pseo_flows_2026q2/{n_}", float(x_["in_sources"]), n=x_["bytes"],
+            note=f"{x_['md5']}; estimate = 1 if this md5 is recorded in data/raw/SOURCES.md")
+
     # design checks and joint tests into the results file (REVISION NOTE 2)
     for n_, e_ in dchk["free_est"].items():
         rec("design", f"estimable with free period effects: {n_}", float(e_), note="1 = estimable, 0 = not")
@@ -1593,7 +1671,7 @@ def main():
     rec("design", "md5 of the PRE-SPECIFICATION block", np.nan, note=PREMD5)
     pd.DataFrame(RES).to_csv(OUT_RES, index=False, float_format="%.10g")
     make_figure(SF)
-    write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, NE, PREMD5)
+    write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, NE, PREMD5, MA, FLM)
     stage("done")
 
 
@@ -1687,7 +1765,7 @@ def t2_disagree(T2) -> list:
     return out
 
 
-def write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, NE, PREMD5):
+def write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, NE, PREMD5, MA, FLM):
     L = []
     w = L.append
     g1, g5, g10, cv = T["T1:gr_y1"], T["T1:gr_y5"], T["T1:gr_y10"], T["T1:covid_y1"]
@@ -1730,7 +1808,7 @@ def write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, 
       f"script was not committed (or hashed) before the first estimating run, so the repository cannot confirm the "
       f"timing. Two exploratory analyses were added after a development run had printed estimates (placebo windows "
       f"and a G~ x window-trend version of Test 2; REVISION NOTE); further post hoc additions and corrections made "
-      f"after an independent verification are listed in REVISION NOTE 2 and in the Revisions section at the end. "
+      f"after an independent verification are listed in REVISION NOTES 2 and 3 and in the Revisions section at the end. "
       f"The pre-specified tests, samples and verdict rule are unchanged.\n")
 
     # ---------------- answer
@@ -1980,14 +2058,24 @@ def write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, 
       f"none of the {len(curv_names)} curvature contrasts is estimable (checked one by one: "
       + ", ".join(f"{cshort(k)} {'estimable' if dchk['free_est'][k] else 'not estimable'}" for k in curv_names)
       + f"; the period contrasts in their free-period form on the y1 earnings grid). Of the "
-      f"{dchk['n_all']}-dimensional span of these contrasts a part of dimension {dchk['dim_all']} is estimable "
+      f"{dchk['rank_all']}-dimensional span of these contrasts a part of dimension {dchk['dim_all']} is estimable "
       f"without a restriction. It is spanned by the {dchk['n_dev']} model-free cohort-axis deviations at y1 and y10 "
       f"of Answer 6 (rank {dchk['rank_dev']}; each is a cohort plus a period second difference) together with the "
       f"cohort-only combinations DK2004 - DK2013, DK2007 - DK2016 and sums of three adjacent cohort deviations (for "
       f"example DK2004 + DK2007 + DK2010; {dchk['dim_dk']} dimensions among the cohort contrasts alone, "
-      f"{dchk['dim_ka_dp']} among the age and period contrasts alone); the age curvature enters "
-      + ("some" if dchk["ka_in"] else "no") + " estimable combination. Every age, cohort and period curvature "
-      f"contrast is therefore "
+      f"{dchk['dim_ka_dp']} among the age and period contrasts alone, spanned by the period-only combinations "
+      f"{', '.join(dchk['dp_combos'][:2])} and the sums of three adjacent period deviations such as "
+      f"{dchk['dp_combos'][2]}, checked; post hoc, REVISION NOTE 3); the age curvature enters "
+      + ("some" if dchk["ka_in"] else "none") + " of these estimable combinations. The model-free age-axis curvature "
+      f"within a window (Answer 6) is estimable, but under the additive model it equals kappa_A plus the period "
+      f"curvature P(c+5) - [5/9 P(c+1) + 4/9 P(c+10)] over the window's own earnings years (checked for the "
+      f"{len(dchk['agecurv'])} windows): A(5) enters only the y5 cells, and each of their earnings windows "
+      f"({', '.join(str(t) for t in dchk['y5per'])}) occurs in that one cell only, so adding any constant to A(5) "
+      f"and subtracting it from the period effects of these {len(dchk['y5per'])} windows leaves every cell mean "
+      f"unchanged (checked). In every estimable function the weight on A(5) therefore equals the total weight on "
+      f"those period effects, and kappa_A, which has weight 1 on A(5) and none on them, cannot be separated from "
+      f"the period curvature (post hoc, REVISION NOTE 3). Every age, cohort and period curvature contrast is "
+      f"therefore "
       f"identified only under the functional-form assumption that the period effect is piecewise linear between "
       f"knots at the y1 earnings windows ({', '.join(str(k) for k in KNOTS)}; design rank {dchk['pw_rank']} of "
       f"{dchk['pw_cols']}). (c) *Under that assumption (descriptive, no verdict):* age curvature kappa_A = "
@@ -2031,9 +2119,13 @@ def write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, 
          else "")
       + ". Spearman(G, p50): plane "
       f"{wtxt(freeG['_meta']['wald']['plane'])}; all institutions, partial on coverage: plane "
-      f"{wtxt(freeA['_meta']['wald']['plane'])}. The model-free surface deviations of Answer 6 (linear combinations "
-      f"of cell means) are the other restriction-free quantities; under an additive model each equals a cohort plus "
-      f"a period second difference, which the data cannot separate.")
+      f"{wtxt(freeA['_meta']['wald']['plane'])}. These cohort combinations, the period-only combinations named in (b) "
+      f"(each a sum or difference of the model-free deviations of Answer 6 and the cohort combinations; not "
+      f"estimated separately), the lack-of-fit tests and the model-free surface quantities of Answer 6 (linear "
+      f"combinations of cell means) are the only restriction-free quantities of the APC analysis. Under an additive "
+      f"model each cohort-axis deviation of Answer 6 equals a cohort plus a "
+      f"period second difference and each within-window age-axis curvature equals kappa_A plus a period curvature; "
+      f"the data cannot separate the two parts of either.")
     sf = SF["fixed17"]
     dl = "; ".join(f"{h} {grad_years(CO[h][i])}: {ec(T[f'D:fixed17:{h}:{CO[h][i]}'])}"
                    for h in HZ for i in range(1, len(CO[h]) - 1))
@@ -2041,8 +2133,10 @@ def write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, 
     w(f"6. **Model-free surface (fixed institutions, k={k17} fields; correlation scale).** Cohort-axis deviation "
       f"of each interior window from the mean of its two neighbours at the same horizon: {dl}. Under an additive "
       f"APC model each of these equals a cohort second difference plus a period second difference. Age curvature "
-      f"within window, rho(y5) - [5/9 rho(y1) + 4/9 rho(y10)]: {kl}. Mean coupling per cell with CIs: Appendix A "
-      f"and the figure.")
+      f"within window, rho(y5) - [5/9 rho(y1) + 4/9 rho(y10)]: {kl}. Under an additive APC model each of these "
+      f"equals the age curvature kappa_A plus the period curvature P(c+5) - [5/9 P(c+1) + 4/9 P(c+10)] over the "
+      f"window's own earnings years; the two parts cannot be separated (Answer 5b). Mean coupling per cell with "
+      f"CIs: Appendix A and the figure.")
     el = "; ".join(f"{grad_years(c)} {ec(T[f'E:slope:{c}'], 4)} (k={T[f'E:slope:{c}']['k']})"
                    for c in ["2001", "2004", "2007", "2010"])
     sg = "; ".join(f"{grad_years(c)} {ec(T[f'E:seg:{c}'], 4)} (k={T[f'E:seg:{c}']['k']})" for c in CO["y5"])
@@ -2089,6 +2183,14 @@ def write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, 
         for sl_, k in sens:
             rs = T[f"T1:{base}:{k}"]
             w(tw_row(f"{lab}, {sl_}", rs["label"], rs, "perm" if np.isfinite(rs["p_perm"]) else "z"))
+    w(f"| Test 1: D per percentage point of the window's y1-earnings-year unemployment contrast (post hoc scaling "
+      f"by the constant {dUe:+.2f}) | {g1['label']} | {fm(g1['est'] / dUe)} | "
+      f"[{fm(min(g1['tlo'] / dUe, g1['thi'] / dUe))}, {fm(max(g1['tlo'] / dUe, g1['thi'] / dUe))}] | — | — | "
+      f"{g1['k']} |")
+    for c in [c for (hh, c) in PL_OF if hh == "y1"]:
+        w(f"| unemployment contrast of window {grad_years(c)} vs the mean of its neighbours, graduation years / y1 "
+          f"earnings years (percentage points) | 51 jurisdictions, unweighted (Appendix C) | {dU('mean51', c):+.2f} / "
+          f"{dU('mean51_entry', c):+.2f} | — | — | — | — |")
     SAMPLAB = {"Gall": "coverage share as covariate", "Gallrk": "coverage rank as covariate"}
     for h in HZ:
         for spec in T2SPECS:
@@ -2117,12 +2219,16 @@ def write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, 
                       ("theta_h_minus_theta_c", "linear surface: theta_h - theta_c (lower end of career bound)")):
             r = A[key][c]
             w(tw_row(cl, lab, r, "z", 4))
-    for key, lab in (("f17:F:APC", "APC M_APC, fixed institutions, Fisher z of Spearman(F)"),
+    for key, lab in (("f17:F:APC", "APC M_APC (piecewise-linear period, default knots; curvature identified only "
+                                   "under this restriction), fixed institutions, Fisher z of Spearman(F)"),
                      ("f17:F:AC", "M_AC (no period effect), fixed institutions"),
                      ("f17:F:AP", "M_AP (no cohort effect), fixed institutions"),
-                     ("f17:G:APC", "M_APC, fixed institutions, Spearman(G)"),
-                     ("f17:F:APC:r", "M_APC, fixed institutions, correlation scale"),
-                     ("all:parF:APC", "M_APC, all institutions, partial on coverage"),
+                     ("f17:G:APC", "M_APC (piecewise-linear period, default knots), fixed institutions, "
+                                   "Spearman(G)"),
+                     ("f17:F:APC:r", "M_APC (piecewise-linear period, default knots), fixed institutions, "
+                                     "correlation scale"),
+                     ("all:parF:APC", "M_APC (piecewise-linear period, default knots), all institutions, partial on "
+                                      "coverage"),
                      ("f17:F:APC:x", "M_APC (default knots), fixed institutions, Fisher z (post hoc)"),
                      ("f17:F:APC:k5", "M_APC with knots on the y5 earnings windows, fixed institutions, Fisher z "
                                       "(post hoc)"),
@@ -2225,12 +2331,17 @@ def write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, 
       f"curvature contrasts is estimable ({sum(not v_ for v_ in dchk['free_est'].values())} of "
       f"{len(dchk['free_est'])} checked: age curvature, the five cohort and the five period second differences); "
       f"under the piecewise-linear restriction all of them are estimable (checked). Every curvature contrast is "
-      f"therefore identified by the assumed functional form of the period profile, not by the design. Post hoc "
+      f"therefore identified by the assumed functional form of the period profile, not by the design. The only "
+      f"restriction-free quantities are linear combinations of the 17 cell means: the model-free surface quantities "
+      f"of Answer 6 (each cohort-axis deviation is a cohort plus a period second difference, each within-window "
+      f"age-axis curvature is kappa_A plus a period curvature), the cohort-only combinations of Answer 5(e), the "
+      f"period-only combinations of Answer 5(b) and the lack-of-fit tests (REVISION NOTES 2 and 3). Post hoc "
       f"sensitivities (REVISION NOTE 2): knots on the y5 earnings windows ({', '.join(str(k) for k in KNOTS_Y5)}) and "
       f"a step-function period profile, both of rank {dchk['alt']['k5']['rank']}; a saturated cell-means fit "
       f"(M_free: one mean per cell, same field random intercepts and inference) gives the restriction-free cohort "
-      f"combinations and the lack-of-fit tests (the contrasts of cell means that vanish under a model: 14 for a "
-      f"plane in (h, c), {dchk['N_pw'].shape[0]} for the piecewise-linear profile). Normalisations A(1) = K(2001) = "
+      f"combinations and the lack-of-fit tests (the contrasts of cell means that vanish under a model: "
+      f"{dchk['N_lin'].shape[0]} for a plane in (h, c), {dchk['N_pw'].shape[0]} for the piecewise-linear profile). "
+      f"Normalisations A(1) = K(2001) = "
       f"P(first knot) = P(second knot) = 0 fix levels and the unidentified linear trend; reported contrasts do not "
       f"depend on them. Two-way CI for each contrast c'b: V_field = delete-one-field jackknife (variance components "
       f"fixed), V_institution and V_field x institution = the GLS operator applied to the two bootstrap draws. Joint "
@@ -2273,17 +2384,30 @@ def write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, 
       "institution.")
     ne1 = {c: NE[("gr_y1", c)] for c in NE_COHORTS}
     nef = {c: NE[("fixed17", c)] for c in NE_COHORTS}
+    ma_first = min(c for h in HZ for c in MA["win"][h])
+    ma_fixed = [MA["samp"][k] for k in ("fixed17", "gr_y1", "gr_y5", "gr_y10")] + [MA["t2"][h] for h in HZ]
+    ma_txt = (f"The {MA['n']} Massachusetts institutions among those analysed (PSEO cells with Wapman prestige) have "
+              f"released cells only from the "
+              f"{grad_years(ma_first)} window on (" + "; ".join(f"{h}: " + ", ".join(grad_years(c) for c in MA["win"][h])
+                                                                for h in HZ if MA["win"][h])
+              + f") and are in {'none' if not any(ma_fixed) else 'some'} of the fixed samples that span 2010 "
+              f"(fixed-17 {MA['samp']['fixed17']}; Test 1 triples y1/y5/y10 {MA['samp']['gr_y1']}/"
+              f"{MA['samp']['gr_y5']}/{MA['samp']['gr_y10']}; balanced Test 2 samples y1/y5/y10 {MA['t2']['y1']}/"
+              f"{MA['t2']['y5']}/{MA['t2']['y10']}); the COVID triples, whose earnings years all lie after 2010, hold "
+              f"{MA['samp']['covid_y1']} (y1) and {MA['samp']['covid_y5']} (y5), and the coverage-controlled "
+              f"all-institution sample holds {MA['samp']['all']} of them from that window on (post hoc count, "
+              f"REVISION NOTE 3).")
     w(f"- **LEHD earnings frame before 2010 (added in revision 2).** The PSEO documentation ({PSEO_DOC}, fetched "
       f"2026-09-24): \"Availability of state UI data in the LEHD system varies by state. LEHD has data for only about "
       f"ten states in the early 1990s, expanding rapidly to 40 states by the late 1990s, with Massachusetts being the "
-      f"last state entering the data in 2010.\" Graduates who worked in Massachusetts before 2010 have no UI earnings "
-      f"in the frame and fall out of the earnings tabulation (they fail the attachment rule). This is a "
+      f"last state entering the data in 2010.\" A graduate who worked only in Massachusetts in a pre-2010 earnings "
+      f"year has no UI earnings in the frame for that year, fails the attachment rule and drops out of the earnings "
+      f"tabulation. This is a "
       f"period-specific measurement change, separate from institution coverage: it touches the y1 cells of the "
       f"2001-03, 2004-06 and 2007-09 windows (earnings 2002-2010) and the y5 cells of the 2001-03 and 2004-06 "
       f"windows (2006-2011), so it loads on the cross-window drift theta_c (hence on the lower end of the career "
       f"bound), on the period curvature, and on the Test 1 y1 contrast, whose 2004-06 and 2007-09 windows precede "
-      f"2010 and whose 2010-12 window does not. Massachusetts institutions enter the released cells only from the "
-      f"2010-12 window and are in none of the fixed samples that span 2010. Size (PSEO Flows, post hoc): the share "
+      f"2010 and whose 2010-12 window does not. {ma_txt} Size (PSEO Flows, post hoc): the share "
       f"of y1 employed graduates working in New England (census division 1, which contains Massachusetts; "
       f"institutions with both rows released) among the Test 1 y1 institutions is "
       + ", ".join(f"{fu(ne1[c]['share'], 4)} ({grad_years(c)}, {ne1[c]['n_inst']} inst.)" for c in NE_COHORTS)
@@ -2297,8 +2421,10 @@ def write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, 
       f"employed y1 graduates (Test 1 institutions, windows 2010-12 to 2016-18), so the frame change can move a "
       f"window's institution medians only through a small, selected group. The linear surface restricted to cells "
       f"whose earnings years are all >= 2010 is in Answer 5(a).")
-    w("- **Pre-specification timing is self-reported.** The script was not committed or hashed before its first "
-      "estimating run (it is untracked in git), so that Tests 1-2 were fixed before any estimate cannot be checked "
+    w("- **Pre-specification timing is self-reported.** The script was neither committed nor hashed before its first "
+      "estimating run (it was first committed only after the estimating runs behind the first write-up and REVISION "
+      "NOTE 2), so that Tests 1-2 were fixed before any "
+      "estimate cannot be checked "
       f"from the repository; the md5 of the PRE-SPECIFICATION block as run here is `{PREMD5}`.")
     w(f"- **Three-year windows blur timing.** Mean state unemployment (51 jurisdictions, unweighted; Appendix C) in "
       f"the graduation years is {ga:.2f} (2004-06), {gg:.2f} (2007-09) and {gb:.2f} (2010-12), and in the y1 "
@@ -2442,6 +2568,14 @@ def write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, 
       f"direction: " + "; ".join(
         f"{k}/{wn} {wd['mineig']:.2g} / {wd['nfb']} / {wd['dom']:.0%}" for k in A
         for wn, wd in A[k]["_meta"]["wald"].items()) + ".")
+    ma_all = ", ".join(f"{h} {MA['nh'][h]}" for h in HZ)
+    w(f"- Massachusetts institutions with released cells, by horizon: {ma_all}; windows as in the Caveats (post hoc, "
+      f"REVISION NOTE 3).")
+    fl_src = all(x_["in_sources"] for x_ in FLM.values())
+    w("- PSEO Flows files read for the out-of-state and New England shares (downloaded for scripts/61; download "
+      "record in FLOWS_PLACEMENT_RESULT.md; md5 " + ("recorded" if fl_src else "not recorded")
+      + " in data/raw/SOURCES.md): " + "; ".join(
+        f"`data/raw/pseo_flows_2026q2/{n_}` {x_['bytes']:,} bytes, md5 `{x_['md5']}`" for n_, x_ in FLM.items()) + ".")
     w(f"- md5 of the docstring's PRE-SPECIFICATION block as run: `{PREMD5}`.\n")
 
     # ---------------- revisions
@@ -2501,6 +2635,43 @@ def write_md(src, ur_meta, repro, binfo, dchk, A, SF, T2, T2S, T2LAB, Utab, OS, 
     w(f"10. **Pre-specification timing.** Stated as self-reported (header and Caveats); the md5 of the "
       f"PRE-SPECIFICATION block is printed (`{PREMD5}`) so later edits of the block are detectable. For future "
       f"scripts the block should be committed or hashed before the first estimating run.")
+    w("\n### Second pass (REVISION NOTE 3; checks, wording and provenance only)\n")
+    w("The ten items above were checked again against the code and the data before this pass. An independent "
+      "re-implementation outside this script (built from the panel file; its output is not part of this write-up) "
+      "reproduced the design ranks, the estimability of each curvature contrast with free and with restricted "
+      "period effects, the dimension of the estimable part of their span, the absence of the age curvature from it, "
+      "and the default, y5-knot, step-profile and saturated-fit contrasts to the printed precision; the Massachusetts "
+      "release pattern was re-read from the raw PSEO file. All ten items hold. No estimate changed in this pass; the "
+      "results file gains only the design rows named below.\n")
+    ac = "; ".join(f"{grad_years(c)}: t = " + ", ".join(str(t) for t in sorted(pv)) for c, pv in dchk["agecurv"].items())
+    w(f"11. **Restriction-free set, age axis.** Answer 5(b) said the age curvature 'enters no estimable combination', "
+      f"which is true only within the span of the {dchk['n_all']} curvature contrasts. The model-free within-window "
+      f"age-axis curvature of Answer 6 is estimable; under the additive model it equals kappa_A plus the period "
+      f"curvature over the window's earnings years ({ac}), and because A(5) enters only the single-cell y5 earnings "
+      f"windows the two parts cannot be separated (design checks). The period-only combinations that are estimable "
+      f"with free period effects ({', '.join(dchk['dp_combos'])}) are now named and checked. Answers 5(b), 5(e) and "
+      f"6 and the Method now say so "
+      f"and name the restriction-free quantities: the cohort combinations, the lack-of-fit tests and the model-free "
+      f"surface quantities. The key-numbers rows of the M_APC fits now carry the period restriction in their sample "
+      f"label.")
+    w(f"12. **Massachusetts statement computed.** The LEHD-frame caveat said that Massachusetts institutions appear "
+      f"only from the 2010-12 window and in none of the fixed samples that span 2010; this is now counted by the "
+      f"script ({MA['n']} institutions; first window {grad_years(ma_first)}; fixed samples "
+      f"{'all 0' if not any(ma_fixed) else 'not all 0'}; Caveats and Appendix E).")
+    w("13. **Timing caveat.** The Caveats said the script is untracked in git; it was committed later, after the "
+      "estimating runs behind the first write-up and REVISION NOTE 2, and the caveat now says that. The timing claims "
+      "stay self-reported.")
+    w("14. **Flows provenance.** The PSEO Flows V4.14.1 file read here had no subsection in `data/raw/SOURCES.md` "
+      "(its download is recorded in FLOWS_PLACEMENT_RESULT.md, scripts/61). A subsection was appended; its md5 is "
+      "printed in Appendix E, which checks that it is " + ("recorded" if fl_src else "NOT recorded")
+      + " in `data/raw/SOURCES.md`.")
+    inv_rows = [x for r_ in T2.values() for c_ in ("GU", "FU") if c_ in r_ and "p_wcr" in r_[c_] for x in [r_[c_]]]
+    n_agree = sum((x["p_wcr"] > 0.05) == (x["lo_inv"] <= 0.0 <= x["hi_inv"]) for x in inv_rows)
+    n_conn = sum(bool(x["inv_connected"]) for x in inv_rows)
+    w(f"15. **WCR p and WCR-inverted CI.** In {n_agree} of {len(inv_rows)} Test 2 interaction estimates the WCR p "
+      f"exceeds 0.05 exactly when the WCR-inverted CI contains 0, and in {n_conn} of {len(inv_rows)} the accepted "
+      f"null values form one interval (counted by the script). The pre-specified unrestricted bootstrap-t CI and the "
+      f"WCR p disagree in the {len(dis)} row(s) listed in item 5.")
     OUT_MD.write_text("\n".join(L) + "\n")
 
 
