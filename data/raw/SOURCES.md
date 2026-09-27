@@ -613,3 +613,107 @@ use the normalizer in [`src/crosswalks/institutions.py`](../../src/crosswalks/in
 | `240444_15b59eee.html` * | https://www.cs.wisc.edu/undergraduate/undergraduate-faqs/ | 2026-09-24T20:45:09Z | 200 | 279224 | `36da27a3707626fe2e09d172e92c8e80` |
 | `240453_7521f396.html` * | https://catalog.uwm.edu/engineering-applied-science/computer-science/computer-science-bs/ | 2026-09-24T23:16:27Z | 200 | 96413 | `65a9582a3ca0c7233449956a017622d1` |
 | `243744_d728f6ad.html` * | https://www.cs.stanford.edu/bachelors/how-to-declare | 2026-09-24T20:42:36Z | 200 | 67501 | `0551a17de6bbdd8c952e0cf6350ecd45` |
+
+### 10i. REF 2021 results by institution x unit of assessment  *(UK academic reputation, department level; scripts/76)*
+- **Source:** Research Excellence Framework 2021 (UKRI / the four UK funding bodies), official results site
+  `https://results2021.ref.ac.uk/`, "export all" link on the home page:
+  `https://results2021.ref.ac.uk/profiles/export-all` (HTTP 200, `content-type`
+  `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`, `content-disposition` filename
+  "REF 2021 Results - All - 2022-05-06.xlsx", i.e. the results as published on 2022-05-06). Public, no
+  registration. Licence: not stated in the file itself; the REF 2021 copyright page
+  `https://2021.ref.ac.uk/copyright/index.html` states that "All REF submissions information, including downloadable
+  submissions data, ... can be used under the CC BY 4.0 licence" (legal code
+  `http://creativecommons.org/licenses/by/4.0/legalcode`); the attribution element requires appropriate credit
+  (source: REF 2021, UKRI), a link to the licence and an indication of changes. Copyright/database right owner: UKRI
+  unless otherwise stated. Page kept as `ref2021/copyright_ref2021.html` (17,476 bytes, md5
+  `c921ab7e5cbdaa1c707f880c49d968b4`; fetched 2026-09-27 21:59:05 GMT, HTTP 200; response headers
+  `ref2021/headers_copyright.txt`, md5 `47511399f39563c499093b09a8be0b9f`). Recorded in revision 1 of scripts/76.
+- **Accessed:** 2026-09-27 18:07:38 GMT (server `date` header), `curl -sL -D headers_export_all.txt`.
+- **Files** (`ref2021/`): `ref2021_results_all_2022-05-06.xlsx` (renamed from the server filename; 521,192 bytes,
+  md5 `3de425a70ac71038722d9287a39eeb06`; one sheet, header on row 7; below the header 7,553 rows = 7,552 data rows
+  (1,888 submissions x 4 profiles: Overall, Outputs, Impact, Environment) plus one trailing row whose only cell holds
+  a single space (corrected in revision 1; the first version said 7,553 = 1,888 x 4); columns Institution code (UKPRN), Institution name, Main panel, Unit of
+  assessment number / name (34 UoAs), Multiple submission letter / name, Joint submission (joint submissions are
+  split by constituent institution, each with its own FTE), Profile, FTE of submitted staff, % of eligible staff
+  submitted, 4*, 3*, 2*, 1*, Unclassified); `headers_export_all.txt` (the HTTP response headers of the download,
+  1,406 bytes, md5 `3c92cbf9b99566025fe627d121b9a113`).
+- **Use:** scripts/76 (overall profiles only): GPA = (4 %4* + 3 %3* + 2 %2* + %1*) / 100 and %4*, FTE-weighted per
+  provider x UoA and per institution; linked to LEO providers by UKPRN; UoA -> CAH2 crosswalk in the script.
+- **Not obtained (recorded for the record):** the OfS **Discover Uni (Unistats) dataset** (course-level entry tariff),
+  hosted by HESA at `https://www.hesa.ac.uk/support/tools-and-downloads/unistats`. On 2026-09-27 (~18:08 UTC) every
+  request from this machine to `www.hesa.ac.uk` (the page and a known `hesa.ac.uk/files/...` file URL) returned
+  HTTP 403 with `cf-mitigated: challenge` (Cloudflare browser challenge), and the Internet Archive (web.archive.org
+  CDX and snapshot URLs) returned HTTP 429; nothing was downloaded. scripts/76 uses its pre-specified fallbacks
+  (LEO intake bands; UCAS files below).
+- **UCAS files re-used by scripts/76** (already on disk from the 2026-06-22 pull recorded in section 9; not
+  re-downloaded): `ucas/z_140341.zip` (md5 `c677d178a5a02286f4cb2925143a7416`; resource
+  `EOC_HEP_data_resource_2021_015_1` = accepted applicants) and `ucas/z_140351.zip` (md5
+  `b416596ebc9e0e537a159bb28887ce67`; resource `_015_3` = main scheme applications); both "Year, Provider name,
+  HECoS subject group", cycles 2019-2021, published 27 January 2022. Granularity: provider (UCAS code + name, no
+  UKPRN) x CAH level 1 subject group (23 groups, e.g. "(CAH11) computing"); counts rounded to the nearest 5.
+
+### 10i-b. REF 2014 results by institution x unit of assessment  *(contemporaneous department standing; scripts/76 revision 1, exploratory)*
+- **Source:** Research Excellence Framework 2014 (HEFCE, SFC, HEFCW, DEL NI; now UKRI), results site
+  `https://results.ref.ac.uk/` ("Results & submissions", "Download: results"):
+  `https://results.ref.ac.uk/DownloadFile/AllResults/xlsx` (HTTP 302 to a session URL, then HTTP 200, `content-type`
+  `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`, `content-disposition` filename
+  "REF2014 Results.xlsx"). Public, no registration. Licence: not stated in the file; the site's "Copyright" link
+  (`https://ref.ac.uk/copyright/`, which now redirects to `https://2029.ref.ac.uk/copyright/`) states that "All REF
+  submissions information, including downloadable submissions data, ... can be used under the CC BY 4.0 licence"
+  (attribution: appropriate credit, a link to the licence, indication of changes); other site content is CC BY-NC-SA 4.0.
+  Page kept as `ref2014/copyright_ref_ac_uk.html` (68,274 bytes, md5 `93a00730b80f1d5e08089c72313cc209`; fetched
+  2026-09-27 21:59:10 GMT after the 301 at 21:59:07 GMT; headers `ref2014/headers_copyright.txt`, md5
+  `6c1fc5502013873efb4e390c7d46eed9`).
+- **Accessed:** 2026-09-27 21:37:10 GMT (server `date` header of the 200 response), `curl -sL -D`.
+- **Files** (`ref2014/`): `ref2014_results_all.xlsx` (renamed from the server filename; 650,835 bytes, md5
+  `a201b69749b6108fde84991f8a69f948`; one sheet "REF2014 Profiles"; a machine-name header on row 5 (UKPRN, Institution,
+  SortOrder, MainPanel, UOA, UnitOfAssessment, msubId, MultipleSubmission, JointSubmission, Profile, StaffFte,
+  FourStar, ThreeStar, TwoStar, OneStar, Unclassified) and the human-readable header on row 8; 7,644 data rows =
+  1,911 submissions x 4 profiles (Outputs, Impact, Environment, Overall) by 154 institutions, 36 UoAs; joint
+  submissions split by constituent institution); `headers_allresults_xlsx.txt` (the HTTP response headers of the
+  download, 1,195 bytes, md5 `09277e8d41c6576cddd5aacfe88bfcb7`; they include the load balancer's session-affinity
+  cookie).
+- **Use:** scripts/76 revision 1 (overall profiles only): GPA = (4 %4* + 3 %3* + 2 %2* + %1*) / 100, weighted by
+  "FTE Category A staff submitted", per provider x UoA; linked to LEO by UKPRN; REF 2014 UoA -> CAH2 map for the
+  clean subjects in the script (`CLEAN14`; engineering = REF 2014 UoAs 12-15). Exploratory sensitivity and test-retest
+  reliability check, not part of the pre-specification.
+
+### 10j. Italy feasibility probe — AlmaLaurea, MUR/USTAT catalogue, national medicine test  *(counts only; scripts/77)*
+- **Use:** `scripts/77_italy_feasibility_counts.py` prints counts of what exists (no analysis) for the local write-up
+  `ITALY_FEASIBILITY.md`. Nothing here is larger than 2 MB; total 15 files. Stored in `italy/` with a manifest
+  `italy/manifest.csv` (file, URL, fetch time UTC, HTTP code, bytes, md5; manifest md5 `f43577df203c96a004f1c291e488d828`).
+- **Accessed:** 2026-09-27 (UTC), `curl -sL -R` with a browser user agent; fetch times per file below.
+- **Sources and terms:**
+  - *AlmaLaurea* (Consorzio Interuniversitario AlmaLaurea), graduate-outcomes query tool
+    `https://www2.almalaurea.it/cgi-php/universita/statistiche/occupazione.php` (dropdown endpoint `solotendine.php`,
+    result endpoint `visualizza.php`, methodology `note-metodologiche.php`), member list `https://www.almalaurea.it/chi-siamo/gli-atenei`,
+    service rules `https://www.almalaurea.it/info/condizioni/regolamento`. Public web pages; no licence or reuse clause
+    for the statistics was found on the rules page (kept as `regolamento.html`). Kept locally as provenance only.
+  - *MUR / USTAT open-data catalogue record* as harvested by the national catalogue `https://www.dati.gov.it` (CKAN
+    `package_search`, organisation `ministero-universita-e-ricerca`). The datasets are CC BY 4.0 per the record. The
+    download host `dati-ustat.mur.gov.it` (and `dati.ustat.miur.it`) reset every TLS/HTTP connection from this machine on
+    2026-09-27 (curl exit 35/56; WebFetch ECONNRESET), so **no USTAT data file was downloaded**; only the catalogue record.
+  - *MUR national admission tests* `https://accessoprogrammato.mur.gov.it/` (with CINECA): the 2015 and 2016 index pages
+    of the anonymous medicine-test results and one of the 37 per-site PDFs (2016, site 01; published anonymously by label
+    code under D.M. 546/2016, allegato 2), and the 2023/24 page stating that the national ranking is in the reserved area.
+- **Not reachable (nothing downloaded):** `www.anvur.it` and `www.mur.gov.it` returned HTTP 403 (bot challenge) to curl and
+  WebFetch; the Wayback Machine returned HTTP 429. ANVUR VQR and Dipartimenti di eccellenza files are therefore not recorded.
+- **Files** (file | URL | fetched (UTC) | HTTP | bytes | md5):
+
+| file | URL | fetched (UTC) | HTTP | bytes | md5 |
+|---|---|---|---|---|---|
+| `italy/almalaurea/solotendine_occupazione_2008.html` | https://www2.almalaurea.it/cgi-php/universita/statistiche/solotendine.php?config=occupazione&anno=2008 | 2026-09-27T18:32:09Z | 200 | 21,860 | `381fa48976dbd451b23f4f095d823fa5` |
+| `italy/almalaurea/solotendine_occupazione_2012.html` | https://www2.almalaurea.it/cgi-php/universita/statistiche/solotendine.php?config=occupazione&anno=2012 | 2026-09-27T18:32:22Z | 200 | 25,945 | `e2681ca75d0065594dcb4760d3639647` |
+| `italy/almalaurea/solotendine_occupazione_2015.html` | https://www2.almalaurea.it/cgi-php/universita/statistiche/solotendine.php?config=occupazione&anno=2015 | 2026-09-27T18:32:39Z | 200 | 56,380 | `fc1ee1295d03324edf9601b4f3655eac` |
+| `italy/almalaurea/solotendine_occupazione_2019.html` | https://www2.almalaurea.it/cgi-php/universita/statistiche/solotendine.php?config=occupazione&anno=2019 | 2026-09-27T18:32:53Z | 200 | 54,452 | `9f0c097882975ee5db3aa121acf7b411` |
+| `italy/almalaurea/solotendine_occupazione_2022.html` | https://www2.almalaurea.it/cgi-php/universita/statistiche/solotendine.php?config=occupazione&anno=2022 | 2026-09-27T18:33:04Z | 200 | 55,440 | `643e89ec8c9f121269c8ae435bbbb3dd` |
+| `italy/almalaurea/solotendine_occupazione_2025.html` | https://www2.almalaurea.it/cgi-php/universita/statistiche/solotendine.php?config=occupazione&anno=2025 | 2026-09-27T18:33:11Z | 200 | 62,524 | `66e77d6174cd3322587e5d2d223127cd` |
+| `italy/almalaurea/visualizza_2025_LS_ateneo70003_annolau5_byclasse.html` | https://www2.almalaurea.it/cgi-php/universita/statistiche/visualizza.php?anno=2025&corstipo=LS&ateneo=70003&facolta=tutti&gruppo=tutti&livello=2&area4=tutti&classe=tutti&corso=tutti&postcorso=tutti&isstella=0&annolau=5&condocc=tutti&iscrls=tutti&disaggregazione=classe&LANG=it&CONFIG=occupazione | 2026-09-27T18:34:10Z | 200 | 918,770 | `0e51955318ec18a4242969b7b98e96f1` |
+| `italy/almalaurea/note_metodologiche_occupazione_2025.pdf` | https://www2.almalaurea.it/cgi-php/universita/statistiche/note-metodologiche.php?lang=it&config=occupazione&anno=2025 | 2026-09-27T18:34:19Z | 200 | 307,759 | `009bc05c08aceccfd934b5151a553e18` |
+| `italy/almalaurea/gli_atenei.html` | https://www.almalaurea.it/chi-siamo/gli-atenei | 2026-09-27T18:34:27Z | 200 | 337,326 | `1ddb08511837562722c2c8bc4908127b` |
+| `italy/almalaurea/regolamento.html` | https://www.almalaurea.it/info/condizioni/regolamento | 2026-09-27T18:34:35Z | 200 | 75,705 | `328fc44c1f064960261d5b8bba7daa0e` |
+| `italy/catalog/dati_gov_it_mur_packages.json` | https://www.dati.gov.it/opendata/api/3/action/package_search?fq=organization:ministero-universita-e-ricerca&rows=200 | 2026-09-27T18:34:45Z | 200 | 1,603,147 | `2adeddfabb2fcd27d3889c40d7ab9083` |
+| `italy/medicina_anon/ME_RI_2015.html` | https://accessoprogrammato.mur.gov.it/2015/ME_RI.html | 2026-09-27T18:34:48Z | 200 | 9,295 | `e0343e1a16b59dd63f34eda9d53cdcf3` |
+| `italy/medicina_anon/ME_RI_2016.html` | https://accessoprogrammato.mur.gov.it/2016/ME_RI.html | 2026-09-27T18:34:56Z | 200 | 9,327 | `a247c68ba337cd8d78668d51728a8f4b` |
+| `italy/medicina_anon/MED_2023.html` | https://accessoprogrammato.mur.gov.it/2023/index.php?pag=MED | 2026-09-27T18:35:00Z | 200 | 7,261 | `38bbec932d0befbb01b5ee97f8358bcc` |
+| `italy/medicina_anon/2016_MED_01.pdf` | https://accessoprogrammato.mur.gov.it/2016/risultati/MED/01.pdf | 2026-09-27T18:27:58Z | 200 | 206,360 | `c698af420f049fee48015700cec95fb3` |
